@@ -1,3 +1,29 @@
+# BEFORE YOU USE THIS SCRIPT, YOU MUST DO ALL OF THE FOLLOWING!!
+#
+# 1. Install pear (a PHP package repository) by following the instructions here:
+#    http://jason.pureconcepts.net/2012/10/install-pear-pecl-mac-os-x/
+#
+# 2. Run the following command:
+#    pear install Console_CommandLine
+#
+# 3. Check if you have the file /etc/php.ini
+#    (If you don't, create it)
+#
+# 4. Add the following line to /etc/php.ini:
+#    include_path = "/usr/local/pear/share/pear"
+#
+#    Note: If you already set the include_path variable in /etc/php.ini, append
+#          the above path to the existing value with a leading semicolon
+#
+# 5. Run the following commands from the repo root:
+#    git submodule init
+#    git submodule update
+#    (The OSS PHP proto generation repo is a submodule of this repo.)
+#
+# Okay, you should be good to go:
+# ruby generate_proto_classes.rb
+
+
 require 'fileutils'
 require 'Find'
 

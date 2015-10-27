@@ -10,5 +10,5 @@ wrappers for the SDK.
 The `script` directory contains scripts that assist with the generation of these
 wrappers, along with other tasks.
 
-**Note: The generate_proto_classes.rb script will not work for you out of the box
-yet. Soon though!**
+**Note: The generate_proto_classes.rb script requires a little setup to get working
+on your local machine. See the comments at the top of the script.**
