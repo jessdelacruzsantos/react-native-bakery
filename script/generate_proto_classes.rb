@@ -40,7 +40,7 @@ def generate_class(path)
   end
 
   # PHP
-  system "protoc --plugin=protoc-gen-php='#{HOME_DIR}/Development/connect-sdks/lib/Protobuf-PHP/protoc-gen-php.php' \
+  system "protoc --plugin=protoc-gen-php='#{HOME_DIR}/Development/connect-sdks/src/php/Protobuf-PHP/protoc-gen-php.php' \
           --proto_path=#{HOME_DIR}/Development/connect-public-protos \
           --php_out='skip-imported=true:#{proto_output_location}' \
           #{path}"

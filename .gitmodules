@@ -1,3 +1,3 @@
 [submodule "lib/Protobuf-PHP"]
-	path = lib/Protobuf-PHP
+	path = src/php/Protobuf-PHP
 	url = https://github.com/drslump/Protobuf-PHP
