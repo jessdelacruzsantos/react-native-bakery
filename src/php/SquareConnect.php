@@ -2,6 +2,13 @@
 
 namespace SquareConnect;
 
+require_once 'DrSlump/Protobuf.php';
+require_once 'DrSlump/Protobuf/Message.php';
+require_once 'DrSlump/Protobuf/Enum.php';
+
+
+\DrSlump\Protobuf::autoload();
+
 class SquareConnect {
   public static $accessToken;
   public static $connectRoot = 'https://connect.squareup.com';
@@ -32,7 +39,7 @@ class SquareConnect {
     $response = curl_exec($ch);
     curl_close ($ch);
 
-    $responseWrapper->parse($response);
+    //$responseWrapper->parse($response);
     return $responseWrapper;
   }
 }
