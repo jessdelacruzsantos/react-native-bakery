@@ -1,0 +1,14 @@
+{
+  "name": "proto-docgen-node",
+  "version": "1.0.0",
+  "description": "Generates docpage from JSON definition of API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "barlow",
+  "license": "ISC",
+  "dependencies": {
+    "handlebars": "^4.0.0"
+  }
+}

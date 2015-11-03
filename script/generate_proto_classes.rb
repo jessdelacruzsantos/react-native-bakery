@@ -33,13 +33,12 @@ def generate_class(path)
 
   dir_path = File.dirname(path)
   proto_path_prefix = HOME_DIR + '/Development/connect-public-protos/squareup/connect/v3/'
-  proto_output_location = HOME_DIR + '/Development/connect-sdks/src/php/generated/' + dir_path.partition(proto_path_prefix).last
 
+  #PHP
+  proto_output_location = HOME_DIR + '/Development/connect-sdks/src/php/generated/' + dir_path.partition(proto_path_prefix).last
   if !File.directory?(proto_output_location)
     FileUtils.mkdir_p(proto_output_location)
   end
-
-  # PHP
   system "protoc --plugin=protoc-gen-php='#{HOME_DIR}/Development/connect-sdks/src/php/Protobuf-PHP/protoc-gen-php.php' \
           --proto_path=#{HOME_DIR}/Development/connect-public-protos \
           --php_out='skip-imported=true:#{proto_output_location}' \
@@ -47,11 +46,34 @@ def generate_class(path)
 
   # Python
   proto_output_location = HOME_DIR + '/Development/connect-sdks/src/python/generated'
-
+  if !File.directory?(proto_output_location)
+    FileUtils.mkdir_p(proto_output_location)
+  end
   system "protoc \
           --proto_path=#{HOME_DIR}/Development/connect-public-protos \
           --python_out='#{proto_output_location}' \
           #{path}"
+
+  # Java
+  proto_output_location = HOME_DIR + '/Development/connect-sdks/src/java/generated'
+  if !File.directory?(proto_output_location)
+    FileUtils.mkdir_p(proto_output_location)
+  end
+  system "protoc \
+          --proto_path=#{HOME_DIR}/Development/connect-public-protos \
+          --java_out='#{proto_output_location}' \
+          #{path}"
+
+  # ruby
+  proto_output_location = HOME_DIR + '/Development/connect-sdks/src/ruby/generated/'
+  if !File.directory?(proto_output_location)
+    FileUtils.mkdir_p(proto_output_location)
+  end
+  system "ruby-protoc \
+          --proto_path=#{HOME_DIR}/Development/connect-public-protos \
+          --ruby_out='#{proto_output_location}' \
+          #{path}"
+
 end
 
 Find.find(HOME_DIR + '/Development/connect-public-protos/squareup/connect/v3') do | path |
@@ -59,3 +81,5 @@ Find.find(HOME_DIR + '/Development/connect-public-protos/squareup/connect/v3') d
     generate_class(path)
   end
 end
+system "mv #{HOME_DIR}/Development/connect-sdks/src/ruby/generated#{HOME_DIR}/Development/connect-public-protos/squareup \
+        #{HOME_DIR}/Development/connect-sdks/src/ruby/generated/"
