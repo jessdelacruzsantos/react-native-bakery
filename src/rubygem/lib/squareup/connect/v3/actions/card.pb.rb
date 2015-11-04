@@ -6,9 +6,6 @@ require 'protocol_buffers'
 begin; require 'squareup/connect/v3/resources/card.pb'; rescue LoadError; end
 begin; require 'squareup/connect/v3/resources/error.pb'; rescue LoadError; end
 
-require_relative '../resources/card.pb'
-require_relative '../resources/error.pb'
-
 module Squareup
   module Connect
     module V3

@@ -27,15 +27,13 @@ module Squareup
 
           set_fully_qualified_name "squareup.connect.v3.resources.Refund"
 
-          optional :string, :id, 1
           optional :string, :business_id, 2
           optional :string, :location_id, 3
-          optional :string, :created_at, 4
-          optional :string, :completed_at, 5
-          optional :string, :source_transaction_id, 6
-          optional ::Squareup::Connect::V3::Resources::Refund::Type, :type, 7
-          optional :string, :reason, 8
-          optional ::Squareup::Connect::V3::Resources::Money, :amount_money, 9
+          optional :string, :source_transaction_id, 4
+          optional :string, :created_at, 5
+          optional ::Squareup::Connect::V3::Resources::Refund::Type, :type, 6
+          optional :string, :reason, 7
+          optional ::Squareup::Connect::V3::Resources::Money, :amount_money, 8
         end
 
       end

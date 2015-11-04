@@ -3,7 +3,7 @@
 
 require 'protocol_buffers'
 
-begin; require_relative '../resources/address.pb'; rescue LoadError; end
+begin; require 'squareup/connect/v3/resources/address.pb'; rescue LoadError; end
 
 module Squareup
   module Connect

@@ -22,11 +22,13 @@ module Squareup
           optional :string, :created_at, 4
           optional :string, :updated_at, 5
           repeated ::Squareup::Connect::V3::Resources::Card, :cards, 6
-          optional :string, :full_name, 7
-          optional :string, :email_address, 8
-          optional ::Squareup::Connect::V3::Resources::Address, :address, 9
-          optional :string, :phone_number, 10
-          optional :string, :memo, 11
+          optional :string, :given_name, 7
+          optional :string, :family_name, 8
+          optional :string, :nickname, 9
+          optional :string, :email_address, 10
+          optional ::Squareup::Connect::V3::Resources::Address, :address, 11
+          optional :string, :phone_number, 12
+          optional :string, :memo, 13
         end
 
       end

@@ -3,6 +3,8 @@
 
 require 'protocol_buffers'
 
+begin; require 'squareup/connect/v3/resources/country.pb'; rescue LoadError; end
+
 module Squareup
   module Connect
     module V3
@@ -24,7 +26,7 @@ module Squareup
           optional :string, :region_2, 14
           optional :string, :region_3, 15
           optional :string, :postal_code, 16
-          optional :string, :country_code, 17
+          optional ::Squareup::Connect::V3::Resources::Country, :country, 17
         end
 
       end

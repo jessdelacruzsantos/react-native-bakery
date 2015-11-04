@@ -15,19 +15,11 @@ module Squareup
 
         class Tender < ::ProtocolBuffers::Message
           # forward declarations
-          class RefundTransaction < ::ProtocolBuffers::Message; end
           class Charge < ::ProtocolBuffers::Message; end
 
           set_fully_qualified_name "squareup.connect.v3.resources.Tender"
 
           # nested messages
-          class RefundTransaction < ::ProtocolBuffers::Message
-            set_fully_qualified_name "squareup.connect.v3.resources.Tender.RefundTransaction"
-
-            optional :string, :transaction_id, 1
-            optional :string, :refund_id, 2
-          end
-
           class Charge < ::ProtocolBuffers::Message
             # forward declarations
 
@@ -57,9 +49,8 @@ module Squareup
           optional :string, :created_at, 5
           optional :string, :note, 6
           optional ::Squareup::Connect::V3::Resources::Money, :amount_money, 7
-          repeated ::Squareup::Connect::V3::Resources::Tender::RefundTransaction, :refund_transactions, 8
-          optional :string, :customer_id, 9
-          optional ::Squareup::Connect::V3::Resources::Tender::Charge, :charge, 10
+          optional :string, :customer_id, 8
+          optional ::Squareup::Connect::V3::Resources::Tender::Charge, :charge, 9
         end
 
       end
