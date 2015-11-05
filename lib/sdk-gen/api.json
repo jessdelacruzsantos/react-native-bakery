@@ -1,0 +1,5574 @@
+{
+  "endpoints": [
+    {
+      "id": "Charge",
+      "responsefields": [
+        {
+          "description": "",
+          "name": "errors",
+          "isarray": true,
+          "required": false,
+          "type": "resources.Error"
+        },
+        {
+          "description": "",
+          "name": "transaction",
+          "isarray": false,
+          "required": false,
+          "type": "resources.Transaction"
+        }
+      ],
+      "description": "",
+      "entity": "",
+      "path": "",
+      "action": "",
+      "outputtype": "actions.ChargeResponse",
+      "httpmethod": "",
+      "params": [
+        {
+          "description": "",
+          "name": "location_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "idempotency_key",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "amount_money",
+          "isarray": false,
+          "required": false,
+          "type": "resources.Money"
+        },
+        {
+          "description": "",
+          "name": "customer_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "Request that the created payment only execute Auth and require a separate call for capture.",
+          "name": "delay_capture",
+          "isarray": false,
+          "required": true,
+          "type": "bool"
+        },
+        {
+          "description": "",
+          "name": "reference_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "note",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "location_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "idempotency_key",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "amount_money",
+          "isarray": false,
+          "required": false,
+          "type": "resources.Money"
+        },
+        {
+          "description": "",
+          "name": "customer_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "Request that the created payment only execute Auth and require a separate call for capture.",
+          "name": "delay_capture",
+          "isarray": false,
+          "required": true,
+          "type": "bool"
+        },
+        {
+          "description": "",
+          "name": "reference_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "note",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        }
+      ],
+      "oauthpermissions": ["PAYMENTS_WRITE"],
+      "inputtype": "actions.ChargeRequest"
+    },
+    {
+      "id": "Refund",
+      "responsefields": [
+        {
+          "description": "",
+          "name": "errors",
+          "isarray": true,
+          "required": false,
+          "type": "resources.Error"
+        },
+        {
+          "description": "",
+          "name": "refund",
+          "isarray": false,
+          "required": false,
+          "type": "resources.Refund"
+        }
+      ],
+      "description": "",
+      "entity": "",
+      "path": "",
+      "action": "",
+      "outputtype": "actions.RefundResponse",
+      "httpmethod": "",
+      "params": [
+        {
+          "description": "",
+          "name": "location_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "idempotency_key",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "source_transaction_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "type",
+          "isarray": false,
+          "required": false,
+          "type": "resources.Refund.Type"
+        },
+        {
+          "description": "",
+          "name": "reason",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "amount_money",
+          "isarray": false,
+          "required": false,
+          "type": "resources.Money"
+        }
+      ],
+      "oauthpermissions": ["PAYMENTS_WRITE"],
+      "inputtype": "actions.RefundRequest"
+    },
+    {
+      "id": "ListLocations",
+      "responsefields": [
+        {
+          "description": "",
+          "name": "errors",
+          "isarray": true,
+          "required": false,
+          "type": "resources.Error"
+        },
+        {
+          "description": "",
+          "name": "locations",
+          "isarray": true,
+          "required": false,
+          "type": "resources.Location"
+        }
+      ],
+      "description": "Provides summary information for all of a business's locations.",
+      "entity": "Location",
+      "path": "",
+      "action": "",
+      "outputtype": "actions.ListLocationsResponse",
+      "httpmethod": "",
+      "oauthpermissions": ["MERCHANT_PROFILE_READ"],
+      "inputtype": "actions.ListLocationsRequest"
+    },
+    {
+      "id": "CreateCard",
+      "responsefields": [
+        {
+          "description": "",
+          "name": "errors",
+          "isarray": true,
+          "required": false,
+          "type": "resources.Error"
+        },
+        {
+          "description": "card nonce result. One time use token that represents this card data.",
+          "name": "card_nonce",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "card",
+          "isarray": false,
+          "required": false,
+          "type": "resources.Card"
+        }
+      ],
+      "description": "",
+      "entity": "Card",
+      "path": "",
+      "action": "",
+      "outputtype": "actions.CreateCardResponse",
+      "httpmethod": "",
+      "params": [
+        {
+          "description": "",
+          "name": "client_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "business_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "card_data",
+          "isarray": false,
+          "required": false,
+          "type": "resources.CardData"
+        }
+      ],
+      "oauthpermissions": ["PAYMENTS_WRITE"],
+      "inputtype": "actions.CreateCardRequest"
+    },
+    {
+      "id": "UpsertCustomer",
+      "responsefields": [
+        {
+          "description": "",
+          "name": "errors",
+          "isarray": true,
+          "required": false,
+          "type": "resources.Error"
+        },
+        {
+          "description": "",
+          "name": "customer",
+          "isarray": false,
+          "required": false,
+          "type": "resources.Customer"
+        }
+      ],
+      "description": "",
+      "entity": "Customer",
+      "path": "",
+      "action": "",
+      "outputtype": "actions.UpsertCustomerResponse",
+      "httpmethod": "",
+      "params": [{
+        "description": "Note: changes to Customer.cards are ignored in this request.",
+        "name": "customer",
+        "isarray": false,
+        "required": true,
+        "type": "resources.Customer"
+      }],
+      "oauthpermissions": ["CUSTOMERS_WRITE"],
+      "inputtype": "actions.UpsertCustomerRequest"
+    },
+    {
+      "id": "ListCustomers",
+      "responsefields": [
+        {
+          "description": "",
+          "name": "errors",
+          "isarray": true,
+          "required": false,
+          "type": "resources.Error"
+        },
+        {
+          "description": "",
+          "name": "customers",
+          "isarray": true,
+          "required": false,
+          "type": "resources.Customer"
+        },
+        {
+          "description": "",
+          "name": "cursor",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        }
+      ],
+      "description": "",
+      "entity": "Customer",
+      "path": "",
+      "action": "",
+      "outputtype": "actions.ListCustomersResponse",
+      "httpmethod": "",
+      "oauthpermissions": ["CUSTOMERS_READ"],
+      "inputtype": "actions.ListCustomersRequest"
+    },
+    {
+      "id": "RetrieveCustomer",
+      "responsefields": [
+        {
+          "description": "",
+          "name": "errors",
+          "isarray": true,
+          "required": false,
+          "type": "resources.Error"
+        },
+        {
+          "description": "",
+          "name": "customer",
+          "isarray": false,
+          "required": false,
+          "type": "resources.Customer"
+        }
+      ],
+      "description": "",
+      "entity": "Customer",
+      "path": "",
+      "action": "",
+      "outputtype": "actions.RetrieveCustomerResponse",
+      "httpmethod": "",
+      "params": [
+        {
+          "description": "if not specified, Customer will be pulled at the business level.",
+          "name": "location_id",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "customer_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        }
+      ],
+      "oauthpermissions": ["CUSTOMERS_READ"],
+      "inputtype": "actions.RetrieveCustomerRequest"
+    },
+    {
+      "id": "CreateCustomerCard",
+      "responsefields": [
+        {
+          "description": "",
+          "name": "errors",
+          "isarray": true,
+          "required": false,
+          "type": "resources.Error"
+        },
+        {
+          "description": "",
+          "name": "card",
+          "isarray": false,
+          "required": false,
+          "type": "resources.Card"
+        }
+      ],
+      "description": "",
+      "entity": "Customer.Card",
+      "path": "",
+      "action": "",
+      "outputtype": "actions.CreateCustomerCardResponse",
+      "httpmethod": "",
+      "params": [
+        {
+          "description": "",
+          "name": "location_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "customer_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "Card nonce. One time use token that represents card data to create an instrument linked to this customer.",
+          "name": "card_nonce",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "card_data",
+          "isarray": false,
+          "required": false,
+          "type": "resources.CardData"
+        }
+      ],
+      "oauthpermissions": ["CUSTOMERS_WRITE"],
+      "inputtype": "actions.CreateCustomerCardRequest"
+    },
+    {
+      "id": "UpdateCustomerCard",
+      "responsefields": [
+        {
+          "description": "",
+          "name": "errors",
+          "isarray": true,
+          "required": false,
+          "type": "resources.Error"
+        },
+        {
+          "description": "",
+          "name": "card",
+          "isarray": false,
+          "required": false,
+          "type": "resources.Card"
+        }
+      ],
+      "description": "",
+      "entity": "Customer.Card",
+      "path": "",
+      "action": "",
+      "outputtype": "actions.UpdateCustomerCardResponse",
+      "httpmethod": "",
+      "params": [
+        {
+          "description": "",
+          "name": "location_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "customer_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "card",
+          "isarray": false,
+          "required": false,
+          "type": "resources.Card"
+        }
+      ],
+      "oauthpermissions": ["CUSTOMERS_WRITE"],
+      "inputtype": "actions.UpdateCustomerCardRequest"
+    },
+    {
+      "id": "DeleteCustomerCard",
+      "responsefields": [{
+        "description": "",
+        "name": "errors",
+        "isarray": true,
+        "required": false,
+        "type": "resources.Error"
+      }],
+      "description": "",
+      "entity": "Customer.Card",
+      "path": "",
+      "action": "",
+      "outputtype": "actions.DeleteCustomerCardResponse",
+      "httpmethod": "",
+      "params": [
+        {
+          "description": "",
+          "name": "location_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "customer_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "card_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        }
+      ],
+      "oauthpermissions": ["CUSTOMERS_WRITE"],
+      "inputtype": "actions.DeleteCustomerCardRequest"
+    },
+    {
+      "id": "CaptureTransaction",
+      "responsefields": [{
+        "description": "",
+        "name": "errors",
+        "isarray": true,
+        "required": false,
+        "type": "resources.Error"
+      }],
+      "description": "For executing delayed capture.",
+      "entity": "Transaction",
+      "path": "",
+      "action": "",
+      "outputtype": "actions.CaptureTransactionResponse",
+      "httpmethod": "",
+      "params": [
+        {
+          "description": "",
+          "name": "location_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "transaction_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        }
+      ],
+      "oauthpermissions": ["PAYMENTS_WRITE"],
+      "inputtype": "actions.CaptureTransactionRequest"
+    },
+    {
+      "id": "VoidTransaction",
+      "responsefields": [{
+        "description": "",
+        "name": "errors",
+        "isarray": true,
+        "required": false,
+        "type": "resources.Error"
+      }],
+      "description": "For canceling a delayed capture transaction.",
+      "entity": "Transaction",
+      "path": "",
+      "action": "",
+      "outputtype": "actions.VoidTransactionResponse",
+      "httpmethod": "",
+      "params": [
+        {
+          "description": "",
+          "name": "location_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "transaction_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        }
+      ],
+      "oauthpermissions": ["PAYMENTS_WRITE"],
+      "inputtype": "actions.VoidTransactionRequest"
+    },
+    {
+      "id": "ListTransactions",
+      "responsefields": [
+        {
+          "description": "",
+          "name": "errors",
+          "isarray": true,
+          "required": false,
+          "type": "resources.Error"
+        },
+        {
+          "description": "",
+          "name": "transactions",
+          "isarray": true,
+          "required": false,
+          "type": "resources.Transaction"
+        },
+        {
+          "description": "",
+          "name": "cursor",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        }
+      ],
+      "description": "Provides summary information for all transactions taken at a particular location\nduring a date range.",
+      "entity": "Transaction",
+      "path": "",
+      "action": "",
+      "outputtype": "actions.ListTransactionsResponse",
+      "httpmethod": "",
+      "oauthpermissions": ["PAYMENTS_READ"],
+      "inputtype": "actions.ListTransactionsRequest"
+    },
+    {
+      "id": "RetrieveTransaction",
+      "responsefields": [
+        {
+          "description": "",
+          "name": "errors",
+          "isarray": true,
+          "required": false,
+          "type": "resources.Error"
+        },
+        {
+          "description": "",
+          "name": "transaction",
+          "isarray": false,
+          "required": false,
+          "type": "resources.Transaction"
+        }
+      ],
+      "description": "Provides comprehensive information for a single transaction.",
+      "entity": "Transaction",
+      "path": "",
+      "action": "",
+      "outputtype": "actions.RetrieveTransactionResponse",
+      "httpmethod": "",
+      "params": [
+        {
+          "description": "",
+          "name": "location_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "transaction_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        }
+      ],
+      "oauthpermissions": ["PAYMENTS_READ"],
+      "inputtype": "actions.RetrieveTransactionRequest"
+    }
+  ],
+  "datatypes": [
+    {
+      "id": "squareup.connect.v3.actions.UpsertCustomerRequest",
+      "description": "",
+      "name": "UpsertCustomerRequest",
+      "fields": [{
+        "description": "Note: changes to Customer.cards are ignored in this request.",
+        "name": "customer",
+        "isarray": false,
+        "required": true,
+        "type": "resources.Customer"
+      }]
+    },
+    {
+      "id": "squareup.connect.v3.actions.RefundRequest",
+      "description": "",
+      "name": "RefundRequest",
+      "fields": [
+        {
+          "description": "",
+          "name": "location_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "idempotency_key",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "source_transaction_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "type",
+          "isarray": false,
+          "required": false,
+          "type": "resources.Refund.Type"
+        },
+        {
+          "description": "",
+          "name": "reason",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "amount_money",
+          "isarray": false,
+          "required": false,
+          "type": "resources.Money"
+        }
+      ]
+    },
+    {
+      "id": "squareup.connect.v3.actions.RefundResponse",
+      "description": "",
+      "name": "RefundResponse",
+      "fields": [
+        {
+          "description": "",
+          "name": "errors",
+          "isarray": true,
+          "required": false,
+          "type": "resources.Error"
+        },
+        {
+          "description": "",
+          "name": "refund",
+          "isarray": false,
+          "required": false,
+          "type": "resources.Refund"
+        }
+      ]
+    },
+    {
+      "id": "squareup.connect.v3.actions.ListCustomersResponse",
+      "description": "",
+      "name": "ListCustomersResponse",
+      "fields": [
+        {
+          "description": "",
+          "name": "errors",
+          "isarray": true,
+          "required": false,
+          "type": "resources.Error"
+        },
+        {
+          "description": "",
+          "name": "customers",
+          "isarray": true,
+          "required": false,
+          "type": "resources.Customer"
+        },
+        {
+          "description": "",
+          "name": "cursor",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "id": "squareup.connect.v3.actions.RetrieveTransactionRequest",
+      "description": "",
+      "name": "RetrieveTransactionRequest",
+      "fields": [
+        {
+          "description": "",
+          "name": "location_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "transaction_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "id": "squareup.connect.v3.actions.RetrieveTransactionResponse",
+      "description": "",
+      "name": "RetrieveTransactionResponse",
+      "fields": [
+        {
+          "description": "",
+          "name": "errors",
+          "isarray": true,
+          "required": false,
+          "type": "resources.Error"
+        },
+        {
+          "description": "",
+          "name": "transaction",
+          "isarray": false,
+          "required": false,
+          "type": "resources.Transaction"
+        }
+      ]
+    },
+    {
+      "id": "squareup.connect.v3.actions.ListCustomersRequest",
+      "description": "",
+      "name": "ListCustomersRequest",
+      "fields": [
+        {
+          "description": "",
+          "name": "params",
+          "isarray": false,
+          "required": false,
+          "type": "ListCustomersRequest.Params"
+        },
+        {
+          "description": "",
+          "name": "cursor",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "id": "squareup.connect.v3.actions.ListCustomersRequest.Params",
+      "description": "",
+      "name": "ListCustomersRequest.Params",
+      "fields": [{
+        "description": "if not specified, customers across all locations will be returned.",
+        "name": "location_id",
+        "isarray": false,
+        "required": true,
+        "type": "string"
+      }]
+    },
+    {
+      "id": "squareup.connect.v3.actions.CaptureTransactionRequest",
+      "description": "",
+      "name": "CaptureTransactionRequest",
+      "fields": [
+        {
+          "description": "",
+          "name": "location_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "transaction_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "id": "squareup.connect.v3.resources.Transaction",
+      "description": "",
+      "name": "Transaction",
+      "fields": [
+        {
+          "description": "The transaction's unique ID.",
+          "name": "id",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "The ID of the transaction's associated business.",
+          "name": "business_id",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "The ID of the transaction's associated location.",
+          "name": "location_id",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "The time when the transaction was created, in RFC 3339 format.",
+          "name": "created_at",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "tenders",
+          "isarray": true,
+          "required": false,
+          "type": "Tender"
+        },
+        {
+          "description": "",
+          "name": "refunds",
+          "isarray": true,
+          "required": false,
+          "type": "Refund"
+        },
+        {
+          "description": "",
+          "name": "reference_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "id": "squareup.connect.v3.actions.ListLocationsRequest",
+      "description": "",
+      "name": "ListLocationsRequest",
+      "fields": []
+    },
+    {
+      "id": "squareup.connect.v3.resources.Tender",
+      "description": "",
+      "name": "Tender",
+      "fields": [
+        {
+          "description": "The tender's unique ID.",
+          "name": "id",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "The ID of the tender's associated business.",
+          "name": "business_id",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "The ID of the tender's associated location.",
+          "name": "location_id",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "The ID of the tender's associated transaction.",
+          "name": "transaction_id",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "The time when the tender was created, in RFC 3339 format.",
+          "name": "created_at",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "note",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "amount_money",
+          "isarray": false,
+          "required": false,
+          "type": "Money"
+        },
+        {
+          "description": "",
+          "name": "customer_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "charge",
+          "isarray": false,
+          "required": false,
+          "type": "Tender.Charge"
+        }
+      ]
+    },
+    {
+      "id": "squareup.connect.v3.resources.Tender.Charge",
+      "description": "",
+      "name": "Tender.Charge",
+      "fields": [
+        {
+          "description": "",
+          "name": "status",
+          "isarray": false,
+          "required": false,
+          "type": "Charge.Status"
+        },
+        {
+          "description": "",
+          "name": "card",
+          "isarray": false,
+          "required": false,
+          "type": "Card"
+        }
+      ]
+    },
+    {
+      "id": "squareup.connect.v3.actions.CreateCardRequest",
+      "description": "",
+      "name": "CreateCardRequest",
+      "fields": [
+        {
+          "description": "",
+          "name": "client_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "business_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "card_data",
+          "isarray": false,
+          "required": false,
+          "type": "resources.CardData"
+        }
+      ]
+    },
+    {
+      "id": "squareup.connect.v3.actions.VoidTransactionResponse",
+      "description": "",
+      "name": "VoidTransactionResponse",
+      "fields": [{
+        "description": "",
+        "name": "errors",
+        "isarray": true,
+        "required": false,
+        "type": "resources.Error"
+      }]
+    },
+    {
+      "id": "squareup.connect.v3.actions.DeleteCustomerCardResponse",
+      "description": "",
+      "name": "DeleteCustomerCardResponse",
+      "fields": [{
+        "description": "",
+        "name": "errors",
+        "isarray": true,
+        "required": false,
+        "type": "resources.Error"
+      }]
+    },
+    {
+      "id": "squareup.connect.v3.actions.ListTransactionsResponse",
+      "description": "",
+      "name": "ListTransactionsResponse",
+      "fields": [
+        {
+          "description": "",
+          "name": "errors",
+          "isarray": true,
+          "required": false,
+          "type": "resources.Error"
+        },
+        {
+          "description": "",
+          "name": "transactions",
+          "isarray": true,
+          "required": false,
+          "type": "resources.Transaction"
+        },
+        {
+          "description": "",
+          "name": "cursor",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "id": "squareup.connect.v3.resources.Location",
+      "description": "",
+      "name": "Location",
+      "fields": [
+        {
+          "description": "The location's unique ID.",
+          "name": "id",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "The ID of the location's associated business.",
+          "name": "business_id",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "The name given to the location.",
+          "name": "name",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "The address of this location.",
+          "name": "address",
+          "isarray": false,
+          "required": true,
+          "type": "Address"
+        },
+        {
+          "description": "The IANA Timezone Database identifier for the location's timezone.",
+          "name": "timezone",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "capabilities",
+          "isarray": true,
+          "required": false,
+          "type": "Location.Capability"
+        }
+      ]
+    },
+    {
+      "id": "squareup.connect.v3.actions.RetrieveCustomerResponse",
+      "description": "",
+      "name": "RetrieveCustomerResponse",
+      "fields": [
+        {
+          "description": "",
+          "name": "errors",
+          "isarray": true,
+          "required": false,
+          "type": "resources.Error"
+        },
+        {
+          "description": "",
+          "name": "customer",
+          "isarray": false,
+          "required": false,
+          "type": "resources.Customer"
+        }
+      ]
+    },
+    {
+      "id": "squareup.connect.v3.actions.DeleteCustomerCardRequest",
+      "description": "",
+      "name": "DeleteCustomerCardRequest",
+      "fields": [
+        {
+          "description": "",
+          "name": "location_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "customer_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "card_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "id": "squareup.connect.v3.actions.CreateCustomerCardResponse",
+      "description": "",
+      "name": "CreateCustomerCardResponse",
+      "fields": [
+        {
+          "description": "",
+          "name": "errors",
+          "isarray": true,
+          "required": false,
+          "type": "resources.Error"
+        },
+        {
+          "description": "",
+          "name": "card",
+          "isarray": false,
+          "required": false,
+          "type": "resources.Card"
+        }
+      ]
+    },
+    {
+      "id": "squareup.connect.v3.resources.Money",
+      "description": "",
+      "name": "Money",
+      "fields": [
+        {
+          "description": "",
+          "name": "amount",
+          "isarray": false,
+          "required": false,
+          "type": "int64"
+        },
+        {
+          "description": "",
+          "name": "currency",
+          "isarray": false,
+          "required": false,
+          "type": "Currency"
+        }
+      ]
+    },
+    {
+      "id": "squareup.connect.v3.resources.Address",
+      "description": "",
+      "name": "Address",
+      "fields": [
+        {
+          "description": "",
+          "name": "line_1",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "line_2",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "line_3",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "locality",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "sublocality",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "sublocality_2",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "sublocality_3",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "region",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "region_2",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "region_3",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "postal_code",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "country",
+          "isarray": false,
+          "required": false,
+          "type": "resources.Country"
+        }
+      ]
+    },
+    {
+      "id": "squareup.connect.v3.actions.ListLocationsResponse",
+      "description": "",
+      "name": "ListLocationsResponse",
+      "fields": [
+        {
+          "description": "",
+          "name": "errors",
+          "isarray": true,
+          "required": false,
+          "type": "resources.Error"
+        },
+        {
+          "description": "",
+          "name": "locations",
+          "isarray": true,
+          "required": false,
+          "type": "resources.Location"
+        }
+      ]
+    },
+    {
+      "id": "squareup.connect.v3.resources.CardData",
+      "description": "",
+      "name": "CardData",
+      "fields": [
+        {
+          "description": "The number on the card.",
+          "name": "number",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "The month of the card's expiration date, which must be between 1-12.",
+          "name": "exp_month",
+          "isarray": false,
+          "required": true,
+          "type": "int64"
+        },
+        {
+          "description": "The year of the card's expiration date, which must be a 4 digit year.",
+          "name": "exp_year",
+          "isarray": false,
+          "required": true,
+          "type": "int64"
+        },
+        {
+          "description": "The card verification value (i.e. security code) printed on the card.",
+          "name": "cvv",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "The cardholder name",
+          "name": "name",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "Postal code in the address is required for US and Canada payments.",
+          "name": "billing_address",
+          "isarray": false,
+          "required": true,
+          "type": "Address"
+        }
+      ]
+    },
+    {
+      "id": "squareup.connect.v3.actions.CreateCardResponse",
+      "description": "",
+      "name": "CreateCardResponse",
+      "fields": [
+        {
+          "description": "",
+          "name": "errors",
+          "isarray": true,
+          "required": false,
+          "type": "resources.Error"
+        },
+        {
+          "description": "card nonce result. One time use token that represents this card data.",
+          "name": "card_nonce",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "card",
+          "isarray": false,
+          "required": false,
+          "type": "resources.Card"
+        }
+      ]
+    },
+    {
+      "id": "squareup.connect.v3.actions.RetrieveCustomerRequest",
+      "description": "",
+      "name": "RetrieveCustomerRequest",
+      "fields": [
+        {
+          "description": "if not specified, Customer will be pulled at the business level.",
+          "name": "location_id",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "customer_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "id": "squareup.connect.v3.actions.ChargeResponse",
+      "description": "",
+      "name": "ChargeResponse",
+      "fields": [
+        {
+          "description": "",
+          "name": "errors",
+          "isarray": true,
+          "required": false,
+          "type": "resources.Error"
+        },
+        {
+          "description": "",
+          "name": "transaction",
+          "isarray": false,
+          "required": false,
+          "type": "resources.Transaction"
+        }
+      ]
+    },
+    {
+      "id": "squareup.connect.v3.resources.Customer",
+      "description": "",
+      "name": "Customer",
+      "fields": [
+        {
+          "description": "The customer's unique ID.",
+          "name": "id",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "The ID of the customer's associated business.",
+          "name": "business_id",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "The ID of the customer's associated location.",
+          "name": "location_id",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "The time when the customer was created, in RFC 3339 format.",
+          "name": "created_at",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "The time when the customer was updated, in RFC 3339 format.",
+          "name": "updated_at",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "Cards on file for the customer.",
+          "name": "cards",
+          "isarray": true,
+          "required": true,
+          "type": "Card"
+        },
+        {
+          "description": "",
+          "name": "given_name",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "family_name",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "nickname",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "email_address",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "address",
+          "isarray": false,
+          "required": false,
+          "type": "Address"
+        },
+        {
+          "description": "",
+          "name": "phone_number",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "memo",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "id": "squareup.connect.v3.actions.VoidTransactionRequest",
+      "description": "",
+      "name": "VoidTransactionRequest",
+      "fields": [
+        {
+          "description": "",
+          "name": "location_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "transaction_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "id": "squareup.connect.v3.actions.ChargeRequest",
+      "description": "",
+      "name": "ChargeRequest",
+      "fields": [
+        {
+          "description": "",
+          "name": "location_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "idempotency_key",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "amount_money",
+          "isarray": false,
+          "required": false,
+          "type": "resources.Money"
+        },
+        {
+          "description": "",
+          "name": "customer_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "Request that the created payment only execute Auth and require a separate call for capture.",
+          "name": "delay_capture",
+          "isarray": false,
+          "required": true,
+          "type": "bool"
+        },
+        {
+          "description": "",
+          "name": "reference_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "note",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "Tokenized card nonce",
+          "name": "card_nonce",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "Specific card ID linked to the Customer.",
+          "name": "customer_card_id",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "id": "squareup.connect.v3.resources.Card",
+      "description": "",
+      "name": "Card",
+      "fields": [
+        {
+          "description": "The card's unique ID.",
+          "name": "id",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "card_brand",
+          "isarray": false,
+          "required": false,
+          "type": "Card.Brand"
+        },
+        {
+          "description": "last 4 digits of card number",
+          "name": "last_4",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "The month of the card's expiration date, which must be between 1-12.",
+          "name": "exp_month",
+          "isarray": false,
+          "required": true,
+          "type": "int64"
+        },
+        {
+          "description": "The year of the card's expiration date, which must be a 4 digit year.",
+          "name": "exp_year",
+          "isarray": false,
+          "required": true,
+          "type": "int64"
+        }
+      ]
+    },
+    {
+      "id": "squareup.connect.v3.resources.Refund",
+      "description": "",
+      "name": "Refund",
+      "fields": [
+        {
+          "description": "The ID of the refund's associated business.",
+          "name": "business_id",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "The ID of the refund's associated location.",
+          "name": "location_id",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "The ID of the transaction refunded.",
+          "name": "source_transaction_id",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "The time when the refund was created, in RFC 3339 format.",
+          "name": "created_at",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "type",
+          "isarray": false,
+          "required": false,
+          "type": "Refund.Type"
+        },
+        {
+          "description": "The reason for the refund being issued.",
+          "name": "reason",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "The amount of money refunded.",
+          "name": "amount_money",
+          "isarray": false,
+          "required": true,
+          "type": "Money"
+        }
+      ]
+    },
+    {
+      "id": "squareup.connect.v3.actions.UpdateCustomerCardRequest",
+      "description": "",
+      "name": "UpdateCustomerCardRequest",
+      "fields": [
+        {
+          "description": "",
+          "name": "location_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "customer_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "card",
+          "isarray": false,
+          "required": false,
+          "type": "resources.Card"
+        }
+      ]
+    },
+    {
+      "id": "squareup.connect.v3.actions.UpsertCustomerResponse",
+      "description": "",
+      "name": "UpsertCustomerResponse",
+      "fields": [
+        {
+          "description": "",
+          "name": "errors",
+          "isarray": true,
+          "required": false,
+          "type": "resources.Error"
+        },
+        {
+          "description": "",
+          "name": "customer",
+          "isarray": false,
+          "required": false,
+          "type": "resources.Customer"
+        }
+      ]
+    },
+    {
+      "id": "squareup.connect.v3.actions.UpdateCustomerCardResponse",
+      "description": "",
+      "name": "UpdateCustomerCardResponse",
+      "fields": [
+        {
+          "description": "",
+          "name": "errors",
+          "isarray": true,
+          "required": false,
+          "type": "resources.Error"
+        },
+        {
+          "description": "",
+          "name": "card",
+          "isarray": false,
+          "required": false,
+          "type": "resources.Card"
+        }
+      ]
+    },
+    {
+      "id": "squareup.connect.v3.resources.Error",
+      "description": "",
+      "name": "Error",
+      "fields": [
+        {
+          "description": "",
+          "name": "type",
+          "isarray": false,
+          "required": false,
+          "type": "Error.Type"
+        },
+        {
+          "description": "",
+          "name": "detail",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "field",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "id": "squareup.connect.v3.actions.CreateCustomerCardRequest",
+      "description": "",
+      "name": "CreateCustomerCardRequest",
+      "fields": [
+        {
+          "description": "",
+          "name": "location_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "customer_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "Card nonce. One time use token that represents card data to create an instrument linked to this customer.",
+          "name": "card_nonce",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "card_data",
+          "isarray": false,
+          "required": false,
+          "type": "resources.CardData"
+        }
+      ]
+    },
+    {
+      "id": "squareup.connect.v3.actions.CaptureTransactionResponse",
+      "description": "",
+      "name": "CaptureTransactionResponse",
+      "fields": [{
+        "description": "",
+        "name": "errors",
+        "isarray": true,
+        "required": false,
+        "type": "resources.Error"
+      }]
+    },
+    {
+      "id": "squareup.connect.v3.actions.ListTransactionsRequest",
+      "description": "",
+      "name": "ListTransactionsRequest",
+      "fields": [
+        {
+          "description": "",
+          "name": "params",
+          "isarray": false,
+          "required": false,
+          "type": "ListTransactionsRequest.Params"
+        },
+        {
+          "description": "",
+          "name": "cursor",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "id": "squareup.connect.v3.actions.ListTransactionsRequest.Params",
+      "description": "",
+      "name": "ListTransactionsRequest.Params",
+      "fields": [
+        {
+          "description": "",
+          "name": "location_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "The beginning of the requested reporting period, in RFC 3339 format.",
+          "name": "begin_time",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "The end of the requested reporting period, in RFC 3339 format.",
+          "name": "end_time",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "The order in which results are listed in the response.",
+          "name": "sort",
+          "isarray": false,
+          "required": true,
+          "type": "ListTransactionsRequest.Params.Sort"
+        }
+      ]
+    }
+  ],
+  "enums": [
+    {
+      "id": "squareup.connect.v3.resources.Currency",
+      "values": [
+        {
+          "description": "",
+          "name": "AED",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "AFN",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "ALL",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "AMD",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "ANG",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "AOA",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "ARS",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "AUD",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "AWG",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "AZN",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "BAM",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "BBD",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "BDT",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "BGN",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "BHD",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "BIF",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "BMD",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "BND",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "BOB",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "BOV",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "BRL",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "BSD",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "BTN",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "BWP",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "BYR",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "BZD",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "CAD",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "CDF",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "CHE",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "CHF",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "CHW",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "CLF",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "CLP",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "CNY",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "COP",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "COU",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "CRC",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "CUC",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "CUP",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "CVE",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "CZK",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "DJF",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "DKK",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "DOP",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "DZD",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "EGP",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "ERN",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "ETB",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "EUR",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "FJD",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "FKP",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "GBP",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "GEL",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "GHS",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "GIP",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "GMD",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "GNF",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "GTQ",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "GYD",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "HKD",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "HNL",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "HRK",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "HTG",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "HUF",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "IDR",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "ILS",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "INR",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "IQD",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "IRR",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "ISK",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "JMD",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "JOD",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "JPY",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "KES",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "KGS",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "KHR",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "KMF",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "KPW",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "KRW",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "KWD",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "KYD",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "KZT",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "LAK",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "LBP",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "LKR",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "LRD",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "LSL",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "LTL",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "LVL",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "LYD",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "MAD",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "MDL",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "MGA",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "MKD",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "MMK",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "MNT",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "MOP",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "MRO",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "MUR",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "MVR",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "MWK",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "MXN",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "MXV",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "MYR",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "MZN",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "NAD",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "NGN",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "NIO",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "NOK",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "NPR",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "NZD",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "OMR",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "PAB",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "PEN",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "PGK",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "PHP",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "PKR",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "PLN",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "PYG",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "QAR",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "RON",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "RSD",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "RUB",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "RWF",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "SAR",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "SBD",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "SCR",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "SDG",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "SEK",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "SGD",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "SHP",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "SLL",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "SOS",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "SRD",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "SSP",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "STD",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "SVC",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "SYP",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "SZL",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "THB",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "TJS",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "TMT",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "TND",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "TOP",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "TRY",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "TTD",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "TWD",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "TZS",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "UAH",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "UGX",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "USD",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "USN",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "USS",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "UYI",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "UYU",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "UZS",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "VEF",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "VND",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "VUV",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "WST",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "XAF",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "XAG",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "XAU",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "XBA",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "XBB",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "XBC",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "XBD",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "XCD",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "XDR",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "XOF",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "XPD",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "XPF",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "XPT",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "XTS",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "XXX",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "YER",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "ZAR",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "ZMK",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "ZMW",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "BTC",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        }
+      ],
+      "description": "",
+      "name": "Currency"
+    },
+    {
+      "id": "squareup.connect.v3.resources.Tender.Charge.Status",
+      "values": [
+        {
+          "description": "",
+          "name": "UNKNOWN",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "AUTHORIZED",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "CAPTURED",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "VOIDED",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "FAILED",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        }
+      ],
+      "description": "",
+      "name": "Charge.Status"
+    },
+    {
+      "id": "squareup.connect.v3.resources.Location.Capability",
+      "values": [{
+        "description": "",
+        "name": "CREDIT_CARD_PROCESSING",
+        "isarray": false,
+        "required": false,
+        "type": ""
+      }],
+      "description": "",
+      "name": "Location.Capability"
+    },
+    {
+      "id": "squareup.connect.v3.resources.Card.Brand",
+      "values": [
+        {
+          "description": "",
+          "name": "OTHER_BRAND",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "VISA",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "MASTERCARD",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "AMERICAN_EXPRESS",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "DISCOVER",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "DISCOVER_DINERS",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "JCB",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "CHINA_UNIONPAY",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "SQUARE_GIFT_CARD",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        }
+      ],
+      "description": "",
+      "name": "Card.Brand"
+    },
+    {
+      "id": "squareup.connect.v3.resources.Country",
+      "values": [
+        {
+          "description": "",
+          "name": "ZZ",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "AD",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "AE",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "AF",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "AG",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "AI",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "AL",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "AM",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "AO",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "AQ",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "AR",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "AS",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "AT",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "AU",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "AW",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "AX",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "AZ",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "BA",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "BB",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "BD",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "BE",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "BF",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "BG",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "BH",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "BI",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "BJ",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "BL",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "BM",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "BN",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "BO",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "BQ",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "BR",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "BS",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "BT",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "BV",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "BW",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "BY",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "BZ",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "CA",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "CC",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "CD",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "CF",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "CG",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "CH",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "CI",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "CK",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "CL",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "CM",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "CN",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "CO",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "CR",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "CU",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "CV",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "CW",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "CX",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "CY",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "CZ",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "DE",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "DJ",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "DK",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "DM",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "DO",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "DZ",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "EC",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "EE",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "EG",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "EH",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "ER",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "ES",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "ET",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "FI",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "FJ",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "FK",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "FM",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "FO",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "FR",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "GA",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "GB",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "GD",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "GE",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "GF",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "GG",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "GH",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "GI",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "GL",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "GM",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "GN",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "GP",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "GQ",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "GR",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "GS",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "GT",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "GU",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "GW",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "GY",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "HK",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "HM",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "HN",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "HR",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "HT",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "HU",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "ID",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "IE",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "IL",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "IM",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "IN",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "IO",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "IQ",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "IR",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "IS",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "IT",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "JE",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "JM",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "JO",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "JP",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "KE",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "KG",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "KH",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "KI",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "KM",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "KN",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "KP",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "KR",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "KW",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "KY",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "KZ",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "LA",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "LB",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "LC",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "LI",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "LK",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "LR",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "LS",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "LT",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "LU",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "LV",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "LY",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "MA",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "MC",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "MD",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "ME",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "MF",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "MG",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "MH",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "MK",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "ML",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "MM",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "MN",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "MO",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "MP",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "MQ",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "MR",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "MS",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "MT",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "MU",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "MV",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "MW",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "MX",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "MY",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "MZ",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "NA",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "NC",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "NE",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "NF",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "NG",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "NI",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "NL",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "NO",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "NP",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "NR",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "NU",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "NZ",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "OM",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "PA",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "PE",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "PF",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "PG",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "PH",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "PK",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "PL",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "PM",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "PN",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "PR",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "PS",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "PT",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "PW",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "PY",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "QA",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "RE",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "RO",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "RS",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "RU",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "RW",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "SA",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "SB",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "SC",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "SD",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "SE",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "SG",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "SH",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "SI",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "SJ",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "SK",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "SL",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "SM",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "SN",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "SO",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "SR",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "SS",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "ST",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "SV",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "SX",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "SY",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "SZ",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "TC",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "TD",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "TF",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "TG",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "TH",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "TJ",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "TK",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "TL",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "TM",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "TN",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "TO",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "TR",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "TT",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "TV",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "TW",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "TZ",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "UA",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "UG",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "UM",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "US",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "UY",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "UZ",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "VA",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "VC",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "VE",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "VG",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "VI",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "VN",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "VU",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "WF",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "WS",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "YE",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "YT",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "ZA",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "ZM",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "ZW",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        }
+      ],
+      "description": "",
+      "name": "Country"
+    },
+    {
+      "id": "squareup.connect.v3.resources.Refund.Type",
+      "values": [
+        {
+          "description": "",
+          "name": "FULL",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "PARTIAL",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        }
+      ],
+      "description": "",
+      "name": "Refund.Type"
+    },
+    {
+      "id": "squareup.connect.v3.resources.Error.Type",
+      "values": [
+        {
+          "description": "",
+          "name": "INTERNAL_SERVER_ERROR",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "UNAUTHORIZED",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "ACCESS_TOKEN_EXPIRED",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "ACCESS_TOKEN_REVOKED",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "FORBIDDEN",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "INSUFFICIENT_SCOPES",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "APPLICATION_DISABLED",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "V1_APPLICATION",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "V1_ACCESS_TOKEN",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "CARD_PROCESSING_NOT_ENABLED",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "BAD_REQUEST",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "MISSING_REQUIRED_PARAMETER",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "INCORRECT_TYPE",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "INVALID_TIME",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "INVALID_TIME_RANGE",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "INVALID_VALUE",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "INVALID_CURSOR",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "UNKNOWN_QUERY_PARAMETER",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "CONFLICTING_PARAMETERS",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "EXPECTED_JSON_BODY",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "INVALID_SORT_ORDER",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "VALUE_TOO_LONG",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "VALUE_TOO_LOW",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "EXPECTED_BOOLEAN",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "EXPECTED_INTEGER",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "EXPECTED_FLOAT",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "EXPECTED_STRING",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "EXPECTED_OBJECT",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "EXPECTED_ARRAY",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "INVALID_ARRAY_VALUE",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "INVALID_ENUM_VALUE",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "INVALID_CONTENT_TYPE",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "INVALID_FORM_VALUE",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "CARD_DECLINED",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "CARD_EXPIRED",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "VERIFY_CVV_FAILURE",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "VERIFY_AVS_FAILURE",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "INVALID_EXPIRATION",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "INVALID_EXPIRATION_YEAR",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "INVALID_EXPIRATION_DATE",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "INVALID_CARD",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "DELAYED_TRANSACTION_EXPIRED",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "DELAYED_TRANSACTION_CANCELED",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "DELAYED_TRANSACTION_CAPTURED",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "DELAYED_TRANSACTION_FAILED",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "CARD_TOKEN_EXPIRED",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "CARD_TOKEN_USED",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "AMOUNT_TOO_HIGH",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "NOT_FOUND",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "REQUEST_TIMEOUT",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "REQUEST_ENTITY_TOO_LARGE",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "UNSUPPORTED_MEDIA_TYPE",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "RATE_LIMITED",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "NOT_IMPLEMENTED",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "SERVICE_UNAVAILABLE",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        }
+      ],
+      "description": "",
+      "name": "Error.Type"
+    },
+    {
+      "id": "squareup.connect.v3.actions.ListTransactionsRequest.Params.Sort",
+      "values": [
+        {
+          "description": "",
+          "name": "CREATED_AT_DESC",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "CREATED_AT_ASC",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        }
+      ],
+      "description": "",
+      "name": "Params.Sort"
+    }
+  ]
+}
