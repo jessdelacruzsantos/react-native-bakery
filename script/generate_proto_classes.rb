@@ -65,7 +65,7 @@ def generate_class(path)
           #{path}"
 
   # ruby
-  proto_output_location = HOME_DIR + '/Development/connect-sdks/src/ruby/generated/'
+  proto_output_location = HOME_DIR + '/Development/connect-sdks/src/rubygem/lib'
   if !File.directory?(proto_output_location)
     FileUtils.mkdir_p(proto_output_location)
   end
@@ -81,5 +81,5 @@ Find.find(HOME_DIR + '/Development/connect-public-protos/squareup/connect/v3') d
     generate_class(path)
   end
 end
-system "mv #{HOME_DIR}/Development/connect-sdks/src/ruby/generated#{HOME_DIR}/Development/connect-public-protos/squareup \
-        #{HOME_DIR}/Development/connect-sdks/src/ruby/generated/"
+system "mv #{HOME_DIR}/Development/connect-sdks/src/rubygem/lib#{HOME_DIR}/Development/connect-public-protos/squareup \
+        #{HOME_DIR}/Development/connect-sdks/src/rubygem/lib/"
