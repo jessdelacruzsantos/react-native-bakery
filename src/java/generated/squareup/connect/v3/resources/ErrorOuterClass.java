@@ -421,25 +421,49 @@ public final class ErrorOuterClass {
        */
       INVALID_CARD(40, 40040),
       /**
-       * <code>DELAYED_PAYMENT_EXPIRED = 40041;</code>
+       * <code>DELAYED_TRANSACTION_EXPIRED = 40041;</code>
+       *
+       * <pre>
+       * too long since auth
+       * </pre>
        */
-      DELAYED_PAYMENT_EXPIRED(41, 40041),
+      DELAYED_TRANSACTION_EXPIRED(41, 40041),
       /**
-       * <code>DELAYED_PAYMENT_CANCELED = 40042;</code>
+       * <code>DELAYED_TRANSACTION_CANCELED = 40042;</code>
+       *
+       * <pre>
+       * already cancelled
+       * </pre>
        */
-      DELAYED_PAYMENT_CANCELED(42, 40042),
+      DELAYED_TRANSACTION_CANCELED(42, 40042),
       /**
-       * <code>CARD_TOKEN_EXPIRED = 40043;</code>
+       * <code>DELAYED_TRANSACTION_CAPTURED = 40043;</code>
+       *
+       * <pre>
+       * already captured
+       * </pre>
        */
-      CARD_TOKEN_EXPIRED(43, 40043),
+      DELAYED_TRANSACTION_CAPTURED(43, 40043),
       /**
-       * <code>CARD_TOKEN_USED = 40044;</code>
+       * <code>DELAYED_TRANSACTION_FAILED = 40044;</code>
+       *
+       * <pre>
+       * already failed
+       * </pre>
        */
-      CARD_TOKEN_USED(44, 40044),
+      DELAYED_TRANSACTION_FAILED(44, 40044),
       /**
-       * <code>AMOUNT_TOO_HIGH = 40045;</code>
+       * <code>CARD_TOKEN_EXPIRED = 40045;</code>
        */
-      AMOUNT_TOO_HIGH(45, 40045),
+      CARD_TOKEN_EXPIRED(45, 40045),
+      /**
+       * <code>CARD_TOKEN_USED = 40046;</code>
+       */
+      CARD_TOKEN_USED(46, 40046),
+      /**
+       * <code>AMOUNT_TOO_HIGH = 40047;</code>
+       */
+      AMOUNT_TOO_HIGH(47, 40047),
       /**
        * <code>NOT_FOUND = 40400;</code>
        *
@@ -447,7 +471,7 @@ public final class ErrorOuterClass {
        * 404 Not Found
        * </pre>
        */
-      NOT_FOUND(46, 40400),
+      NOT_FOUND(48, 40400),
       /**
        * <code>REQUEST_TIMEOUT = 40800;</code>
        *
@@ -455,7 +479,7 @@ public final class ErrorOuterClass {
        * 408 Request Timeout
        * </pre>
        */
-      REQUEST_TIMEOUT(47, 40800),
+      REQUEST_TIMEOUT(49, 40800),
       /**
        * <code>REQUEST_ENTITY_TOO_LARGE = 41300;</code>
        *
@@ -463,7 +487,7 @@ public final class ErrorOuterClass {
        * 413 Request Entity Too Large
        * </pre>
        */
-      REQUEST_ENTITY_TOO_LARGE(48, 41300),
+      REQUEST_ENTITY_TOO_LARGE(50, 41300),
       /**
        * <code>UNSUPPORTED_MEDIA_TYPE = 41500;</code>
        *
@@ -471,7 +495,7 @@ public final class ErrorOuterClass {
        * 415 Unsupported Media Type
        * </pre>
        */
-      UNSUPPORTED_MEDIA_TYPE(49, 41500),
+      UNSUPPORTED_MEDIA_TYPE(51, 41500),
       /**
        * <code>RATE_LIMITED = 42900;</code>
        *
@@ -479,7 +503,7 @@ public final class ErrorOuterClass {
        * 429 Rate Limited
        * </pre>
        */
-      RATE_LIMITED(50, 42900),
+      RATE_LIMITED(52, 42900),
       /**
        * <code>NOT_IMPLEMENTED = 50100;</code>
        *
@@ -487,7 +511,7 @@ public final class ErrorOuterClass {
        * 501 Not Implemented
        * </pre>
        */
-      NOT_IMPLEMENTED(51, 50100),
+      NOT_IMPLEMENTED(53, 50100),
       /**
        * <code>SERVICE_UNAVAILABLE = 50300;</code>
        *
@@ -495,7 +519,7 @@ public final class ErrorOuterClass {
        * 503 Service Unavailable
        * </pre>
        */
-      SERVICE_UNAVAILABLE(52, 50300),
+      SERVICE_UNAVAILABLE(54, 50300),
       ;
 
       /**
@@ -731,25 +755,49 @@ public final class ErrorOuterClass {
        */
       public static final int INVALID_CARD_VALUE = 40040;
       /**
-       * <code>DELAYED_PAYMENT_EXPIRED = 40041;</code>
+       * <code>DELAYED_TRANSACTION_EXPIRED = 40041;</code>
+       *
+       * <pre>
+       * too long since auth
+       * </pre>
        */
-      public static final int DELAYED_PAYMENT_EXPIRED_VALUE = 40041;
+      public static final int DELAYED_TRANSACTION_EXPIRED_VALUE = 40041;
       /**
-       * <code>DELAYED_PAYMENT_CANCELED = 40042;</code>
+       * <code>DELAYED_TRANSACTION_CANCELED = 40042;</code>
+       *
+       * <pre>
+       * already cancelled
+       * </pre>
        */
-      public static final int DELAYED_PAYMENT_CANCELED_VALUE = 40042;
+      public static final int DELAYED_TRANSACTION_CANCELED_VALUE = 40042;
       /**
-       * <code>CARD_TOKEN_EXPIRED = 40043;</code>
+       * <code>DELAYED_TRANSACTION_CAPTURED = 40043;</code>
+       *
+       * <pre>
+       * already captured
+       * </pre>
        */
-      public static final int CARD_TOKEN_EXPIRED_VALUE = 40043;
+      public static final int DELAYED_TRANSACTION_CAPTURED_VALUE = 40043;
       /**
-       * <code>CARD_TOKEN_USED = 40044;</code>
+       * <code>DELAYED_TRANSACTION_FAILED = 40044;</code>
+       *
+       * <pre>
+       * already failed
+       * </pre>
        */
-      public static final int CARD_TOKEN_USED_VALUE = 40044;
+      public static final int DELAYED_TRANSACTION_FAILED_VALUE = 40044;
       /**
-       * <code>AMOUNT_TOO_HIGH = 40045;</code>
+       * <code>CARD_TOKEN_EXPIRED = 40045;</code>
        */
-      public static final int AMOUNT_TOO_HIGH_VALUE = 40045;
+      public static final int CARD_TOKEN_EXPIRED_VALUE = 40045;
+      /**
+       * <code>CARD_TOKEN_USED = 40046;</code>
+       */
+      public static final int CARD_TOKEN_USED_VALUE = 40046;
+      /**
+       * <code>AMOUNT_TOO_HIGH = 40047;</code>
+       */
+      public static final int AMOUNT_TOO_HIGH_VALUE = 40047;
       /**
        * <code>NOT_FOUND = 40400;</code>
        *
@@ -855,11 +903,13 @@ public final class ErrorOuterClass {
           case 40028: return INVALID_EXPIRATION_YEAR;
           case 40039: return INVALID_EXPIRATION_DATE;
           case 40040: return INVALID_CARD;
-          case 40041: return DELAYED_PAYMENT_EXPIRED;
-          case 40042: return DELAYED_PAYMENT_CANCELED;
-          case 40043: return CARD_TOKEN_EXPIRED;
-          case 40044: return CARD_TOKEN_USED;
-          case 40045: return AMOUNT_TOO_HIGH;
+          case 40041: return DELAYED_TRANSACTION_EXPIRED;
+          case 40042: return DELAYED_TRANSACTION_CANCELED;
+          case 40043: return DELAYED_TRANSACTION_CAPTURED;
+          case 40044: return DELAYED_TRANSACTION_FAILED;
+          case 40045: return CARD_TOKEN_EXPIRED;
+          case 40046: return CARD_TOKEN_USED;
+          case 40047: return AMOUNT_TOO_HIGH;
           case 40400: return NOT_FOUND;
           case 40800: return REQUEST_TIMEOUT;
           case 41300: return REQUEST_ENTITY_TOO_LARGE;
@@ -1664,10 +1714,10 @@ public final class ErrorOuterClass {
   static {
     java.lang.String[] descriptorData = {
       "\n)squareup/connect/v3/resources/error.pr" +
-      "oto\022\035squareup.connect.v3.resources\"\230\013\n\005E" +
+      "oto\022\035squareup.connect.v3.resources\"\346\013\n\005E" +
       "rror\0227\n\004type\030\001 \001(\0162).squareup.connect.v3" +
       ".resources.Error.Type\022\016\n\006detail\030\002 \001(\t\022\r\n" +
-      "\005field\030\003 \001(\t\"\266\n\n\004Type\022\031\n\025INTERNAL_SERVER" +
+      "\005field\030\003 \001(\t\"\204\013\n\004Type\022\031\n\025INTERNAL_SERVER" +
       "_ERROR\020\000\022\022\n\014UNAUTHORIZED\020\244\271\002\022\032\n\024ACCESS_T" +
       "OKEN_EXPIRED\020\245\271\002\022\032\n\024ACCESS_TOKEN_REVOKED" +
       "\020\246\271\002\022\017\n\tFORBIDDEN\020\354\272\002\022\031\n\023INSUFFICIENT_SC" +
@@ -1693,14 +1743,16 @@ public final class ErrorOuterClass {
       "VS_FAILURE\020\332\270\002\022\030\n\022INVALID_EXPIRATION\020\333\270\002" +
       "\022\035\n\027INVALID_EXPIRATION_YEAR\020\334\270\002\022\035\n\027INVAL" +
       "ID_EXPIRATION_DATE\020\347\270\002\022\022\n\014INVALID_CARD\020\350",
-      "\270\002\022\035\n\027DELAYED_PAYMENT_EXPIRED\020\351\270\002\022\036\n\030DEL" +
-      "AYED_PAYMENT_CANCELED\020\352\270\002\022\030\n\022CARD_TOKEN_" +
-      "EXPIRED\020\353\270\002\022\025\n\017CARD_TOKEN_USED\020\354\270\002\022\025\n\017AM" +
-      "OUNT_TOO_HIGH\020\355\270\002\022\017\n\tNOT_FOUND\020\320\273\002\022\025\n\017RE" +
-      "QUEST_TIMEOUT\020\340\276\002\022\036\n\030REQUEST_ENTITY_TOO_" +
-      "LARGE\020\324\302\002\022\034\n\026UNSUPPORTED_MEDIA_TYPE\020\234\304\002\022" +
-      "\022\n\014RATE_LIMITED\020\224\317\002\022\025\n\017NOT_IMPLEMENTED\020\264" +
-      "\207\003\022\031\n\023SERVICE_UNAVAILABLE\020\374\210\003"
+      "\270\002\022!\n\033DELAYED_TRANSACTION_EXPIRED\020\351\270\002\022\"\n" +
+      "\034DELAYED_TRANSACTION_CANCELED\020\352\270\002\022\"\n\034DEL" +
+      "AYED_TRANSACTION_CAPTURED\020\353\270\002\022 \n\032DELAYED" +
+      "_TRANSACTION_FAILED\020\354\270\002\022\030\n\022CARD_TOKEN_EX" +
+      "PIRED\020\355\270\002\022\025\n\017CARD_TOKEN_USED\020\356\270\002\022\025\n\017AMOU" +
+      "NT_TOO_HIGH\020\357\270\002\022\017\n\tNOT_FOUND\020\320\273\002\022\025\n\017REQU" +
+      "EST_TIMEOUT\020\340\276\002\022\036\n\030REQUEST_ENTITY_TOO_LA" +
+      "RGE\020\324\302\002\022\034\n\026UNSUPPORTED_MEDIA_TYPE\020\234\304\002\022\022\n" +
+      "\014RATE_LIMITED\020\224\317\002\022\025\n\017NOT_IMPLEMENTED\020\264\207\003" +
+      "\022\031\n\023SERVICE_UNAVAILABLE\020\374\210\003"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

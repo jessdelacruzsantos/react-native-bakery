@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='squareup/connect/v3/resources/customer.proto',
   package='squareup.connect.v3.resources',
   syntax='proto2',
-  serialized_pb=_b('\n,squareup/connect/v3/resources/customer.proto\x12\x1dsquareup.connect.v3.resources\x1a+squareup/connect/v3/resources/address.proto\x1a(squareup/connect/v3/resources/card.proto\"\xa3\x02\n\x08\x43ustomer\x12\n\n\x02id\x18\x01 \x01(\t\x12\x13\n\x0b\x62usiness_id\x18\x02 \x01(\t\x12\x13\n\x0blocation_id\x18\x03 \x01(\t\x12\x12\n\ncreated_at\x18\x04 \x01(\t\x12\x12\n\nupdated_at\x18\x05 \x01(\t\x12\x32\n\x05\x63\x61rds\x18\x06 \x03(\x0b\x32#.squareup.connect.v3.resources.Card\x12\x11\n\tfull_name\x18\x07 \x01(\t\x12\x15\n\remail_address\x18\x08 \x01(\t\x12\x37\n\x07\x61\x64\x64ress\x18\t \x01(\x0b\x32&.squareup.connect.v3.resources.Address\x12\x14\n\x0cphone_number\x18\n \x01(\t\x12\x0c\n\x04memo\x18\x0b \x01(\t')
+  serialized_pb=_b('\n,squareup/connect/v3/resources/customer.proto\x12\x1dsquareup.connect.v3.resources\x1a+squareup/connect/v3/resources/address.proto\x1a(squareup/connect/v3/resources/card.proto\"\xcb\x02\n\x08\x43ustomer\x12\n\n\x02id\x18\x01 \x01(\t\x12\x13\n\x0b\x62usiness_id\x18\x02 \x01(\t\x12\x13\n\x0blocation_id\x18\x03 \x01(\t\x12\x12\n\ncreated_at\x18\x04 \x01(\t\x12\x12\n\nupdated_at\x18\x05 \x01(\t\x12\x32\n\x05\x63\x61rds\x18\x06 \x03(\x0b\x32#.squareup.connect.v3.resources.Card\x12\x12\n\ngiven_name\x18\x07 \x01(\t\x12\x13\n\x0b\x66\x61mily_name\x18\x08 \x01(\t\x12\x10\n\x08nickname\x18\t \x01(\t\x12\x15\n\remail_address\x18\n \x01(\t\x12\x37\n\x07\x61\x64\x64ress\x18\x0b \x01(\x0b\x32&.squareup.connect.v3.resources.Address\x12\x14\n\x0cphone_number\x18\x0c \x01(\t\x12\x0c\n\x04memo\x18\r \x01(\t')
   ,
   dependencies=[squareup_dot_connect_dot_v3_dot_resources_dot_address__pb2.DESCRIPTOR,squareup_dot_connect_dot_v3_dot_resources_dot_card__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -79,36 +79,50 @@ _CUSTOMER = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='full_name', full_name='squareup.connect.v3.resources.Customer.full_name', index=6,
+      name='given_name', full_name='squareup.connect.v3.resources.Customer.given_name', index=6,
       number=7, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='email_address', full_name='squareup.connect.v3.resources.Customer.email_address', index=7,
+      name='family_name', full_name='squareup.connect.v3.resources.Customer.family_name', index=7,
       number=8, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='address', full_name='squareup.connect.v3.resources.Customer.address', index=8,
-      number=9, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
+      name='nickname', full_name='squareup.connect.v3.resources.Customer.nickname', index=8,
+      number=9, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='phone_number', full_name='squareup.connect.v3.resources.Customer.phone_number', index=9,
+      name='email_address', full_name='squareup.connect.v3.resources.Customer.email_address', index=9,
       number=10, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='memo', full_name='squareup.connect.v3.resources.Customer.memo', index=10,
-      number=11, type=9, cpp_type=9, label=1,
+      name='address', full_name='squareup.connect.v3.resources.Customer.address', index=10,
+      number=11, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='phone_number', full_name='squareup.connect.v3.resources.Customer.phone_number', index=11,
+      number=12, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='memo', full_name='squareup.connect.v3.resources.Customer.memo', index=12,
+      number=13, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -126,7 +140,7 @@ _CUSTOMER = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=167,
-  serialized_end=458,
+  serialized_end=498,
 )
 
 _CUSTOMER.fields_by_name['cards'].message_type = squareup_dot_connect_dot_v3_dot_resources_dot_card__pb2._CARD

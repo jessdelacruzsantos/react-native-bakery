@@ -13,32 +13,6 @@ public final class RefundOuterClass {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>optional string id = 1;</code>
-     *
-     * <pre>
-     *--&#64;desc The refund's unique ID.--
-     * </pre>
-     */
-    boolean hasId();
-    /**
-     * <code>optional string id = 1;</code>
-     *
-     * <pre>
-     *--&#64;desc The refund's unique ID.--
-     * </pre>
-     */
-    java.lang.String getId();
-    /**
-     * <code>optional string id = 1;</code>
-     *
-     * <pre>
-     *--&#64;desc The refund's unique ID.--
-     * </pre>
-     */
-    com.google.protobuf.ByteString
-        getIdBytes();
-
-    /**
      * <code>optional string business_id = 2;</code>
      *
      * <pre>
@@ -91,59 +65,7 @@ public final class RefundOuterClass {
         getLocationIdBytes();
 
     /**
-     * <code>optional string created_at = 4;</code>
-     *
-     * <pre>
-     *--&#64;desc The time when the refund was created, in RFC 3339 format.--
-     * </pre>
-     */
-    boolean hasCreatedAt();
-    /**
-     * <code>optional string created_at = 4;</code>
-     *
-     * <pre>
-     *--&#64;desc The time when the refund was created, in RFC 3339 format.--
-     * </pre>
-     */
-    java.lang.String getCreatedAt();
-    /**
-     * <code>optional string created_at = 4;</code>
-     *
-     * <pre>
-     *--&#64;desc The time when the refund was created, in RFC 3339 format.--
-     * </pre>
-     */
-    com.google.protobuf.ByteString
-        getCreatedAtBytes();
-
-    /**
-     * <code>optional string completed_at = 5;</code>
-     *
-     * <pre>
-     *--&#64;desc The time when the refund was completed, in RFC 3339 format.--
-     * </pre>
-     */
-    boolean hasCompletedAt();
-    /**
-     * <code>optional string completed_at = 5;</code>
-     *
-     * <pre>
-     *--&#64;desc The time when the refund was completed, in RFC 3339 format.--
-     * </pre>
-     */
-    java.lang.String getCompletedAt();
-    /**
-     * <code>optional string completed_at = 5;</code>
-     *
-     * <pre>
-     *--&#64;desc The time when the refund was completed, in RFC 3339 format.--
-     * </pre>
-     */
-    com.google.protobuf.ByteString
-        getCompletedAtBytes();
-
-    /**
-     * <code>optional string source_transaction_id = 6;</code>
+     * <code>optional string source_transaction_id = 4;</code>
      *
      * <pre>
      *--&#64;desc The ID of the transaction refunded.--
@@ -151,7 +73,7 @@ public final class RefundOuterClass {
      */
     boolean hasSourceTransactionId();
     /**
-     * <code>optional string source_transaction_id = 6;</code>
+     * <code>optional string source_transaction_id = 4;</code>
      *
      * <pre>
      *--&#64;desc The ID of the transaction refunded.--
@@ -159,7 +81,7 @@ public final class RefundOuterClass {
      */
     java.lang.String getSourceTransactionId();
     /**
-     * <code>optional string source_transaction_id = 6;</code>
+     * <code>optional string source_transaction_id = 4;</code>
      *
      * <pre>
      *--&#64;desc The ID of the transaction refunded.--
@@ -169,16 +91,42 @@ public final class RefundOuterClass {
         getSourceTransactionIdBytes();
 
     /**
-     * <code>optional .squareup.connect.v3.resources.Refund.Type type = 7;</code>
+     * <code>optional string created_at = 5;</code>
+     *
+     * <pre>
+     *--&#64;desc The time when the refund was created, in RFC 3339 format.--
+     * </pre>
+     */
+    boolean hasCreatedAt();
+    /**
+     * <code>optional string created_at = 5;</code>
+     *
+     * <pre>
+     *--&#64;desc The time when the refund was created, in RFC 3339 format.--
+     * </pre>
+     */
+    java.lang.String getCreatedAt();
+    /**
+     * <code>optional string created_at = 5;</code>
+     *
+     * <pre>
+     *--&#64;desc The time when the refund was created, in RFC 3339 format.--
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getCreatedAtBytes();
+
+    /**
+     * <code>optional .squareup.connect.v3.resources.Refund.Type type = 6;</code>
      */
     boolean hasType();
     /**
-     * <code>optional .squareup.connect.v3.resources.Refund.Type type = 7;</code>
+     * <code>optional .squareup.connect.v3.resources.Refund.Type type = 6;</code>
      */
     squareup.connect.v3.resources.RefundOuterClass.Refund.Type getType();
 
     /**
-     * <code>optional string reason = 8;</code>
+     * <code>optional string reason = 7;</code>
      *
      * <pre>
      *--&#64;desc The reason for the refund being issued.--
@@ -186,7 +134,7 @@ public final class RefundOuterClass {
      */
     boolean hasReason();
     /**
-     * <code>optional string reason = 8;</code>
+     * <code>optional string reason = 7;</code>
      *
      * <pre>
      *--&#64;desc The reason for the refund being issued.--
@@ -194,7 +142,7 @@ public final class RefundOuterClass {
      */
     java.lang.String getReason();
     /**
-     * <code>optional string reason = 8;</code>
+     * <code>optional string reason = 7;</code>
      *
      * <pre>
      *--&#64;desc The reason for the refund being issued.--
@@ -204,7 +152,7 @@ public final class RefundOuterClass {
         getReasonBytes();
 
     /**
-     * <code>optional .squareup.connect.v3.resources.Money amount_money = 9;</code>
+     * <code>optional .squareup.connect.v3.resources.Money amount_money = 8;</code>
      *
      * <pre>
      *--&#64;desc The amount of money refunded.--
@@ -212,7 +160,7 @@ public final class RefundOuterClass {
      */
     boolean hasAmountMoney();
     /**
-     * <code>optional .squareup.connect.v3.resources.Money amount_money = 9;</code>
+     * <code>optional .squareup.connect.v3.resources.Money amount_money = 8;</code>
      *
      * <pre>
      *--&#64;desc The amount of money refunded.--
@@ -220,7 +168,7 @@ public final class RefundOuterClass {
      */
     squareup.connect.v3.resources.MoneyOuterClass.Money getAmountMoney();
     /**
-     * <code>optional .squareup.connect.v3.resources.Money amount_money = 9;</code>
+     * <code>optional .squareup.connect.v3.resources.Money amount_money = 8;</code>
      *
      * <pre>
      *--&#64;desc The amount of money refunded.--
@@ -240,12 +188,10 @@ public final class RefundOuterClass {
       super(builder);
     }
     private Refund() {
-      id_ = "";
       businessId_ = "";
       locationId_ = "";
-      createdAt_ = "";
-      completedAt_ = "";
       sourceTransactionId_ = "";
+      createdAt_ = "";
       type_ = 1;
       reason_ = "";
     }
@@ -277,62 +223,50 @@ public final class RefundOuterClass {
               }
               break;
             }
-            case 10: {
-              com.google.protobuf.ByteString bs = input.readBytes();
-              bitField0_ |= 0x00000001;
-              id_ = bs;
-              break;
-            }
             case 18: {
               com.google.protobuf.ByteString bs = input.readBytes();
-              bitField0_ |= 0x00000002;
+              bitField0_ |= 0x00000001;
               businessId_ = bs;
               break;
             }
             case 26: {
               com.google.protobuf.ByteString bs = input.readBytes();
-              bitField0_ |= 0x00000004;
+              bitField0_ |= 0x00000002;
               locationId_ = bs;
               break;
             }
             case 34: {
               com.google.protobuf.ByteString bs = input.readBytes();
-              bitField0_ |= 0x00000008;
-              createdAt_ = bs;
+              bitField0_ |= 0x00000004;
+              sourceTransactionId_ = bs;
               break;
             }
             case 42: {
               com.google.protobuf.ByteString bs = input.readBytes();
-              bitField0_ |= 0x00000010;
-              completedAt_ = bs;
+              bitField0_ |= 0x00000008;
+              createdAt_ = bs;
               break;
             }
-            case 50: {
-              com.google.protobuf.ByteString bs = input.readBytes();
-              bitField0_ |= 0x00000020;
-              sourceTransactionId_ = bs;
-              break;
-            }
-            case 56: {
+            case 48: {
               int rawValue = input.readEnum();
               squareup.connect.v3.resources.RefundOuterClass.Refund.Type value = squareup.connect.v3.resources.RefundOuterClass.Refund.Type.valueOf(rawValue);
               if (value == null) {
-                unknownFields.mergeVarintField(7, rawValue);
+                unknownFields.mergeVarintField(6, rawValue);
               } else {
-                bitField0_ |= 0x00000040;
+                bitField0_ |= 0x00000010;
                 type_ = rawValue;
               }
               break;
             }
-            case 66: {
+            case 58: {
               com.google.protobuf.ByteString bs = input.readBytes();
-              bitField0_ |= 0x00000080;
+              bitField0_ |= 0x00000020;
               reason_ = bs;
               break;
             }
-            case 74: {
+            case 66: {
               squareup.connect.v3.resources.MoneyOuterClass.Money.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000100) == 0x00000100)) {
+              if (((bitField0_ & 0x00000040) == 0x00000040)) {
                 subBuilder = amountMoney_.toBuilder();
               }
               amountMoney_ = input.readMessage(squareup.connect.v3.resources.MoneyOuterClass.Money.PARSER, extensionRegistry);
@@ -340,7 +274,7 @@ public final class RefundOuterClass {
                 subBuilder.mergeFrom(amountMoney_);
                 amountMoney_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00000100;
+              bitField0_ |= 0x00000040;
               break;
             }
           }
@@ -452,60 +386,6 @@ public final class RefundOuterClass {
     }
 
     private int bitField0_;
-    public static final int ID_FIELD_NUMBER = 1;
-    private volatile java.lang.Object id_;
-    /**
-     * <code>optional string id = 1;</code>
-     *
-     * <pre>
-     *--&#64;desc The refund's unique ID.--
-     * </pre>
-     */
-    public boolean hasId() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>optional string id = 1;</code>
-     *
-     * <pre>
-     *--&#64;desc The refund's unique ID.--
-     * </pre>
-     */
-    public java.lang.String getId() {
-      java.lang.Object ref = id_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          id_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>optional string id = 1;</code>
-     *
-     * <pre>
-     *--&#64;desc The refund's unique ID.--
-     * </pre>
-     */
-    public com.google.protobuf.ByteString
-        getIdBytes() {
-      java.lang.Object ref = id_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        id_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
     public static final int BUSINESS_ID_FIELD_NUMBER = 2;
     private volatile java.lang.Object businessId_;
     /**
@@ -516,7 +396,7 @@ public final class RefundOuterClass {
      * </pre>
      */
     public boolean hasBusinessId() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
      * <code>optional string business_id = 2;</code>
@@ -570,7 +450,7 @@ public final class RefundOuterClass {
      * </pre>
      */
     public boolean hasLocationId() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
      * <code>optional string location_id = 3;</code>
@@ -614,128 +494,20 @@ public final class RefundOuterClass {
       }
     }
 
-    public static final int CREATED_AT_FIELD_NUMBER = 4;
-    private volatile java.lang.Object createdAt_;
-    /**
-     * <code>optional string created_at = 4;</code>
-     *
-     * <pre>
-     *--&#64;desc The time when the refund was created, in RFC 3339 format.--
-     * </pre>
-     */
-    public boolean hasCreatedAt() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
-    }
-    /**
-     * <code>optional string created_at = 4;</code>
-     *
-     * <pre>
-     *--&#64;desc The time when the refund was created, in RFC 3339 format.--
-     * </pre>
-     */
-    public java.lang.String getCreatedAt() {
-      java.lang.Object ref = createdAt_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          createdAt_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>optional string created_at = 4;</code>
-     *
-     * <pre>
-     *--&#64;desc The time when the refund was created, in RFC 3339 format.--
-     * </pre>
-     */
-    public com.google.protobuf.ByteString
-        getCreatedAtBytes() {
-      java.lang.Object ref = createdAt_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        createdAt_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int COMPLETED_AT_FIELD_NUMBER = 5;
-    private volatile java.lang.Object completedAt_;
-    /**
-     * <code>optional string completed_at = 5;</code>
-     *
-     * <pre>
-     *--&#64;desc The time when the refund was completed, in RFC 3339 format.--
-     * </pre>
-     */
-    public boolean hasCompletedAt() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
-    }
-    /**
-     * <code>optional string completed_at = 5;</code>
-     *
-     * <pre>
-     *--&#64;desc The time when the refund was completed, in RFC 3339 format.--
-     * </pre>
-     */
-    public java.lang.String getCompletedAt() {
-      java.lang.Object ref = completedAt_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          completedAt_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>optional string completed_at = 5;</code>
-     *
-     * <pre>
-     *--&#64;desc The time when the refund was completed, in RFC 3339 format.--
-     * </pre>
-     */
-    public com.google.protobuf.ByteString
-        getCompletedAtBytes() {
-      java.lang.Object ref = completedAt_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        completedAt_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int SOURCE_TRANSACTION_ID_FIELD_NUMBER = 6;
+    public static final int SOURCE_TRANSACTION_ID_FIELD_NUMBER = 4;
     private volatile java.lang.Object sourceTransactionId_;
     /**
-     * <code>optional string source_transaction_id = 6;</code>
+     * <code>optional string source_transaction_id = 4;</code>
      *
      * <pre>
      *--&#64;desc The ID of the transaction refunded.--
      * </pre>
      */
     public boolean hasSourceTransactionId() {
-      return ((bitField0_ & 0x00000020) == 0x00000020);
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional string source_transaction_id = 6;</code>
+     * <code>optional string source_transaction_id = 4;</code>
      *
      * <pre>
      *--&#64;desc The ID of the transaction refunded.--
@@ -756,7 +528,7 @@ public final class RefundOuterClass {
       }
     }
     /**
-     * <code>optional string source_transaction_id = 6;</code>
+     * <code>optional string source_transaction_id = 4;</code>
      *
      * <pre>
      *--&#64;desc The ID of the transaction refunded.--
@@ -776,36 +548,90 @@ public final class RefundOuterClass {
       }
     }
 
-    public static final int TYPE_FIELD_NUMBER = 7;
-    private int type_;
+    public static final int CREATED_AT_FIELD_NUMBER = 5;
+    private volatile java.lang.Object createdAt_;
     /**
-     * <code>optional .squareup.connect.v3.resources.Refund.Type type = 7;</code>
+     * <code>optional string created_at = 5;</code>
+     *
+     * <pre>
+     *--&#64;desc The time when the refund was created, in RFC 3339 format.--
+     * </pre>
      */
-    public boolean hasType() {
-      return ((bitField0_ & 0x00000040) == 0x00000040);
+    public boolean hasCreatedAt() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>optional .squareup.connect.v3.resources.Refund.Type type = 7;</code>
+     * <code>optional string created_at = 5;</code>
+     *
+     * <pre>
+     *--&#64;desc The time when the refund was created, in RFC 3339 format.--
+     * </pre>
+     */
+    public java.lang.String getCreatedAt() {
+      java.lang.Object ref = createdAt_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          createdAt_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string created_at = 5;</code>
+     *
+     * <pre>
+     *--&#64;desc The time when the refund was created, in RFC 3339 format.--
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getCreatedAtBytes() {
+      java.lang.Object ref = createdAt_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        createdAt_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int TYPE_FIELD_NUMBER = 6;
+    private int type_;
+    /**
+     * <code>optional .squareup.connect.v3.resources.Refund.Type type = 6;</code>
+     */
+    public boolean hasType() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional .squareup.connect.v3.resources.Refund.Type type = 6;</code>
      */
     public squareup.connect.v3.resources.RefundOuterClass.Refund.Type getType() {
       squareup.connect.v3.resources.RefundOuterClass.Refund.Type result = squareup.connect.v3.resources.RefundOuterClass.Refund.Type.valueOf(type_);
       return result == null ? squareup.connect.v3.resources.RefundOuterClass.Refund.Type.FULL : result;
     }
 
-    public static final int REASON_FIELD_NUMBER = 8;
+    public static final int REASON_FIELD_NUMBER = 7;
     private volatile java.lang.Object reason_;
     /**
-     * <code>optional string reason = 8;</code>
+     * <code>optional string reason = 7;</code>
      *
      * <pre>
      *--&#64;desc The reason for the refund being issued.--
      * </pre>
      */
     public boolean hasReason() {
-      return ((bitField0_ & 0x00000080) == 0x00000080);
+      return ((bitField0_ & 0x00000020) == 0x00000020);
     }
     /**
-     * <code>optional string reason = 8;</code>
+     * <code>optional string reason = 7;</code>
      *
      * <pre>
      *--&#64;desc The reason for the refund being issued.--
@@ -826,7 +652,7 @@ public final class RefundOuterClass {
       }
     }
     /**
-     * <code>optional string reason = 8;</code>
+     * <code>optional string reason = 7;</code>
      *
      * <pre>
      *--&#64;desc The reason for the refund being issued.--
@@ -846,20 +672,20 @@ public final class RefundOuterClass {
       }
     }
 
-    public static final int AMOUNT_MONEY_FIELD_NUMBER = 9;
+    public static final int AMOUNT_MONEY_FIELD_NUMBER = 8;
     private squareup.connect.v3.resources.MoneyOuterClass.Money amountMoney_;
     /**
-     * <code>optional .squareup.connect.v3.resources.Money amount_money = 9;</code>
+     * <code>optional .squareup.connect.v3.resources.Money amount_money = 8;</code>
      *
      * <pre>
      *--&#64;desc The amount of money refunded.--
      * </pre>
      */
     public boolean hasAmountMoney() {
-      return ((bitField0_ & 0x00000100) == 0x00000100);
+      return ((bitField0_ & 0x00000040) == 0x00000040);
     }
     /**
-     * <code>optional .squareup.connect.v3.resources.Money amount_money = 9;</code>
+     * <code>optional .squareup.connect.v3.resources.Money amount_money = 8;</code>
      *
      * <pre>
      *--&#64;desc The amount of money refunded.--
@@ -869,7 +695,7 @@ public final class RefundOuterClass {
       return amountMoney_ == null ? squareup.connect.v3.resources.MoneyOuterClass.Money.getDefaultInstance() : amountMoney_;
     }
     /**
-     * <code>optional .squareup.connect.v3.resources.Money amount_money = 9;</code>
+     * <code>optional .squareup.connect.v3.resources.Money amount_money = 8;</code>
      *
      * <pre>
      *--&#64;desc The amount of money refunded.--
@@ -892,31 +718,25 @@ public final class RefundOuterClass {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBytes(1, getIdBytes());
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeBytes(2, getBusinessIdBytes());
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeBytes(3, getLocationIdBytes());
       }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(4, getSourceTransactionIdBytes());
+      }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeBytes(4, getCreatedAtBytes());
+        output.writeBytes(5, getCreatedAtBytes());
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        output.writeBytes(5, getCompletedAtBytes());
+        output.writeEnum(6, type_);
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        output.writeBytes(6, getSourceTransactionIdBytes());
+        output.writeBytes(7, getReasonBytes());
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
-        output.writeEnum(7, type_);
-      }
-      if (((bitField0_ & 0x00000080) == 0x00000080)) {
-        output.writeBytes(8, getReasonBytes());
-      }
-      if (((bitField0_ & 0x00000100) == 0x00000100)) {
-        output.writeMessage(9, getAmountMoney());
+        output.writeMessage(8, getAmountMoney());
       }
       unknownFields.writeTo(output);
     }
@@ -929,39 +749,31 @@ public final class RefundOuterClass {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(1, getIdBytes());
+          .computeBytesSize(2, getBusinessIdBytes());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, getBusinessIdBytes());
+          .computeBytesSize(3, getLocationIdBytes());
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(3, getLocationIdBytes());
+          .computeBytesSize(4, getSourceTransactionIdBytes());
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(4, getCreatedAtBytes());
+          .computeBytesSize(5, getCreatedAtBytes());
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(5, getCompletedAtBytes());
+          .computeEnumSize(6, type_);
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(6, getSourceTransactionIdBytes());
+          .computeBytesSize(7, getReasonBytes());
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(7, type_);
-      }
-      if (((bitField0_ & 0x00000080) == 0x00000080)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(8, getReasonBytes());
-      }
-      if (((bitField0_ & 0x00000100) == 0x00000100)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(9, getAmountMoney());
+          .computeMessageSize(8, getAmountMoney());
       }
       size += unknownFields.getSerializedSize();
       memoizedSerializedSize = size;
@@ -1117,28 +929,24 @@ public final class RefundOuterClass {
       }
       public Builder clear() {
         super.clear();
-        id_ = "";
-        bitField0_ = (bitField0_ & ~0x00000001);
         businessId_ = "";
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000001);
         locationId_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        sourceTransactionId_ = "";
         bitField0_ = (bitField0_ & ~0x00000004);
         createdAt_ = "";
         bitField0_ = (bitField0_ & ~0x00000008);
-        completedAt_ = "";
-        bitField0_ = (bitField0_ & ~0x00000010);
-        sourceTransactionId_ = "";
-        bitField0_ = (bitField0_ & ~0x00000020);
         type_ = 1;
-        bitField0_ = (bitField0_ & ~0x00000040);
+        bitField0_ = (bitField0_ & ~0x00000010);
         reason_ = "";
-        bitField0_ = (bitField0_ & ~0x00000080);
+        bitField0_ = (bitField0_ & ~0x00000020);
         if (amountMoneyBuilder_ == null) {
           amountMoney_ = null;
         } else {
           amountMoneyBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000100);
+        bitField0_ = (bitField0_ & ~0x00000040);
         return this;
       }
 
@@ -1166,15 +974,15 @@ public final class RefundOuterClass {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.id_ = id_;
+        result.businessId_ = businessId_;
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.businessId_ = businessId_;
+        result.locationId_ = locationId_;
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
-        result.locationId_ = locationId_;
+        result.sourceTransactionId_ = sourceTransactionId_;
         if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
         }
@@ -1182,21 +990,13 @@ public final class RefundOuterClass {
         if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
           to_bitField0_ |= 0x00000010;
         }
-        result.completedAt_ = completedAt_;
+        result.type_ = type_;
         if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
           to_bitField0_ |= 0x00000020;
         }
-        result.sourceTransactionId_ = sourceTransactionId_;
+        result.reason_ = reason_;
         if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
           to_bitField0_ |= 0x00000040;
-        }
-        result.type_ = type_;
-        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
-          to_bitField0_ |= 0x00000080;
-        }
-        result.reason_ = reason_;
-        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
-          to_bitField0_ |= 0x00000100;
         }
         if (amountMoneyBuilder_ == null) {
           result.amountMoney_ = amountMoney_;
@@ -1219,19 +1019,19 @@ public final class RefundOuterClass {
 
       public Builder mergeFrom(squareup.connect.v3.resources.RefundOuterClass.Refund other) {
         if (other == squareup.connect.v3.resources.RefundOuterClass.Refund.getDefaultInstance()) return this;
-        if (other.hasId()) {
-          bitField0_ |= 0x00000001;
-          id_ = other.id_;
-          onChanged();
-        }
         if (other.hasBusinessId()) {
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000001;
           businessId_ = other.businessId_;
           onChanged();
         }
         if (other.hasLocationId()) {
-          bitField0_ |= 0x00000004;
+          bitField0_ |= 0x00000002;
           locationId_ = other.locationId_;
+          onChanged();
+        }
+        if (other.hasSourceTransactionId()) {
+          bitField0_ |= 0x00000004;
+          sourceTransactionId_ = other.sourceTransactionId_;
           onChanged();
         }
         if (other.hasCreatedAt()) {
@@ -1239,21 +1039,11 @@ public final class RefundOuterClass {
           createdAt_ = other.createdAt_;
           onChanged();
         }
-        if (other.hasCompletedAt()) {
-          bitField0_ |= 0x00000010;
-          completedAt_ = other.completedAt_;
-          onChanged();
-        }
-        if (other.hasSourceTransactionId()) {
-          bitField0_ |= 0x00000020;
-          sourceTransactionId_ = other.sourceTransactionId_;
-          onChanged();
-        }
         if (other.hasType()) {
           setType(other.getType());
         }
         if (other.hasReason()) {
-          bitField0_ |= 0x00000080;
+          bitField0_ |= 0x00000020;
           reason_ = other.reason_;
           onChanged();
         }
@@ -1291,106 +1081,6 @@ public final class RefundOuterClass {
       }
       private int bitField0_;
 
-      private java.lang.Object id_ = "";
-      /**
-       * <code>optional string id = 1;</code>
-       *
-       * <pre>
-       *--&#64;desc The refund's unique ID.--
-       * </pre>
-       */
-      public boolean hasId() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>optional string id = 1;</code>
-       *
-       * <pre>
-       *--&#64;desc The refund's unique ID.--
-       * </pre>
-       */
-      public java.lang.String getId() {
-        java.lang.Object ref = id_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            id_ = s;
-          }
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>optional string id = 1;</code>
-       *
-       * <pre>
-       *--&#64;desc The refund's unique ID.--
-       * </pre>
-       */
-      public com.google.protobuf.ByteString
-          getIdBytes() {
-        java.lang.Object ref = id_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          id_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>optional string id = 1;</code>
-       *
-       * <pre>
-       *--&#64;desc The refund's unique ID.--
-       * </pre>
-       */
-      public Builder setId(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000001;
-        id_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string id = 1;</code>
-       *
-       * <pre>
-       *--&#64;desc The refund's unique ID.--
-       * </pre>
-       */
-      public Builder clearId() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        id_ = getDefaultInstance().getId();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string id = 1;</code>
-       *
-       * <pre>
-       *--&#64;desc The refund's unique ID.--
-       * </pre>
-       */
-      public Builder setIdBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000001;
-        id_ = value;
-        onChanged();
-        return this;
-      }
-
       private java.lang.Object businessId_ = "";
       /**
        * <code>optional string business_id = 2;</code>
@@ -1400,7 +1090,7 @@ public final class RefundOuterClass {
        * </pre>
        */
       public boolean hasBusinessId() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
        * <code>optional string business_id = 2;</code>
@@ -1455,7 +1145,7 @@ public final class RefundOuterClass {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000002;
+  bitField0_ |= 0x00000001;
         businessId_ = value;
         onChanged();
         return this;
@@ -1468,7 +1158,7 @@ public final class RefundOuterClass {
        * </pre>
        */
       public Builder clearBusinessId() {
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000001);
         businessId_ = getDefaultInstance().getBusinessId();
         onChanged();
         return this;
@@ -1485,7 +1175,7 @@ public final class RefundOuterClass {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000002;
+  bitField0_ |= 0x00000001;
         businessId_ = value;
         onChanged();
         return this;
@@ -1500,7 +1190,7 @@ public final class RefundOuterClass {
        * </pre>
        */
       public boolean hasLocationId() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
        * <code>optional string location_id = 3;</code>
@@ -1555,7 +1245,7 @@ public final class RefundOuterClass {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000004;
+  bitField0_ |= 0x00000002;
         locationId_ = value;
         onChanged();
         return this;
@@ -1568,7 +1258,7 @@ public final class RefundOuterClass {
        * </pre>
        */
       public Builder clearLocationId() {
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000002);
         locationId_ = getDefaultInstance().getLocationId();
         onChanged();
         return this;
@@ -1585,225 +1275,25 @@ public final class RefundOuterClass {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000004;
+  bitField0_ |= 0x00000002;
         locationId_ = value;
-        onChanged();
-        return this;
-      }
-
-      private java.lang.Object createdAt_ = "";
-      /**
-       * <code>optional string created_at = 4;</code>
-       *
-       * <pre>
-       *--&#64;desc The time when the refund was created, in RFC 3339 format.--
-       * </pre>
-       */
-      public boolean hasCreatedAt() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
-      }
-      /**
-       * <code>optional string created_at = 4;</code>
-       *
-       * <pre>
-       *--&#64;desc The time when the refund was created, in RFC 3339 format.--
-       * </pre>
-       */
-      public java.lang.String getCreatedAt() {
-        java.lang.Object ref = createdAt_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            createdAt_ = s;
-          }
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>optional string created_at = 4;</code>
-       *
-       * <pre>
-       *--&#64;desc The time when the refund was created, in RFC 3339 format.--
-       * </pre>
-       */
-      public com.google.protobuf.ByteString
-          getCreatedAtBytes() {
-        java.lang.Object ref = createdAt_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          createdAt_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>optional string created_at = 4;</code>
-       *
-       * <pre>
-       *--&#64;desc The time when the refund was created, in RFC 3339 format.--
-       * </pre>
-       */
-      public Builder setCreatedAt(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000008;
-        createdAt_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string created_at = 4;</code>
-       *
-       * <pre>
-       *--&#64;desc The time when the refund was created, in RFC 3339 format.--
-       * </pre>
-       */
-      public Builder clearCreatedAt() {
-        bitField0_ = (bitField0_ & ~0x00000008);
-        createdAt_ = getDefaultInstance().getCreatedAt();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string created_at = 4;</code>
-       *
-       * <pre>
-       *--&#64;desc The time when the refund was created, in RFC 3339 format.--
-       * </pre>
-       */
-      public Builder setCreatedAtBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000008;
-        createdAt_ = value;
-        onChanged();
-        return this;
-      }
-
-      private java.lang.Object completedAt_ = "";
-      /**
-       * <code>optional string completed_at = 5;</code>
-       *
-       * <pre>
-       *--&#64;desc The time when the refund was completed, in RFC 3339 format.--
-       * </pre>
-       */
-      public boolean hasCompletedAt() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
-      }
-      /**
-       * <code>optional string completed_at = 5;</code>
-       *
-       * <pre>
-       *--&#64;desc The time when the refund was completed, in RFC 3339 format.--
-       * </pre>
-       */
-      public java.lang.String getCompletedAt() {
-        java.lang.Object ref = completedAt_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            completedAt_ = s;
-          }
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>optional string completed_at = 5;</code>
-       *
-       * <pre>
-       *--&#64;desc The time when the refund was completed, in RFC 3339 format.--
-       * </pre>
-       */
-      public com.google.protobuf.ByteString
-          getCompletedAtBytes() {
-        java.lang.Object ref = completedAt_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          completedAt_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>optional string completed_at = 5;</code>
-       *
-       * <pre>
-       *--&#64;desc The time when the refund was completed, in RFC 3339 format.--
-       * </pre>
-       */
-      public Builder setCompletedAt(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000010;
-        completedAt_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string completed_at = 5;</code>
-       *
-       * <pre>
-       *--&#64;desc The time when the refund was completed, in RFC 3339 format.--
-       * </pre>
-       */
-      public Builder clearCompletedAt() {
-        bitField0_ = (bitField0_ & ~0x00000010);
-        completedAt_ = getDefaultInstance().getCompletedAt();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string completed_at = 5;</code>
-       *
-       * <pre>
-       *--&#64;desc The time when the refund was completed, in RFC 3339 format.--
-       * </pre>
-       */
-      public Builder setCompletedAtBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000010;
-        completedAt_ = value;
         onChanged();
         return this;
       }
 
       private java.lang.Object sourceTransactionId_ = "";
       /**
-       * <code>optional string source_transaction_id = 6;</code>
+       * <code>optional string source_transaction_id = 4;</code>
        *
        * <pre>
        *--&#64;desc The ID of the transaction refunded.--
        * </pre>
        */
       public boolean hasSourceTransactionId() {
-        return ((bitField0_ & 0x00000020) == 0x00000020);
+        return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional string source_transaction_id = 6;</code>
+       * <code>optional string source_transaction_id = 4;</code>
        *
        * <pre>
        *--&#64;desc The ID of the transaction refunded.--
@@ -1824,7 +1314,7 @@ public final class RefundOuterClass {
         }
       }
       /**
-       * <code>optional string source_transaction_id = 6;</code>
+       * <code>optional string source_transaction_id = 4;</code>
        *
        * <pre>
        *--&#64;desc The ID of the transaction refunded.--
@@ -1844,7 +1334,7 @@ public final class RefundOuterClass {
         }
       }
       /**
-       * <code>optional string source_transaction_id = 6;</code>
+       * <code>optional string source_transaction_id = 4;</code>
        *
        * <pre>
        *--&#64;desc The ID of the transaction refunded.--
@@ -1855,26 +1345,26 @@ public final class RefundOuterClass {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000020;
+  bitField0_ |= 0x00000004;
         sourceTransactionId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string source_transaction_id = 6;</code>
+       * <code>optional string source_transaction_id = 4;</code>
        *
        * <pre>
        *--&#64;desc The ID of the transaction refunded.--
        * </pre>
        */
       public Builder clearSourceTransactionId() {
-        bitField0_ = (bitField0_ & ~0x00000020);
+        bitField0_ = (bitField0_ & ~0x00000004);
         sourceTransactionId_ = getDefaultInstance().getSourceTransactionId();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string source_transaction_id = 6;</code>
+       * <code>optional string source_transaction_id = 4;</code>
        *
        * <pre>
        *--&#64;desc The ID of the transaction refunded.--
@@ -1885,43 +1375,143 @@ public final class RefundOuterClass {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000020;
+  bitField0_ |= 0x00000004;
         sourceTransactionId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object createdAt_ = "";
+      /**
+       * <code>optional string created_at = 5;</code>
+       *
+       * <pre>
+       *--&#64;desc The time when the refund was created, in RFC 3339 format.--
+       * </pre>
+       */
+      public boolean hasCreatedAt() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional string created_at = 5;</code>
+       *
+       * <pre>
+       *--&#64;desc The time when the refund was created, in RFC 3339 format.--
+       * </pre>
+       */
+      public java.lang.String getCreatedAt() {
+        java.lang.Object ref = createdAt_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            createdAt_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string created_at = 5;</code>
+       *
+       * <pre>
+       *--&#64;desc The time when the refund was created, in RFC 3339 format.--
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getCreatedAtBytes() {
+        java.lang.Object ref = createdAt_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          createdAt_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string created_at = 5;</code>
+       *
+       * <pre>
+       *--&#64;desc The time when the refund was created, in RFC 3339 format.--
+       * </pre>
+       */
+      public Builder setCreatedAt(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        createdAt_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string created_at = 5;</code>
+       *
+       * <pre>
+       *--&#64;desc The time when the refund was created, in RFC 3339 format.--
+       * </pre>
+       */
+      public Builder clearCreatedAt() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        createdAt_ = getDefaultInstance().getCreatedAt();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string created_at = 5;</code>
+       *
+       * <pre>
+       *--&#64;desc The time when the refund was created, in RFC 3339 format.--
+       * </pre>
+       */
+      public Builder setCreatedAtBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        createdAt_ = value;
         onChanged();
         return this;
       }
 
       private int type_ = 1;
       /**
-       * <code>optional .squareup.connect.v3.resources.Refund.Type type = 7;</code>
+       * <code>optional .squareup.connect.v3.resources.Refund.Type type = 6;</code>
        */
       public boolean hasType() {
-        return ((bitField0_ & 0x00000040) == 0x00000040);
+        return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
-       * <code>optional .squareup.connect.v3.resources.Refund.Type type = 7;</code>
+       * <code>optional .squareup.connect.v3.resources.Refund.Type type = 6;</code>
        */
       public squareup.connect.v3.resources.RefundOuterClass.Refund.Type getType() {
         squareup.connect.v3.resources.RefundOuterClass.Refund.Type result = squareup.connect.v3.resources.RefundOuterClass.Refund.Type.valueOf(type_);
         return result == null ? squareup.connect.v3.resources.RefundOuterClass.Refund.Type.FULL : result;
       }
       /**
-       * <code>optional .squareup.connect.v3.resources.Refund.Type type = 7;</code>
+       * <code>optional .squareup.connect.v3.resources.Refund.Type type = 6;</code>
        */
       public Builder setType(squareup.connect.v3.resources.RefundOuterClass.Refund.Type value) {
         if (value == null) {
           throw new NullPointerException();
         }
-        bitField0_ |= 0x00000040;
+        bitField0_ |= 0x00000010;
         type_ = value.getNumber();
         onChanged();
         return this;
       }
       /**
-       * <code>optional .squareup.connect.v3.resources.Refund.Type type = 7;</code>
+       * <code>optional .squareup.connect.v3.resources.Refund.Type type = 6;</code>
        */
       public Builder clearType() {
-        bitField0_ = (bitField0_ & ~0x00000040);
+        bitField0_ = (bitField0_ & ~0x00000010);
         type_ = 1;
         onChanged();
         return this;
@@ -1929,17 +1519,17 @@ public final class RefundOuterClass {
 
       private java.lang.Object reason_ = "";
       /**
-       * <code>optional string reason = 8;</code>
+       * <code>optional string reason = 7;</code>
        *
        * <pre>
        *--&#64;desc The reason for the refund being issued.--
        * </pre>
        */
       public boolean hasReason() {
-        return ((bitField0_ & 0x00000080) == 0x00000080);
+        return ((bitField0_ & 0x00000020) == 0x00000020);
       }
       /**
-       * <code>optional string reason = 8;</code>
+       * <code>optional string reason = 7;</code>
        *
        * <pre>
        *--&#64;desc The reason for the refund being issued.--
@@ -1960,7 +1550,7 @@ public final class RefundOuterClass {
         }
       }
       /**
-       * <code>optional string reason = 8;</code>
+       * <code>optional string reason = 7;</code>
        *
        * <pre>
        *--&#64;desc The reason for the refund being issued.--
@@ -1980,7 +1570,7 @@ public final class RefundOuterClass {
         }
       }
       /**
-       * <code>optional string reason = 8;</code>
+       * <code>optional string reason = 7;</code>
        *
        * <pre>
        *--&#64;desc The reason for the refund being issued.--
@@ -1991,26 +1581,26 @@ public final class RefundOuterClass {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000080;
+  bitField0_ |= 0x00000020;
         reason_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string reason = 8;</code>
+       * <code>optional string reason = 7;</code>
        *
        * <pre>
        *--&#64;desc The reason for the refund being issued.--
        * </pre>
        */
       public Builder clearReason() {
-        bitField0_ = (bitField0_ & ~0x00000080);
+        bitField0_ = (bitField0_ & ~0x00000020);
         reason_ = getDefaultInstance().getReason();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string reason = 8;</code>
+       * <code>optional string reason = 7;</code>
        *
        * <pre>
        *--&#64;desc The reason for the refund being issued.--
@@ -2021,7 +1611,7 @@ public final class RefundOuterClass {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000080;
+  bitField0_ |= 0x00000020;
         reason_ = value;
         onChanged();
         return this;
@@ -2031,17 +1621,17 @@ public final class RefundOuterClass {
       private com.google.protobuf.SingleFieldBuilder<
           squareup.connect.v3.resources.MoneyOuterClass.Money, squareup.connect.v3.resources.MoneyOuterClass.Money.Builder, squareup.connect.v3.resources.MoneyOuterClass.MoneyOrBuilder> amountMoneyBuilder_;
       /**
-       * <code>optional .squareup.connect.v3.resources.Money amount_money = 9;</code>
+       * <code>optional .squareup.connect.v3.resources.Money amount_money = 8;</code>
        *
        * <pre>
        *--&#64;desc The amount of money refunded.--
        * </pre>
        */
       public boolean hasAmountMoney() {
-        return ((bitField0_ & 0x00000100) == 0x00000100);
+        return ((bitField0_ & 0x00000040) == 0x00000040);
       }
       /**
-       * <code>optional .squareup.connect.v3.resources.Money amount_money = 9;</code>
+       * <code>optional .squareup.connect.v3.resources.Money amount_money = 8;</code>
        *
        * <pre>
        *--&#64;desc The amount of money refunded.--
@@ -2055,7 +1645,7 @@ public final class RefundOuterClass {
         }
       }
       /**
-       * <code>optional .squareup.connect.v3.resources.Money amount_money = 9;</code>
+       * <code>optional .squareup.connect.v3.resources.Money amount_money = 8;</code>
        *
        * <pre>
        *--&#64;desc The amount of money refunded.--
@@ -2071,11 +1661,11 @@ public final class RefundOuterClass {
         } else {
           amountMoneyBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00000100;
+        bitField0_ |= 0x00000040;
         return this;
       }
       /**
-       * <code>optional .squareup.connect.v3.resources.Money amount_money = 9;</code>
+       * <code>optional .squareup.connect.v3.resources.Money amount_money = 8;</code>
        *
        * <pre>
        *--&#64;desc The amount of money refunded.--
@@ -2089,11 +1679,11 @@ public final class RefundOuterClass {
         } else {
           amountMoneyBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000100;
+        bitField0_ |= 0x00000040;
         return this;
       }
       /**
-       * <code>optional .squareup.connect.v3.resources.Money amount_money = 9;</code>
+       * <code>optional .squareup.connect.v3.resources.Money amount_money = 8;</code>
        *
        * <pre>
        *--&#64;desc The amount of money refunded.--
@@ -2101,7 +1691,7 @@ public final class RefundOuterClass {
        */
       public Builder mergeAmountMoney(squareup.connect.v3.resources.MoneyOuterClass.Money value) {
         if (amountMoneyBuilder_ == null) {
-          if (((bitField0_ & 0x00000100) == 0x00000100) &&
+          if (((bitField0_ & 0x00000040) == 0x00000040) &&
               amountMoney_ != null &&
               amountMoney_ != squareup.connect.v3.resources.MoneyOuterClass.Money.getDefaultInstance()) {
             amountMoney_ =
@@ -2113,11 +1703,11 @@ public final class RefundOuterClass {
         } else {
           amountMoneyBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000100;
+        bitField0_ |= 0x00000040;
         return this;
       }
       /**
-       * <code>optional .squareup.connect.v3.resources.Money amount_money = 9;</code>
+       * <code>optional .squareup.connect.v3.resources.Money amount_money = 8;</code>
        *
        * <pre>
        *--&#64;desc The amount of money refunded.--
@@ -2130,23 +1720,23 @@ public final class RefundOuterClass {
         } else {
           amountMoneyBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000100);
+        bitField0_ = (bitField0_ & ~0x00000040);
         return this;
       }
       /**
-       * <code>optional .squareup.connect.v3.resources.Money amount_money = 9;</code>
+       * <code>optional .squareup.connect.v3.resources.Money amount_money = 8;</code>
        *
        * <pre>
        *--&#64;desc The amount of money refunded.--
        * </pre>
        */
       public squareup.connect.v3.resources.MoneyOuterClass.Money.Builder getAmountMoneyBuilder() {
-        bitField0_ |= 0x00000100;
+        bitField0_ |= 0x00000040;
         onChanged();
         return getAmountMoneyFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .squareup.connect.v3.resources.Money amount_money = 9;</code>
+       * <code>optional .squareup.connect.v3.resources.Money amount_money = 8;</code>
        *
        * <pre>
        *--&#64;desc The amount of money refunded.--
@@ -2161,7 +1751,7 @@ public final class RefundOuterClass {
         }
       }
       /**
-       * <code>optional .squareup.connect.v3.resources.Money amount_money = 9;</code>
+       * <code>optional .squareup.connect.v3.resources.Money amount_money = 8;</code>
        *
        * <pre>
        *--&#64;desc The amount of money refunded.--
@@ -2240,15 +1830,14 @@ public final class RefundOuterClass {
     java.lang.String[] descriptorData = {
       "\n*squareup/connect/v3/resources/refund.p" +
       "roto\022\035squareup.connect.v3.resources\032)squ" +
-      "areup/connect/v3/resources/money.proto\"\254" +
-      "\002\n\006Refund\022\n\n\002id\030\001 \001(\t\022\023\n\013business_id\030\002 \001" +
-      "(\t\022\023\n\013location_id\030\003 \001(\t\022\022\n\ncreated_at\030\004 " +
-      "\001(\t\022\024\n\014completed_at\030\005 \001(\t\022\035\n\025source_tran" +
-      "saction_id\030\006 \001(\t\0228\n\004type\030\007 \001(\0162*.squareu" +
-      "p.connect.v3.resources.Refund.Type\022\016\n\006re" +
-      "ason\030\010 \001(\t\022:\n\014amount_money\030\t \001(\0132$.squar" +
-      "eup.connect.v3.resources.Money\"\035\n\004Type\022\010",
-      "\n\004FULL\020\001\022\013\n\007PARTIAL\020\002"
+      "areup/connect/v3/resources/money.proto\"\212" +
+      "\002\n\006Refund\022\023\n\013business_id\030\002 \001(\t\022\023\n\013locati" +
+      "on_id\030\003 \001(\t\022\035\n\025source_transaction_id\030\004 \001" +
+      "(\t\022\022\n\ncreated_at\030\005 \001(\t\0228\n\004type\030\006 \001(\0162*.s" +
+      "quareup.connect.v3.resources.Refund.Type" +
+      "\022\016\n\006reason\030\007 \001(\t\022:\n\014amount_money\030\010 \001(\0132$" +
+      ".squareup.connect.v3.resources.Money\"\035\n\004" +
+      "Type\022\010\n\004FULL\020\001\022\013\n\007PARTIAL\020\002"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -2268,7 +1857,7 @@ public final class RefundOuterClass {
     internal_static_squareup_connect_v3_resources_Refund_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_squareup_connect_v3_resources_Refund_descriptor,
-        new java.lang.String[] { "Id", "BusinessId", "LocationId", "CreatedAt", "CompletedAt", "SourceTransactionId", "Type", "Reason", "AmountMoney", });
+        new java.lang.String[] { "BusinessId", "LocationId", "SourceTransactionId", "CreatedAt", "Type", "Reason", "AmountMoney", });
     squareup.connect.v3.resources.MoneyOuterClass.getDescriptor();
   }
 

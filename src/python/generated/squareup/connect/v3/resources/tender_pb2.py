@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='squareup/connect/v3/resources/tender.proto',
   package='squareup.connect.v3.resources',
   syntax='proto2',
-  serialized_pb=_b('\n*squareup/connect/v3/resources/tender.proto\x12\x1dsquareup.connect.v3.resources\x1a(squareup/connect/v3/resources/card.proto\x1a)squareup/connect/v3/resources/money.proto\"\xfd\x04\n\x06Tender\x12\n\n\x02id\x18\x01 \x01(\t\x12\x13\n\x0b\x62usiness_id\x18\x02 \x01(\t\x12\x13\n\x0blocation_id\x18\x03 \x01(\t\x12\x16\n\x0etransaction_id\x18\x04 \x01(\t\x12\x12\n\ncreated_at\x18\x05 \x01(\t\x12\x0c\n\x04note\x18\x06 \x01(\t\x12:\n\x0c\x61mount_money\x18\x07 \x01(\x0b\x32$.squareup.connect.v3.resources.Money\x12T\n\x13refund_transactions\x18\x08 \x03(\x0b\x32\x37.squareup.connect.v3.resources.Tender.RefundTransaction\x12\x13\n\x0b\x63ustomer_id\x18\t \x01(\t\x12>\n\x06\x63harge\x18\n \x01(\x0b\x32,.squareup.connect.v3.resources.Tender.ChargeH\x00\x1a>\n\x11RefundTransaction\x12\x16\n\x0etransaction_id\x18\x01 \x01(\t\x12\x11\n\trefund_id\x18\x02 \x01(\t\x1a\xcd\x01\n\x06\x43harge\x12\x43\n\x06status\x18\x01 \x01(\x0e\x32\x33.squareup.connect.v3.resources.Tender.Charge.Status\x12\x31\n\x04\x63\x61rd\x18\x02 \x01(\x0b\x32#.squareup.connect.v3.resources.Card\"K\n\x06Status\x12\x0b\n\x07UNKNOWN\x10\x00\x12\x0e\n\nAUTHORIZED\x10\x01\x12\x0c\n\x08\x43\x41PTURED\x10\x02\x12\n\n\x06VOIDED\x10\x03\x12\n\n\x06\x46\x41ILED\x10\x04\x42\x0c\n\ninstrument')
+  serialized_pb=_b('\n*squareup/connect/v3/resources/tender.proto\x12\x1dsquareup.connect.v3.resources\x1a(squareup/connect/v3/resources/card.proto\x1a)squareup/connect/v3/resources/money.proto\"\xe7\x03\n\x06Tender\x12\n\n\x02id\x18\x01 \x01(\t\x12\x13\n\x0b\x62usiness_id\x18\x02 \x01(\t\x12\x13\n\x0blocation_id\x18\x03 \x01(\t\x12\x16\n\x0etransaction_id\x18\x04 \x01(\t\x12\x12\n\ncreated_at\x18\x05 \x01(\t\x12\x0c\n\x04note\x18\x06 \x01(\t\x12:\n\x0c\x61mount_money\x18\x07 \x01(\x0b\x32$.squareup.connect.v3.resources.Money\x12\x13\n\x0b\x63ustomer_id\x18\x08 \x01(\t\x12>\n\x06\x63harge\x18\t \x01(\x0b\x32,.squareup.connect.v3.resources.Tender.ChargeH\x00\x1a\xcd\x01\n\x06\x43harge\x12\x43\n\x06status\x18\x01 \x01(\x0e\x32\x33.squareup.connect.v3.resources.Tender.Charge.Status\x12\x31\n\x04\x63\x61rd\x18\x02 \x01(\x0b\x32#.squareup.connect.v3.resources.Card\"K\n\x06Status\x12\x0b\n\x07UNKNOWN\x10\x00\x12\x0e\n\nAUTHORIZED\x10\x01\x12\x0c\n\x08\x43\x41PTURED\x10\x02\x12\n\n\x06VOIDED\x10\x03\x12\n\n\x06\x46\x41ILED\x10\x04\x42\x0c\n\ninstrument')
   ,
   dependencies=[squareup_dot_connect_dot_v3_dot_resources_dot_card__pb2.DESCRIPTOR,squareup_dot_connect_dot_v3_dot_resources_dot_money__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -57,48 +57,11 @@ _TENDER_CHARGE_STATUS = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=711,
-  serialized_end=786,
+  serialized_start=561,
+  serialized_end=636,
 )
 _sym_db.RegisterEnumDescriptor(_TENDER_CHARGE_STATUS)
 
-
-_TENDER_REFUNDTRANSACTION = _descriptor.Descriptor(
-  name='RefundTransaction',
-  full_name='squareup.connect.v3.resources.Tender.RefundTransaction',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='transaction_id', full_name='squareup.connect.v3.resources.Tender.RefundTransaction.transaction_id', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='refund_id', full_name='squareup.connect.v3.resources.Tender.RefundTransaction.refund_id', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto2',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=516,
-  serialized_end=578,
-)
 
 _TENDER_CHARGE = _descriptor.Descriptor(
   name='Charge',
@@ -134,8 +97,8 @@ _TENDER_CHARGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=581,
-  serialized_end=786,
+  serialized_start=431,
+  serialized_end=636,
 )
 
 _TENDER = _descriptor.Descriptor(
@@ -195,22 +158,15 @@ _TENDER = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='refund_transactions', full_name='squareup.connect.v3.resources.Tender.refund_transactions', index=7,
-      number=8, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='customer_id', full_name='squareup.connect.v3.resources.Tender.customer_id', index=8,
-      number=9, type=9, cpp_type=9, label=1,
+      name='customer_id', full_name='squareup.connect.v3.resources.Tender.customer_id', index=7,
+      number=8, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='charge', full_name='squareup.connect.v3.resources.Tender.charge', index=9,
-      number=10, type=11, cpp_type=10, label=1,
+      name='charge', full_name='squareup.connect.v3.resources.Tender.charge', index=8,
+      number=9, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -218,7 +174,7 @@ _TENDER = _descriptor.Descriptor(
   ],
   extensions=[
   ],
-  nested_types=[_TENDER_REFUNDTRANSACTION, _TENDER_CHARGE, ],
+  nested_types=[_TENDER_CHARGE, ],
   enum_types=[
   ],
   options=None,
@@ -231,16 +187,14 @@ _TENDER = _descriptor.Descriptor(
       index=0, containing_type=None, fields=[]),
   ],
   serialized_start=163,
-  serialized_end=800,
+  serialized_end=650,
 )
 
-_TENDER_REFUNDTRANSACTION.containing_type = _TENDER
 _TENDER_CHARGE.fields_by_name['status'].enum_type = _TENDER_CHARGE_STATUS
 _TENDER_CHARGE.fields_by_name['card'].message_type = squareup_dot_connect_dot_v3_dot_resources_dot_card__pb2._CARD
 _TENDER_CHARGE.containing_type = _TENDER
 _TENDER_CHARGE_STATUS.containing_type = _TENDER_CHARGE
 _TENDER.fields_by_name['amount_money'].message_type = squareup_dot_connect_dot_v3_dot_resources_dot_money__pb2._MONEY
-_TENDER.fields_by_name['refund_transactions'].message_type = _TENDER_REFUNDTRANSACTION
 _TENDER.fields_by_name['charge'].message_type = _TENDER_CHARGE
 _TENDER.oneofs_by_name['instrument'].fields.append(
   _TENDER.fields_by_name['charge'])
@@ -248,13 +202,6 @@ _TENDER.fields_by_name['charge'].containing_oneof = _TENDER.oneofs_by_name['inst
 DESCRIPTOR.message_types_by_name['Tender'] = _TENDER
 
 Tender = _reflection.GeneratedProtocolMessageType('Tender', (_message.Message,), dict(
-
-  RefundTransaction = _reflection.GeneratedProtocolMessageType('RefundTransaction', (_message.Message,), dict(
-    DESCRIPTOR = _TENDER_REFUNDTRANSACTION,
-    __module__ = 'squareup.connect.v3.resources.tender_pb2'
-    # @@protoc_insertion_point(class_scope:squareup.connect.v3.resources.Tender.RefundTransaction)
-    ))
-  ,
 
   Charge = _reflection.GeneratedProtocolMessageType('Charge', (_message.Message,), dict(
     DESCRIPTOR = _TENDER_CHARGE,
@@ -267,7 +214,6 @@ Tender = _reflection.GeneratedProtocolMessageType('Tender', (_message.Message,),
   # @@protoc_insertion_point(class_scope:squareup.connect.v3.resources.Tender)
   ))
 _sym_db.RegisterMessage(Tender)
-_sym_db.RegisterMessage(Tender.RefundTransaction)
 _sym_db.RegisterMessage(Tender.Charge)
 
 

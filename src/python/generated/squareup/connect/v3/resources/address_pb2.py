@@ -13,14 +13,16 @@ from google.protobuf import descriptor_pb2
 _sym_db = _symbol_database.Default()
 
 
+from squareup.connect.v3.resources import country_pb2 as squareup_dot_connect_dot_v3_dot_resources_dot_country__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='squareup/connect/v3/resources/address.proto',
   package='squareup.connect.v3.resources',
   syntax='proto2',
-  serialized_pb=_b('\n+squareup/connect/v3/resources/address.proto\x12\x1dsquareup.connect.v3.resources\"\xed\x01\n\x07\x41\x64\x64ress\x12\x0e\n\x06line_1\x18\x01 \x01(\t\x12\x0e\n\x06line_2\x18\x02 \x01(\t\x12\x0e\n\x06line_3\x18\x03 \x01(\t\x12\x10\n\x08locality\x18\x06 \x01(\t\x12\x13\n\x0bsublocality\x18\x07 \x01(\t\x12\x15\n\rsublocality_2\x18\x08 \x01(\t\x12\x15\n\rsublocality_3\x18\t \x01(\t\x12\x0e\n\x06region\x18\r \x01(\t\x12\x10\n\x08region_2\x18\x0e \x01(\t\x12\x10\n\x08region_3\x18\x0f \x01(\t\x12\x13\n\x0bpostal_code\x18\x10 \x01(\t\x12\x14\n\x0c\x63ountry_code\x18\x11 \x01(\t')
-)
+  serialized_pb=_b('\n+squareup/connect/v3/resources/address.proto\x12\x1dsquareup.connect.v3.resources\x1a+squareup/connect/v3/resources/country.proto\"\x90\x02\n\x07\x41\x64\x64ress\x12\x0e\n\x06line_1\x18\x01 \x01(\t\x12\x0e\n\x06line_2\x18\x02 \x01(\t\x12\x0e\n\x06line_3\x18\x03 \x01(\t\x12\x10\n\x08locality\x18\x06 \x01(\t\x12\x13\n\x0bsublocality\x18\x07 \x01(\t\x12\x15\n\rsublocality_2\x18\x08 \x01(\t\x12\x15\n\rsublocality_3\x18\t \x01(\t\x12\x0e\n\x06region\x18\r \x01(\t\x12\x10\n\x08region_2\x18\x0e \x01(\t\x12\x10\n\x08region_3\x18\x0f \x01(\t\x12\x13\n\x0bpostal_code\x18\x10 \x01(\t\x12\x37\n\x07\x63ountry\x18\x11 \x01(\x0e\x32&.squareup.connect.v3.resources.Country')
+  ,
+  dependencies=[squareup_dot_connect_dot_v3_dot_resources_dot_country__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
@@ -111,9 +113,9 @@ _ADDRESS = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='country_code', full_name='squareup.connect.v3.resources.Address.country_code', index=11,
-      number=17, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
+      name='country', full_name='squareup.connect.v3.resources.Address.country', index=11,
+      number=17, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
@@ -129,10 +131,11 @@ _ADDRESS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=79,
-  serialized_end=316,
+  serialized_start=124,
+  serialized_end=396,
 )
 
+_ADDRESS.fields_by_name['country'].enum_type = squareup_dot_connect_dot_v3_dot_resources_dot_country__pb2._COUNTRY
 DESCRIPTOR.message_types_by_name['Address'] = _ADDRESS
 
 Address = _reflection.GeneratedProtocolMessageType('Address', (_message.Message,), dict(

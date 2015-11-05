@@ -257,18 +257,13 @@ public final class AddressOuterClass {
         getPostalCodeBytes();
 
     /**
-     * <code>optional string country_code = 17;</code>
+     * <code>optional .squareup.connect.v3.resources.Country country = 17;</code>
      */
-    boolean hasCountryCode();
+    boolean hasCountry();
     /**
-     * <code>optional string country_code = 17;</code>
+     * <code>optional .squareup.connect.v3.resources.Country country = 17;</code>
      */
-    java.lang.String getCountryCode();
-    /**
-     * <code>optional string country_code = 17;</code>
-     */
-    com.google.protobuf.ByteString
-        getCountryCodeBytes();
+    squareup.connect.v3.resources.CountryOuterClass.Country getCountry();
   }
   /**
    * Protobuf type {@code squareup.connect.v3.resources.Address}
@@ -293,7 +288,7 @@ public final class AddressOuterClass {
       region2_ = "";
       region3_ = "";
       postalCode_ = "";
-      countryCode_ = "";
+      country_ = 0;
     }
 
     @java.lang.Override
@@ -389,10 +384,15 @@ public final class AddressOuterClass {
               postalCode_ = bs;
               break;
             }
-            case 138: {
-              com.google.protobuf.ByteString bs = input.readBytes();
-              bitField0_ |= 0x00000800;
-              countryCode_ = bs;
+            case 136: {
+              int rawValue = input.readEnum();
+              squareup.connect.v3.resources.CountryOuterClass.Country value = squareup.connect.v3.resources.CountryOuterClass.Country.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(17, rawValue);
+              } else {
+                bitField0_ |= 0x00000800;
+                country_ = rawValue;
+              }
               break;
             }
           }
@@ -972,46 +972,20 @@ public final class AddressOuterClass {
       }
     }
 
-    public static final int COUNTRY_CODE_FIELD_NUMBER = 17;
-    private volatile java.lang.Object countryCode_;
+    public static final int COUNTRY_FIELD_NUMBER = 17;
+    private int country_;
     /**
-     * <code>optional string country_code = 17;</code>
+     * <code>optional .squareup.connect.v3.resources.Country country = 17;</code>
      */
-    public boolean hasCountryCode() {
+    public boolean hasCountry() {
       return ((bitField0_ & 0x00000800) == 0x00000800);
     }
     /**
-     * <code>optional string country_code = 17;</code>
+     * <code>optional .squareup.connect.v3.resources.Country country = 17;</code>
      */
-    public java.lang.String getCountryCode() {
-      java.lang.Object ref = countryCode_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          countryCode_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>optional string country_code = 17;</code>
-     */
-    public com.google.protobuf.ByteString
-        getCountryCodeBytes() {
-      java.lang.Object ref = countryCode_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        countryCode_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public squareup.connect.v3.resources.CountryOuterClass.Country getCountry() {
+      squareup.connect.v3.resources.CountryOuterClass.Country result = squareup.connect.v3.resources.CountryOuterClass.Country.valueOf(country_);
+      return result == null ? squareup.connect.v3.resources.CountryOuterClass.Country.ZZ : result;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -1060,7 +1034,7 @@ public final class AddressOuterClass {
         output.writeBytes(16, getPostalCodeBytes());
       }
       if (((bitField0_ & 0x00000800) == 0x00000800)) {
-        output.writeBytes(17, getCountryCodeBytes());
+        output.writeEnum(17, country_);
       }
       unknownFields.writeTo(output);
     }
@@ -1117,7 +1091,7 @@ public final class AddressOuterClass {
       }
       if (((bitField0_ & 0x00000800) == 0x00000800)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(17, getCountryCodeBytes());
+          .computeEnumSize(17, country_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSerializedSize = size;
@@ -1294,7 +1268,7 @@ public final class AddressOuterClass {
         bitField0_ = (bitField0_ & ~0x00000200);
         postalCode_ = "";
         bitField0_ = (bitField0_ & ~0x00000400);
-        countryCode_ = "";
+        country_ = 0;
         bitField0_ = (bitField0_ & ~0x00000800);
         return this;
       }
@@ -1367,7 +1341,7 @@ public final class AddressOuterClass {
         if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
           to_bitField0_ |= 0x00000800;
         }
-        result.countryCode_ = countryCode_;
+        result.country_ = country_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1439,10 +1413,8 @@ public final class AddressOuterClass {
           postalCode_ = other.postalCode_;
           onChanged();
         }
-        if (other.hasCountryCode()) {
-          bitField0_ |= 0x00000800;
-          countryCode_ = other.countryCode_;
-          onChanged();
+        if (other.hasCountry()) {
+          setCountry(other.getCountry());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -2491,78 +2463,38 @@ public final class AddressOuterClass {
         return this;
       }
 
-      private java.lang.Object countryCode_ = "";
+      private int country_ = 0;
       /**
-       * <code>optional string country_code = 17;</code>
+       * <code>optional .squareup.connect.v3.resources.Country country = 17;</code>
        */
-      public boolean hasCountryCode() {
+      public boolean hasCountry() {
         return ((bitField0_ & 0x00000800) == 0x00000800);
       }
       /**
-       * <code>optional string country_code = 17;</code>
+       * <code>optional .squareup.connect.v3.resources.Country country = 17;</code>
        */
-      public java.lang.String getCountryCode() {
-        java.lang.Object ref = countryCode_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            countryCode_ = s;
-          }
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
+      public squareup.connect.v3.resources.CountryOuterClass.Country getCountry() {
+        squareup.connect.v3.resources.CountryOuterClass.Country result = squareup.connect.v3.resources.CountryOuterClass.Country.valueOf(country_);
+        return result == null ? squareup.connect.v3.resources.CountryOuterClass.Country.ZZ : result;
       }
       /**
-       * <code>optional string country_code = 17;</code>
+       * <code>optional .squareup.connect.v3.resources.Country country = 17;</code>
        */
-      public com.google.protobuf.ByteString
-          getCountryCodeBytes() {
-        java.lang.Object ref = countryCode_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          countryCode_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>optional string country_code = 17;</code>
-       */
-      public Builder setCountryCode(
-          java.lang.String value) {
+      public Builder setCountry(squareup.connect.v3.resources.CountryOuterClass.Country value) {
         if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000800;
-        countryCode_ = value;
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000800;
+        country_ = value.getNumber();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string country_code = 17;</code>
+       * <code>optional .squareup.connect.v3.resources.Country country = 17;</code>
        */
-      public Builder clearCountryCode() {
+      public Builder clearCountry() {
         bitField0_ = (bitField0_ & ~0x00000800);
-        countryCode_ = getDefaultInstance().getCountryCode();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string country_code = 17;</code>
-       */
-      public Builder setCountryCodeBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000800;
-        countryCode_ = value;
+        country_ = 0;
         onChanged();
         return this;
       }
@@ -2625,13 +2557,15 @@ public final class AddressOuterClass {
   static {
     java.lang.String[] descriptorData = {
       "\n+squareup/connect/v3/resources/address." +
-      "proto\022\035squareup.connect.v3.resources\"\355\001\n" +
-      "\007Address\022\016\n\006line_1\030\001 \001(\t\022\016\n\006line_2\030\002 \001(\t" +
-      "\022\016\n\006line_3\030\003 \001(\t\022\020\n\010locality\030\006 \001(\t\022\023\n\013su" +
-      "blocality\030\007 \001(\t\022\025\n\rsublocality_2\030\010 \001(\t\022\025" +
-      "\n\rsublocality_3\030\t \001(\t\022\016\n\006region\030\r \001(\t\022\020\n" +
-      "\010region_2\030\016 \001(\t\022\020\n\010region_3\030\017 \001(\t\022\023\n\013pos" +
-      "tal_code\030\020 \001(\t\022\024\n\014country_code\030\021 \001(\t"
+      "proto\022\035squareup.connect.v3.resources\032+sq" +
+      "uareup/connect/v3/resources/country.prot" +
+      "o\"\220\002\n\007Address\022\016\n\006line_1\030\001 \001(\t\022\016\n\006line_2\030" +
+      "\002 \001(\t\022\016\n\006line_3\030\003 \001(\t\022\020\n\010locality\030\006 \001(\t\022" +
+      "\023\n\013sublocality\030\007 \001(\t\022\025\n\rsublocality_2\030\010 " +
+      "\001(\t\022\025\n\rsublocality_3\030\t \001(\t\022\016\n\006region\030\r \001" +
+      "(\t\022\020\n\010region_2\030\016 \001(\t\022\020\n\010region_3\030\017 \001(\t\022\023" +
+      "\n\013postal_code\030\020 \001(\t\0227\n\007country\030\021 \001(\0162&.s" +
+      "quareup.connect.v3.resources.Country"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -2644,13 +2578,15 @@ public final class AddressOuterClass {
     com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
+          squareup.connect.v3.resources.CountryOuterClass.getDescriptor(),
         }, assigner);
     internal_static_squareup_connect_v3_resources_Address_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_squareup_connect_v3_resources_Address_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_squareup_connect_v3_resources_Address_descriptor,
-        new java.lang.String[] { "Line1", "Line2", "Line3", "Locality", "Sublocality", "Sublocality2", "Sublocality3", "Region", "Region2", "Region3", "PostalCode", "CountryCode", });
+        new java.lang.String[] { "Line1", "Line2", "Line3", "Locality", "Sublocality", "Sublocality2", "Sublocality3", "Region", "Region2", "Region3", "PostalCode", "Country", });
+    squareup.connect.v3.resources.CountryOuterClass.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)

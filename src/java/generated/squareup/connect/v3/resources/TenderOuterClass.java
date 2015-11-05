@@ -170,53 +170,29 @@ public final class TenderOuterClass {
     squareup.connect.v3.resources.MoneyOuterClass.MoneyOrBuilder getAmountMoneyOrBuilder();
 
     /**
-     * <code>repeated .squareup.connect.v3.resources.Tender.RefundTransaction refund_transactions = 8;</code>
-     */
-    java.util.List<squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction> 
-        getRefundTransactionsList();
-    /**
-     * <code>repeated .squareup.connect.v3.resources.Tender.RefundTransaction refund_transactions = 8;</code>
-     */
-    squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction getRefundTransactions(int index);
-    /**
-     * <code>repeated .squareup.connect.v3.resources.Tender.RefundTransaction refund_transactions = 8;</code>
-     */
-    int getRefundTransactionsCount();
-    /**
-     * <code>repeated .squareup.connect.v3.resources.Tender.RefundTransaction refund_transactions = 8;</code>
-     */
-    java.util.List<? extends squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransactionOrBuilder> 
-        getRefundTransactionsOrBuilderList();
-    /**
-     * <code>repeated .squareup.connect.v3.resources.Tender.RefundTransaction refund_transactions = 8;</code>
-     */
-    squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransactionOrBuilder getRefundTransactionsOrBuilder(
-        int index);
-
-    /**
-     * <code>optional string customer_id = 9;</code>
+     * <code>optional string customer_id = 8;</code>
      */
     boolean hasCustomerId();
     /**
-     * <code>optional string customer_id = 9;</code>
+     * <code>optional string customer_id = 8;</code>
      */
     java.lang.String getCustomerId();
     /**
-     * <code>optional string customer_id = 9;</code>
+     * <code>optional string customer_id = 8;</code>
      */
     com.google.protobuf.ByteString
         getCustomerIdBytes();
 
     /**
-     * <code>optional .squareup.connect.v3.resources.Tender.Charge charge = 10;</code>
+     * <code>optional .squareup.connect.v3.resources.Tender.Charge charge = 9;</code>
      */
     boolean hasCharge();
     /**
-     * <code>optional .squareup.connect.v3.resources.Tender.Charge charge = 10;</code>
+     * <code>optional .squareup.connect.v3.resources.Tender.Charge charge = 9;</code>
      */
     squareup.connect.v3.resources.TenderOuterClass.Tender.Charge getCharge();
     /**
-     * <code>optional .squareup.connect.v3.resources.Tender.Charge charge = 10;</code>
+     * <code>optional .squareup.connect.v3.resources.Tender.Charge charge = 9;</code>
      */
     squareup.connect.v3.resources.TenderOuterClass.Tender.ChargeOrBuilder getChargeOrBuilder();
   }
@@ -242,7 +218,6 @@ public final class TenderOuterClass {
       transactionId_ = "";
       createdAt_ = "";
       note_ = "";
-      refundTransactions_ = java.util.Collections.emptyList();
       customerId_ = "";
     }
 
@@ -323,22 +298,14 @@ public final class TenderOuterClass {
               break;
             }
             case 66: {
-              if (!((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
-                refundTransactions_ = new java.util.ArrayList<squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction>();
-                mutable_bitField0_ |= 0x00000080;
-              }
-              refundTransactions_.add(input.readMessage(squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction.PARSER, extensionRegistry));
-              break;
-            }
-            case 74: {
               com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000080;
               customerId_ = bs;
               break;
             }
-            case 82: {
+            case 74: {
               squareup.connect.v3.resources.TenderOuterClass.Tender.Charge.Builder subBuilder = null;
-              if (instrumentCase_ == 10) {
+              if (instrumentCase_ == 9) {
                 subBuilder = ((squareup.connect.v3.resources.TenderOuterClass.Tender.Charge) instrument_).toBuilder();
               }
               instrument_ = input.readMessage(squareup.connect.v3.resources.TenderOuterClass.Tender.Charge.PARSER, extensionRegistry);
@@ -346,7 +313,7 @@ public final class TenderOuterClass {
                 subBuilder.mergeFrom((squareup.connect.v3.resources.TenderOuterClass.Tender.Charge) instrument_);
                 instrument_ = subBuilder.buildPartial();
               }
-              instrumentCase_ = 10;
+              instrumentCase_ = 9;
               break;
             }
           }
@@ -357,9 +324,6 @@ public final class TenderOuterClass {
         throw new RuntimeException(new com.google.protobuf.InvalidProtocolBufferException(e)
             .setUnfinishedMessage(this));
       } finally {
-        if (((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
-          refundTransactions_ = java.util.Collections.unmodifiableList(refundTransactions_);
-        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -374,678 +338,6 @@ public final class TenderOuterClass {
       return squareup.connect.v3.resources.TenderOuterClass.internal_static_squareup_connect_v3_resources_Tender_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               squareup.connect.v3.resources.TenderOuterClass.Tender.class, squareup.connect.v3.resources.TenderOuterClass.Tender.Builder.class);
-    }
-
-    public interface RefundTransactionOrBuilder extends
-        // @@protoc_insertion_point(interface_extends:squareup.connect.v3.resources.Tender.RefundTransaction)
-        com.google.protobuf.MessageOrBuilder {
-
-      /**
-       * <code>optional string transaction_id = 1;</code>
-       */
-      boolean hasTransactionId();
-      /**
-       * <code>optional string transaction_id = 1;</code>
-       */
-      java.lang.String getTransactionId();
-      /**
-       * <code>optional string transaction_id = 1;</code>
-       */
-      com.google.protobuf.ByteString
-          getTransactionIdBytes();
-
-      /**
-       * <code>optional string refund_id = 2;</code>
-       */
-      boolean hasRefundId();
-      /**
-       * <code>optional string refund_id = 2;</code>
-       */
-      java.lang.String getRefundId();
-      /**
-       * <code>optional string refund_id = 2;</code>
-       */
-      com.google.protobuf.ByteString
-          getRefundIdBytes();
-    }
-    /**
-     * Protobuf type {@code squareup.connect.v3.resources.Tender.RefundTransaction}
-     */
-    public  static final class RefundTransaction extends
-        com.google.protobuf.GeneratedMessage implements
-        // @@protoc_insertion_point(message_implements:squareup.connect.v3.resources.Tender.RefundTransaction)
-        RefundTransactionOrBuilder {
-      // Use RefundTransaction.newBuilder() to construct.
-      private RefundTransaction(com.google.protobuf.GeneratedMessage.Builder builder) {
-        super(builder);
-      }
-      private RefundTransaction() {
-        transactionId_ = "";
-        refundId_ = "";
-      }
-
-      @java.lang.Override
-      public final com.google.protobuf.UnknownFieldSet
-      getUnknownFields() {
-        return this.unknownFields;
-      }
-      private RefundTransaction(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry) {
-        this();
-        int mutable_bitField0_ = 0;
-        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-            com.google.protobuf.UnknownFieldSet.newBuilder();
-        try {
-          boolean done = false;
-          while (!done) {
-            int tag = input.readTag();
-            switch (tag) {
-              case 0:
-                done = true;
-                break;
-              default: {
-                if (!parseUnknownField(input, unknownFields,
-                                       extensionRegistry, tag)) {
-                  done = true;
-                }
-                break;
-              }
-              case 10: {
-                com.google.protobuf.ByteString bs = input.readBytes();
-                bitField0_ |= 0x00000001;
-                transactionId_ = bs;
-                break;
-              }
-              case 18: {
-                com.google.protobuf.ByteString bs = input.readBytes();
-                bitField0_ |= 0x00000002;
-                refundId_ = bs;
-                break;
-              }
-            }
-          }
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          throw new RuntimeException(e.setUnfinishedMessage(this));
-        } catch (java.io.IOException e) {
-          throw new RuntimeException(new com.google.protobuf.InvalidProtocolBufferException(e)
-              .setUnfinishedMessage(this));
-        } finally {
-          this.unknownFields = unknownFields.build();
-          makeExtensionsImmutable();
-        }
-      }
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return squareup.connect.v3.resources.TenderOuterClass.internal_static_squareup_connect_v3_resources_Tender_RefundTransaction_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return squareup.connect.v3.resources.TenderOuterClass.internal_static_squareup_connect_v3_resources_Tender_RefundTransaction_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction.class, squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction.Builder.class);
-      }
-
-      private int bitField0_;
-      public static final int TRANSACTION_ID_FIELD_NUMBER = 1;
-      private volatile java.lang.Object transactionId_;
-      /**
-       * <code>optional string transaction_id = 1;</code>
-       */
-      public boolean hasTransactionId() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>optional string transaction_id = 1;</code>
-       */
-      public java.lang.String getTransactionId() {
-        java.lang.Object ref = transactionId_;
-        if (ref instanceof java.lang.String) {
-          return (java.lang.String) ref;
-        } else {
-          com.google.protobuf.ByteString bs = 
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            transactionId_ = s;
-          }
-          return s;
-        }
-      }
-      /**
-       * <code>optional string transaction_id = 1;</code>
-       */
-      public com.google.protobuf.ByteString
-          getTransactionIdBytes() {
-        java.lang.Object ref = transactionId_;
-        if (ref instanceof java.lang.String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          transactionId_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-
-      public static final int REFUND_ID_FIELD_NUMBER = 2;
-      private volatile java.lang.Object refundId_;
-      /**
-       * <code>optional string refund_id = 2;</code>
-       */
-      public boolean hasRefundId() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>optional string refund_id = 2;</code>
-       */
-      public java.lang.String getRefundId() {
-        java.lang.Object ref = refundId_;
-        if (ref instanceof java.lang.String) {
-          return (java.lang.String) ref;
-        } else {
-          com.google.protobuf.ByteString bs = 
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            refundId_ = s;
-          }
-          return s;
-        }
-      }
-      /**
-       * <code>optional string refund_id = 2;</code>
-       */
-      public com.google.protobuf.ByteString
-          getRefundIdBytes() {
-        java.lang.Object ref = refundId_;
-        if (ref instanceof java.lang.String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          refundId_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-
-      private byte memoizedIsInitialized = -1;
-      public final boolean isInitialized() {
-        byte isInitialized = memoizedIsInitialized;
-        if (isInitialized == 1) return true;
-        if (isInitialized == 0) return false;
-
-        memoizedIsInitialized = 1;
-        return true;
-      }
-
-      public void writeTo(com.google.protobuf.CodedOutputStream output)
-                          throws java.io.IOException {
-        if (((bitField0_ & 0x00000001) == 0x00000001)) {
-          output.writeBytes(1, getTransactionIdBytes());
-        }
-        if (((bitField0_ & 0x00000002) == 0x00000002)) {
-          output.writeBytes(2, getRefundIdBytes());
-        }
-        unknownFields.writeTo(output);
-      }
-
-      private int memoizedSerializedSize = -1;
-      public int getSerializedSize() {
-        int size = memoizedSerializedSize;
-        if (size != -1) return size;
-
-        size = 0;
-        if (((bitField0_ & 0x00000001) == 0x00000001)) {
-          size += com.google.protobuf.CodedOutputStream
-            .computeBytesSize(1, getTransactionIdBytes());
-        }
-        if (((bitField0_ & 0x00000002) == 0x00000002)) {
-          size += com.google.protobuf.CodedOutputStream
-            .computeBytesSize(2, getRefundIdBytes());
-        }
-        size += unknownFields.getSerializedSize();
-        memoizedSerializedSize = size;
-        return size;
-      }
-
-      private static final long serialVersionUID = 0L;
-      public static squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction parseFrom(
-          com.google.protobuf.ByteString data)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data);
-      }
-      public static squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction parseFrom(
-          com.google.protobuf.ByteString data,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data, extensionRegistry);
-      }
-      public static squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction parseFrom(byte[] data)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data);
-      }
-      public static squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction parseFrom(
-          byte[] data,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data, extensionRegistry);
-      }
-      public static squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction parseFrom(java.io.InputStream input)
-          throws java.io.IOException {
-        try {
-          return PARSER.parseFrom(input);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          if (e.getCause() instanceof java.io.IOException) {
-            throw (java.io.IOException) e.getCause();
-          }
-          throw e;
-        }
-      }
-      public static squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction parseFrom(
-          java.io.InputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        try {
-          return PARSER.parseFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          if (e.getCause() instanceof java.io.IOException) {
-            throw (java.io.IOException) e.getCause();
-          }
-          throw e;
-        }
-      }
-      public static squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction parseDelimitedFrom(java.io.InputStream input)
-          throws java.io.IOException {
-        try {
-          return PARSER.parseDelimitedFrom(input);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          if (e.getCause() instanceof java.io.IOException) {
-            throw (java.io.IOException) e.getCause();
-          }
-          throw e;
-        }
-      }
-      public static squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction parseDelimitedFrom(
-          java.io.InputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        try {  return PARSER.parseDelimitedFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          if (e.getCause() instanceof java.io.IOException) {
-            throw (java.io.IOException) e.getCause();
-          }
-          throw e;
-        }
-      }
-      public static squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction parseFrom(
-          com.google.protobuf.CodedInputStream input)
-          throws java.io.IOException {
-        try {
-          return PARSER.parseFrom(input);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          if (e.getCause() instanceof java.io.IOException) {
-            throw (java.io.IOException) e.getCause();
-          }
-          throw e;
-        }
-      }
-      public static squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction parseFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        try {
-          return PARSER.parseFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          if (e.getCause() instanceof java.io.IOException) {
-            throw (java.io.IOException) e.getCause();
-          }
-          throw e;
-        }
-      }
-
-      public Builder newBuilderForType() { return newBuilder(); }
-      public static Builder newBuilder() {
-        return DEFAULT_INSTANCE.toBuilder();
-      }
-      public static Builder newBuilder(squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction prototype) {
-        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-      }
-      public Builder toBuilder() {
-        return this == DEFAULT_INSTANCE
-            ? new Builder() : new Builder().mergeFrom(this);
-      }
-
-      @java.lang.Override
-      protected Builder newBuilderForType(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        Builder builder = new Builder(parent);
-        return builder;
-      }
-      /**
-       * Protobuf type {@code squareup.connect.v3.resources.Tender.RefundTransaction}
-       */
-      public static final class Builder extends
-          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
-          // @@protoc_insertion_point(builder_implements:squareup.connect.v3.resources.Tender.RefundTransaction)
-          squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransactionOrBuilder {
-        public static final com.google.protobuf.Descriptors.Descriptor
-            getDescriptor() {
-          return squareup.connect.v3.resources.TenderOuterClass.internal_static_squareup_connect_v3_resources_Tender_RefundTransaction_descriptor;
-        }
-
-        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-            internalGetFieldAccessorTable() {
-          return squareup.connect.v3.resources.TenderOuterClass.internal_static_squareup_connect_v3_resources_Tender_RefundTransaction_fieldAccessorTable
-              .ensureFieldAccessorsInitialized(
-                  squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction.class, squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction.Builder.class);
-        }
-
-        // Construct using squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction.newBuilder()
-        private Builder() {
-          maybeForceBuilderInitialization();
-        }
-
-        private Builder(
-            com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-          super(parent);
-          maybeForceBuilderInitialization();
-        }
-        private void maybeForceBuilderInitialization() {
-          if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          }
-        }
-        public Builder clear() {
-          super.clear();
-          transactionId_ = "";
-          bitField0_ = (bitField0_ & ~0x00000001);
-          refundId_ = "";
-          bitField0_ = (bitField0_ & ~0x00000002);
-          return this;
-        }
-
-        public com.google.protobuf.Descriptors.Descriptor
-            getDescriptorForType() {
-          return squareup.connect.v3.resources.TenderOuterClass.internal_static_squareup_connect_v3_resources_Tender_RefundTransaction_descriptor;
-        }
-
-        public squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction getDefaultInstanceForType() {
-          return squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction.getDefaultInstance();
-        }
-
-        public squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction build() {
-          squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction result = buildPartial();
-          if (!result.isInitialized()) {
-            throw newUninitializedMessageException(result);
-          }
-          return result;
-        }
-
-        public squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction buildPartial() {
-          squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction result = new squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction(this);
-          int from_bitField0_ = bitField0_;
-          int to_bitField0_ = 0;
-          if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-            to_bitField0_ |= 0x00000001;
-          }
-          result.transactionId_ = transactionId_;
-          if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-            to_bitField0_ |= 0x00000002;
-          }
-          result.refundId_ = refundId_;
-          result.bitField0_ = to_bitField0_;
-          onBuilt();
-          return result;
-        }
-
-        public Builder mergeFrom(com.google.protobuf.Message other) {
-          if (other instanceof squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction) {
-            return mergeFrom((squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction)other);
-          } else {
-            super.mergeFrom(other);
-            return this;
-          }
-        }
-
-        public Builder mergeFrom(squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction other) {
-          if (other == squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction.getDefaultInstance()) return this;
-          if (other.hasTransactionId()) {
-            bitField0_ |= 0x00000001;
-            transactionId_ = other.transactionId_;
-            onChanged();
-          }
-          if (other.hasRefundId()) {
-            bitField0_ |= 0x00000002;
-            refundId_ = other.refundId_;
-            onChanged();
-          }
-          this.mergeUnknownFields(other.unknownFields);
-          onChanged();
-          return this;
-        }
-
-        public final boolean isInitialized() {
-          return true;
-        }
-
-        public Builder mergeFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
-          squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction parsedMessage = null;
-          try {
-            parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-            parsedMessage = (squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction) e.getUnfinishedMessage();
-            if (e.getCause() instanceof java.io.IOException) {
-              throw (java.io.IOException) e.getCause();
-            }
-            throw e;
-          } finally {
-            if (parsedMessage != null) {
-              mergeFrom(parsedMessage);
-            }
-          }
-          return this;
-        }
-        private int bitField0_;
-
-        private java.lang.Object transactionId_ = "";
-        /**
-         * <code>optional string transaction_id = 1;</code>
-         */
-        public boolean hasTransactionId() {
-          return ((bitField0_ & 0x00000001) == 0x00000001);
-        }
-        /**
-         * <code>optional string transaction_id = 1;</code>
-         */
-        public java.lang.String getTransactionId() {
-          java.lang.Object ref = transactionId_;
-          if (!(ref instanceof java.lang.String)) {
-            com.google.protobuf.ByteString bs =
-                (com.google.protobuf.ByteString) ref;
-            java.lang.String s = bs.toStringUtf8();
-            if (bs.isValidUtf8()) {
-              transactionId_ = s;
-            }
-            return s;
-          } else {
-            return (java.lang.String) ref;
-          }
-        }
-        /**
-         * <code>optional string transaction_id = 1;</code>
-         */
-        public com.google.protobuf.ByteString
-            getTransactionIdBytes() {
-          java.lang.Object ref = transactionId_;
-          if (ref instanceof String) {
-            com.google.protobuf.ByteString b = 
-                com.google.protobuf.ByteString.copyFromUtf8(
-                    (java.lang.String) ref);
-            transactionId_ = b;
-            return b;
-          } else {
-            return (com.google.protobuf.ByteString) ref;
-          }
-        }
-        /**
-         * <code>optional string transaction_id = 1;</code>
-         */
-        public Builder setTransactionId(
-            java.lang.String value) {
-          if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000001;
-          transactionId_ = value;
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>optional string transaction_id = 1;</code>
-         */
-        public Builder clearTransactionId() {
-          bitField0_ = (bitField0_ & ~0x00000001);
-          transactionId_ = getDefaultInstance().getTransactionId();
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>optional string transaction_id = 1;</code>
-         */
-        public Builder setTransactionIdBytes(
-            com.google.protobuf.ByteString value) {
-          if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000001;
-          transactionId_ = value;
-          onChanged();
-          return this;
-        }
-
-        private java.lang.Object refundId_ = "";
-        /**
-         * <code>optional string refund_id = 2;</code>
-         */
-        public boolean hasRefundId() {
-          return ((bitField0_ & 0x00000002) == 0x00000002);
-        }
-        /**
-         * <code>optional string refund_id = 2;</code>
-         */
-        public java.lang.String getRefundId() {
-          java.lang.Object ref = refundId_;
-          if (!(ref instanceof java.lang.String)) {
-            com.google.protobuf.ByteString bs =
-                (com.google.protobuf.ByteString) ref;
-            java.lang.String s = bs.toStringUtf8();
-            if (bs.isValidUtf8()) {
-              refundId_ = s;
-            }
-            return s;
-          } else {
-            return (java.lang.String) ref;
-          }
-        }
-        /**
-         * <code>optional string refund_id = 2;</code>
-         */
-        public com.google.protobuf.ByteString
-            getRefundIdBytes() {
-          java.lang.Object ref = refundId_;
-          if (ref instanceof String) {
-            com.google.protobuf.ByteString b = 
-                com.google.protobuf.ByteString.copyFromUtf8(
-                    (java.lang.String) ref);
-            refundId_ = b;
-            return b;
-          } else {
-            return (com.google.protobuf.ByteString) ref;
-          }
-        }
-        /**
-         * <code>optional string refund_id = 2;</code>
-         */
-        public Builder setRefundId(
-            java.lang.String value) {
-          if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
-          refundId_ = value;
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>optional string refund_id = 2;</code>
-         */
-        public Builder clearRefundId() {
-          bitField0_ = (bitField0_ & ~0x00000002);
-          refundId_ = getDefaultInstance().getRefundId();
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>optional string refund_id = 2;</code>
-         */
-        public Builder setRefundIdBytes(
-            com.google.protobuf.ByteString value) {
-          if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
-          refundId_ = value;
-          onChanged();
-          return this;
-        }
-
-        // @@protoc_insertion_point(builder_scope:squareup.connect.v3.resources.Tender.RefundTransaction)
-      }
-
-      // @@protoc_insertion_point(class_scope:squareup.connect.v3.resources.Tender.RefundTransaction)
-      private static final squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction DEFAULT_INSTANCE;
-      static {
-        DEFAULT_INSTANCE = new squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction();
-      }
-
-      public static squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction getDefaultInstance() {
-        return DEFAULT_INSTANCE;
-      }
-
-      public static final com.google.protobuf.Parser<RefundTransaction> PARSER =
-          new com.google.protobuf.AbstractParser<RefundTransaction>() {
-        public RefundTransaction parsePartialFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
-          try {
-            return new RefundTransaction(input, extensionRegistry);
-          } catch (RuntimeException e) {
-            if (e.getCause() instanceof
-                com.google.protobuf.InvalidProtocolBufferException) {
-              throw (com.google.protobuf.InvalidProtocolBufferException)
-                  e.getCause();
-            }
-            throw e;
-          }
-        }
-      };
-
-      @java.lang.Override
-      public com.google.protobuf.Parser<RefundTransaction> getParserForType() {
-        return PARSER;
-      }
-
-      public squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction getDefaultInstanceForType() {
-        return DEFAULT_INSTANCE;
-      }
-
     }
 
     public interface ChargeOrBuilder extends
@@ -1801,7 +1093,7 @@ public final class TenderOuterClass {
     private java.lang.Object instrument_;
     public enum InstrumentCase
         implements com.google.protobuf.Internal.EnumLite {
-      CHARGE(10),
+      CHARGE(9),
       INSTRUMENT_NOT_SET(0);
       private int value = 0;
       private InstrumentCase(int value) {
@@ -1809,7 +1101,7 @@ public final class TenderOuterClass {
       }
       public static InstrumentCase valueOf(int value) {
         switch (value) {
-          case 10: return CHARGE;
+          case 9: return CHARGE;
           case 0: return INSTRUMENT_NOT_SET;
           default: throw new java.lang.IllegalArgumentException(
             "Value is undefined for this oneof enum.");
@@ -2159,51 +1451,16 @@ public final class TenderOuterClass {
       return amountMoney_ == null ? squareup.connect.v3.resources.MoneyOuterClass.Money.getDefaultInstance() : amountMoney_;
     }
 
-    public static final int REFUND_TRANSACTIONS_FIELD_NUMBER = 8;
-    private java.util.List<squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction> refundTransactions_;
-    /**
-     * <code>repeated .squareup.connect.v3.resources.Tender.RefundTransaction refund_transactions = 8;</code>
-     */
-    public java.util.List<squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction> getRefundTransactionsList() {
-      return refundTransactions_;
-    }
-    /**
-     * <code>repeated .squareup.connect.v3.resources.Tender.RefundTransaction refund_transactions = 8;</code>
-     */
-    public java.util.List<? extends squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransactionOrBuilder> 
-        getRefundTransactionsOrBuilderList() {
-      return refundTransactions_;
-    }
-    /**
-     * <code>repeated .squareup.connect.v3.resources.Tender.RefundTransaction refund_transactions = 8;</code>
-     */
-    public int getRefundTransactionsCount() {
-      return refundTransactions_.size();
-    }
-    /**
-     * <code>repeated .squareup.connect.v3.resources.Tender.RefundTransaction refund_transactions = 8;</code>
-     */
-    public squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction getRefundTransactions(int index) {
-      return refundTransactions_.get(index);
-    }
-    /**
-     * <code>repeated .squareup.connect.v3.resources.Tender.RefundTransaction refund_transactions = 8;</code>
-     */
-    public squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransactionOrBuilder getRefundTransactionsOrBuilder(
-        int index) {
-      return refundTransactions_.get(index);
-    }
-
-    public static final int CUSTOMER_ID_FIELD_NUMBER = 9;
+    public static final int CUSTOMER_ID_FIELD_NUMBER = 8;
     private volatile java.lang.Object customerId_;
     /**
-     * <code>optional string customer_id = 9;</code>
+     * <code>optional string customer_id = 8;</code>
      */
     public boolean hasCustomerId() {
       return ((bitField0_ & 0x00000080) == 0x00000080);
     }
     /**
-     * <code>optional string customer_id = 9;</code>
+     * <code>optional string customer_id = 8;</code>
      */
     public java.lang.String getCustomerId() {
       java.lang.Object ref = customerId_;
@@ -2220,7 +1477,7 @@ public final class TenderOuterClass {
       }
     }
     /**
-     * <code>optional string customer_id = 9;</code>
+     * <code>optional string customer_id = 8;</code>
      */
     public com.google.protobuf.ByteString
         getCustomerIdBytes() {
@@ -2236,27 +1493,27 @@ public final class TenderOuterClass {
       }
     }
 
-    public static final int CHARGE_FIELD_NUMBER = 10;
+    public static final int CHARGE_FIELD_NUMBER = 9;
     /**
-     * <code>optional .squareup.connect.v3.resources.Tender.Charge charge = 10;</code>
+     * <code>optional .squareup.connect.v3.resources.Tender.Charge charge = 9;</code>
      */
     public boolean hasCharge() {
-      return instrumentCase_ == 10;
+      return instrumentCase_ == 9;
     }
     /**
-     * <code>optional .squareup.connect.v3.resources.Tender.Charge charge = 10;</code>
+     * <code>optional .squareup.connect.v3.resources.Tender.Charge charge = 9;</code>
      */
     public squareup.connect.v3.resources.TenderOuterClass.Tender.Charge getCharge() {
-      if (instrumentCase_ == 10) {
+      if (instrumentCase_ == 9) {
          return (squareup.connect.v3.resources.TenderOuterClass.Tender.Charge) instrument_;
       }
       return squareup.connect.v3.resources.TenderOuterClass.Tender.Charge.getDefaultInstance();
     }
     /**
-     * <code>optional .squareup.connect.v3.resources.Tender.Charge charge = 10;</code>
+     * <code>optional .squareup.connect.v3.resources.Tender.Charge charge = 9;</code>
      */
     public squareup.connect.v3.resources.TenderOuterClass.Tender.ChargeOrBuilder getChargeOrBuilder() {
-      if (instrumentCase_ == 10) {
+      if (instrumentCase_ == 9) {
          return (squareup.connect.v3.resources.TenderOuterClass.Tender.Charge) instrument_;
       }
       return squareup.connect.v3.resources.TenderOuterClass.Tender.Charge.getDefaultInstance();
@@ -2295,14 +1552,11 @@ public final class TenderOuterClass {
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         output.writeMessage(7, getAmountMoney());
       }
-      for (int i = 0; i < refundTransactions_.size(); i++) {
-        output.writeMessage(8, refundTransactions_.get(i));
-      }
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
-        output.writeBytes(9, getCustomerIdBytes());
+        output.writeBytes(8, getCustomerIdBytes());
       }
-      if (instrumentCase_ == 10) {
-        output.writeMessage(10, (squareup.connect.v3.resources.TenderOuterClass.Tender.Charge) instrument_);
+      if (instrumentCase_ == 9) {
+        output.writeMessage(9, (squareup.connect.v3.resources.TenderOuterClass.Tender.Charge) instrument_);
       }
       unknownFields.writeTo(output);
     }
@@ -2341,17 +1595,13 @@ public final class TenderOuterClass {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(7, getAmountMoney());
       }
-      for (int i = 0; i < refundTransactions_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(8, refundTransactions_.get(i));
-      }
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(9, getCustomerIdBytes());
+          .computeBytesSize(8, getCustomerIdBytes());
       }
-      if (instrumentCase_ == 10) {
+      if (instrumentCase_ == 9) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(10, (squareup.connect.v3.resources.TenderOuterClass.Tender.Charge) instrument_);
+          .computeMessageSize(9, (squareup.connect.v3.resources.TenderOuterClass.Tender.Charge) instrument_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSerializedSize = size;
@@ -2507,7 +1757,6 @@ public final class TenderOuterClass {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getAmountMoneyFieldBuilder();
-          getRefundTransactionsFieldBuilder();
         }
       }
       public Builder clear() {
@@ -2530,14 +1779,8 @@ public final class TenderOuterClass {
           amountMoneyBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000040);
-        if (refundTransactionsBuilder_ == null) {
-          refundTransactions_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000080);
-        } else {
-          refundTransactionsBuilder_.clear();
-        }
         customerId_ = "";
-        bitField0_ = (bitField0_ & ~0x00000100);
+        bitField0_ = (bitField0_ & ~0x00000080);
         instrumentCase_ = 0;
         instrument_ = null;
         return this;
@@ -2596,20 +1839,11 @@ public final class TenderOuterClass {
         } else {
           result.amountMoney_ = amountMoneyBuilder_.build();
         }
-        if (refundTransactionsBuilder_ == null) {
-          if (((bitField0_ & 0x00000080) == 0x00000080)) {
-            refundTransactions_ = java.util.Collections.unmodifiableList(refundTransactions_);
-            bitField0_ = (bitField0_ & ~0x00000080);
-          }
-          result.refundTransactions_ = refundTransactions_;
-        } else {
-          result.refundTransactions_ = refundTransactionsBuilder_.build();
-        }
-        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
           to_bitField0_ |= 0x00000080;
         }
         result.customerId_ = customerId_;
-        if (instrumentCase_ == 10) {
+        if (instrumentCase_ == 9) {
           if (chargeBuilder_ == null) {
             result.instrument_ = instrument_;
           } else {
@@ -2666,34 +1900,8 @@ public final class TenderOuterClass {
         if (other.hasAmountMoney()) {
           mergeAmountMoney(other.getAmountMoney());
         }
-        if (refundTransactionsBuilder_ == null) {
-          if (!other.refundTransactions_.isEmpty()) {
-            if (refundTransactions_.isEmpty()) {
-              refundTransactions_ = other.refundTransactions_;
-              bitField0_ = (bitField0_ & ~0x00000080);
-            } else {
-              ensureRefundTransactionsIsMutable();
-              refundTransactions_.addAll(other.refundTransactions_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.refundTransactions_.isEmpty()) {
-            if (refundTransactionsBuilder_.isEmpty()) {
-              refundTransactionsBuilder_.dispose();
-              refundTransactionsBuilder_ = null;
-              refundTransactions_ = other.refundTransactions_;
-              bitField0_ = (bitField0_ & ~0x00000080);
-              refundTransactionsBuilder_ = 
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   getRefundTransactionsFieldBuilder() : null;
-            } else {
-              refundTransactionsBuilder_.addAllMessages(other.refundTransactions_);
-            }
-          }
-        }
         if (other.hasCustomerId()) {
-          bitField0_ |= 0x00000100;
+          bitField0_ |= 0x00000080;
           customerId_ = other.customerId_;
           onChanged();
         }
@@ -3446,255 +2654,15 @@ public final class TenderOuterClass {
         return amountMoneyBuilder_;
       }
 
-      private java.util.List<squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction> refundTransactions_ =
-        java.util.Collections.emptyList();
-      private void ensureRefundTransactionsIsMutable() {
-        if (!((bitField0_ & 0x00000080) == 0x00000080)) {
-          refundTransactions_ = new java.util.ArrayList<squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction>(refundTransactions_);
-          bitField0_ |= 0x00000080;
-         }
-      }
-
-      private com.google.protobuf.RepeatedFieldBuilder<
-          squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction, squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction.Builder, squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransactionOrBuilder> refundTransactionsBuilder_;
-
-      /**
-       * <code>repeated .squareup.connect.v3.resources.Tender.RefundTransaction refund_transactions = 8;</code>
-       */
-      public java.util.List<squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction> getRefundTransactionsList() {
-        if (refundTransactionsBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(refundTransactions_);
-        } else {
-          return refundTransactionsBuilder_.getMessageList();
-        }
-      }
-      /**
-       * <code>repeated .squareup.connect.v3.resources.Tender.RefundTransaction refund_transactions = 8;</code>
-       */
-      public int getRefundTransactionsCount() {
-        if (refundTransactionsBuilder_ == null) {
-          return refundTransactions_.size();
-        } else {
-          return refundTransactionsBuilder_.getCount();
-        }
-      }
-      /**
-       * <code>repeated .squareup.connect.v3.resources.Tender.RefundTransaction refund_transactions = 8;</code>
-       */
-      public squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction getRefundTransactions(int index) {
-        if (refundTransactionsBuilder_ == null) {
-          return refundTransactions_.get(index);
-        } else {
-          return refundTransactionsBuilder_.getMessage(index);
-        }
-      }
-      /**
-       * <code>repeated .squareup.connect.v3.resources.Tender.RefundTransaction refund_transactions = 8;</code>
-       */
-      public Builder setRefundTransactions(
-          int index, squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction value) {
-        if (refundTransactionsBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureRefundTransactionsIsMutable();
-          refundTransactions_.set(index, value);
-          onChanged();
-        } else {
-          refundTransactionsBuilder_.setMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .squareup.connect.v3.resources.Tender.RefundTransaction refund_transactions = 8;</code>
-       */
-      public Builder setRefundTransactions(
-          int index, squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction.Builder builderForValue) {
-        if (refundTransactionsBuilder_ == null) {
-          ensureRefundTransactionsIsMutable();
-          refundTransactions_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          refundTransactionsBuilder_.setMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .squareup.connect.v3.resources.Tender.RefundTransaction refund_transactions = 8;</code>
-       */
-      public Builder addRefundTransactions(squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction value) {
-        if (refundTransactionsBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureRefundTransactionsIsMutable();
-          refundTransactions_.add(value);
-          onChanged();
-        } else {
-          refundTransactionsBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .squareup.connect.v3.resources.Tender.RefundTransaction refund_transactions = 8;</code>
-       */
-      public Builder addRefundTransactions(
-          int index, squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction value) {
-        if (refundTransactionsBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureRefundTransactionsIsMutable();
-          refundTransactions_.add(index, value);
-          onChanged();
-        } else {
-          refundTransactionsBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .squareup.connect.v3.resources.Tender.RefundTransaction refund_transactions = 8;</code>
-       */
-      public Builder addRefundTransactions(
-          squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction.Builder builderForValue) {
-        if (refundTransactionsBuilder_ == null) {
-          ensureRefundTransactionsIsMutable();
-          refundTransactions_.add(builderForValue.build());
-          onChanged();
-        } else {
-          refundTransactionsBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .squareup.connect.v3.resources.Tender.RefundTransaction refund_transactions = 8;</code>
-       */
-      public Builder addRefundTransactions(
-          int index, squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction.Builder builderForValue) {
-        if (refundTransactionsBuilder_ == null) {
-          ensureRefundTransactionsIsMutable();
-          refundTransactions_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          refundTransactionsBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .squareup.connect.v3.resources.Tender.RefundTransaction refund_transactions = 8;</code>
-       */
-      public Builder addAllRefundTransactions(
-          java.lang.Iterable<? extends squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction> values) {
-        if (refundTransactionsBuilder_ == null) {
-          ensureRefundTransactionsIsMutable();
-          com.google.protobuf.AbstractMessageLite.Builder.addAll(
-              values, refundTransactions_);
-          onChanged();
-        } else {
-          refundTransactionsBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .squareup.connect.v3.resources.Tender.RefundTransaction refund_transactions = 8;</code>
-       */
-      public Builder clearRefundTransactions() {
-        if (refundTransactionsBuilder_ == null) {
-          refundTransactions_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000080);
-          onChanged();
-        } else {
-          refundTransactionsBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .squareup.connect.v3.resources.Tender.RefundTransaction refund_transactions = 8;</code>
-       */
-      public Builder removeRefundTransactions(int index) {
-        if (refundTransactionsBuilder_ == null) {
-          ensureRefundTransactionsIsMutable();
-          refundTransactions_.remove(index);
-          onChanged();
-        } else {
-          refundTransactionsBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .squareup.connect.v3.resources.Tender.RefundTransaction refund_transactions = 8;</code>
-       */
-      public squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction.Builder getRefundTransactionsBuilder(
-          int index) {
-        return getRefundTransactionsFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .squareup.connect.v3.resources.Tender.RefundTransaction refund_transactions = 8;</code>
-       */
-      public squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransactionOrBuilder getRefundTransactionsOrBuilder(
-          int index) {
-        if (refundTransactionsBuilder_ == null) {
-          return refundTransactions_.get(index);  } else {
-          return refundTransactionsBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .squareup.connect.v3.resources.Tender.RefundTransaction refund_transactions = 8;</code>
-       */
-      public java.util.List<? extends squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransactionOrBuilder> 
-           getRefundTransactionsOrBuilderList() {
-        if (refundTransactionsBuilder_ != null) {
-          return refundTransactionsBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(refundTransactions_);
-        }
-      }
-      /**
-       * <code>repeated .squareup.connect.v3.resources.Tender.RefundTransaction refund_transactions = 8;</code>
-       */
-      public squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction.Builder addRefundTransactionsBuilder() {
-        return getRefundTransactionsFieldBuilder().addBuilder(
-            squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .squareup.connect.v3.resources.Tender.RefundTransaction refund_transactions = 8;</code>
-       */
-      public squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction.Builder addRefundTransactionsBuilder(
-          int index) {
-        return getRefundTransactionsFieldBuilder().addBuilder(
-            index, squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .squareup.connect.v3.resources.Tender.RefundTransaction refund_transactions = 8;</code>
-       */
-      public java.util.List<squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction.Builder> 
-           getRefundTransactionsBuilderList() {
-        return getRefundTransactionsFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilder<
-          squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction, squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction.Builder, squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransactionOrBuilder> 
-          getRefundTransactionsFieldBuilder() {
-        if (refundTransactionsBuilder_ == null) {
-          refundTransactionsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction, squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransaction.Builder, squareup.connect.v3.resources.TenderOuterClass.Tender.RefundTransactionOrBuilder>(
-                  refundTransactions_,
-                  ((bitField0_ & 0x00000080) == 0x00000080),
-                  getParentForChildren(),
-                  isClean());
-          refundTransactions_ = null;
-        }
-        return refundTransactionsBuilder_;
-      }
-
       private java.lang.Object customerId_ = "";
       /**
-       * <code>optional string customer_id = 9;</code>
+       * <code>optional string customer_id = 8;</code>
        */
       public boolean hasCustomerId() {
-        return ((bitField0_ & 0x00000100) == 0x00000100);
+        return ((bitField0_ & 0x00000080) == 0x00000080);
       }
       /**
-       * <code>optional string customer_id = 9;</code>
+       * <code>optional string customer_id = 8;</code>
        */
       public java.lang.String getCustomerId() {
         java.lang.Object ref = customerId_;
@@ -3711,7 +2679,7 @@ public final class TenderOuterClass {
         }
       }
       /**
-       * <code>optional string customer_id = 9;</code>
+       * <code>optional string customer_id = 8;</code>
        */
       public com.google.protobuf.ByteString
           getCustomerIdBytes() {
@@ -3727,36 +2695,36 @@ public final class TenderOuterClass {
         }
       }
       /**
-       * <code>optional string customer_id = 9;</code>
+       * <code>optional string customer_id = 8;</code>
        */
       public Builder setCustomerId(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000100;
+  bitField0_ |= 0x00000080;
         customerId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string customer_id = 9;</code>
+       * <code>optional string customer_id = 8;</code>
        */
       public Builder clearCustomerId() {
-        bitField0_ = (bitField0_ & ~0x00000100);
+        bitField0_ = (bitField0_ & ~0x00000080);
         customerId_ = getDefaultInstance().getCustomerId();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string customer_id = 9;</code>
+       * <code>optional string customer_id = 8;</code>
        */
       public Builder setCustomerIdBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000100;
+  bitField0_ |= 0x00000080;
         customerId_ = value;
         onChanged();
         return this;
@@ -3765,29 +2733,29 @@ public final class TenderOuterClass {
       private com.google.protobuf.SingleFieldBuilder<
           squareup.connect.v3.resources.TenderOuterClass.Tender.Charge, squareup.connect.v3.resources.TenderOuterClass.Tender.Charge.Builder, squareup.connect.v3.resources.TenderOuterClass.Tender.ChargeOrBuilder> chargeBuilder_;
       /**
-       * <code>optional .squareup.connect.v3.resources.Tender.Charge charge = 10;</code>
+       * <code>optional .squareup.connect.v3.resources.Tender.Charge charge = 9;</code>
        */
       public boolean hasCharge() {
-        return instrumentCase_ == 10;
+        return instrumentCase_ == 9;
       }
       /**
-       * <code>optional .squareup.connect.v3.resources.Tender.Charge charge = 10;</code>
+       * <code>optional .squareup.connect.v3.resources.Tender.Charge charge = 9;</code>
        */
       public squareup.connect.v3.resources.TenderOuterClass.Tender.Charge getCharge() {
         if (chargeBuilder_ == null) {
-          if (instrumentCase_ == 10) {
+          if (instrumentCase_ == 9) {
             return (squareup.connect.v3.resources.TenderOuterClass.Tender.Charge) instrument_;
           }
           return squareup.connect.v3.resources.TenderOuterClass.Tender.Charge.getDefaultInstance();
         } else {
-          if (instrumentCase_ == 10) {
+          if (instrumentCase_ == 9) {
             return chargeBuilder_.getMessage();
           }
           return squareup.connect.v3.resources.TenderOuterClass.Tender.Charge.getDefaultInstance();
         }
       }
       /**
-       * <code>optional .squareup.connect.v3.resources.Tender.Charge charge = 10;</code>
+       * <code>optional .squareup.connect.v3.resources.Tender.Charge charge = 9;</code>
        */
       public Builder setCharge(squareup.connect.v3.resources.TenderOuterClass.Tender.Charge value) {
         if (chargeBuilder_ == null) {
@@ -3799,11 +2767,11 @@ public final class TenderOuterClass {
         } else {
           chargeBuilder_.setMessage(value);
         }
-        instrumentCase_ = 10;
+        instrumentCase_ = 9;
         return this;
       }
       /**
-       * <code>optional .squareup.connect.v3.resources.Tender.Charge charge = 10;</code>
+       * <code>optional .squareup.connect.v3.resources.Tender.Charge charge = 9;</code>
        */
       public Builder setCharge(
           squareup.connect.v3.resources.TenderOuterClass.Tender.Charge.Builder builderForValue) {
@@ -3813,15 +2781,15 @@ public final class TenderOuterClass {
         } else {
           chargeBuilder_.setMessage(builderForValue.build());
         }
-        instrumentCase_ = 10;
+        instrumentCase_ = 9;
         return this;
       }
       /**
-       * <code>optional .squareup.connect.v3.resources.Tender.Charge charge = 10;</code>
+       * <code>optional .squareup.connect.v3.resources.Tender.Charge charge = 9;</code>
        */
       public Builder mergeCharge(squareup.connect.v3.resources.TenderOuterClass.Tender.Charge value) {
         if (chargeBuilder_ == null) {
-          if (instrumentCase_ == 10 &&
+          if (instrumentCase_ == 9 &&
               instrument_ != squareup.connect.v3.resources.TenderOuterClass.Tender.Charge.getDefaultInstance()) {
             instrument_ = squareup.connect.v3.resources.TenderOuterClass.Tender.Charge.newBuilder((squareup.connect.v3.resources.TenderOuterClass.Tender.Charge) instrument_)
                 .mergeFrom(value).buildPartial();
@@ -3830,26 +2798,26 @@ public final class TenderOuterClass {
           }
           onChanged();
         } else {
-          if (instrumentCase_ == 10) {
+          if (instrumentCase_ == 9) {
             chargeBuilder_.mergeFrom(value);
           }
           chargeBuilder_.setMessage(value);
         }
-        instrumentCase_ = 10;
+        instrumentCase_ = 9;
         return this;
       }
       /**
-       * <code>optional .squareup.connect.v3.resources.Tender.Charge charge = 10;</code>
+       * <code>optional .squareup.connect.v3.resources.Tender.Charge charge = 9;</code>
        */
       public Builder clearCharge() {
         if (chargeBuilder_ == null) {
-          if (instrumentCase_ == 10) {
+          if (instrumentCase_ == 9) {
             instrumentCase_ = 0;
             instrument_ = null;
             onChanged();
           }
         } else {
-          if (instrumentCase_ == 10) {
+          if (instrumentCase_ == 9) {
             instrumentCase_ = 0;
             instrument_ = null;
           }
@@ -3858,32 +2826,32 @@ public final class TenderOuterClass {
         return this;
       }
       /**
-       * <code>optional .squareup.connect.v3.resources.Tender.Charge charge = 10;</code>
+       * <code>optional .squareup.connect.v3.resources.Tender.Charge charge = 9;</code>
        */
       public squareup.connect.v3.resources.TenderOuterClass.Tender.Charge.Builder getChargeBuilder() {
         return getChargeFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .squareup.connect.v3.resources.Tender.Charge charge = 10;</code>
+       * <code>optional .squareup.connect.v3.resources.Tender.Charge charge = 9;</code>
        */
       public squareup.connect.v3.resources.TenderOuterClass.Tender.ChargeOrBuilder getChargeOrBuilder() {
-        if ((instrumentCase_ == 10) && (chargeBuilder_ != null)) {
+        if ((instrumentCase_ == 9) && (chargeBuilder_ != null)) {
           return chargeBuilder_.getMessageOrBuilder();
         } else {
-          if (instrumentCase_ == 10) {
+          if (instrumentCase_ == 9) {
             return (squareup.connect.v3.resources.TenderOuterClass.Tender.Charge) instrument_;
           }
           return squareup.connect.v3.resources.TenderOuterClass.Tender.Charge.getDefaultInstance();
         }
       }
       /**
-       * <code>optional .squareup.connect.v3.resources.Tender.Charge charge = 10;</code>
+       * <code>optional .squareup.connect.v3.resources.Tender.Charge charge = 9;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
           squareup.connect.v3.resources.TenderOuterClass.Tender.Charge, squareup.connect.v3.resources.TenderOuterClass.Tender.Charge.Builder, squareup.connect.v3.resources.TenderOuterClass.Tender.ChargeOrBuilder> 
           getChargeFieldBuilder() {
         if (chargeBuilder_ == null) {
-          if (!(instrumentCase_ == 10)) {
+          if (!(instrumentCase_ == 9)) {
             instrument_ = squareup.connect.v3.resources.TenderOuterClass.Tender.Charge.getDefaultInstance();
           }
           chargeBuilder_ = new com.google.protobuf.SingleFieldBuilder<
@@ -3893,7 +2861,7 @@ public final class TenderOuterClass {
                   isClean());
           instrument_ = null;
         }
-        instrumentCase_ = 10;
+        instrumentCase_ = 9;
         onChanged();;
         return chargeBuilder_;
       }
@@ -3947,11 +2915,6 @@ public final class TenderOuterClass {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_squareup_connect_v3_resources_Tender_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_squareup_connect_v3_resources_Tender_RefundTransaction_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_squareup_connect_v3_resources_Tender_RefundTransaction_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_squareup_connect_v3_resources_Tender_Charge_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -3969,22 +2932,19 @@ public final class TenderOuterClass {
       "roto\022\035squareup.connect.v3.resources\032(squ" +
       "areup/connect/v3/resources/card.proto\032)s" +
       "quareup/connect/v3/resources/money.proto" +
-      "\"\375\004\n\006Tender\022\n\n\002id\030\001 \001(\t\022\023\n\013business_id\030\002" +
+      "\"\347\003\n\006Tender\022\n\n\002id\030\001 \001(\t\022\023\n\013business_id\030\002" +
       " \001(\t\022\023\n\013location_id\030\003 \001(\t\022\026\n\016transaction" +
       "_id\030\004 \001(\t\022\022\n\ncreated_at\030\005 \001(\t\022\014\n\004note\030\006 " +
       "\001(\t\022:\n\014amount_money\030\007 \001(\0132$.squareup.con" +
-      "nect.v3.resources.Money\022T\n\023refund_transa" +
-      "ctions\030\010 \003(\01327.squareup.connect.v3.resou",
-      "rces.Tender.RefundTransaction\022\023\n\013custome" +
-      "r_id\030\t \001(\t\022>\n\006charge\030\n \001(\0132,.squareup.co" +
-      "nnect.v3.resources.Tender.ChargeH\000\032>\n\021Re" +
-      "fundTransaction\022\026\n\016transaction_id\030\001 \001(\t\022" +
-      "\021\n\trefund_id\030\002 \001(\t\032\315\001\n\006Charge\022C\n\006status\030" +
-      "\001 \001(\01623.squareup.connect.v3.resources.Te" +
-      "nder.Charge.Status\0221\n\004card\030\002 \001(\0132#.squar" +
-      "eup.connect.v3.resources.Card\"K\n\006Status\022" +
-      "\013\n\007UNKNOWN\020\000\022\016\n\nAUTHORIZED\020\001\022\014\n\010CAPTURED" +
-      "\020\002\022\n\n\006VOIDED\020\003\022\n\n\006FAILED\020\004B\014\n\ninstrument"
+      "nect.v3.resources.Money\022\023\n\013customer_id\030\010" +
+      " \001(\t\022>\n\006charge\030\t \001(\0132,.squareup.connect.",
+      "v3.resources.Tender.ChargeH\000\032\315\001\n\006Charge\022" +
+      "C\n\006status\030\001 \001(\01623.squareup.connect.v3.re" +
+      "sources.Tender.Charge.Status\0221\n\004card\030\002 \001" +
+      "(\0132#.squareup.connect.v3.resources.Card\"" +
+      "K\n\006Status\022\013\n\007UNKNOWN\020\000\022\016\n\nAUTHORIZED\020\001\022\014" +
+      "\n\010CAPTURED\020\002\022\n\n\006VOIDED\020\003\022\n\n\006FAILED\020\004B\014\n\n" +
+      "instrument"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -4005,15 +2965,9 @@ public final class TenderOuterClass {
     internal_static_squareup_connect_v3_resources_Tender_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_squareup_connect_v3_resources_Tender_descriptor,
-        new java.lang.String[] { "Id", "BusinessId", "LocationId", "TransactionId", "CreatedAt", "Note", "AmountMoney", "RefundTransactions", "CustomerId", "Charge", "Instrument", });
-    internal_static_squareup_connect_v3_resources_Tender_RefundTransaction_descriptor =
-      internal_static_squareup_connect_v3_resources_Tender_descriptor.getNestedTypes().get(0);
-    internal_static_squareup_connect_v3_resources_Tender_RefundTransaction_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-        internal_static_squareup_connect_v3_resources_Tender_RefundTransaction_descriptor,
-        new java.lang.String[] { "TransactionId", "RefundId", });
+        new java.lang.String[] { "Id", "BusinessId", "LocationId", "TransactionId", "CreatedAt", "Note", "AmountMoney", "CustomerId", "Charge", "Instrument", });
     internal_static_squareup_connect_v3_resources_Tender_Charge_descriptor =
-      internal_static_squareup_connect_v3_resources_Tender_descriptor.getNestedTypes().get(1);
+      internal_static_squareup_connect_v3_resources_Tender_descriptor.getNestedTypes().get(0);
     internal_static_squareup_connect_v3_resources_Tender_Charge_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_squareup_connect_v3_resources_Tender_Charge_descriptor,

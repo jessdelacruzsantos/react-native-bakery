@@ -187,70 +187,98 @@ public final class CustomerOuterClass {
         int index);
 
     /**
-     * <code>optional string full_name = 7;</code>
+     * <code>optional string given_name = 7;</code>
      */
-    boolean hasFullName();
+    boolean hasGivenName();
     /**
-     * <code>optional string full_name = 7;</code>
+     * <code>optional string given_name = 7;</code>
      */
-    java.lang.String getFullName();
+    java.lang.String getGivenName();
     /**
-     * <code>optional string full_name = 7;</code>
+     * <code>optional string given_name = 7;</code>
      */
     com.google.protobuf.ByteString
-        getFullNameBytes();
+        getGivenNameBytes();
 
     /**
-     * <code>optional string email_address = 8;</code>
+     * <code>optional string family_name = 8;</code>
+     */
+    boolean hasFamilyName();
+    /**
+     * <code>optional string family_name = 8;</code>
+     */
+    java.lang.String getFamilyName();
+    /**
+     * <code>optional string family_name = 8;</code>
+     */
+    com.google.protobuf.ByteString
+        getFamilyNameBytes();
+
+    /**
+     * <code>optional string nickname = 9;</code>
+     */
+    boolean hasNickname();
+    /**
+     * <code>optional string nickname = 9;</code>
+     */
+    java.lang.String getNickname();
+    /**
+     * <code>optional string nickname = 9;</code>
+     */
+    com.google.protobuf.ByteString
+        getNicknameBytes();
+
+    /**
+     * <code>optional string email_address = 10;</code>
      */
     boolean hasEmailAddress();
     /**
-     * <code>optional string email_address = 8;</code>
+     * <code>optional string email_address = 10;</code>
      */
     java.lang.String getEmailAddress();
     /**
-     * <code>optional string email_address = 8;</code>
+     * <code>optional string email_address = 10;</code>
      */
     com.google.protobuf.ByteString
         getEmailAddressBytes();
 
     /**
-     * <code>optional .squareup.connect.v3.resources.Address address = 9;</code>
+     * <code>optional .squareup.connect.v3.resources.Address address = 11;</code>
      */
     boolean hasAddress();
     /**
-     * <code>optional .squareup.connect.v3.resources.Address address = 9;</code>
+     * <code>optional .squareup.connect.v3.resources.Address address = 11;</code>
      */
     squareup.connect.v3.resources.AddressOuterClass.Address getAddress();
     /**
-     * <code>optional .squareup.connect.v3.resources.Address address = 9;</code>
+     * <code>optional .squareup.connect.v3.resources.Address address = 11;</code>
      */
     squareup.connect.v3.resources.AddressOuterClass.AddressOrBuilder getAddressOrBuilder();
 
     /**
-     * <code>optional string phone_number = 10;</code>
+     * <code>optional string phone_number = 12;</code>
      */
     boolean hasPhoneNumber();
     /**
-     * <code>optional string phone_number = 10;</code>
+     * <code>optional string phone_number = 12;</code>
      */
     java.lang.String getPhoneNumber();
     /**
-     * <code>optional string phone_number = 10;</code>
+     * <code>optional string phone_number = 12;</code>
      */
     com.google.protobuf.ByteString
         getPhoneNumberBytes();
 
     /**
-     * <code>optional string memo = 11;</code>
+     * <code>optional string memo = 13;</code>
      */
     boolean hasMemo();
     /**
-     * <code>optional string memo = 11;</code>
+     * <code>optional string memo = 13;</code>
      */
     java.lang.String getMemo();
     /**
-     * <code>optional string memo = 11;</code>
+     * <code>optional string memo = 13;</code>
      */
     com.google.protobuf.ByteString
         getMemoBytes();
@@ -273,7 +301,9 @@ public final class CustomerOuterClass {
       createdAt_ = "";
       updatedAt_ = "";
       cards_ = java.util.Collections.emptyList();
-      fullName_ = "";
+      givenName_ = "";
+      familyName_ = "";
+      nickname_ = "";
       emailAddress_ = "";
       phoneNumber_ = "";
       memo_ = "";
@@ -347,18 +377,30 @@ public final class CustomerOuterClass {
             case 58: {
               com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000020;
-              fullName_ = bs;
+              givenName_ = bs;
               break;
             }
             case 66: {
               com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000040;
-              emailAddress_ = bs;
+              familyName_ = bs;
               break;
             }
             case 74: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000080;
+              nickname_ = bs;
+              break;
+            }
+            case 82: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000100;
+              emailAddress_ = bs;
+              break;
+            }
+            case 90: {
               squareup.connect.v3.resources.AddressOuterClass.Address.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000080) == 0x00000080)) {
+              if (((bitField0_ & 0x00000200) == 0x00000200)) {
                 subBuilder = address_.toBuilder();
               }
               address_ = input.readMessage(squareup.connect.v3.resources.AddressOuterClass.Address.PARSER, extensionRegistry);
@@ -366,18 +408,18 @@ public final class CustomerOuterClass {
                 subBuilder.mergeFrom(address_);
                 address_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00000080;
+              bitField0_ |= 0x00000200;
               break;
             }
-            case 82: {
+            case 98: {
               com.google.protobuf.ByteString bs = input.readBytes();
-              bitField0_ |= 0x00000100;
+              bitField0_ |= 0x00000400;
               phoneNumber_ = bs;
               break;
             }
-            case 90: {
+            case 106: {
               com.google.protobuf.ByteString bs = input.readBytes();
-              bitField0_ |= 0x00000200;
+              bitField0_ |= 0x00000800;
               memo_ = bs;
               break;
             }
@@ -734,19 +776,19 @@ public final class CustomerOuterClass {
       return cards_.get(index);
     }
 
-    public static final int FULL_NAME_FIELD_NUMBER = 7;
-    private volatile java.lang.Object fullName_;
+    public static final int GIVEN_NAME_FIELD_NUMBER = 7;
+    private volatile java.lang.Object givenName_;
     /**
-     * <code>optional string full_name = 7;</code>
+     * <code>optional string given_name = 7;</code>
      */
-    public boolean hasFullName() {
+    public boolean hasGivenName() {
       return ((bitField0_ & 0x00000020) == 0x00000020);
     }
     /**
-     * <code>optional string full_name = 7;</code>
+     * <code>optional string given_name = 7;</code>
      */
-    public java.lang.String getFullName() {
-      java.lang.Object ref = fullName_;
+    public java.lang.String getGivenName() {
+      java.lang.Object ref = givenName_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
@@ -754,38 +796,122 @@ public final class CustomerOuterClass {
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         if (bs.isValidUtf8()) {
-          fullName_ = s;
+          givenName_ = s;
         }
         return s;
       }
     }
     /**
-     * <code>optional string full_name = 7;</code>
+     * <code>optional string given_name = 7;</code>
      */
     public com.google.protobuf.ByteString
-        getFullNameBytes() {
-      java.lang.Object ref = fullName_;
+        getGivenNameBytes() {
+      java.lang.Object ref = givenName_;
       if (ref instanceof java.lang.String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        fullName_ = b;
+        givenName_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
       }
     }
 
-    public static final int EMAIL_ADDRESS_FIELD_NUMBER = 8;
-    private volatile java.lang.Object emailAddress_;
+    public static final int FAMILY_NAME_FIELD_NUMBER = 8;
+    private volatile java.lang.Object familyName_;
     /**
-     * <code>optional string email_address = 8;</code>
+     * <code>optional string family_name = 8;</code>
      */
-    public boolean hasEmailAddress() {
+    public boolean hasFamilyName() {
       return ((bitField0_ & 0x00000040) == 0x00000040);
     }
     /**
-     * <code>optional string email_address = 8;</code>
+     * <code>optional string family_name = 8;</code>
+     */
+    public java.lang.String getFamilyName() {
+      java.lang.Object ref = familyName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          familyName_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string family_name = 8;</code>
+     */
+    public com.google.protobuf.ByteString
+        getFamilyNameBytes() {
+      java.lang.Object ref = familyName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        familyName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int NICKNAME_FIELD_NUMBER = 9;
+    private volatile java.lang.Object nickname_;
+    /**
+     * <code>optional string nickname = 9;</code>
+     */
+    public boolean hasNickname() {
+      return ((bitField0_ & 0x00000080) == 0x00000080);
+    }
+    /**
+     * <code>optional string nickname = 9;</code>
+     */
+    public java.lang.String getNickname() {
+      java.lang.Object ref = nickname_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          nickname_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string nickname = 9;</code>
+     */
+    public com.google.protobuf.ByteString
+        getNicknameBytes() {
+      java.lang.Object ref = nickname_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        nickname_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int EMAIL_ADDRESS_FIELD_NUMBER = 10;
+    private volatile java.lang.Object emailAddress_;
+    /**
+     * <code>optional string email_address = 10;</code>
+     */
+    public boolean hasEmailAddress() {
+      return ((bitField0_ & 0x00000100) == 0x00000100);
+    }
+    /**
+     * <code>optional string email_address = 10;</code>
      */
     public java.lang.String getEmailAddress() {
       java.lang.Object ref = emailAddress_;
@@ -802,7 +928,7 @@ public final class CustomerOuterClass {
       }
     }
     /**
-     * <code>optional string email_address = 8;</code>
+     * <code>optional string email_address = 10;</code>
      */
     public com.google.protobuf.ByteString
         getEmailAddressBytes() {
@@ -818,37 +944,37 @@ public final class CustomerOuterClass {
       }
     }
 
-    public static final int ADDRESS_FIELD_NUMBER = 9;
+    public static final int ADDRESS_FIELD_NUMBER = 11;
     private squareup.connect.v3.resources.AddressOuterClass.Address address_;
     /**
-     * <code>optional .squareup.connect.v3.resources.Address address = 9;</code>
+     * <code>optional .squareup.connect.v3.resources.Address address = 11;</code>
      */
     public boolean hasAddress() {
-      return ((bitField0_ & 0x00000080) == 0x00000080);
+      return ((bitField0_ & 0x00000200) == 0x00000200);
     }
     /**
-     * <code>optional .squareup.connect.v3.resources.Address address = 9;</code>
+     * <code>optional .squareup.connect.v3.resources.Address address = 11;</code>
      */
     public squareup.connect.v3.resources.AddressOuterClass.Address getAddress() {
       return address_ == null ? squareup.connect.v3.resources.AddressOuterClass.Address.getDefaultInstance() : address_;
     }
     /**
-     * <code>optional .squareup.connect.v3.resources.Address address = 9;</code>
+     * <code>optional .squareup.connect.v3.resources.Address address = 11;</code>
      */
     public squareup.connect.v3.resources.AddressOuterClass.AddressOrBuilder getAddressOrBuilder() {
       return address_ == null ? squareup.connect.v3.resources.AddressOuterClass.Address.getDefaultInstance() : address_;
     }
 
-    public static final int PHONE_NUMBER_FIELD_NUMBER = 10;
+    public static final int PHONE_NUMBER_FIELD_NUMBER = 12;
     private volatile java.lang.Object phoneNumber_;
     /**
-     * <code>optional string phone_number = 10;</code>
+     * <code>optional string phone_number = 12;</code>
      */
     public boolean hasPhoneNumber() {
-      return ((bitField0_ & 0x00000100) == 0x00000100);
+      return ((bitField0_ & 0x00000400) == 0x00000400);
     }
     /**
-     * <code>optional string phone_number = 10;</code>
+     * <code>optional string phone_number = 12;</code>
      */
     public java.lang.String getPhoneNumber() {
       java.lang.Object ref = phoneNumber_;
@@ -865,7 +991,7 @@ public final class CustomerOuterClass {
       }
     }
     /**
-     * <code>optional string phone_number = 10;</code>
+     * <code>optional string phone_number = 12;</code>
      */
     public com.google.protobuf.ByteString
         getPhoneNumberBytes() {
@@ -881,16 +1007,16 @@ public final class CustomerOuterClass {
       }
     }
 
-    public static final int MEMO_FIELD_NUMBER = 11;
+    public static final int MEMO_FIELD_NUMBER = 13;
     private volatile java.lang.Object memo_;
     /**
-     * <code>optional string memo = 11;</code>
+     * <code>optional string memo = 13;</code>
      */
     public boolean hasMemo() {
-      return ((bitField0_ & 0x00000200) == 0x00000200);
+      return ((bitField0_ & 0x00000800) == 0x00000800);
     }
     /**
-     * <code>optional string memo = 11;</code>
+     * <code>optional string memo = 13;</code>
      */
     public java.lang.String getMemo() {
       java.lang.Object ref = memo_;
@@ -907,7 +1033,7 @@ public final class CustomerOuterClass {
       }
     }
     /**
-     * <code>optional string memo = 11;</code>
+     * <code>optional string memo = 13;</code>
      */
     public com.google.protobuf.ByteString
         getMemoBytes() {
@@ -954,19 +1080,25 @@ public final class CustomerOuterClass {
         output.writeMessage(6, cards_.get(i));
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        output.writeBytes(7, getFullNameBytes());
+        output.writeBytes(7, getGivenNameBytes());
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
-        output.writeBytes(8, getEmailAddressBytes());
+        output.writeBytes(8, getFamilyNameBytes());
       }
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
-        output.writeMessage(9, getAddress());
+        output.writeBytes(9, getNicknameBytes());
       }
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
-        output.writeBytes(10, getPhoneNumberBytes());
+        output.writeBytes(10, getEmailAddressBytes());
       }
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
-        output.writeBytes(11, getMemoBytes());
+        output.writeMessage(11, getAddress());
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        output.writeBytes(12, getPhoneNumberBytes());
+      }
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        output.writeBytes(13, getMemoBytes());
       }
       unknownFields.writeTo(output);
     }
@@ -1003,23 +1135,31 @@ public final class CustomerOuterClass {
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(7, getFullNameBytes());
+          .computeBytesSize(7, getGivenNameBytes());
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(8, getEmailAddressBytes());
+          .computeBytesSize(8, getFamilyNameBytes());
       }
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(9, getAddress());
+          .computeBytesSize(9, getNicknameBytes());
       }
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(10, getPhoneNumberBytes());
+          .computeBytesSize(10, getEmailAddressBytes());
       }
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(11, getMemoBytes());
+          .computeMessageSize(11, getAddress());
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(12, getPhoneNumberBytes());
+      }
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(13, getMemoBytes());
       }
       size += unknownFields.getSerializedSize();
       memoizedSerializedSize = size;
@@ -1192,20 +1332,24 @@ public final class CustomerOuterClass {
         } else {
           cardsBuilder_.clear();
         }
-        fullName_ = "";
+        givenName_ = "";
         bitField0_ = (bitField0_ & ~0x00000040);
-        emailAddress_ = "";
+        familyName_ = "";
         bitField0_ = (bitField0_ & ~0x00000080);
+        nickname_ = "";
+        bitField0_ = (bitField0_ & ~0x00000100);
+        emailAddress_ = "";
+        bitField0_ = (bitField0_ & ~0x00000200);
         if (addressBuilder_ == null) {
           address_ = null;
         } else {
           addressBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000100);
-        phoneNumber_ = "";
-        bitField0_ = (bitField0_ & ~0x00000200);
-        memo_ = "";
         bitField0_ = (bitField0_ & ~0x00000400);
+        phoneNumber_ = "";
+        bitField0_ = (bitField0_ & ~0x00000800);
+        memo_ = "";
+        bitField0_ = (bitField0_ & ~0x00001000);
         return this;
       }
 
@@ -1262,25 +1406,33 @@ public final class CustomerOuterClass {
         if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
           to_bitField0_ |= 0x00000020;
         }
-        result.fullName_ = fullName_;
+        result.givenName_ = givenName_;
         if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
           to_bitField0_ |= 0x00000040;
         }
-        result.emailAddress_ = emailAddress_;
+        result.familyName_ = familyName_;
         if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
           to_bitField0_ |= 0x00000080;
+        }
+        result.nickname_ = nickname_;
+        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+          to_bitField0_ |= 0x00000100;
+        }
+        result.emailAddress_ = emailAddress_;
+        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
+          to_bitField0_ |= 0x00000200;
         }
         if (addressBuilder_ == null) {
           result.address_ = address_;
         } else {
           result.address_ = addressBuilder_.build();
         }
-        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
-          to_bitField0_ |= 0x00000100;
+        if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
+          to_bitField0_ |= 0x00000400;
         }
         result.phoneNumber_ = phoneNumber_;
-        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
-          to_bitField0_ |= 0x00000200;
+        if (((from_bitField0_ & 0x00001000) == 0x00001000)) {
+          to_bitField0_ |= 0x00000800;
         }
         result.memo_ = memo_;
         result.bitField0_ = to_bitField0_;
@@ -1350,13 +1502,23 @@ public final class CustomerOuterClass {
             }
           }
         }
-        if (other.hasFullName()) {
+        if (other.hasGivenName()) {
           bitField0_ |= 0x00000040;
-          fullName_ = other.fullName_;
+          givenName_ = other.givenName_;
+          onChanged();
+        }
+        if (other.hasFamilyName()) {
+          bitField0_ |= 0x00000080;
+          familyName_ = other.familyName_;
+          onChanged();
+        }
+        if (other.hasNickname()) {
+          bitField0_ |= 0x00000100;
+          nickname_ = other.nickname_;
           onChanged();
         }
         if (other.hasEmailAddress()) {
-          bitField0_ |= 0x00000080;
+          bitField0_ |= 0x00000200;
           emailAddress_ = other.emailAddress_;
           onChanged();
         }
@@ -1364,12 +1526,12 @@ public final class CustomerOuterClass {
           mergeAddress(other.getAddress());
         }
         if (other.hasPhoneNumber()) {
-          bitField0_ |= 0x00000200;
+          bitField0_ |= 0x00000800;
           phoneNumber_ = other.phoneNumber_;
           onChanged();
         }
         if (other.hasMemo()) {
-          bitField0_ |= 0x00000400;
+          bitField0_ |= 0x00001000;
           memo_ = other.memo_;
           onChanged();
         }
@@ -2216,24 +2378,24 @@ public final class CustomerOuterClass {
         return cardsBuilder_;
       }
 
-      private java.lang.Object fullName_ = "";
+      private java.lang.Object givenName_ = "";
       /**
-       * <code>optional string full_name = 7;</code>
+       * <code>optional string given_name = 7;</code>
        */
-      public boolean hasFullName() {
+      public boolean hasGivenName() {
         return ((bitField0_ & 0x00000040) == 0x00000040);
       }
       /**
-       * <code>optional string full_name = 7;</code>
+       * <code>optional string given_name = 7;</code>
        */
-      public java.lang.String getFullName() {
-        java.lang.Object ref = fullName_;
+      public java.lang.String getGivenName() {
+        java.lang.Object ref = givenName_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
               (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
           if (bs.isValidUtf8()) {
-            fullName_ = s;
+            givenName_ = s;
           }
           return s;
         } else {
@@ -2241,66 +2403,218 @@ public final class CustomerOuterClass {
         }
       }
       /**
-       * <code>optional string full_name = 7;</code>
+       * <code>optional string given_name = 7;</code>
        */
       public com.google.protobuf.ByteString
-          getFullNameBytes() {
-        java.lang.Object ref = fullName_;
+          getGivenNameBytes() {
+        java.lang.Object ref = givenName_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
-          fullName_ = b;
+          givenName_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
       /**
-       * <code>optional string full_name = 7;</code>
+       * <code>optional string given_name = 7;</code>
        */
-      public Builder setFullName(
+      public Builder setGivenName(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
   bitField0_ |= 0x00000040;
-        fullName_ = value;
+        givenName_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string full_name = 7;</code>
+       * <code>optional string given_name = 7;</code>
        */
-      public Builder clearFullName() {
+      public Builder clearGivenName() {
         bitField0_ = (bitField0_ & ~0x00000040);
-        fullName_ = getDefaultInstance().getFullName();
+        givenName_ = getDefaultInstance().getGivenName();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string full_name = 7;</code>
+       * <code>optional string given_name = 7;</code>
        */
-      public Builder setFullNameBytes(
+      public Builder setGivenNameBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   bitField0_ |= 0x00000040;
-        fullName_ = value;
+        givenName_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object familyName_ = "";
+      /**
+       * <code>optional string family_name = 8;</code>
+       */
+      public boolean hasFamilyName() {
+        return ((bitField0_ & 0x00000080) == 0x00000080);
+      }
+      /**
+       * <code>optional string family_name = 8;</code>
+       */
+      public java.lang.String getFamilyName() {
+        java.lang.Object ref = familyName_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            familyName_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string family_name = 8;</code>
+       */
+      public com.google.protobuf.ByteString
+          getFamilyNameBytes() {
+        java.lang.Object ref = familyName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          familyName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string family_name = 8;</code>
+       */
+      public Builder setFamilyName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000080;
+        familyName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string family_name = 8;</code>
+       */
+      public Builder clearFamilyName() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        familyName_ = getDefaultInstance().getFamilyName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string family_name = 8;</code>
+       */
+      public Builder setFamilyNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000080;
+        familyName_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object nickname_ = "";
+      /**
+       * <code>optional string nickname = 9;</code>
+       */
+      public boolean hasNickname() {
+        return ((bitField0_ & 0x00000100) == 0x00000100);
+      }
+      /**
+       * <code>optional string nickname = 9;</code>
+       */
+      public java.lang.String getNickname() {
+        java.lang.Object ref = nickname_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            nickname_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string nickname = 9;</code>
+       */
+      public com.google.protobuf.ByteString
+          getNicknameBytes() {
+        java.lang.Object ref = nickname_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          nickname_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string nickname = 9;</code>
+       */
+      public Builder setNickname(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000100;
+        nickname_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string nickname = 9;</code>
+       */
+      public Builder clearNickname() {
+        bitField0_ = (bitField0_ & ~0x00000100);
+        nickname_ = getDefaultInstance().getNickname();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string nickname = 9;</code>
+       */
+      public Builder setNicknameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000100;
+        nickname_ = value;
         onChanged();
         return this;
       }
 
       private java.lang.Object emailAddress_ = "";
       /**
-       * <code>optional string email_address = 8;</code>
+       * <code>optional string email_address = 10;</code>
        */
       public boolean hasEmailAddress() {
-        return ((bitField0_ & 0x00000080) == 0x00000080);
+        return ((bitField0_ & 0x00000200) == 0x00000200);
       }
       /**
-       * <code>optional string email_address = 8;</code>
+       * <code>optional string email_address = 10;</code>
        */
       public java.lang.String getEmailAddress() {
         java.lang.Object ref = emailAddress_;
@@ -2317,7 +2631,7 @@ public final class CustomerOuterClass {
         }
       }
       /**
-       * <code>optional string email_address = 8;</code>
+       * <code>optional string email_address = 10;</code>
        */
       public com.google.protobuf.ByteString
           getEmailAddressBytes() {
@@ -2333,36 +2647,36 @@ public final class CustomerOuterClass {
         }
       }
       /**
-       * <code>optional string email_address = 8;</code>
+       * <code>optional string email_address = 10;</code>
        */
       public Builder setEmailAddress(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000080;
+  bitField0_ |= 0x00000200;
         emailAddress_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string email_address = 8;</code>
+       * <code>optional string email_address = 10;</code>
        */
       public Builder clearEmailAddress() {
-        bitField0_ = (bitField0_ & ~0x00000080);
+        bitField0_ = (bitField0_ & ~0x00000200);
         emailAddress_ = getDefaultInstance().getEmailAddress();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string email_address = 8;</code>
+       * <code>optional string email_address = 10;</code>
        */
       public Builder setEmailAddressBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000080;
+  bitField0_ |= 0x00000200;
         emailAddress_ = value;
         onChanged();
         return this;
@@ -2372,13 +2686,13 @@ public final class CustomerOuterClass {
       private com.google.protobuf.SingleFieldBuilder<
           squareup.connect.v3.resources.AddressOuterClass.Address, squareup.connect.v3.resources.AddressOuterClass.Address.Builder, squareup.connect.v3.resources.AddressOuterClass.AddressOrBuilder> addressBuilder_;
       /**
-       * <code>optional .squareup.connect.v3.resources.Address address = 9;</code>
+       * <code>optional .squareup.connect.v3.resources.Address address = 11;</code>
        */
       public boolean hasAddress() {
-        return ((bitField0_ & 0x00000100) == 0x00000100);
+        return ((bitField0_ & 0x00000400) == 0x00000400);
       }
       /**
-       * <code>optional .squareup.connect.v3.resources.Address address = 9;</code>
+       * <code>optional .squareup.connect.v3.resources.Address address = 11;</code>
        */
       public squareup.connect.v3.resources.AddressOuterClass.Address getAddress() {
         if (addressBuilder_ == null) {
@@ -2388,7 +2702,7 @@ public final class CustomerOuterClass {
         }
       }
       /**
-       * <code>optional .squareup.connect.v3.resources.Address address = 9;</code>
+       * <code>optional .squareup.connect.v3.resources.Address address = 11;</code>
        */
       public Builder setAddress(squareup.connect.v3.resources.AddressOuterClass.Address value) {
         if (addressBuilder_ == null) {
@@ -2400,11 +2714,11 @@ public final class CustomerOuterClass {
         } else {
           addressBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00000100;
+        bitField0_ |= 0x00000400;
         return this;
       }
       /**
-       * <code>optional .squareup.connect.v3.resources.Address address = 9;</code>
+       * <code>optional .squareup.connect.v3.resources.Address address = 11;</code>
        */
       public Builder setAddress(
           squareup.connect.v3.resources.AddressOuterClass.Address.Builder builderForValue) {
@@ -2414,15 +2728,15 @@ public final class CustomerOuterClass {
         } else {
           addressBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000100;
+        bitField0_ |= 0x00000400;
         return this;
       }
       /**
-       * <code>optional .squareup.connect.v3.resources.Address address = 9;</code>
+       * <code>optional .squareup.connect.v3.resources.Address address = 11;</code>
        */
       public Builder mergeAddress(squareup.connect.v3.resources.AddressOuterClass.Address value) {
         if (addressBuilder_ == null) {
-          if (((bitField0_ & 0x00000100) == 0x00000100) &&
+          if (((bitField0_ & 0x00000400) == 0x00000400) &&
               address_ != null &&
               address_ != squareup.connect.v3.resources.AddressOuterClass.Address.getDefaultInstance()) {
             address_ =
@@ -2434,11 +2748,11 @@ public final class CustomerOuterClass {
         } else {
           addressBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000100;
+        bitField0_ |= 0x00000400;
         return this;
       }
       /**
-       * <code>optional .squareup.connect.v3.resources.Address address = 9;</code>
+       * <code>optional .squareup.connect.v3.resources.Address address = 11;</code>
        */
       public Builder clearAddress() {
         if (addressBuilder_ == null) {
@@ -2447,19 +2761,19 @@ public final class CustomerOuterClass {
         } else {
           addressBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000100);
+        bitField0_ = (bitField0_ & ~0x00000400);
         return this;
       }
       /**
-       * <code>optional .squareup.connect.v3.resources.Address address = 9;</code>
+       * <code>optional .squareup.connect.v3.resources.Address address = 11;</code>
        */
       public squareup.connect.v3.resources.AddressOuterClass.Address.Builder getAddressBuilder() {
-        bitField0_ |= 0x00000100;
+        bitField0_ |= 0x00000400;
         onChanged();
         return getAddressFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .squareup.connect.v3.resources.Address address = 9;</code>
+       * <code>optional .squareup.connect.v3.resources.Address address = 11;</code>
        */
       public squareup.connect.v3.resources.AddressOuterClass.AddressOrBuilder getAddressOrBuilder() {
         if (addressBuilder_ != null) {
@@ -2470,7 +2784,7 @@ public final class CustomerOuterClass {
         }
       }
       /**
-       * <code>optional .squareup.connect.v3.resources.Address address = 9;</code>
+       * <code>optional .squareup.connect.v3.resources.Address address = 11;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
           squareup.connect.v3.resources.AddressOuterClass.Address, squareup.connect.v3.resources.AddressOuterClass.Address.Builder, squareup.connect.v3.resources.AddressOuterClass.AddressOrBuilder> 
@@ -2488,13 +2802,13 @@ public final class CustomerOuterClass {
 
       private java.lang.Object phoneNumber_ = "";
       /**
-       * <code>optional string phone_number = 10;</code>
+       * <code>optional string phone_number = 12;</code>
        */
       public boolean hasPhoneNumber() {
-        return ((bitField0_ & 0x00000200) == 0x00000200);
+        return ((bitField0_ & 0x00000800) == 0x00000800);
       }
       /**
-       * <code>optional string phone_number = 10;</code>
+       * <code>optional string phone_number = 12;</code>
        */
       public java.lang.String getPhoneNumber() {
         java.lang.Object ref = phoneNumber_;
@@ -2511,7 +2825,7 @@ public final class CustomerOuterClass {
         }
       }
       /**
-       * <code>optional string phone_number = 10;</code>
+       * <code>optional string phone_number = 12;</code>
        */
       public com.google.protobuf.ByteString
           getPhoneNumberBytes() {
@@ -2527,36 +2841,36 @@ public final class CustomerOuterClass {
         }
       }
       /**
-       * <code>optional string phone_number = 10;</code>
+       * <code>optional string phone_number = 12;</code>
        */
       public Builder setPhoneNumber(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000200;
+  bitField0_ |= 0x00000800;
         phoneNumber_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string phone_number = 10;</code>
+       * <code>optional string phone_number = 12;</code>
        */
       public Builder clearPhoneNumber() {
-        bitField0_ = (bitField0_ & ~0x00000200);
+        bitField0_ = (bitField0_ & ~0x00000800);
         phoneNumber_ = getDefaultInstance().getPhoneNumber();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string phone_number = 10;</code>
+       * <code>optional string phone_number = 12;</code>
        */
       public Builder setPhoneNumberBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000200;
+  bitField0_ |= 0x00000800;
         phoneNumber_ = value;
         onChanged();
         return this;
@@ -2564,13 +2878,13 @@ public final class CustomerOuterClass {
 
       private java.lang.Object memo_ = "";
       /**
-       * <code>optional string memo = 11;</code>
+       * <code>optional string memo = 13;</code>
        */
       public boolean hasMemo() {
-        return ((bitField0_ & 0x00000400) == 0x00000400);
+        return ((bitField0_ & 0x00001000) == 0x00001000);
       }
       /**
-       * <code>optional string memo = 11;</code>
+       * <code>optional string memo = 13;</code>
        */
       public java.lang.String getMemo() {
         java.lang.Object ref = memo_;
@@ -2587,7 +2901,7 @@ public final class CustomerOuterClass {
         }
       }
       /**
-       * <code>optional string memo = 11;</code>
+       * <code>optional string memo = 13;</code>
        */
       public com.google.protobuf.ByteString
           getMemoBytes() {
@@ -2603,36 +2917,36 @@ public final class CustomerOuterClass {
         }
       }
       /**
-       * <code>optional string memo = 11;</code>
+       * <code>optional string memo = 13;</code>
        */
       public Builder setMemo(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000400;
+  bitField0_ |= 0x00001000;
         memo_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string memo = 11;</code>
+       * <code>optional string memo = 13;</code>
        */
       public Builder clearMemo() {
-        bitField0_ = (bitField0_ & ~0x00000400);
+        bitField0_ = (bitField0_ & ~0x00001000);
         memo_ = getDefaultInstance().getMemo();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string memo = 11;</code>
+       * <code>optional string memo = 13;</code>
        */
       public Builder setMemoBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000400;
+  bitField0_ |= 0x00001000;
         memo_ = value;
         onChanged();
         return this;
@@ -2699,14 +3013,15 @@ public final class CustomerOuterClass {
       ".proto\022\035squareup.connect.v3.resources\032+s" +
       "quareup/connect/v3/resources/address.pro" +
       "to\032(squareup/connect/v3/resources/card.p" +
-      "roto\"\243\002\n\010Customer\022\n\n\002id\030\001 \001(\t\022\023\n\013busines" +
+      "roto\"\313\002\n\010Customer\022\n\n\002id\030\001 \001(\t\022\023\n\013busines" +
       "s_id\030\002 \001(\t\022\023\n\013location_id\030\003 \001(\t\022\022\n\ncreat" +
       "ed_at\030\004 \001(\t\022\022\n\nupdated_at\030\005 \001(\t\0222\n\005cards" +
       "\030\006 \003(\0132#.squareup.connect.v3.resources.C" +
-      "ard\022\021\n\tfull_name\030\007 \001(\t\022\025\n\remail_address\030" +
-      "\010 \001(\t\0227\n\007address\030\t \001(\0132&.squareup.connec",
-      "t.v3.resources.Address\022\024\n\014phone_number\030\n" +
-      " \001(\t\022\014\n\004memo\030\013 \001(\t"
+      "ard\022\022\n\ngiven_name\030\007 \001(\t\022\023\n\013family_name\030\010" +
+      " \001(\t\022\020\n\010nickname\030\t \001(\t\022\025\n\remail_address\030",
+      "\n \001(\t\0227\n\007address\030\013 \001(\0132&.squareup.connec" +
+      "t.v3.resources.Address\022\024\n\014phone_number\030\014" +
+      " \001(\t\022\014\n\004memo\030\r \001(\t"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -2727,7 +3042,7 @@ public final class CustomerOuterClass {
     internal_static_squareup_connect_v3_resources_Customer_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_squareup_connect_v3_resources_Customer_descriptor,
-        new java.lang.String[] { "Id", "BusinessId", "LocationId", "CreatedAt", "UpdatedAt", "Cards", "FullName", "EmailAddress", "Address", "PhoneNumber", "Memo", });
+        new java.lang.String[] { "Id", "BusinessId", "LocationId", "CreatedAt", "UpdatedAt", "Cards", "GivenName", "FamilyName", "Nickname", "EmailAddress", "Address", "PhoneNumber", "Memo", });
     squareup.connect.v3.resources.AddressOuterClass.getDescriptor();
     squareup.connect.v3.resources.CardOuterClass.getDescriptor();
   }
