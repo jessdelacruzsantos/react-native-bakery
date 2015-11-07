@@ -65,7 +65,7 @@ public class ConnectAPIParser implements APIParser {
     root.put("endpoints", jsonEndpoints);
 
     try {
-      String outputPath = System.getProperty("user.home") + "/Development/connect-sdks/lib/sdk-gen/api.json";
+      String outputPath = System.getProperty("user.home") + "/Development/connect-sdks/tools/sdk-gen/api.json";
       PrintWriter writer = new PrintWriter(outputPath, "UTF-8");
       writer.println(root.toString(2));
       writer.close();

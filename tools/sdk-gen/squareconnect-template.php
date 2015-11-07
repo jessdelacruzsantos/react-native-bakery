@@ -24,7 +24,7 @@ class SquareConnect {
   public static function {{this.id}}($context, $requestObject) {
     $requestPath = '/services/squareup.connect.v3.SquareConnectV3/{{this.id}}';
     $responseWrapper = new \squareup\connect\v3\actions{{#backslash}}{{/backslash}}{{this.id}}Response();
-    return self::sendRequest($requestPath, $context, $requestObject);
+    return self::sendRequest($requestPath, $context, $requestObject, $responseWrapper);
   }
 
   {{/each}}
@@ -55,6 +55,10 @@ class SquareConnect {
     $responseWrapper->parse($responseBody);
     return $responseWrapper;
   }
+}
+
+class RequestContext {
+  public $accessToken;
 }
 
 ?>

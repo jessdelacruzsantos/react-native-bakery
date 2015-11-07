@@ -13,7 +13,6 @@ var rubyTemplate = handlebars.compile(fs.readFileSync('squareconnect-template.rb
 
 var warnings = [];
 
-
 // Helper methods for Handlebars
 
 // Removes whitespace in addition to making lower case
@@ -97,23 +96,19 @@ for (var i = 0; i < enums.length; i++) {
   objectTypes[enums[i].id] = enums[i];
 }
 
-var phpThing = phpTemplate(apiDefinition);
-var rubyThing = rubyTemplate(apiDefinition);
-console.log(rubyThing);
-
-/*
-var phpThing = phpTemplate(bucketedEndpoints['Transaction']);
-console.log(objectTypes);
-console.log(phpThing);
-*/
+var phpCore = phpTemplate(apiDefinition);
+var rubyCore = rubyTemplate(apiDefinition);
 
 
+var homeDirectory = process.env['HOME'];
 
-// Generate the docpage and its nav
-//var docpageNavHTML = navTemplate(docpageSchema);
-//var docpageHTML = docpageTemplate(docpageSchema);
+console.log("Writing PHP core class");
+fs.writeFileSync(homeDirectory + '/Development/connect-sdks/src/php/SquareConnect.php', phpCore);
 
-//console.log(docpageSchema);
+console.log("Writing Ruby core class");
+fs.writeFileSync(homeDirectory + '/Development/connect-sdks/src/rubygem/square_connect.rb', rubyCore);
+
+console.log("All done!");
 
 
 // Log warnings encountered during processing.
@@ -201,77 +196,3 @@ function populateSchema(sections, symbols) {
     }
   }
 }
-
-// Generates an index of all the datatypes and enums on the docpage,
-// along with their IDs. This enables cross-linking.
-/*function indexTypes(apiDefinition) {
-  var typeIndex = {};
-  var datatypes = apiDefinition.datatypes;
-  for (var i = 0; i < datatypes.length; i++) {
-    typeIndex[datatypes[i].id] = {
-      'target': 'datatype-' + datatypes[i].name.toLowerCase().replace(/ /g,'').replace(/\./g, ''),
-      'name': datatypes[i].name
-    };
-  }
-  var enums = apiDefinition.enums;
-  for (var i = 0; i < enums.length; i++) {
-    typeIndex[enums[i].id] = {
-      'target': 'enum-' + enums[i].name.toLowerCase().replace(/ /g,'').replace(/\./g, ''),
-      'name': enums[i].name
-  	};
-  }
-  return typeIndex;
-}*/
-
-// Dynamically generates links to datatypes/enums that are listed as fields in other
-// datatypes.
-/*
-handlebars.registerHelper('processType', function(options) {
-  var typeString = options.fn(this);
-
-  // First, convert simple proto types to simple js types
-  if (typeString == "int32" || typeString == "int64") {
-  	return "number";
-  } else if (typeString == "bool"){
-  	return "boolean";
-  } else if (typeString == "string") {
-  	return "string";
-  } else if (typeString.indexOf("map&lt;") !== -1) {
-    return "object";
-  } else {
-
-  	// Okay, we have a custom type. First, find all of the types in the index that
-  	// the field might be referring to
-
-    // Namespace the type to prevent collisions with symbols with the same suffix
-    typeString = '.' + typeString;
-
-  	var possibleTypes = [];
-  	for (var key in typeIndex) {
-      if (key.indexOf(typeString, key.length - typeString.length) !== -1) {
-      	possibleTypes.push(key);
-      }
-  	}
-
-  	// No matches. Add a warning.
-  	if (possibleTypes.length == 0) {
-  	  warnings.push('No matches found for symbol ' + typeString + ', cannot cross-link');
-  	  return typeString;
-
-  	// Exactly one match. Perfect. Link to that type.
-  	} else if (possibleTypes.length == 1) {
-  	  var type = typeIndex[possibleTypes[0]];
-  	  return '<a href="#' + type.target + '">' + type.name + '</a>';
-
-  	// Multiple types matched. Do a little more work to see if we can narrow down to one.
-  	} else {
-      warnings.push('Multiple matches found for symbol ' + typeString + ', cannot cross-link\n' +
-                      'Possible values:');
-      for (var i = 0; i < possibleTypes.length; i++) {
-        warnings.push(possibleTypes[i]);
-      }
-      return typeString;
-  	}
-  }
-});
-*/
