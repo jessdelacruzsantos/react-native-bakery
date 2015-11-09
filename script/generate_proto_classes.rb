@@ -39,7 +39,7 @@ def generate_class(path)
   if !File.directory?(proto_output_location)
     FileUtils.mkdir_p(proto_output_location)
   end
-  system "protoc --plugin=protoc-gen-php='#{HOME_DIR}/Development/connect-sdks/src/php/Protobuf-PHP/protoc-gen-php.php' \
+  system "protoc --plugin=protoc-gen-php='#{HOME_DIR}/Development/connect-sdks/tools/Protobuf-PHP/protoc-gen-php.php' \
           --proto_path=#{HOME_DIR}/Development/connect-public-protos \
           --php_out='skip-imported=true:#{proto_output_location}' \
           #{path}"

@@ -1,0 +1,5 @@
+{
+  "require" : {
+    "datto/protobuf-php": "dev-master"
+  }
+}
