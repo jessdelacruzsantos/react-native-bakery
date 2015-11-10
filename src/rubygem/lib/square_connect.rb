@@ -19,7 +19,21 @@ require_relative('squareup/connect/v3/resources/transaction.pb')
 
 class SquareConnect
 
-  @@connectRoot = URI.parse('https://connect.squareupstaging.com')
+  @@connectRoot = URI.parse('https://connect.squareup.com')
+
+  def self.Charge(context, requestObject)
+    requestPath = '/services/squareup.connect.v3.SquareConnectV3/Charge'
+    requestBody = requestObject.serialize_to_string()
+    responseWrapper = Squareup::Connect::V3::Actions::ChargeResponse.new()
+    self.sendRequest(requestPath, context, requestBody, responseWrapper)
+  end
+
+  def self.Refund(context, requestObject)
+    requestPath = '/services/squareup.connect.v3.SquareConnectV3/Refund'
+    requestBody = requestObject.serialize_to_string()
+    responseWrapper = Squareup::Connect::V3::Actions::RefundResponse.new()
+    self.sendRequest(requestPath, context, requestBody, responseWrapper)
+  end
 
   def self.ListLocations(context, requestObject)
     requestPath = '/services/squareup.connect.v3.SquareConnectV3/ListLocations'
@@ -77,13 +91,6 @@ class SquareConnect
     self.sendRequest(requestPath, context, requestBody, responseWrapper)
   end
 
-  def self.CreateTransaction(context, requestObject)
-    requestPath = '/services/squareup.connect.v3.SquareConnectV3/CreateTransaction'
-    requestBody = requestObject.serialize_to_string()
-    responseWrapper = Squareup::Connect::V3::Actions::CreateTransactionResponse.new()
-    self.sendRequest(requestPath, context, requestBody, responseWrapper)
-  end
-
   def self.CaptureTransaction(context, requestObject)
     requestPath = '/services/squareup.connect.v3.SquareConnectV3/CaptureTransaction'
     requestBody = requestObject.serialize_to_string()
@@ -109,13 +116,6 @@ class SquareConnect
     requestPath = '/services/squareup.connect.v3.SquareConnectV3/RetrieveTransaction'
     requestBody = requestObject.serialize_to_string()
     responseWrapper = Squareup::Connect::V3::Actions::RetrieveTransactionResponse.new()
-    self.sendRequest(requestPath, context, requestBody, responseWrapper)
-  end
-
-  def self.RetrieveTransactionGroup(context, requestObject)
-    requestPath = '/services/squareup.connect.v3.SquareConnectV3/RetrieveTransactionGroup'
-    requestBody = requestObject.serialize_to_string()
-    responseWrapper = Squareup::Connect::V3::Actions::RetrieveTransactionGroupResponse.new()
     self.sendRequest(requestPath, context, requestBody, responseWrapper)
   end
 
