@@ -9,8 +9,6 @@ var apiDefinition = JSON.parse(fs.readFileSync('api.json', 'utf-8'));
 var phpTemplate = handlebars.compile(fs.readFileSync('squareconnect-template.php', 'utf-8'));
 var rubyTemplate = handlebars.compile(fs.readFileSync('squareconnect-template.rb', 'utf-8'));
 
-//handlebars.registerPartial('endpoint', endpointTemplate);
-
 var warnings = [];
 
 // Helper methods for Handlebars
@@ -108,7 +106,7 @@ fs.writeFileSync(homeDirectory + '/Development/connect-sdks/src/php/SquareConnec
 console.log("Writing Ruby core class");
 fs.writeFileSync(homeDirectory + '/Development/connect-sdks/src/rubygem/square_connect.rb', rubyCore);
 
-console.log("All done!");
+console.log("All done.");
 
 
 // Log warnings encountered during processing.
