@@ -104,7 +104,7 @@ console.log("Writing PHP core class");
 fs.writeFileSync(homeDirectory + '/Development/connect-sdks/src/php/SquareConnect.php', phpCore);
 
 console.log("Writing Ruby core class");
-fs.writeFileSync(homeDirectory + '/Development/connect-sdks/src/rubygem/square_connect.rb', rubyCore);
+fs.writeFileSync(homeDirectory + '/Development/connect-sdks/src/rubygem/lib/square_connect.rb', rubyCore);
 
 console.log("All done.");
 

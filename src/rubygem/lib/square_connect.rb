@@ -1,21 +1,17 @@
 require 'net/http'
 require 'uri'
-require_relative('squareup/connect/v3/actions/card.pb')
-require_relative('squareup/connect/v3/actions/charge.pb')
-require_relative('squareup/connect/v3/actions/customer.pb')
-require_relative('squareup/connect/v3/actions/location.pb')
-require_relative('squareup/connect/v3/actions/refund.pb')
-require_relative('squareup/connect/v3/actions/transaction.pb')
-require_relative('squareup/connect/v3/resources/address.pb')
-require_relative('squareup/connect/v3/resources/card.pb')
-require_relative('squareup/connect/v3/resources/country.pb')
-require_relative('squareup/connect/v3/resources/customer.pb')
-require_relative('squareup/connect/v3/resources/error.pb')
-require_relative('squareup/connect/v3/resources/location.pb')
-require_relative('squareup/connect/v3/resources/money.pb')
-require_relative('squareup/connect/v3/resources/refund.pb')
-require_relative('squareup/connect/v3/resources/tender.pb')
-require_relative('squareup/connect/v3/resources/transaction.pb')
+
+gemdir = File.dirname(__FILE__)
+Dir.foreach(gemdir + '/squareup/connect/v3/actions') do |path|
+  if path.end_with? '.rb'
+    require path
+  end
+end
+Dir.foreach(gemdir + '/squareup/connect/v3/resources') do |path|
+  if path.end_with? '.rb'
+    require path
+  end
+end
 
 class SquareConnect
 
