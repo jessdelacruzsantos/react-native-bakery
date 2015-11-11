@@ -21,13 +21,12 @@ class SquareConnect
   def self.{{this.id}}(context, requestObject)
     requestPath = '/services/squareup.connect.v3.SquareConnectV3/{{this.id}}'
     requestBody = requestObject.serialize_to_string()
-    responseWrapper = Squareup::Connect::V3::Actions::{{#paramify}}{{this.outputtype}}{{/paramify}}.new()
-    self.sendRequest(requestPath, context, requestBody, responseWrapper)
+    return self.sendRequest(requestPath, context, requestBody, Squareup::Connect::V3::Actions::{{#paramify}}{{this.outputtype}}{{/paramify}})
   end
 
   {{/each}}
 
-  def self.sendRequest(path, context, body, responseWrapper)
+  def self.sendRequest(path, context, body, responseClass)
     http = Net::HTTP.new(@@connectRoot.host, @@connectRoot.port)
     http.use_ssl = true
     request = Net::HTTP::Post.new(path)
@@ -35,6 +34,7 @@ class SquareConnect
     request.add_field('Authorization', 'Bearer ' + context.access_token)
     request.body = body
     response = http.request(request)
+    return responseClass.parse(response.body)
   end
 
 end

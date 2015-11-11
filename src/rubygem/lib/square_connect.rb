@@ -20,103 +20,89 @@ class SquareConnect
   def self.Charge(context, requestObject)
     requestPath = '/services/squareup.connect.v3.SquareConnectV3/Charge'
     requestBody = requestObject.serialize_to_string()
-    responseWrapper = Squareup::Connect::V3::Actions::ChargeResponse.new()
-    self.sendRequest(requestPath, context, requestBody, responseWrapper)
+    return self.sendRequest(requestPath, context, requestBody, Squareup::Connect::V3::Actions::ChargeResponse)
   end
 
   def self.Refund(context, requestObject)
     requestPath = '/services/squareup.connect.v3.SquareConnectV3/Refund'
     requestBody = requestObject.serialize_to_string()
-    responseWrapper = Squareup::Connect::V3::Actions::RefundResponse.new()
-    self.sendRequest(requestPath, context, requestBody, responseWrapper)
+    return self.sendRequest(requestPath, context, requestBody, Squareup::Connect::V3::Actions::RefundResponse)
   end
 
   def self.ListLocations(context, requestObject)
     requestPath = '/services/squareup.connect.v3.SquareConnectV3/ListLocations'
     requestBody = requestObject.serialize_to_string()
-    responseWrapper = Squareup::Connect::V3::Actions::ListLocationsResponse.new()
-    self.sendRequest(requestPath, context, requestBody, responseWrapper)
+    return self.sendRequest(requestPath, context, requestBody, Squareup::Connect::V3::Actions::ListLocationsResponse)
   end
 
   def self.CreateCard(context, requestObject)
     requestPath = '/services/squareup.connect.v3.SquareConnectV3/CreateCard'
     requestBody = requestObject.serialize_to_string()
-    responseWrapper = Squareup::Connect::V3::Actions::CreateCardResponse.new()
-    self.sendRequest(requestPath, context, requestBody, responseWrapper)
+    return self.sendRequest(requestPath, context, requestBody, Squareup::Connect::V3::Actions::CreateCardResponse)
   end
 
   def self.UpsertCustomer(context, requestObject)
     requestPath = '/services/squareup.connect.v3.SquareConnectV3/UpsertCustomer'
     requestBody = requestObject.serialize_to_string()
-    responseWrapper = Squareup::Connect::V3::Actions::UpsertCustomerResponse.new()
-    self.sendRequest(requestPath, context, requestBody, responseWrapper)
+    return self.sendRequest(requestPath, context, requestBody, Squareup::Connect::V3::Actions::UpsertCustomerResponse)
   end
 
   def self.ListCustomers(context, requestObject)
     requestPath = '/services/squareup.connect.v3.SquareConnectV3/ListCustomers'
     requestBody = requestObject.serialize_to_string()
-    responseWrapper = Squareup::Connect::V3::Actions::ListCustomersResponse.new()
-    self.sendRequest(requestPath, context, requestBody, responseWrapper)
+    return self.sendRequest(requestPath, context, requestBody, Squareup::Connect::V3::Actions::ListCustomersResponse)
   end
 
   def self.RetrieveCustomer(context, requestObject)
     requestPath = '/services/squareup.connect.v3.SquareConnectV3/RetrieveCustomer'
     requestBody = requestObject.serialize_to_string()
-    responseWrapper = Squareup::Connect::V3::Actions::RetrieveCustomerResponse.new()
-    self.sendRequest(requestPath, context, requestBody, responseWrapper)
+    return self.sendRequest(requestPath, context, requestBody, Squareup::Connect::V3::Actions::RetrieveCustomerResponse)
   end
 
   def self.CreateCustomerCard(context, requestObject)
     requestPath = '/services/squareup.connect.v3.SquareConnectV3/CreateCustomerCard'
     requestBody = requestObject.serialize_to_string()
-    responseWrapper = Squareup::Connect::V3::Actions::CreateCustomerCardResponse.new()
-    self.sendRequest(requestPath, context, requestBody, responseWrapper)
+    return self.sendRequest(requestPath, context, requestBody, Squareup::Connect::V3::Actions::CreateCustomerCardResponse)
   end
 
   def self.UpdateCustomerCard(context, requestObject)
     requestPath = '/services/squareup.connect.v3.SquareConnectV3/UpdateCustomerCard'
     requestBody = requestObject.serialize_to_string()
-    responseWrapper = Squareup::Connect::V3::Actions::UpdateCustomerCardResponse.new()
-    self.sendRequest(requestPath, context, requestBody, responseWrapper)
+    return self.sendRequest(requestPath, context, requestBody, Squareup::Connect::V3::Actions::UpdateCustomerCardResponse)
   end
 
   def self.DeleteCustomerCard(context, requestObject)
     requestPath = '/services/squareup.connect.v3.SquareConnectV3/DeleteCustomerCard'
     requestBody = requestObject.serialize_to_string()
-    responseWrapper = Squareup::Connect::V3::Actions::DeleteCustomerCardResponse.new()
-    self.sendRequest(requestPath, context, requestBody, responseWrapper)
+    return self.sendRequest(requestPath, context, requestBody, Squareup::Connect::V3::Actions::DeleteCustomerCardResponse)
   end
 
   def self.CaptureTransaction(context, requestObject)
     requestPath = '/services/squareup.connect.v3.SquareConnectV3/CaptureTransaction'
     requestBody = requestObject.serialize_to_string()
-    responseWrapper = Squareup::Connect::V3::Actions::CaptureTransactionResponse.new()
-    self.sendRequest(requestPath, context, requestBody, responseWrapper)
+    return self.sendRequest(requestPath, context, requestBody, Squareup::Connect::V3::Actions::CaptureTransactionResponse)
   end
 
   def self.VoidTransaction(context, requestObject)
     requestPath = '/services/squareup.connect.v3.SquareConnectV3/VoidTransaction'
     requestBody = requestObject.serialize_to_string()
-    responseWrapper = Squareup::Connect::V3::Actions::VoidTransactionResponse.new()
-    self.sendRequest(requestPath, context, requestBody, responseWrapper)
+    return self.sendRequest(requestPath, context, requestBody, Squareup::Connect::V3::Actions::VoidTransactionResponse)
   end
 
   def self.ListTransactions(context, requestObject)
     requestPath = '/services/squareup.connect.v3.SquareConnectV3/ListTransactions'
     requestBody = requestObject.serialize_to_string()
-    responseWrapper = Squareup::Connect::V3::Actions::ListTransactionsResponse.new()
-    self.sendRequest(requestPath, context, requestBody, responseWrapper)
+    return self.sendRequest(requestPath, context, requestBody, Squareup::Connect::V3::Actions::ListTransactionsResponse)
   end
 
   def self.RetrieveTransaction(context, requestObject)
     requestPath = '/services/squareup.connect.v3.SquareConnectV3/RetrieveTransaction'
     requestBody = requestObject.serialize_to_string()
-    responseWrapper = Squareup::Connect::V3::Actions::RetrieveTransactionResponse.new()
-    self.sendRequest(requestPath, context, requestBody, responseWrapper)
+    return self.sendRequest(requestPath, context, requestBody, Squareup::Connect::V3::Actions::RetrieveTransactionResponse)
   end
 
 
-  def self.sendRequest(path, context, body, responseWrapper)
+  def self.sendRequest(path, context, body, responseClass)
     http = Net::HTTP.new(@@connectRoot.host, @@connectRoot.port)
     http.use_ssl = true
     request = Net::HTTP::Post.new(path)
@@ -124,6 +110,7 @@ class SquareConnect
     request.add_field('Authorization', 'Bearer ' + context.access_token)
     request.body = body
     response = http.request(request)
+    return responseClass.parse(response.body)
   end
 
 end
