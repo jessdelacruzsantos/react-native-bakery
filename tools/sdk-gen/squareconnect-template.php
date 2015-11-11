@@ -26,7 +26,7 @@ namespace squareup\connect {
     public static function {{this.id}}($context, $requestObject) {
       $requestPath = '/services/squareup.connect.v3.SquareConnectV3/{{this.id}}';
       $responseWrapper = new \squareup\connect\v3\actions{{#backslash}}{{/backslash}}{{this.id}}Response();
-      return self::sendRequest($requestPath, $context, $requestObject, $responseWrapper);
+      return self::sendRequest($requestPath, $context, $requestObject->serialize(), $responseWrapper);
     }
 
     {{/each}}

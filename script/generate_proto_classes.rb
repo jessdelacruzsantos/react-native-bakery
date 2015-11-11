@@ -23,7 +23,6 @@
 # Okay, you should be good to go:
 # ruby generate_proto_classes.rb
 
-
 require 'fileutils'
 require 'Find'
 
@@ -81,5 +80,6 @@ Find.find(HOME_DIR + '/Development/connect-public-protos/squareup/connect/v3') d
     generate_class(path)
   end
 end
-system "mv #{HOME_DIR}/Development/connect-sdks/src/rubygem/lib#{HOME_DIR}/Development/connect-public-protos/squareup \
-        #{HOME_DIR}/Development/connect-sdks/src/rubygem/lib/"
+system "rsync -arv #{HOME_DIR}/Development/connect-sdks/src/rubygem/lib#{HOME_DIR}/Development/connect-public-protos/squareup/ \
+        #{HOME_DIR}/Development/connect-sdks/src/rubygem/lib/squareup/"
+system "rm -rf #{HOME_DIR}/Development/connect-sdks/src/rubygem/lib/Users"

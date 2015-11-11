@@ -4,12 +4,12 @@ require 'uri'
 gemdir = File.dirname(__FILE__)
 Dir.foreach(gemdir + '/squareup/connect/v3/actions') do |path|
   if path.end_with? '.rb'
-    require path
+    require gemdir + '/squareup/connect/v3/actions/' + path
   end
 end
 Dir.foreach(gemdir + '/squareup/connect/v3/resources') do |path|
   if path.end_with? '.rb'
-    require path
+    require gemdir + '/squareup/connect/v3/resources/' + path
   end
 end
 
