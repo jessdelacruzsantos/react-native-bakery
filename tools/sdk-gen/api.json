@@ -47,13 +47,6 @@
           "type": "resources.Money"
         },
         {
-          "description": "",
-          "name": "customer_id",
-          "isarray": false,
-          "required": false,
-          "type": "string"
-        },
-        {
           "description": "Request that the created payment only execute Auth and require a separate call for capture.",
           "name": "delay_capture",
           "isarray": false,
@@ -94,13 +87,6 @@
           "isarray": false,
           "required": false,
           "type": "resources.Money"
-        },
-        {
-          "description": "",
-          "name": "customer_id",
-          "isarray": false,
-          "required": false,
-          "type": "string"
         },
         {
           "description": "Request that the created payment only execute Auth and require a separate call for capture.",
@@ -226,7 +212,7 @@
       "inputtype": "actions.ListLocationsRequest"
     },
     {
-      "id": "CreateCard",
+      "id": "CreateCardNonce",
       "responsefields": [
         {
           "description": "",
@@ -250,11 +236,11 @@
           "type": "resources.Card"
         }
       ],
-      "description": "",
+      "description": "Make a one time use token (nonce) to return to the seller's site which is\nseparate and distinct from the card PAN. (Nonce is safe to persist, as it\nis not a payment card, although it can only be used one time.)",
       "entity": "Card",
       "path": "",
       "action": "",
-      "outputtype": "actions.CreateCardResponse",
+      "outputtype": "actions.CreateCardNonceResponse",
       "httpmethod": "",
       "params": [
         {
@@ -280,7 +266,7 @@
         }
       ],
       "oauthpermissions": ["PAYMENTS_WRITE"],
-      "inputtype": "actions.CreateCardRequest"
+      "inputtype": "actions.CreateCardNonceRequest"
     },
     {
       "id": "UpsertCustomer",
@@ -449,56 +435,6 @@
       ],
       "oauthpermissions": ["CUSTOMERS_WRITE"],
       "inputtype": "actions.CreateCustomerCardRequest"
-    },
-    {
-      "id": "UpdateCustomerCard",
-      "responsefields": [
-        {
-          "description": "",
-          "name": "errors",
-          "isarray": true,
-          "required": false,
-          "type": "resources.Error"
-        },
-        {
-          "description": "",
-          "name": "card",
-          "isarray": false,
-          "required": false,
-          "type": "resources.Card"
-        }
-      ],
-      "description": "",
-      "entity": "Customer.Card",
-      "path": "",
-      "action": "",
-      "outputtype": "actions.UpdateCustomerCardResponse",
-      "httpmethod": "",
-      "params": [
-        {
-          "description": "",
-          "name": "location_id",
-          "isarray": false,
-          "required": false,
-          "type": "string"
-        },
-        {
-          "description": "",
-          "name": "customer_id",
-          "isarray": false,
-          "required": false,
-          "type": "string"
-        },
-        {
-          "description": "",
-          "name": "card",
-          "isarray": false,
-          "required": false,
-          "type": "resources.Card"
-        }
-      ],
-      "oauthpermissions": ["CUSTOMERS_WRITE"],
-      "inputtype": "actions.UpdateCustomerCardRequest"
     },
     {
       "id": "DeleteCustomerCard",
@@ -1048,34 +984,6 @@
       ]
     },
     {
-      "id": "squareup.connect.v3.actions.CreateCardRequest",
-      "description": "",
-      "name": "CreateCardRequest",
-      "fields": [
-        {
-          "description": "",
-          "name": "client_id",
-          "isarray": false,
-          "required": false,
-          "type": "string"
-        },
-        {
-          "description": "",
-          "name": "business_id",
-          "isarray": false,
-          "required": false,
-          "type": "string"
-        },
-        {
-          "description": "",
-          "name": "card_data",
-          "isarray": false,
-          "required": false,
-          "type": "resources.CardData"
-        }
-      ]
-    },
-    {
       "id": "squareup.connect.v3.actions.VoidTransactionResponse",
       "description": "",
       "name": "VoidTransactionResponse",
@@ -1247,15 +1155,43 @@
       ]
     },
     {
+      "id": "squareup.connect.v3.actions.CreateCardNonceRequest",
+      "description": "",
+      "name": "CreateCardNonceRequest",
+      "fields": [
+        {
+          "description": "",
+          "name": "client_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "business_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "card_data",
+          "isarray": false,
+          "required": false,
+          "type": "resources.CardData"
+        }
+      ]
+    },
+    {
       "id": "squareup.connect.v3.resources.Money",
       "description": "",
       "name": "Money",
       "fields": [
         {
-          "description": "",
+          "description": "Amount in the lowest denominated value of this Currency. E.g. in USD\nthese are cents, in JPY they are Yen (which do not have a 'cent' concept).",
           "name": "amount",
           "isarray": false,
-          "required": false,
+          "required": true,
           "type": "int64"
         },
         {
@@ -1429,9 +1365,9 @@
       ]
     },
     {
-      "id": "squareup.connect.v3.actions.CreateCardResponse",
+      "id": "squareup.connect.v3.actions.CreateCardNonceResponse",
       "description": "",
-      "name": "CreateCardResponse",
+      "name": "CreateCardNonceResponse",
       "fields": [
         {
           "description": "",
@@ -1644,13 +1580,6 @@
           "type": "resources.Money"
         },
         {
-          "description": "",
-          "name": "customer_id",
-          "isarray": false,
-          "required": false,
-          "type": "string"
-        },
-        {
           "description": "Request that the created payment only execute Auth and require a separate call for capture.",
           "name": "delay_capture",
           "isarray": false,
@@ -1676,13 +1605,62 @@
           "name": "card_nonce",
           "isarray": false,
           "required": true,
-          "type": "string"
+          "type": "ChargeRequest.CardNonceInstrument"
         },
         {
           "description": "Specific card ID linked to the Customer.",
           "name": "customer_card_id",
           "isarray": false,
           "required": true,
+          "type": "ChargeRequest.CustomerCardInstrument"
+        }
+      ]
+    },
+    {
+      "id": "squareup.connect.v3.actions.ChargeRequest.CardNonceInstrument",
+      "description": "",
+      "name": "ChargeRequest.CardNonceInstrument",
+      "fields": [
+        {
+          "description": "",
+          "name": "card_nonce",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "billing_address",
+          "isarray": false,
+          "required": false,
+          "type": "resources.Address"
+        },
+        {
+          "description": "",
+          "name": "customer_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "id": "squareup.connect.v3.actions.ChargeRequest.CustomerCardInstrument",
+      "description": "",
+      "name": "ChargeRequest.CustomerCardInstrument",
+      "fields": [
+        {
+          "description": "",
+          "name": "customer_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "customer_card_id",
+          "isarray": false,
+          "required": false,
           "type": "string"
         }
       ]
@@ -1786,34 +1764,6 @@
       ]
     },
     {
-      "id": "squareup.connect.v3.actions.UpdateCustomerCardRequest",
-      "description": "",
-      "name": "UpdateCustomerCardRequest",
-      "fields": [
-        {
-          "description": "",
-          "name": "location_id",
-          "isarray": false,
-          "required": false,
-          "type": "string"
-        },
-        {
-          "description": "",
-          "name": "customer_id",
-          "isarray": false,
-          "required": false,
-          "type": "string"
-        },
-        {
-          "description": "",
-          "name": "card",
-          "isarray": false,
-          "required": false,
-          "type": "resources.Card"
-        }
-      ]
-    },
-    {
       "id": "squareup.connect.v3.actions.UpsertCustomerResponse",
       "description": "",
       "name": "UpsertCustomerResponse",
@@ -1831,27 +1781,6 @@
           "isarray": false,
           "required": false,
           "type": "resources.Customer"
-        }
-      ]
-    },
-    {
-      "id": "squareup.connect.v3.actions.UpdateCustomerCardResponse",
-      "description": "",
-      "name": "UpdateCustomerCardResponse",
-      "fields": [
-        {
-          "description": "",
-          "name": "errors",
-          "isarray": true,
-          "required": false,
-          "type": "resources.Error"
-        },
-        {
-          "description": "",
-          "name": "card",
-          "isarray": false,
-          "required": false,
-          "type": "resources.Card"
         }
       ]
     },

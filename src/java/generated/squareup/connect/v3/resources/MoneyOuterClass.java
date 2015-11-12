@@ -1715,10 +1715,24 @@ public final class MoneyOuterClass {
 
     /**
      * <code>optional int64 amount = 1;</code>
+     *
+     * <pre>
+     *--
+     *&#64;desc Amount in the lowest denominated value of this Currency. E.g. in USD
+     *these are cents, in JPY they are Yen (which do not have a 'cent' concept).
+     *--
+     * </pre>
      */
     boolean hasAmount();
     /**
      * <code>optional int64 amount = 1;</code>
+     *
+     * <pre>
+     *--
+     *&#64;desc Amount in the lowest denominated value of this Currency. E.g. in USD
+     *these are cents, in JPY they are Yen (which do not have a 'cent' concept).
+     *--
+     * </pre>
      */
     long getAmount();
 
@@ -1819,12 +1833,26 @@ public final class MoneyOuterClass {
     private long amount_;
     /**
      * <code>optional int64 amount = 1;</code>
+     *
+     * <pre>
+     *--
+     *&#64;desc Amount in the lowest denominated value of this Currency. E.g. in USD
+     *these are cents, in JPY they are Yen (which do not have a 'cent' concept).
+     *--
+     * </pre>
      */
     public boolean hasAmount() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
      * <code>optional int64 amount = 1;</code>
+     *
+     * <pre>
+     *--
+     *&#64;desc Amount in the lowest denominated value of this Currency. E.g. in USD
+     *these are cents, in JPY they are Yen (which do not have a 'cent' concept).
+     *--
+     * </pre>
      */
     public long getAmount() {
       return amount_;
@@ -2126,18 +2154,39 @@ public final class MoneyOuterClass {
       private long amount_ ;
       /**
        * <code>optional int64 amount = 1;</code>
+       *
+       * <pre>
+       *--
+       *&#64;desc Amount in the lowest denominated value of this Currency. E.g. in USD
+       *these are cents, in JPY they are Yen (which do not have a 'cent' concept).
+       *--
+       * </pre>
        */
       public boolean hasAmount() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
        * <code>optional int64 amount = 1;</code>
+       *
+       * <pre>
+       *--
+       *&#64;desc Amount in the lowest denominated value of this Currency. E.g. in USD
+       *these are cents, in JPY they are Yen (which do not have a 'cent' concept).
+       *--
+       * </pre>
        */
       public long getAmount() {
         return amount_;
       }
       /**
        * <code>optional int64 amount = 1;</code>
+       *
+       * <pre>
+       *--
+       *&#64;desc Amount in the lowest denominated value of this Currency. E.g. in USD
+       *these are cents, in JPY they are Yen (which do not have a 'cent' concept).
+       *--
+       * </pre>
        */
       public Builder setAmount(long value) {
         bitField0_ |= 0x00000001;
@@ -2147,6 +2196,13 @@ public final class MoneyOuterClass {
       }
       /**
        * <code>optional int64 amount = 1;</code>
+       *
+       * <pre>
+       *--
+       *&#64;desc Amount in the lowest denominated value of this Currency. E.g. in USD
+       *these are cents, in JPY they are Yen (which do not have a 'cent' concept).
+       *--
+       * </pre>
        */
       public Builder clearAmount() {
         bitField0_ = (bitField0_ & ~0x00000001);

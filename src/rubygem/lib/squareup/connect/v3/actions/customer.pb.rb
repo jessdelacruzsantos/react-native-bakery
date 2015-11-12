@@ -20,8 +20,6 @@ module Squareup
         class RetrieveCustomerResponse < ::ProtocolBuffers::Message; end
         class CreateCustomerCardRequest < ::ProtocolBuffers::Message; end
         class CreateCustomerCardResponse < ::ProtocolBuffers::Message; end
-        class UpdateCustomerCardRequest < ::ProtocolBuffers::Message; end
-        class UpdateCustomerCardResponse < ::ProtocolBuffers::Message; end
         class DeleteCustomerCardRequest < ::ProtocolBuffers::Message; end
         class DeleteCustomerCardResponse < ::ProtocolBuffers::Message; end
 
@@ -88,21 +86,6 @@ module Squareup
 
         class CreateCustomerCardResponse < ::ProtocolBuffers::Message
           set_fully_qualified_name "squareup.connect.v3.actions.CreateCustomerCardResponse"
-
-          repeated ::Squareup::Connect::V3::Resources::Error, :errors, 1
-          optional ::Squareup::Connect::V3::Resources::Card, :card, 2
-        end
-
-        class UpdateCustomerCardRequest < ::ProtocolBuffers::Message
-          set_fully_qualified_name "squareup.connect.v3.actions.UpdateCustomerCardRequest"
-
-          required :string, :location_id, 1
-          required :string, :customer_id, 2
-          required ::Squareup::Connect::V3::Resources::Card, :card, 3
-        end
-
-        class UpdateCustomerCardResponse < ::ProtocolBuffers::Message
-          set_fully_qualified_name "squareup.connect.v3.actions.UpdateCustomerCardResponse"
 
           repeated ::Squareup::Connect::V3::Resources::Error, :errors, 1
           optional ::Squareup::Connect::V3::Resources::Card, :card, 2

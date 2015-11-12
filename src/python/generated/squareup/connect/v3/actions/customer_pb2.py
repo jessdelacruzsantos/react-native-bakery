@@ -22,7 +22,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='squareup/connect/v3/actions/customer.proto',
   package='squareup.connect.v3.actions',
   syntax='proto2',
-  serialized_pb=_b('\n*squareup/connect/v3/actions/customer.proto\x12\x1bsquareup.connect.v3.actions\x1a(squareup/connect/v3/resources/card.proto\x1a,squareup/connect/v3/resources/customer.proto\x1a)squareup/connect/v3/resources/error.proto\"\x9c\x01\n\x14ListCustomersRequest\x12J\n\x06params\x18\x01 \x01(\x0b\x32\x38.squareup.connect.v3.actions.ListCustomersRequest.ParamsH\x00\x12\x10\n\x06\x63ursor\x18\x02 \x01(\tH\x00\x1a\x1d\n\x06Params\x12\x13\n\x0blocation_id\x18\x01 \x01(\tB\x07\n\x05query\"\x99\x01\n\x15ListCustomersResponse\x12\x34\n\x06\x65rrors\x18\x01 \x03(\x0b\x32$.squareup.connect.v3.resources.Error\x12:\n\tcustomers\x18\x02 \x03(\x0b\x32\'.squareup.connect.v3.resources.Customer\x12\x0e\n\x06\x63ursor\x18\x03 \x01(\t\"R\n\x15UpsertCustomerRequest\x12\x39\n\x08\x63ustomer\x18\x01 \x02(\x0b\x32\'.squareup.connect.v3.resources.Customer\"\x89\x01\n\x16UpsertCustomerResponse\x12\x34\n\x06\x65rrors\x18\x01 \x03(\x0b\x32$.squareup.connect.v3.resources.Error\x12\x39\n\x08\x63ustomer\x18\x02 \x01(\x0b\x32\'.squareup.connect.v3.resources.Customer\"C\n\x17RetrieveCustomerRequest\x12\x13\n\x0blocation_id\x18\x01 \x01(\t\x12\x13\n\x0b\x63ustomer_id\x18\x02 \x02(\t\"\x8b\x01\n\x18RetrieveCustomerResponse\x12\x34\n\x06\x65rrors\x18\x01 \x03(\x0b\x32$.squareup.connect.v3.resources.Error\x12\x39\n\x08\x63ustomer\x18\x02 \x01(\x0b\x32\'.squareup.connect.v3.resources.Customer\"\x95\x01\n\x19\x43reateCustomerCardRequest\x12\x13\n\x0blocation_id\x18\x01 \x02(\t\x12\x13\n\x0b\x63ustomer_id\x18\x02 \x02(\t\x12\x12\n\ncard_nonce\x18\x03 \x01(\t\x12:\n\tcard_data\x18\x04 \x01(\x0b\x32\'.squareup.connect.v3.resources.CardData\"\x85\x01\n\x1a\x43reateCustomerCardResponse\x12\x34\n\x06\x65rrors\x18\x01 \x03(\x0b\x32$.squareup.connect.v3.resources.Error\x12\x31\n\x04\x63\x61rd\x18\x02 \x01(\x0b\x32#.squareup.connect.v3.resources.Card\"x\n\x19UpdateCustomerCardRequest\x12\x13\n\x0blocation_id\x18\x01 \x02(\t\x12\x13\n\x0b\x63ustomer_id\x18\x02 \x02(\t\x12\x31\n\x04\x63\x61rd\x18\x03 \x02(\x0b\x32#.squareup.connect.v3.resources.Card\"\x85\x01\n\x1aUpdateCustomerCardResponse\x12\x34\n\x06\x65rrors\x18\x01 \x03(\x0b\x32$.squareup.connect.v3.resources.Error\x12\x31\n\x04\x63\x61rd\x18\x02 \x01(\x0b\x32#.squareup.connect.v3.resources.Card\"V\n\x19\x44\x65leteCustomerCardRequest\x12\x13\n\x0blocation_id\x18\x01 \x02(\t\x12\x13\n\x0b\x63ustomer_id\x18\x02 \x02(\t\x12\x0f\n\x07\x63\x61rd_id\x18\x03 \x02(\t\"R\n\x1a\x44\x65leteCustomerCardResponse\x12\x34\n\x06\x65rrors\x18\x01 \x03(\x0b\x32$.squareup.connect.v3.resources.Error')
+  serialized_pb=_b('\n*squareup/connect/v3/actions/customer.proto\x12\x1bsquareup.connect.v3.actions\x1a(squareup/connect/v3/resources/card.proto\x1a,squareup/connect/v3/resources/customer.proto\x1a)squareup/connect/v3/resources/error.proto\"\x9c\x01\n\x14ListCustomersRequest\x12J\n\x06params\x18\x01 \x01(\x0b\x32\x38.squareup.connect.v3.actions.ListCustomersRequest.ParamsH\x00\x12\x10\n\x06\x63ursor\x18\x02 \x01(\tH\x00\x1a\x1d\n\x06Params\x12\x13\n\x0blocation_id\x18\x01 \x01(\tB\x07\n\x05query\"\x99\x01\n\x15ListCustomersResponse\x12\x34\n\x06\x65rrors\x18\x01 \x03(\x0b\x32$.squareup.connect.v3.resources.Error\x12:\n\tcustomers\x18\x02 \x03(\x0b\x32\'.squareup.connect.v3.resources.Customer\x12\x0e\n\x06\x63ursor\x18\x03 \x01(\t\"R\n\x15UpsertCustomerRequest\x12\x39\n\x08\x63ustomer\x18\x01 \x02(\x0b\x32\'.squareup.connect.v3.resources.Customer\"\x89\x01\n\x16UpsertCustomerResponse\x12\x34\n\x06\x65rrors\x18\x01 \x03(\x0b\x32$.squareup.connect.v3.resources.Error\x12\x39\n\x08\x63ustomer\x18\x02 \x01(\x0b\x32\'.squareup.connect.v3.resources.Customer\"C\n\x17RetrieveCustomerRequest\x12\x13\n\x0blocation_id\x18\x01 \x01(\t\x12\x13\n\x0b\x63ustomer_id\x18\x02 \x02(\t\"\x8b\x01\n\x18RetrieveCustomerResponse\x12\x34\n\x06\x65rrors\x18\x01 \x03(\x0b\x32$.squareup.connect.v3.resources.Error\x12\x39\n\x08\x63ustomer\x18\x02 \x01(\x0b\x32\'.squareup.connect.v3.resources.Customer\"\x95\x01\n\x19\x43reateCustomerCardRequest\x12\x13\n\x0blocation_id\x18\x01 \x02(\t\x12\x13\n\x0b\x63ustomer_id\x18\x02 \x02(\t\x12\x12\n\ncard_nonce\x18\x03 \x01(\t\x12:\n\tcard_data\x18\x04 \x01(\x0b\x32\'.squareup.connect.v3.resources.CardData\"\x85\x01\n\x1a\x43reateCustomerCardResponse\x12\x34\n\x06\x65rrors\x18\x01 \x03(\x0b\x32$.squareup.connect.v3.resources.Error\x12\x31\n\x04\x63\x61rd\x18\x02 \x01(\x0b\x32#.squareup.connect.v3.resources.Card\"V\n\x19\x44\x65leteCustomerCardRequest\x12\x13\n\x0blocation_id\x18\x01 \x02(\t\x12\x13\n\x0b\x63ustomer_id\x18\x02 \x02(\t\x12\x0f\n\x07\x63\x61rd_id\x18\x03 \x02(\t\"R\n\x1a\x44\x65leteCustomerCardResponse\x12\x34\n\x06\x65rrors\x18\x01 \x03(\x0b\x32$.squareup.connect.v3.resources.Error')
   ,
   dependencies=[squareup_dot_connect_dot_v3_dot_resources_dot_card__pb2.DESCRIPTOR,squareup_dot_connect_dot_v3_dot_resources_dot_customer__pb2.DESCRIPTOR,squareup_dot_connect_dot_v3_dot_resources_dot_error__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -381,89 +381,6 @@ _CREATECUSTOMERCARDRESPONSE = _descriptor.Descriptor(
 )
 
 
-_UPDATECUSTOMERCARDREQUEST = _descriptor.Descriptor(
-  name='UpdateCustomerCardRequest',
-  full_name='squareup.connect.v3.actions.UpdateCustomerCardRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='location_id', full_name='squareup.connect.v3.actions.UpdateCustomerCardRequest.location_id', index=0,
-      number=1, type=9, cpp_type=9, label=2,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='customer_id', full_name='squareup.connect.v3.actions.UpdateCustomerCardRequest.customer_id', index=1,
-      number=2, type=9, cpp_type=9, label=2,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='card', full_name='squareup.connect.v3.actions.UpdateCustomerCardRequest.card', index=2,
-      number=3, type=11, cpp_type=10, label=2,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto2',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1244,
-  serialized_end=1364,
-)
-
-
-_UPDATECUSTOMERCARDRESPONSE = _descriptor.Descriptor(
-  name='UpdateCustomerCardResponse',
-  full_name='squareup.connect.v3.actions.UpdateCustomerCardResponse',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='errors', full_name='squareup.connect.v3.actions.UpdateCustomerCardResponse.errors', index=0,
-      number=1, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='card', full_name='squareup.connect.v3.actions.UpdateCustomerCardResponse.card', index=1,
-      number=2, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto2',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1367,
-  serialized_end=1500,
-)
-
-
 _DELETECUSTOMERCARDREQUEST = _descriptor.Descriptor(
   name='DeleteCustomerCardRequest',
   full_name='squareup.connect.v3.actions.DeleteCustomerCardRequest',
@@ -504,8 +421,8 @@ _DELETECUSTOMERCARDREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1502,
-  serialized_end=1588,
+  serialized_start=1244,
+  serialized_end=1330,
 )
 
 
@@ -535,8 +452,8 @@ _DELETECUSTOMERCARDRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1590,
-  serialized_end=1672,
+  serialized_start=1332,
+  serialized_end=1414,
 )
 
 _LISTCUSTOMERSREQUEST_PARAMS.containing_type = _LISTCUSTOMERSREQUEST
@@ -557,9 +474,6 @@ _RETRIEVECUSTOMERRESPONSE.fields_by_name['customer'].message_type = squareup_dot
 _CREATECUSTOMERCARDREQUEST.fields_by_name['card_data'].message_type = squareup_dot_connect_dot_v3_dot_resources_dot_card__pb2._CARDDATA
 _CREATECUSTOMERCARDRESPONSE.fields_by_name['errors'].message_type = squareup_dot_connect_dot_v3_dot_resources_dot_error__pb2._ERROR
 _CREATECUSTOMERCARDRESPONSE.fields_by_name['card'].message_type = squareup_dot_connect_dot_v3_dot_resources_dot_card__pb2._CARD
-_UPDATECUSTOMERCARDREQUEST.fields_by_name['card'].message_type = squareup_dot_connect_dot_v3_dot_resources_dot_card__pb2._CARD
-_UPDATECUSTOMERCARDRESPONSE.fields_by_name['errors'].message_type = squareup_dot_connect_dot_v3_dot_resources_dot_error__pb2._ERROR
-_UPDATECUSTOMERCARDRESPONSE.fields_by_name['card'].message_type = squareup_dot_connect_dot_v3_dot_resources_dot_card__pb2._CARD
 _DELETECUSTOMERCARDRESPONSE.fields_by_name['errors'].message_type = squareup_dot_connect_dot_v3_dot_resources_dot_error__pb2._ERROR
 DESCRIPTOR.message_types_by_name['ListCustomersRequest'] = _LISTCUSTOMERSREQUEST
 DESCRIPTOR.message_types_by_name['ListCustomersResponse'] = _LISTCUSTOMERSRESPONSE
@@ -569,8 +483,6 @@ DESCRIPTOR.message_types_by_name['RetrieveCustomerRequest'] = _RETRIEVECUSTOMERR
 DESCRIPTOR.message_types_by_name['RetrieveCustomerResponse'] = _RETRIEVECUSTOMERRESPONSE
 DESCRIPTOR.message_types_by_name['CreateCustomerCardRequest'] = _CREATECUSTOMERCARDREQUEST
 DESCRIPTOR.message_types_by_name['CreateCustomerCardResponse'] = _CREATECUSTOMERCARDRESPONSE
-DESCRIPTOR.message_types_by_name['UpdateCustomerCardRequest'] = _UPDATECUSTOMERCARDREQUEST
-DESCRIPTOR.message_types_by_name['UpdateCustomerCardResponse'] = _UPDATECUSTOMERCARDRESPONSE
 DESCRIPTOR.message_types_by_name['DeleteCustomerCardRequest'] = _DELETECUSTOMERCARDREQUEST
 DESCRIPTOR.message_types_by_name['DeleteCustomerCardResponse'] = _DELETECUSTOMERCARDRESPONSE
 
@@ -637,20 +549,6 @@ CreateCustomerCardResponse = _reflection.GeneratedProtocolMessageType('CreateCus
   # @@protoc_insertion_point(class_scope:squareup.connect.v3.actions.CreateCustomerCardResponse)
   ))
 _sym_db.RegisterMessage(CreateCustomerCardResponse)
-
-UpdateCustomerCardRequest = _reflection.GeneratedProtocolMessageType('UpdateCustomerCardRequest', (_message.Message,), dict(
-  DESCRIPTOR = _UPDATECUSTOMERCARDREQUEST,
-  __module__ = 'squareup.connect.v3.actions.customer_pb2'
-  # @@protoc_insertion_point(class_scope:squareup.connect.v3.actions.UpdateCustomerCardRequest)
-  ))
-_sym_db.RegisterMessage(UpdateCustomerCardRequest)
-
-UpdateCustomerCardResponse = _reflection.GeneratedProtocolMessageType('UpdateCustomerCardResponse', (_message.Message,), dict(
-  DESCRIPTOR = _UPDATECUSTOMERCARDRESPONSE,
-  __module__ = 'squareup.connect.v3.actions.customer_pb2'
-  # @@protoc_insertion_point(class_scope:squareup.connect.v3.actions.UpdateCustomerCardResponse)
-  ))
-_sym_db.RegisterMessage(UpdateCustomerCardResponse)
 
 DeleteCustomerCardRequest = _reflection.GeneratedProtocolMessageType('DeleteCustomerCardRequest', (_message.Message,), dict(
   DESCRIPTOR = _DELETECUSTOMERCARDREQUEST,

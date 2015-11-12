@@ -27,15 +27,15 @@ public final class Charge {
         getLocationIdBytes();
 
     /**
-     * <code>optional string idempotency_key = 2;</code>
+     * <code>required string idempotency_key = 2;</code>
      */
     boolean hasIdempotencyKey();
     /**
-     * <code>optional string idempotency_key = 2;</code>
+     * <code>required string idempotency_key = 2;</code>
      */
     java.lang.String getIdempotencyKey();
     /**
-     * <code>optional string idempotency_key = 2;</code>
+     * <code>required string idempotency_key = 2;</code>
      */
     com.google.protobuf.ByteString
         getIdempotencyKeyBytes();
@@ -54,21 +54,7 @@ public final class Charge {
     squareup.connect.v3.resources.MoneyOuterClass.MoneyOrBuilder getAmountMoneyOrBuilder();
 
     /**
-     * <code>optional string customer_id = 4;</code>
-     */
-    boolean hasCustomerId();
-    /**
-     * <code>optional string customer_id = 4;</code>
-     */
-    java.lang.String getCustomerId();
-    /**
-     * <code>optional string customer_id = 4;</code>
-     */
-    com.google.protobuf.ByteString
-        getCustomerIdBytes();
-
-    /**
-     * <code>optional string card_nonce = 5;</code>
+     * <code>optional .squareup.connect.v3.actions.ChargeRequest.CardNonceInstrument card_nonce = 4;</code>
      *
      * <pre>
      *--&#64;desc Tokenized card nonce
@@ -76,25 +62,24 @@ public final class Charge {
      */
     boolean hasCardNonce();
     /**
-     * <code>optional string card_nonce = 5;</code>
+     * <code>optional .squareup.connect.v3.actions.ChargeRequest.CardNonceInstrument card_nonce = 4;</code>
      *
      * <pre>
      *--&#64;desc Tokenized card nonce
      * </pre>
      */
-    java.lang.String getCardNonce();
+    squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument getCardNonce();
     /**
-     * <code>optional string card_nonce = 5;</code>
+     * <code>optional .squareup.connect.v3.actions.ChargeRequest.CardNonceInstrument card_nonce = 4;</code>
      *
      * <pre>
      *--&#64;desc Tokenized card nonce
      * </pre>
      */
-    com.google.protobuf.ByteString
-        getCardNonceBytes();
+    squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrumentOrBuilder getCardNonceOrBuilder();
 
     /**
-     * <code>optional string customer_card_id = 6;</code>
+     * <code>optional .squareup.connect.v3.actions.ChargeRequest.CustomerCardInstrument customer_card_id = 5;</code>
      *
      * <pre>
      *--&#64;desc Specific card ID linked to the Customer.
@@ -102,25 +87,24 @@ public final class Charge {
      */
     boolean hasCustomerCardId();
     /**
-     * <code>optional string customer_card_id = 6;</code>
+     * <code>optional .squareup.connect.v3.actions.ChargeRequest.CustomerCardInstrument customer_card_id = 5;</code>
      *
      * <pre>
      *--&#64;desc Specific card ID linked to the Customer.
      * </pre>
      */
-    java.lang.String getCustomerCardId();
+    squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument getCustomerCardId();
     /**
-     * <code>optional string customer_card_id = 6;</code>
+     * <code>optional .squareup.connect.v3.actions.ChargeRequest.CustomerCardInstrument customer_card_id = 5;</code>
      *
      * <pre>
      *--&#64;desc Specific card ID linked to the Customer.
      * </pre>
      */
-    com.google.protobuf.ByteString
-        getCustomerCardIdBytes();
+    squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrumentOrBuilder getCustomerCardIdOrBuilder();
 
     /**
-     * <code>optional bool delay_capture = 7;</code>
+     * <code>optional bool delay_capture = 6;</code>
      *
      * <pre>
      *--&#64;desc Request that the created payment only execute Auth and require a separate call for capture.
@@ -128,7 +112,7 @@ public final class Charge {
      */
     boolean hasDelayCapture();
     /**
-     * <code>optional bool delay_capture = 7;</code>
+     * <code>optional bool delay_capture = 6;</code>
      *
      * <pre>
      *--&#64;desc Request that the created payment only execute Auth and require a separate call for capture.
@@ -137,29 +121,29 @@ public final class Charge {
     boolean getDelayCapture();
 
     /**
-     * <code>optional string reference_id = 8;</code>
+     * <code>optional string reference_id = 7;</code>
      */
     boolean hasReferenceId();
     /**
-     * <code>optional string reference_id = 8;</code>
+     * <code>optional string reference_id = 7;</code>
      */
     java.lang.String getReferenceId();
     /**
-     * <code>optional string reference_id = 8;</code>
+     * <code>optional string reference_id = 7;</code>
      */
     com.google.protobuf.ByteString
         getReferenceIdBytes();
 
     /**
-     * <code>optional string note = 9;</code>
+     * <code>optional string note = 8;</code>
      */
     boolean hasNote();
     /**
-     * <code>optional string note = 9;</code>
+     * <code>optional string note = 8;</code>
      */
     java.lang.String getNote();
     /**
-     * <code>optional string note = 9;</code>
+     * <code>optional string note = 8;</code>
      */
     com.google.protobuf.ByteString
         getNoteBytes();
@@ -178,7 +162,6 @@ public final class Charge {
     private ChargeRequest() {
       locationId_ = "";
       idempotencyKey_ = "";
-      customerId_ = "";
       delayCapture_ = false;
       referenceId_ = "";
       note_ = "";
@@ -237,37 +220,45 @@ public final class Charge {
               break;
             }
             case 34: {
-              com.google.protobuf.ByteString bs = input.readBytes();
-              bitField0_ |= 0x00000008;
-              customerId_ = bs;
+              squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument.Builder subBuilder = null;
+              if (instrumentCase_ == 4) {
+                subBuilder = ((squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument) instrument_).toBuilder();
+              }
+              instrument_ = input.readMessage(squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument) instrument_);
+                instrument_ = subBuilder.buildPartial();
+              }
+              instrumentCase_ = 4;
               break;
             }
             case 42: {
-              com.google.protobuf.ByteString bs = input.readBytes();
+              squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument.Builder subBuilder = null;
+              if (instrumentCase_ == 5) {
+                subBuilder = ((squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument) instrument_).toBuilder();
+              }
+              instrument_ = input.readMessage(squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument) instrument_);
+                instrument_ = subBuilder.buildPartial();
+              }
               instrumentCase_ = 5;
-              instrument_ = bs;
               break;
             }
-            case 50: {
-              com.google.protobuf.ByteString bs = input.readBytes();
-              instrumentCase_ = 6;
-              instrument_ = bs;
-              break;
-            }
-            case 56: {
-              bitField0_ |= 0x00000040;
+            case 48: {
+              bitField0_ |= 0x00000020;
               delayCapture_ = input.readBool();
+              break;
+            }
+            case 58: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000040;
+              referenceId_ = bs;
               break;
             }
             case 66: {
               com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000080;
-              referenceId_ = bs;
-              break;
-            }
-            case 74: {
-              com.google.protobuf.ByteString bs = input.readBytes();
-              bitField0_ |= 0x00000100;
               note_ = bs;
               break;
             }
@@ -295,13 +286,1561 @@ public final class Charge {
               squareup.connect.v3.actions.Charge.ChargeRequest.class, squareup.connect.v3.actions.Charge.ChargeRequest.Builder.class);
     }
 
+    public interface CardNonceInstrumentOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:squareup.connect.v3.actions.ChargeRequest.CardNonceInstrument)
+        com.google.protobuf.MessageOrBuilder {
+
+      /**
+       * <code>required string card_nonce = 1;</code>
+       */
+      boolean hasCardNonce();
+      /**
+       * <code>required string card_nonce = 1;</code>
+       */
+      java.lang.String getCardNonce();
+      /**
+       * <code>required string card_nonce = 1;</code>
+       */
+      com.google.protobuf.ByteString
+          getCardNonceBytes();
+
+      /**
+       * <code>optional .squareup.connect.v3.resources.Address billing_address = 2;</code>
+       */
+      boolean hasBillingAddress();
+      /**
+       * <code>optional .squareup.connect.v3.resources.Address billing_address = 2;</code>
+       */
+      squareup.connect.v3.resources.AddressOuterClass.Address getBillingAddress();
+      /**
+       * <code>optional .squareup.connect.v3.resources.Address billing_address = 2;</code>
+       */
+      squareup.connect.v3.resources.AddressOuterClass.AddressOrBuilder getBillingAddressOrBuilder();
+
+      /**
+       * <code>optional string customer_id = 3;</code>
+       */
+      boolean hasCustomerId();
+      /**
+       * <code>optional string customer_id = 3;</code>
+       */
+      java.lang.String getCustomerId();
+      /**
+       * <code>optional string customer_id = 3;</code>
+       */
+      com.google.protobuf.ByteString
+          getCustomerIdBytes();
+    }
+    /**
+     * Protobuf type {@code squareup.connect.v3.actions.ChargeRequest.CardNonceInstrument}
+     */
+    public  static final class CardNonceInstrument extends
+        com.google.protobuf.GeneratedMessage implements
+        // @@protoc_insertion_point(message_implements:squareup.connect.v3.actions.ChargeRequest.CardNonceInstrument)
+        CardNonceInstrumentOrBuilder {
+      // Use CardNonceInstrument.newBuilder() to construct.
+      private CardNonceInstrument(com.google.protobuf.GeneratedMessage.Builder builder) {
+        super(builder);
+      }
+      private CardNonceInstrument() {
+        cardNonce_ = "";
+        customerId_ = "";
+      }
+
+      @java.lang.Override
+      public final com.google.protobuf.UnknownFieldSet
+      getUnknownFields() {
+        return this.unknownFields;
+      }
+      private CardNonceInstrument(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry) {
+        this();
+        int mutable_bitField0_ = 0;
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+            com.google.protobuf.UnknownFieldSet.newBuilder();
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              default: {
+                if (!parseUnknownField(input, unknownFields,
+                                       extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
+              case 10: {
+                com.google.protobuf.ByteString bs = input.readBytes();
+                bitField0_ |= 0x00000001;
+                cardNonce_ = bs;
+                break;
+              }
+              case 18: {
+                squareup.connect.v3.resources.AddressOuterClass.Address.Builder subBuilder = null;
+                if (((bitField0_ & 0x00000002) == 0x00000002)) {
+                  subBuilder = billingAddress_.toBuilder();
+                }
+                billingAddress_ = input.readMessage(squareup.connect.v3.resources.AddressOuterClass.Address.PARSER, extensionRegistry);
+                if (subBuilder != null) {
+                  subBuilder.mergeFrom(billingAddress_);
+                  billingAddress_ = subBuilder.buildPartial();
+                }
+                bitField0_ |= 0x00000002;
+                break;
+              }
+              case 26: {
+                com.google.protobuf.ByteString bs = input.readBytes();
+                bitField0_ |= 0x00000004;
+                customerId_ = bs;
+                break;
+              }
+            }
+          }
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw new RuntimeException(e.setUnfinishedMessage(this));
+        } catch (java.io.IOException e) {
+          throw new RuntimeException(new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(this));
+        } finally {
+          this.unknownFields = unknownFields.build();
+          makeExtensionsImmutable();
+        }
+      }
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return squareup.connect.v3.actions.Charge.internal_static_squareup_connect_v3_actions_ChargeRequest_CardNonceInstrument_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return squareup.connect.v3.actions.Charge.internal_static_squareup_connect_v3_actions_ChargeRequest_CardNonceInstrument_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument.class, squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument.Builder.class);
+      }
+
+      private int bitField0_;
+      public static final int CARD_NONCE_FIELD_NUMBER = 1;
+      private volatile java.lang.Object cardNonce_;
+      /**
+       * <code>required string card_nonce = 1;</code>
+       */
+      public boolean hasCardNonce() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required string card_nonce = 1;</code>
+       */
+      public java.lang.String getCardNonce() {
+        java.lang.Object ref = cardNonce_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            cardNonce_ = s;
+          }
+          return s;
+        }
+      }
+      /**
+       * <code>required string card_nonce = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getCardNonceBytes() {
+        java.lang.Object ref = cardNonce_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          cardNonce_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      public static final int BILLING_ADDRESS_FIELD_NUMBER = 2;
+      private squareup.connect.v3.resources.AddressOuterClass.Address billingAddress_;
+      /**
+       * <code>optional .squareup.connect.v3.resources.Address billing_address = 2;</code>
+       */
+      public boolean hasBillingAddress() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional .squareup.connect.v3.resources.Address billing_address = 2;</code>
+       */
+      public squareup.connect.v3.resources.AddressOuterClass.Address getBillingAddress() {
+        return billingAddress_ == null ? squareup.connect.v3.resources.AddressOuterClass.Address.getDefaultInstance() : billingAddress_;
+      }
+      /**
+       * <code>optional .squareup.connect.v3.resources.Address billing_address = 2;</code>
+       */
+      public squareup.connect.v3.resources.AddressOuterClass.AddressOrBuilder getBillingAddressOrBuilder() {
+        return billingAddress_ == null ? squareup.connect.v3.resources.AddressOuterClass.Address.getDefaultInstance() : billingAddress_;
+      }
+
+      public static final int CUSTOMER_ID_FIELD_NUMBER = 3;
+      private volatile java.lang.Object customerId_;
+      /**
+       * <code>optional string customer_id = 3;</code>
+       */
+      public boolean hasCustomerId() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional string customer_id = 3;</code>
+       */
+      public java.lang.String getCustomerId() {
+        java.lang.Object ref = customerId_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            customerId_ = s;
+          }
+          return s;
+        }
+      }
+      /**
+       * <code>optional string customer_id = 3;</code>
+       */
+      public com.google.protobuf.ByteString
+          getCustomerIdBytes() {
+        java.lang.Object ref = customerId_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          customerId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      private byte memoizedIsInitialized = -1;
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        if (!hasCardNonce()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          output.writeBytes(1, getCardNonceBytes());
+        }
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          output.writeMessage(2, getBillingAddress());
+        }
+        if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          output.writeBytes(3, getCustomerIdBytes());
+        }
+        unknownFields.writeTo(output);
+      }
+
+      private int memoizedSerializedSize = -1;
+      public int getSerializedSize() {
+        int size = memoizedSerializedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeBytesSize(1, getCardNonceBytes());
+        }
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeMessageSize(2, getBillingAddress());
+        }
+        if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeBytesSize(3, getCustomerIdBytes());
+        }
+        size += unknownFields.getSerializedSize();
+        memoizedSerializedSize = size;
+        return size;
+      }
+
+      private static final long serialVersionUID = 0L;
+      public static squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        try {
+          return PARSER.parseFrom(input);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          if (e.getCause() instanceof java.io.IOException) {
+            throw (java.io.IOException) e.getCause();
+          }
+          throw e;
+        }
+      }
+      public static squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        try {
+          return PARSER.parseFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          if (e.getCause() instanceof java.io.IOException) {
+            throw (java.io.IOException) e.getCause();
+          }
+          throw e;
+        }
+      }
+      public static squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        try {
+          return PARSER.parseDelimitedFrom(input);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          if (e.getCause() instanceof java.io.IOException) {
+            throw (java.io.IOException) e.getCause();
+          }
+          throw e;
+        }
+      }
+      public static squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        try {  return PARSER.parseDelimitedFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          if (e.getCause() instanceof java.io.IOException) {
+            throw (java.io.IOException) e.getCause();
+          }
+          throw e;
+        }
+      }
+      public static squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        try {
+          return PARSER.parseFrom(input);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          if (e.getCause() instanceof java.io.IOException) {
+            throw (java.io.IOException) e.getCause();
+          }
+          throw e;
+        }
+      }
+      public static squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        try {
+          return PARSER.parseFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          if (e.getCause() instanceof java.io.IOException) {
+            throw (java.io.IOException) e.getCause();
+          }
+          throw e;
+        }
+      }
+
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.toBuilder();
+      }
+      public static Builder newBuilder(squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument prototype) {
+        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      }
+      public Builder toBuilder() {
+        return this == DEFAULT_INSTANCE
+            ? new Builder() : new Builder().mergeFrom(this);
+      }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * Protobuf type {@code squareup.connect.v3.actions.ChargeRequest.CardNonceInstrument}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:squareup.connect.v3.actions.ChargeRequest.CardNonceInstrument)
+          squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrumentOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return squareup.connect.v3.actions.Charge.internal_static_squareup_connect_v3_actions_ChargeRequest_CardNonceInstrument_descriptor;
+        }
+
+        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return squareup.connect.v3.actions.Charge.internal_static_squareup_connect_v3_actions_ChargeRequest_CardNonceInstrument_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument.class, squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument.Builder.class);
+        }
+
+        // Construct using squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument.newBuilder()
+        private Builder() {
+          maybeForceBuilderInitialization();
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          super(parent);
+          maybeForceBuilderInitialization();
+        }
+        private void maybeForceBuilderInitialization() {
+          if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+            getBillingAddressFieldBuilder();
+          }
+        }
+        public Builder clear() {
+          super.clear();
+          cardNonce_ = "";
+          bitField0_ = (bitField0_ & ~0x00000001);
+          if (billingAddressBuilder_ == null) {
+            billingAddress_ = null;
+          } else {
+            billingAddressBuilder_.clear();
+          }
+          bitField0_ = (bitField0_ & ~0x00000002);
+          customerId_ = "";
+          bitField0_ = (bitField0_ & ~0x00000004);
+          return this;
+        }
+
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return squareup.connect.v3.actions.Charge.internal_static_squareup_connect_v3_actions_ChargeRequest_CardNonceInstrument_descriptor;
+        }
+
+        public squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument getDefaultInstanceForType() {
+          return squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument.getDefaultInstance();
+        }
+
+        public squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument build() {
+          squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        public squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument buildPartial() {
+          squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument result = new squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument(this);
+          int from_bitField0_ = bitField0_;
+          int to_bitField0_ = 0;
+          if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+            to_bitField0_ |= 0x00000001;
+          }
+          result.cardNonce_ = cardNonce_;
+          if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+            to_bitField0_ |= 0x00000002;
+          }
+          if (billingAddressBuilder_ == null) {
+            result.billingAddress_ = billingAddress_;
+          } else {
+            result.billingAddress_ = billingAddressBuilder_.build();
+          }
+          if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+            to_bitField0_ |= 0x00000004;
+          }
+          result.customerId_ = customerId_;
+          result.bitField0_ = to_bitField0_;
+          onBuilt();
+          return result;
+        }
+
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument) {
+            return mergeFrom((squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument other) {
+          if (other == squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument.getDefaultInstance()) return this;
+          if (other.hasCardNonce()) {
+            bitField0_ |= 0x00000001;
+            cardNonce_ = other.cardNonce_;
+            onChanged();
+          }
+          if (other.hasBillingAddress()) {
+            mergeBillingAddress(other.getBillingAddress());
+          }
+          if (other.hasCustomerId()) {
+            bitField0_ |= 0x00000004;
+            customerId_ = other.customerId_;
+            onChanged();
+          }
+          this.mergeUnknownFields(other.unknownFields);
+          onChanged();
+          return this;
+        }
+
+        public final boolean isInitialized() {
+          if (!hasCardNonce()) {
+            return false;
+          }
+          return true;
+        }
+
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument parsedMessage = null;
+          try {
+            parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            parsedMessage = (squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument) e.getUnfinishedMessage();
+            if (e.getCause() instanceof java.io.IOException) {
+              throw (java.io.IOException) e.getCause();
+            }
+            throw e;
+          } finally {
+            if (parsedMessage != null) {
+              mergeFrom(parsedMessage);
+            }
+          }
+          return this;
+        }
+        private int bitField0_;
+
+        private java.lang.Object cardNonce_ = "";
+        /**
+         * <code>required string card_nonce = 1;</code>
+         */
+        public boolean hasCardNonce() {
+          return ((bitField0_ & 0x00000001) == 0x00000001);
+        }
+        /**
+         * <code>required string card_nonce = 1;</code>
+         */
+        public java.lang.String getCardNonce() {
+          java.lang.Object ref = cardNonce_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            if (bs.isValidUtf8()) {
+              cardNonce_ = s;
+            }
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <code>required string card_nonce = 1;</code>
+         */
+        public com.google.protobuf.ByteString
+            getCardNonceBytes() {
+          java.lang.Object ref = cardNonce_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            cardNonce_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <code>required string card_nonce = 1;</code>
+         */
+        public Builder setCardNonce(
+            java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+          cardNonce_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>required string card_nonce = 1;</code>
+         */
+        public Builder clearCardNonce() {
+          bitField0_ = (bitField0_ & ~0x00000001);
+          cardNonce_ = getDefaultInstance().getCardNonce();
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>required string card_nonce = 1;</code>
+         */
+        public Builder setCardNonceBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+          cardNonce_ = value;
+          onChanged();
+          return this;
+        }
+
+        private squareup.connect.v3.resources.AddressOuterClass.Address billingAddress_ = null;
+        private com.google.protobuf.SingleFieldBuilder<
+            squareup.connect.v3.resources.AddressOuterClass.Address, squareup.connect.v3.resources.AddressOuterClass.Address.Builder, squareup.connect.v3.resources.AddressOuterClass.AddressOrBuilder> billingAddressBuilder_;
+        /**
+         * <code>optional .squareup.connect.v3.resources.Address billing_address = 2;</code>
+         */
+        public boolean hasBillingAddress() {
+          return ((bitField0_ & 0x00000002) == 0x00000002);
+        }
+        /**
+         * <code>optional .squareup.connect.v3.resources.Address billing_address = 2;</code>
+         */
+        public squareup.connect.v3.resources.AddressOuterClass.Address getBillingAddress() {
+          if (billingAddressBuilder_ == null) {
+            return billingAddress_ == null ? squareup.connect.v3.resources.AddressOuterClass.Address.getDefaultInstance() : billingAddress_;
+          } else {
+            return billingAddressBuilder_.getMessage();
+          }
+        }
+        /**
+         * <code>optional .squareup.connect.v3.resources.Address billing_address = 2;</code>
+         */
+        public Builder setBillingAddress(squareup.connect.v3.resources.AddressOuterClass.Address value) {
+          if (billingAddressBuilder_ == null) {
+            if (value == null) {
+              throw new NullPointerException();
+            }
+            billingAddress_ = value;
+            onChanged();
+          } else {
+            billingAddressBuilder_.setMessage(value);
+          }
+          bitField0_ |= 0x00000002;
+          return this;
+        }
+        /**
+         * <code>optional .squareup.connect.v3.resources.Address billing_address = 2;</code>
+         */
+        public Builder setBillingAddress(
+            squareup.connect.v3.resources.AddressOuterClass.Address.Builder builderForValue) {
+          if (billingAddressBuilder_ == null) {
+            billingAddress_ = builderForValue.build();
+            onChanged();
+          } else {
+            billingAddressBuilder_.setMessage(builderForValue.build());
+          }
+          bitField0_ |= 0x00000002;
+          return this;
+        }
+        /**
+         * <code>optional .squareup.connect.v3.resources.Address billing_address = 2;</code>
+         */
+        public Builder mergeBillingAddress(squareup.connect.v3.resources.AddressOuterClass.Address value) {
+          if (billingAddressBuilder_ == null) {
+            if (((bitField0_ & 0x00000002) == 0x00000002) &&
+                billingAddress_ != null &&
+                billingAddress_ != squareup.connect.v3.resources.AddressOuterClass.Address.getDefaultInstance()) {
+              billingAddress_ =
+                squareup.connect.v3.resources.AddressOuterClass.Address.newBuilder(billingAddress_).mergeFrom(value).buildPartial();
+            } else {
+              billingAddress_ = value;
+            }
+            onChanged();
+          } else {
+            billingAddressBuilder_.mergeFrom(value);
+          }
+          bitField0_ |= 0x00000002;
+          return this;
+        }
+        /**
+         * <code>optional .squareup.connect.v3.resources.Address billing_address = 2;</code>
+         */
+        public Builder clearBillingAddress() {
+          if (billingAddressBuilder_ == null) {
+            billingAddress_ = null;
+            onChanged();
+          } else {
+            billingAddressBuilder_.clear();
+          }
+          bitField0_ = (bitField0_ & ~0x00000002);
+          return this;
+        }
+        /**
+         * <code>optional .squareup.connect.v3.resources.Address billing_address = 2;</code>
+         */
+        public squareup.connect.v3.resources.AddressOuterClass.Address.Builder getBillingAddressBuilder() {
+          bitField0_ |= 0x00000002;
+          onChanged();
+          return getBillingAddressFieldBuilder().getBuilder();
+        }
+        /**
+         * <code>optional .squareup.connect.v3.resources.Address billing_address = 2;</code>
+         */
+        public squareup.connect.v3.resources.AddressOuterClass.AddressOrBuilder getBillingAddressOrBuilder() {
+          if (billingAddressBuilder_ != null) {
+            return billingAddressBuilder_.getMessageOrBuilder();
+          } else {
+            return billingAddress_ == null ?
+                squareup.connect.v3.resources.AddressOuterClass.Address.getDefaultInstance() : billingAddress_;
+          }
+        }
+        /**
+         * <code>optional .squareup.connect.v3.resources.Address billing_address = 2;</code>
+         */
+        private com.google.protobuf.SingleFieldBuilder<
+            squareup.connect.v3.resources.AddressOuterClass.Address, squareup.connect.v3.resources.AddressOuterClass.Address.Builder, squareup.connect.v3.resources.AddressOuterClass.AddressOrBuilder> 
+            getBillingAddressFieldBuilder() {
+          if (billingAddressBuilder_ == null) {
+            billingAddressBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+                squareup.connect.v3.resources.AddressOuterClass.Address, squareup.connect.v3.resources.AddressOuterClass.Address.Builder, squareup.connect.v3.resources.AddressOuterClass.AddressOrBuilder>(
+                    getBillingAddress(),
+                    getParentForChildren(),
+                    isClean());
+            billingAddress_ = null;
+          }
+          return billingAddressBuilder_;
+        }
+
+        private java.lang.Object customerId_ = "";
+        /**
+         * <code>optional string customer_id = 3;</code>
+         */
+        public boolean hasCustomerId() {
+          return ((bitField0_ & 0x00000004) == 0x00000004);
+        }
+        /**
+         * <code>optional string customer_id = 3;</code>
+         */
+        public java.lang.String getCustomerId() {
+          java.lang.Object ref = customerId_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            if (bs.isValidUtf8()) {
+              customerId_ = s;
+            }
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <code>optional string customer_id = 3;</code>
+         */
+        public com.google.protobuf.ByteString
+            getCustomerIdBytes() {
+          java.lang.Object ref = customerId_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            customerId_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <code>optional string customer_id = 3;</code>
+         */
+        public Builder setCustomerId(
+            java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+          customerId_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional string customer_id = 3;</code>
+         */
+        public Builder clearCustomerId() {
+          bitField0_ = (bitField0_ & ~0x00000004);
+          customerId_ = getDefaultInstance().getCustomerId();
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional string customer_id = 3;</code>
+         */
+        public Builder setCustomerIdBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+          customerId_ = value;
+          onChanged();
+          return this;
+        }
+
+        // @@protoc_insertion_point(builder_scope:squareup.connect.v3.actions.ChargeRequest.CardNonceInstrument)
+      }
+
+      // @@protoc_insertion_point(class_scope:squareup.connect.v3.actions.ChargeRequest.CardNonceInstrument)
+      private static final squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument DEFAULT_INSTANCE;
+      static {
+        DEFAULT_INSTANCE = new squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument();
+      }
+
+      public static squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+      }
+
+      public static final com.google.protobuf.Parser<CardNonceInstrument> PARSER =
+          new com.google.protobuf.AbstractParser<CardNonceInstrument>() {
+        public CardNonceInstrument parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          try {
+            return new CardNonceInstrument(input, extensionRegistry);
+          } catch (RuntimeException e) {
+            if (e.getCause() instanceof
+                com.google.protobuf.InvalidProtocolBufferException) {
+              throw (com.google.protobuf.InvalidProtocolBufferException)
+                  e.getCause();
+            }
+            throw e;
+          }
+        }
+      };
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<CardNonceInstrument> getParserForType() {
+        return PARSER;
+      }
+
+      public squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+      }
+
+    }
+
+    public interface CustomerCardInstrumentOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:squareup.connect.v3.actions.ChargeRequest.CustomerCardInstrument)
+        com.google.protobuf.MessageOrBuilder {
+
+      /**
+       * <code>required string customer_id = 1;</code>
+       */
+      boolean hasCustomerId();
+      /**
+       * <code>required string customer_id = 1;</code>
+       */
+      java.lang.String getCustomerId();
+      /**
+       * <code>required string customer_id = 1;</code>
+       */
+      com.google.protobuf.ByteString
+          getCustomerIdBytes();
+
+      /**
+       * <code>optional string customer_card_id = 2;</code>
+       */
+      boolean hasCustomerCardId();
+      /**
+       * <code>optional string customer_card_id = 2;</code>
+       */
+      java.lang.String getCustomerCardId();
+      /**
+       * <code>optional string customer_card_id = 2;</code>
+       */
+      com.google.protobuf.ByteString
+          getCustomerCardIdBytes();
+    }
+    /**
+     * Protobuf type {@code squareup.connect.v3.actions.ChargeRequest.CustomerCardInstrument}
+     */
+    public  static final class CustomerCardInstrument extends
+        com.google.protobuf.GeneratedMessage implements
+        // @@protoc_insertion_point(message_implements:squareup.connect.v3.actions.ChargeRequest.CustomerCardInstrument)
+        CustomerCardInstrumentOrBuilder {
+      // Use CustomerCardInstrument.newBuilder() to construct.
+      private CustomerCardInstrument(com.google.protobuf.GeneratedMessage.Builder builder) {
+        super(builder);
+      }
+      private CustomerCardInstrument() {
+        customerId_ = "";
+        customerCardId_ = "";
+      }
+
+      @java.lang.Override
+      public final com.google.protobuf.UnknownFieldSet
+      getUnknownFields() {
+        return this.unknownFields;
+      }
+      private CustomerCardInstrument(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry) {
+        this();
+        int mutable_bitField0_ = 0;
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+            com.google.protobuf.UnknownFieldSet.newBuilder();
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              default: {
+                if (!parseUnknownField(input, unknownFields,
+                                       extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
+              case 10: {
+                com.google.protobuf.ByteString bs = input.readBytes();
+                bitField0_ |= 0x00000001;
+                customerId_ = bs;
+                break;
+              }
+              case 18: {
+                com.google.protobuf.ByteString bs = input.readBytes();
+                bitField0_ |= 0x00000002;
+                customerCardId_ = bs;
+                break;
+              }
+            }
+          }
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw new RuntimeException(e.setUnfinishedMessage(this));
+        } catch (java.io.IOException e) {
+          throw new RuntimeException(new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(this));
+        } finally {
+          this.unknownFields = unknownFields.build();
+          makeExtensionsImmutable();
+        }
+      }
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return squareup.connect.v3.actions.Charge.internal_static_squareup_connect_v3_actions_ChargeRequest_CustomerCardInstrument_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return squareup.connect.v3.actions.Charge.internal_static_squareup_connect_v3_actions_ChargeRequest_CustomerCardInstrument_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument.class, squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument.Builder.class);
+      }
+
+      private int bitField0_;
+      public static final int CUSTOMER_ID_FIELD_NUMBER = 1;
+      private volatile java.lang.Object customerId_;
+      /**
+       * <code>required string customer_id = 1;</code>
+       */
+      public boolean hasCustomerId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required string customer_id = 1;</code>
+       */
+      public java.lang.String getCustomerId() {
+        java.lang.Object ref = customerId_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            customerId_ = s;
+          }
+          return s;
+        }
+      }
+      /**
+       * <code>required string customer_id = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getCustomerIdBytes() {
+        java.lang.Object ref = customerId_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          customerId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      public static final int CUSTOMER_CARD_ID_FIELD_NUMBER = 2;
+      private volatile java.lang.Object customerCardId_;
+      /**
+       * <code>optional string customer_card_id = 2;</code>
+       */
+      public boolean hasCustomerCardId() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional string customer_card_id = 2;</code>
+       */
+      public java.lang.String getCustomerCardId() {
+        java.lang.Object ref = customerCardId_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            customerCardId_ = s;
+          }
+          return s;
+        }
+      }
+      /**
+       * <code>optional string customer_card_id = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getCustomerCardIdBytes() {
+        java.lang.Object ref = customerCardId_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          customerCardId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      private byte memoizedIsInitialized = -1;
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        if (!hasCustomerId()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          output.writeBytes(1, getCustomerIdBytes());
+        }
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          output.writeBytes(2, getCustomerCardIdBytes());
+        }
+        unknownFields.writeTo(output);
+      }
+
+      private int memoizedSerializedSize = -1;
+      public int getSerializedSize() {
+        int size = memoizedSerializedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeBytesSize(1, getCustomerIdBytes());
+        }
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeBytesSize(2, getCustomerCardIdBytes());
+        }
+        size += unknownFields.getSerializedSize();
+        memoizedSerializedSize = size;
+        return size;
+      }
+
+      private static final long serialVersionUID = 0L;
+      public static squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        try {
+          return PARSER.parseFrom(input);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          if (e.getCause() instanceof java.io.IOException) {
+            throw (java.io.IOException) e.getCause();
+          }
+          throw e;
+        }
+      }
+      public static squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        try {
+          return PARSER.parseFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          if (e.getCause() instanceof java.io.IOException) {
+            throw (java.io.IOException) e.getCause();
+          }
+          throw e;
+        }
+      }
+      public static squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        try {
+          return PARSER.parseDelimitedFrom(input);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          if (e.getCause() instanceof java.io.IOException) {
+            throw (java.io.IOException) e.getCause();
+          }
+          throw e;
+        }
+      }
+      public static squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        try {  return PARSER.parseDelimitedFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          if (e.getCause() instanceof java.io.IOException) {
+            throw (java.io.IOException) e.getCause();
+          }
+          throw e;
+        }
+      }
+      public static squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        try {
+          return PARSER.parseFrom(input);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          if (e.getCause() instanceof java.io.IOException) {
+            throw (java.io.IOException) e.getCause();
+          }
+          throw e;
+        }
+      }
+      public static squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        try {
+          return PARSER.parseFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          if (e.getCause() instanceof java.io.IOException) {
+            throw (java.io.IOException) e.getCause();
+          }
+          throw e;
+        }
+      }
+
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.toBuilder();
+      }
+      public static Builder newBuilder(squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument prototype) {
+        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      }
+      public Builder toBuilder() {
+        return this == DEFAULT_INSTANCE
+            ? new Builder() : new Builder().mergeFrom(this);
+      }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * Protobuf type {@code squareup.connect.v3.actions.ChargeRequest.CustomerCardInstrument}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:squareup.connect.v3.actions.ChargeRequest.CustomerCardInstrument)
+          squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrumentOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return squareup.connect.v3.actions.Charge.internal_static_squareup_connect_v3_actions_ChargeRequest_CustomerCardInstrument_descriptor;
+        }
+
+        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return squareup.connect.v3.actions.Charge.internal_static_squareup_connect_v3_actions_ChargeRequest_CustomerCardInstrument_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument.class, squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument.Builder.class);
+        }
+
+        // Construct using squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument.newBuilder()
+        private Builder() {
+          maybeForceBuilderInitialization();
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          super(parent);
+          maybeForceBuilderInitialization();
+        }
+        private void maybeForceBuilderInitialization() {
+          if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          }
+        }
+        public Builder clear() {
+          super.clear();
+          customerId_ = "";
+          bitField0_ = (bitField0_ & ~0x00000001);
+          customerCardId_ = "";
+          bitField0_ = (bitField0_ & ~0x00000002);
+          return this;
+        }
+
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return squareup.connect.v3.actions.Charge.internal_static_squareup_connect_v3_actions_ChargeRequest_CustomerCardInstrument_descriptor;
+        }
+
+        public squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument getDefaultInstanceForType() {
+          return squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument.getDefaultInstance();
+        }
+
+        public squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument build() {
+          squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        public squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument buildPartial() {
+          squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument result = new squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument(this);
+          int from_bitField0_ = bitField0_;
+          int to_bitField0_ = 0;
+          if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+            to_bitField0_ |= 0x00000001;
+          }
+          result.customerId_ = customerId_;
+          if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+            to_bitField0_ |= 0x00000002;
+          }
+          result.customerCardId_ = customerCardId_;
+          result.bitField0_ = to_bitField0_;
+          onBuilt();
+          return result;
+        }
+
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument) {
+            return mergeFrom((squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument other) {
+          if (other == squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument.getDefaultInstance()) return this;
+          if (other.hasCustomerId()) {
+            bitField0_ |= 0x00000001;
+            customerId_ = other.customerId_;
+            onChanged();
+          }
+          if (other.hasCustomerCardId()) {
+            bitField0_ |= 0x00000002;
+            customerCardId_ = other.customerCardId_;
+            onChanged();
+          }
+          this.mergeUnknownFields(other.unknownFields);
+          onChanged();
+          return this;
+        }
+
+        public final boolean isInitialized() {
+          if (!hasCustomerId()) {
+            return false;
+          }
+          return true;
+        }
+
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument parsedMessage = null;
+          try {
+            parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            parsedMessage = (squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument) e.getUnfinishedMessage();
+            if (e.getCause() instanceof java.io.IOException) {
+              throw (java.io.IOException) e.getCause();
+            }
+            throw e;
+          } finally {
+            if (parsedMessage != null) {
+              mergeFrom(parsedMessage);
+            }
+          }
+          return this;
+        }
+        private int bitField0_;
+
+        private java.lang.Object customerId_ = "";
+        /**
+         * <code>required string customer_id = 1;</code>
+         */
+        public boolean hasCustomerId() {
+          return ((bitField0_ & 0x00000001) == 0x00000001);
+        }
+        /**
+         * <code>required string customer_id = 1;</code>
+         */
+        public java.lang.String getCustomerId() {
+          java.lang.Object ref = customerId_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            if (bs.isValidUtf8()) {
+              customerId_ = s;
+            }
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <code>required string customer_id = 1;</code>
+         */
+        public com.google.protobuf.ByteString
+            getCustomerIdBytes() {
+          java.lang.Object ref = customerId_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            customerId_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <code>required string customer_id = 1;</code>
+         */
+        public Builder setCustomerId(
+            java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+          customerId_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>required string customer_id = 1;</code>
+         */
+        public Builder clearCustomerId() {
+          bitField0_ = (bitField0_ & ~0x00000001);
+          customerId_ = getDefaultInstance().getCustomerId();
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>required string customer_id = 1;</code>
+         */
+        public Builder setCustomerIdBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+          customerId_ = value;
+          onChanged();
+          return this;
+        }
+
+        private java.lang.Object customerCardId_ = "";
+        /**
+         * <code>optional string customer_card_id = 2;</code>
+         */
+        public boolean hasCustomerCardId() {
+          return ((bitField0_ & 0x00000002) == 0x00000002);
+        }
+        /**
+         * <code>optional string customer_card_id = 2;</code>
+         */
+        public java.lang.String getCustomerCardId() {
+          java.lang.Object ref = customerCardId_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            if (bs.isValidUtf8()) {
+              customerCardId_ = s;
+            }
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <code>optional string customer_card_id = 2;</code>
+         */
+        public com.google.protobuf.ByteString
+            getCustomerCardIdBytes() {
+          java.lang.Object ref = customerCardId_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            customerCardId_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <code>optional string customer_card_id = 2;</code>
+         */
+        public Builder setCustomerCardId(
+            java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+          customerCardId_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional string customer_card_id = 2;</code>
+         */
+        public Builder clearCustomerCardId() {
+          bitField0_ = (bitField0_ & ~0x00000002);
+          customerCardId_ = getDefaultInstance().getCustomerCardId();
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional string customer_card_id = 2;</code>
+         */
+        public Builder setCustomerCardIdBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+          customerCardId_ = value;
+          onChanged();
+          return this;
+        }
+
+        // @@protoc_insertion_point(builder_scope:squareup.connect.v3.actions.ChargeRequest.CustomerCardInstrument)
+      }
+
+      // @@protoc_insertion_point(class_scope:squareup.connect.v3.actions.ChargeRequest.CustomerCardInstrument)
+      private static final squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument DEFAULT_INSTANCE;
+      static {
+        DEFAULT_INSTANCE = new squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument();
+      }
+
+      public static squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+      }
+
+      public static final com.google.protobuf.Parser<CustomerCardInstrument> PARSER =
+          new com.google.protobuf.AbstractParser<CustomerCardInstrument>() {
+        public CustomerCardInstrument parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          try {
+            return new CustomerCardInstrument(input, extensionRegistry);
+          } catch (RuntimeException e) {
+            if (e.getCause() instanceof
+                com.google.protobuf.InvalidProtocolBufferException) {
+              throw (com.google.protobuf.InvalidProtocolBufferException)
+                  e.getCause();
+            }
+            throw e;
+          }
+        }
+      };
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<CustomerCardInstrument> getParserForType() {
+        return PARSER;
+      }
+
+      public squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+      }
+
+    }
+
     private int bitField0_;
     private int instrumentCase_ = 0;
     private java.lang.Object instrument_;
     public enum InstrumentCase
         implements com.google.protobuf.Internal.EnumLite {
-      CARD_NONCE(5),
-      CUSTOMER_CARD_ID(6),
+      CARD_NONCE(4),
+      CUSTOMER_CARD_ID(5),
       INSTRUMENT_NOT_SET(0);
       private int value = 0;
       private InstrumentCase(int value) {
@@ -309,8 +1848,8 @@ public final class Charge {
       }
       public static InstrumentCase valueOf(int value) {
         switch (value) {
-          case 5: return CARD_NONCE;
-          case 6: return CUSTOMER_CARD_ID;
+          case 4: return CARD_NONCE;
+          case 5: return CUSTOMER_CARD_ID;
           case 0: return INSTRUMENT_NOT_SET;
           default: throw new java.lang.IllegalArgumentException(
             "Value is undefined for this oneof enum.");
@@ -372,13 +1911,13 @@ public final class Charge {
     public static final int IDEMPOTENCY_KEY_FIELD_NUMBER = 2;
     private volatile java.lang.Object idempotencyKey_;
     /**
-     * <code>optional string idempotency_key = 2;</code>
+     * <code>required string idempotency_key = 2;</code>
      */
     public boolean hasIdempotencyKey() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>optional string idempotency_key = 2;</code>
+     * <code>required string idempotency_key = 2;</code>
      */
     public java.lang.String getIdempotencyKey() {
       java.lang.Object ref = idempotencyKey_;
@@ -395,7 +1934,7 @@ public final class Charge {
       }
     }
     /**
-     * <code>optional string idempotency_key = 2;</code>
+     * <code>required string idempotency_key = 2;</code>
      */
     public com.google.protobuf.ByteString
         getIdempotencyKeyBytes() {
@@ -432,184 +1971,96 @@ public final class Charge {
       return amountMoney_ == null ? squareup.connect.v3.resources.MoneyOuterClass.Money.getDefaultInstance() : amountMoney_;
     }
 
-    public static final int CUSTOMER_ID_FIELD_NUMBER = 4;
-    private volatile java.lang.Object customerId_;
+    public static final int CARD_NONCE_FIELD_NUMBER = 4;
     /**
-     * <code>optional string customer_id = 4;</code>
-     */
-    public boolean hasCustomerId() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
-    }
-    /**
-     * <code>optional string customer_id = 4;</code>
-     */
-    public java.lang.String getCustomerId() {
-      java.lang.Object ref = customerId_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          customerId_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>optional string customer_id = 4;</code>
-     */
-    public com.google.protobuf.ByteString
-        getCustomerIdBytes() {
-      java.lang.Object ref = customerId_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        customerId_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int CARD_NONCE_FIELD_NUMBER = 5;
-    /**
-     * <code>optional string card_nonce = 5;</code>
+     * <code>optional .squareup.connect.v3.actions.ChargeRequest.CardNonceInstrument card_nonce = 4;</code>
      *
      * <pre>
      *--&#64;desc Tokenized card nonce
      * </pre>
      */
     public boolean hasCardNonce() {
-      return instrumentCase_ == 5;
+      return instrumentCase_ == 4;
     }
     /**
-     * <code>optional string card_nonce = 5;</code>
+     * <code>optional .squareup.connect.v3.actions.ChargeRequest.CardNonceInstrument card_nonce = 4;</code>
      *
      * <pre>
      *--&#64;desc Tokenized card nonce
      * </pre>
      */
-    public java.lang.String getCardNonce() {
-      java.lang.Object ref = "";
-      if (instrumentCase_ == 5) {
-        ref = instrument_;
+    public squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument getCardNonce() {
+      if (instrumentCase_ == 4) {
+         return (squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument) instrument_;
       }
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8() && (instrumentCase_ == 5)) {
-          instrument_ = s;
-        }
-        return s;
-      }
+      return squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument.getDefaultInstance();
     }
     /**
-     * <code>optional string card_nonce = 5;</code>
+     * <code>optional .squareup.connect.v3.actions.ChargeRequest.CardNonceInstrument card_nonce = 4;</code>
      *
      * <pre>
      *--&#64;desc Tokenized card nonce
      * </pre>
      */
-    public com.google.protobuf.ByteString
-        getCardNonceBytes() {
-      java.lang.Object ref = "";
-      if (instrumentCase_ == 5) {
-        ref = instrument_;
+    public squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrumentOrBuilder getCardNonceOrBuilder() {
+      if (instrumentCase_ == 4) {
+         return (squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument) instrument_;
       }
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        if (instrumentCase_ == 5) {
-          instrument_ = b;
-        }
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+      return squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument.getDefaultInstance();
     }
 
-    public static final int CUSTOMER_CARD_ID_FIELD_NUMBER = 6;
+    public static final int CUSTOMER_CARD_ID_FIELD_NUMBER = 5;
     /**
-     * <code>optional string customer_card_id = 6;</code>
+     * <code>optional .squareup.connect.v3.actions.ChargeRequest.CustomerCardInstrument customer_card_id = 5;</code>
      *
      * <pre>
      *--&#64;desc Specific card ID linked to the Customer.
      * </pre>
      */
     public boolean hasCustomerCardId() {
-      return instrumentCase_ == 6;
+      return instrumentCase_ == 5;
     }
     /**
-     * <code>optional string customer_card_id = 6;</code>
+     * <code>optional .squareup.connect.v3.actions.ChargeRequest.CustomerCardInstrument customer_card_id = 5;</code>
      *
      * <pre>
      *--&#64;desc Specific card ID linked to the Customer.
      * </pre>
      */
-    public java.lang.String getCustomerCardId() {
-      java.lang.Object ref = "";
-      if (instrumentCase_ == 6) {
-        ref = instrument_;
+    public squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument getCustomerCardId() {
+      if (instrumentCase_ == 5) {
+         return (squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument) instrument_;
       }
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8() && (instrumentCase_ == 6)) {
-          instrument_ = s;
-        }
-        return s;
-      }
+      return squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument.getDefaultInstance();
     }
     /**
-     * <code>optional string customer_card_id = 6;</code>
+     * <code>optional .squareup.connect.v3.actions.ChargeRequest.CustomerCardInstrument customer_card_id = 5;</code>
      *
      * <pre>
      *--&#64;desc Specific card ID linked to the Customer.
      * </pre>
      */
-    public com.google.protobuf.ByteString
-        getCustomerCardIdBytes() {
-      java.lang.Object ref = "";
-      if (instrumentCase_ == 6) {
-        ref = instrument_;
+    public squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrumentOrBuilder getCustomerCardIdOrBuilder() {
+      if (instrumentCase_ == 5) {
+         return (squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument) instrument_;
       }
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        if (instrumentCase_ == 6) {
-          instrument_ = b;
-        }
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+      return squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument.getDefaultInstance();
     }
 
-    public static final int DELAY_CAPTURE_FIELD_NUMBER = 7;
+    public static final int DELAY_CAPTURE_FIELD_NUMBER = 6;
     private boolean delayCapture_;
     /**
-     * <code>optional bool delay_capture = 7;</code>
+     * <code>optional bool delay_capture = 6;</code>
      *
      * <pre>
      *--&#64;desc Request that the created payment only execute Auth and require a separate call for capture.
      * </pre>
      */
     public boolean hasDelayCapture() {
-      return ((bitField0_ & 0x00000040) == 0x00000040);
+      return ((bitField0_ & 0x00000020) == 0x00000020);
     }
     /**
-     * <code>optional bool delay_capture = 7;</code>
+     * <code>optional bool delay_capture = 6;</code>
      *
      * <pre>
      *--&#64;desc Request that the created payment only execute Auth and require a separate call for capture.
@@ -619,16 +2070,16 @@ public final class Charge {
       return delayCapture_;
     }
 
-    public static final int REFERENCE_ID_FIELD_NUMBER = 8;
+    public static final int REFERENCE_ID_FIELD_NUMBER = 7;
     private volatile java.lang.Object referenceId_;
     /**
-     * <code>optional string reference_id = 8;</code>
+     * <code>optional string reference_id = 7;</code>
      */
     public boolean hasReferenceId() {
-      return ((bitField0_ & 0x00000080) == 0x00000080);
+      return ((bitField0_ & 0x00000040) == 0x00000040);
     }
     /**
-     * <code>optional string reference_id = 8;</code>
+     * <code>optional string reference_id = 7;</code>
      */
     public java.lang.String getReferenceId() {
       java.lang.Object ref = referenceId_;
@@ -645,7 +2096,7 @@ public final class Charge {
       }
     }
     /**
-     * <code>optional string reference_id = 8;</code>
+     * <code>optional string reference_id = 7;</code>
      */
     public com.google.protobuf.ByteString
         getReferenceIdBytes() {
@@ -661,16 +2112,16 @@ public final class Charge {
       }
     }
 
-    public static final int NOTE_FIELD_NUMBER = 9;
+    public static final int NOTE_FIELD_NUMBER = 8;
     private volatile java.lang.Object note_;
     /**
-     * <code>optional string note = 9;</code>
+     * <code>optional string note = 8;</code>
      */
     public boolean hasNote() {
-      return ((bitField0_ & 0x00000100) == 0x00000100);
+      return ((bitField0_ & 0x00000080) == 0x00000080);
     }
     /**
-     * <code>optional string note = 9;</code>
+     * <code>optional string note = 8;</code>
      */
     public java.lang.String getNote() {
       java.lang.Object ref = note_;
@@ -687,7 +2138,7 @@ public final class Charge {
       }
     }
     /**
-     * <code>optional string note = 9;</code>
+     * <code>optional string note = 8;</code>
      */
     public com.google.protobuf.ByteString
         getNoteBytes() {
@@ -713,9 +2164,25 @@ public final class Charge {
         memoizedIsInitialized = 0;
         return false;
       }
+      if (!hasIdempotencyKey()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       if (!hasAmountMoney()) {
         memoizedIsInitialized = 0;
         return false;
+      }
+      if (hasCardNonce()) {
+        if (!getCardNonce().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasCustomerCardId()) {
+        if (!getCustomerCardId().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
       }
       memoizedIsInitialized = 1;
       return true;
@@ -732,23 +2199,20 @@ public final class Charge {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeMessage(3, getAmountMoney());
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeBytes(4, getCustomerIdBytes());
+      if (instrumentCase_ == 4) {
+        output.writeMessage(4, (squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument) instrument_);
       }
       if (instrumentCase_ == 5) {
-        output.writeBytes(5, getCardNonceBytes());
+        output.writeMessage(5, (squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument) instrument_);
       }
-      if (instrumentCase_ == 6) {
-        output.writeBytes(6, getCustomerCardIdBytes());
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeBool(6, delayCapture_);
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
-        output.writeBool(7, delayCapture_);
+        output.writeBytes(7, getReferenceIdBytes());
       }
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
-        output.writeBytes(8, getReferenceIdBytes());
-      }
-      if (((bitField0_ & 0x00000100) == 0x00000100)) {
-        output.writeBytes(9, getNoteBytes());
+        output.writeBytes(8, getNoteBytes());
       }
       unknownFields.writeTo(output);
     }
@@ -771,29 +2235,25 @@ public final class Charge {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(3, getAmountMoney());
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      if (instrumentCase_ == 4) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(4, getCustomerIdBytes());
+          .computeMessageSize(4, (squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument) instrument_);
       }
       if (instrumentCase_ == 5) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(5, getCardNonceBytes());
+          .computeMessageSize(5, (squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument) instrument_);
       }
-      if (instrumentCase_ == 6) {
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(6, getCustomerCardIdBytes());
+          .computeBoolSize(6, delayCapture_);
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(7, delayCapture_);
+          .computeBytesSize(7, getReferenceIdBytes());
       }
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(8, getReferenceIdBytes());
-      }
-      if (((bitField0_ & 0x00000100) == 0x00000100)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(9, getNoteBytes());
+          .computeBytesSize(8, getNoteBytes());
       }
       size += unknownFields.getSerializedSize();
       memoizedSerializedSize = size;
@@ -959,14 +2419,12 @@ public final class Charge {
           amountMoneyBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000004);
-        customerId_ = "";
-        bitField0_ = (bitField0_ & ~0x00000008);
         delayCapture_ = false;
-        bitField0_ = (bitField0_ & ~0x00000040);
+        bitField0_ = (bitField0_ & ~0x00000020);
         referenceId_ = "";
-        bitField0_ = (bitField0_ & ~0x00000080);
+        bitField0_ = (bitField0_ & ~0x00000040);
         note_ = "";
-        bitField0_ = (bitField0_ & ~0x00000100);
+        bitField0_ = (bitField0_ & ~0x00000080);
         instrumentCase_ = 0;
         instrument_ = null;
         return this;
@@ -1009,26 +2467,30 @@ public final class Charge {
         } else {
           result.amountMoney_ = amountMoneyBuilder_.build();
         }
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
-          to_bitField0_ |= 0x00000008;
+        if (instrumentCase_ == 4) {
+          if (cardNonceBuilder_ == null) {
+            result.instrument_ = instrument_;
+          } else {
+            result.instrument_ = cardNonceBuilder_.build();
+          }
         }
-        result.customerId_ = customerId_;
         if (instrumentCase_ == 5) {
-          result.instrument_ = instrument_;
+          if (customerCardIdBuilder_ == null) {
+            result.instrument_ = instrument_;
+          } else {
+            result.instrument_ = customerCardIdBuilder_.build();
+          }
         }
-        if (instrumentCase_ == 6) {
-          result.instrument_ = instrument_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
         }
+        result.delayCapture_ = delayCapture_;
         if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
           to_bitField0_ |= 0x00000040;
         }
-        result.delayCapture_ = delayCapture_;
+        result.referenceId_ = referenceId_;
         if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
           to_bitField0_ |= 0x00000080;
-        }
-        result.referenceId_ = referenceId_;
-        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
-          to_bitField0_ |= 0x00000100;
         }
         result.note_ = note_;
         result.bitField0_ = to_bitField0_;
@@ -1061,35 +2523,26 @@ public final class Charge {
         if (other.hasAmountMoney()) {
           mergeAmountMoney(other.getAmountMoney());
         }
-        if (other.hasCustomerId()) {
-          bitField0_ |= 0x00000008;
-          customerId_ = other.customerId_;
-          onChanged();
-        }
         if (other.hasDelayCapture()) {
           setDelayCapture(other.getDelayCapture());
         }
         if (other.hasReferenceId()) {
-          bitField0_ |= 0x00000080;
+          bitField0_ |= 0x00000040;
           referenceId_ = other.referenceId_;
           onChanged();
         }
         if (other.hasNote()) {
-          bitField0_ |= 0x00000100;
+          bitField0_ |= 0x00000080;
           note_ = other.note_;
           onChanged();
         }
         switch (other.getInstrumentCase()) {
           case CARD_NONCE: {
-            instrumentCase_ = 5;
-            instrument_ = other.instrument_;
-            onChanged();
+            mergeCardNonce(other.getCardNonce());
             break;
           }
           case CUSTOMER_CARD_ID: {
-            instrumentCase_ = 6;
-            instrument_ = other.instrument_;
-            onChanged();
+            mergeCustomerCardId(other.getCustomerCardId());
             break;
           }
           case INSTRUMENT_NOT_SET: {
@@ -1105,8 +2558,21 @@ public final class Charge {
         if (!hasLocationId()) {
           return false;
         }
+        if (!hasIdempotencyKey()) {
+          return false;
+        }
         if (!hasAmountMoney()) {
           return false;
+        }
+        if (hasCardNonce()) {
+          if (!getCardNonce().isInitialized()) {
+            return false;
+          }
+        }
+        if (hasCustomerCardId()) {
+          if (!getCustomerCardId().isInitialized()) {
+            return false;
+          }
         }
         return true;
       }
@@ -1226,13 +2692,13 @@ public final class Charge {
 
       private java.lang.Object idempotencyKey_ = "";
       /**
-       * <code>optional string idempotency_key = 2;</code>
+       * <code>required string idempotency_key = 2;</code>
        */
       public boolean hasIdempotencyKey() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>optional string idempotency_key = 2;</code>
+       * <code>required string idempotency_key = 2;</code>
        */
       public java.lang.String getIdempotencyKey() {
         java.lang.Object ref = idempotencyKey_;
@@ -1249,7 +2715,7 @@ public final class Charge {
         }
       }
       /**
-       * <code>optional string idempotency_key = 2;</code>
+       * <code>required string idempotency_key = 2;</code>
        */
       public com.google.protobuf.ByteString
           getIdempotencyKeyBytes() {
@@ -1265,7 +2731,7 @@ public final class Charge {
         }
       }
       /**
-       * <code>optional string idempotency_key = 2;</code>
+       * <code>required string idempotency_key = 2;</code>
        */
       public Builder setIdempotencyKey(
           java.lang.String value) {
@@ -1278,7 +2744,7 @@ public final class Charge {
         return this;
       }
       /**
-       * <code>optional string idempotency_key = 2;</code>
+       * <code>required string idempotency_key = 2;</code>
        */
       public Builder clearIdempotencyKey() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -1287,7 +2753,7 @@ public final class Charge {
         return this;
       }
       /**
-       * <code>optional string idempotency_key = 2;</code>
+       * <code>required string idempotency_key = 2;</code>
        */
       public Builder setIdempotencyKeyBytes(
           com.google.protobuf.ByteString value) {
@@ -1418,317 +2884,363 @@ public final class Charge {
         return amountMoneyBuilder_;
       }
 
-      private java.lang.Object customerId_ = "";
+      private com.google.protobuf.SingleFieldBuilder<
+          squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument, squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument.Builder, squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrumentOrBuilder> cardNonceBuilder_;
       /**
-       * <code>optional string customer_id = 4;</code>
-       */
-      public boolean hasCustomerId() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
-      }
-      /**
-       * <code>optional string customer_id = 4;</code>
-       */
-      public java.lang.String getCustomerId() {
-        java.lang.Object ref = customerId_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            customerId_ = s;
-          }
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>optional string customer_id = 4;</code>
-       */
-      public com.google.protobuf.ByteString
-          getCustomerIdBytes() {
-        java.lang.Object ref = customerId_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          customerId_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>optional string customer_id = 4;</code>
-       */
-      public Builder setCustomerId(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000008;
-        customerId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string customer_id = 4;</code>
-       */
-      public Builder clearCustomerId() {
-        bitField0_ = (bitField0_ & ~0x00000008);
-        customerId_ = getDefaultInstance().getCustomerId();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string customer_id = 4;</code>
-       */
-      public Builder setCustomerIdBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000008;
-        customerId_ = value;
-        onChanged();
-        return this;
-      }
-
-      /**
-       * <code>optional string card_nonce = 5;</code>
+       * <code>optional .squareup.connect.v3.actions.ChargeRequest.CardNonceInstrument card_nonce = 4;</code>
        *
        * <pre>
        *--&#64;desc Tokenized card nonce
        * </pre>
        */
       public boolean hasCardNonce() {
-        return instrumentCase_ == 5;
+        return instrumentCase_ == 4;
       }
       /**
-       * <code>optional string card_nonce = 5;</code>
+       * <code>optional .squareup.connect.v3.actions.ChargeRequest.CardNonceInstrument card_nonce = 4;</code>
        *
        * <pre>
        *--&#64;desc Tokenized card nonce
        * </pre>
        */
-      public java.lang.String getCardNonce() {
-        java.lang.Object ref = "";
-        if (instrumentCase_ == 5) {
-          ref = instrument_;
-        }
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (instrumentCase_ == 5) {
-            if (bs.isValidUtf8()) {
-              instrument_ = s;
-            }
+      public squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument getCardNonce() {
+        if (cardNonceBuilder_ == null) {
+          if (instrumentCase_ == 4) {
+            return (squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument) instrument_;
           }
-          return s;
+          return squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument.getDefaultInstance();
         } else {
-          return (java.lang.String) ref;
+          if (instrumentCase_ == 4) {
+            return cardNonceBuilder_.getMessage();
+          }
+          return squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument.getDefaultInstance();
         }
       }
       /**
-       * <code>optional string card_nonce = 5;</code>
+       * <code>optional .squareup.connect.v3.actions.ChargeRequest.CardNonceInstrument card_nonce = 4;</code>
        *
        * <pre>
        *--&#64;desc Tokenized card nonce
        * </pre>
        */
-      public com.google.protobuf.ByteString
-          getCardNonceBytes() {
-        java.lang.Object ref = "";
-        if (instrumentCase_ == 5) {
-          ref = instrument_;
-        }
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          if (instrumentCase_ == 5) {
-            instrument_ = b;
+      public Builder setCardNonce(squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument value) {
+        if (cardNonceBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
           }
-          return b;
+          instrument_ = value;
+          onChanged();
         } else {
-          return (com.google.protobuf.ByteString) ref;
+          cardNonceBuilder_.setMessage(value);
         }
+        instrumentCase_ = 4;
+        return this;
       }
       /**
-       * <code>optional string card_nonce = 5;</code>
+       * <code>optional .squareup.connect.v3.actions.ChargeRequest.CardNonceInstrument card_nonce = 4;</code>
        *
        * <pre>
        *--&#64;desc Tokenized card nonce
        * </pre>
        */
       public Builder setCardNonce(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  instrumentCase_ = 5;
-        instrument_ = value;
-        onChanged();
+          squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument.Builder builderForValue) {
+        if (cardNonceBuilder_ == null) {
+          instrument_ = builderForValue.build();
+          onChanged();
+        } else {
+          cardNonceBuilder_.setMessage(builderForValue.build());
+        }
+        instrumentCase_ = 4;
         return this;
       }
       /**
-       * <code>optional string card_nonce = 5;</code>
+       * <code>optional .squareup.connect.v3.actions.ChargeRequest.CardNonceInstrument card_nonce = 4;</code>
+       *
+       * <pre>
+       *--&#64;desc Tokenized card nonce
+       * </pre>
+       */
+      public Builder mergeCardNonce(squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument value) {
+        if (cardNonceBuilder_ == null) {
+          if (instrumentCase_ == 4 &&
+              instrument_ != squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument.getDefaultInstance()) {
+            instrument_ = squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument.newBuilder((squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument) instrument_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            instrument_ = value;
+          }
+          onChanged();
+        } else {
+          if (instrumentCase_ == 4) {
+            cardNonceBuilder_.mergeFrom(value);
+          }
+          cardNonceBuilder_.setMessage(value);
+        }
+        instrumentCase_ = 4;
+        return this;
+      }
+      /**
+       * <code>optional .squareup.connect.v3.actions.ChargeRequest.CardNonceInstrument card_nonce = 4;</code>
        *
        * <pre>
        *--&#64;desc Tokenized card nonce
        * </pre>
        */
       public Builder clearCardNonce() {
-        if (instrumentCase_ == 5) {
-          instrumentCase_ = 0;
-          instrument_ = null;
-          onChanged();
+        if (cardNonceBuilder_ == null) {
+          if (instrumentCase_ == 4) {
+            instrumentCase_ = 0;
+            instrument_ = null;
+            onChanged();
+          }
+        } else {
+          if (instrumentCase_ == 4) {
+            instrumentCase_ = 0;
+            instrument_ = null;
+          }
+          cardNonceBuilder_.clear();
         }
         return this;
       }
       /**
-       * <code>optional string card_nonce = 5;</code>
+       * <code>optional .squareup.connect.v3.actions.ChargeRequest.CardNonceInstrument card_nonce = 4;</code>
        *
        * <pre>
        *--&#64;desc Tokenized card nonce
        * </pre>
        */
-      public Builder setCardNonceBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  instrumentCase_ = 5;
-        instrument_ = value;
-        onChanged();
-        return this;
+      public squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument.Builder getCardNonceBuilder() {
+        return getCardNonceFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .squareup.connect.v3.actions.ChargeRequest.CardNonceInstrument card_nonce = 4;</code>
+       *
+       * <pre>
+       *--&#64;desc Tokenized card nonce
+       * </pre>
+       */
+      public squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrumentOrBuilder getCardNonceOrBuilder() {
+        if ((instrumentCase_ == 4) && (cardNonceBuilder_ != null)) {
+          return cardNonceBuilder_.getMessageOrBuilder();
+        } else {
+          if (instrumentCase_ == 4) {
+            return (squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument) instrument_;
+          }
+          return squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>optional .squareup.connect.v3.actions.ChargeRequest.CardNonceInstrument card_nonce = 4;</code>
+       *
+       * <pre>
+       *--&#64;desc Tokenized card nonce
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument, squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument.Builder, squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrumentOrBuilder> 
+          getCardNonceFieldBuilder() {
+        if (cardNonceBuilder_ == null) {
+          if (!(instrumentCase_ == 4)) {
+            instrument_ = squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument.getDefaultInstance();
+          }
+          cardNonceBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument, squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument.Builder, squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrumentOrBuilder>(
+                  (squareup.connect.v3.actions.Charge.ChargeRequest.CardNonceInstrument) instrument_,
+                  getParentForChildren(),
+                  isClean());
+          instrument_ = null;
+        }
+        instrumentCase_ = 4;
+        onChanged();;
+        return cardNonceBuilder_;
       }
 
+      private com.google.protobuf.SingleFieldBuilder<
+          squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument, squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument.Builder, squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrumentOrBuilder> customerCardIdBuilder_;
       /**
-       * <code>optional string customer_card_id = 6;</code>
+       * <code>optional .squareup.connect.v3.actions.ChargeRequest.CustomerCardInstrument customer_card_id = 5;</code>
        *
        * <pre>
        *--&#64;desc Specific card ID linked to the Customer.
        * </pre>
        */
       public boolean hasCustomerCardId() {
-        return instrumentCase_ == 6;
+        return instrumentCase_ == 5;
       }
       /**
-       * <code>optional string customer_card_id = 6;</code>
+       * <code>optional .squareup.connect.v3.actions.ChargeRequest.CustomerCardInstrument customer_card_id = 5;</code>
        *
        * <pre>
        *--&#64;desc Specific card ID linked to the Customer.
        * </pre>
        */
-      public java.lang.String getCustomerCardId() {
-        java.lang.Object ref = "";
-        if (instrumentCase_ == 6) {
-          ref = instrument_;
-        }
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (instrumentCase_ == 6) {
-            if (bs.isValidUtf8()) {
-              instrument_ = s;
-            }
+      public squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument getCustomerCardId() {
+        if (customerCardIdBuilder_ == null) {
+          if (instrumentCase_ == 5) {
+            return (squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument) instrument_;
           }
-          return s;
+          return squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument.getDefaultInstance();
         } else {
-          return (java.lang.String) ref;
+          if (instrumentCase_ == 5) {
+            return customerCardIdBuilder_.getMessage();
+          }
+          return squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument.getDefaultInstance();
         }
       }
       /**
-       * <code>optional string customer_card_id = 6;</code>
+       * <code>optional .squareup.connect.v3.actions.ChargeRequest.CustomerCardInstrument customer_card_id = 5;</code>
        *
        * <pre>
        *--&#64;desc Specific card ID linked to the Customer.
        * </pre>
        */
-      public com.google.protobuf.ByteString
-          getCustomerCardIdBytes() {
-        java.lang.Object ref = "";
-        if (instrumentCase_ == 6) {
-          ref = instrument_;
-        }
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          if (instrumentCase_ == 6) {
-            instrument_ = b;
+      public Builder setCustomerCardId(squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument value) {
+        if (customerCardIdBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
           }
-          return b;
+          instrument_ = value;
+          onChanged();
         } else {
-          return (com.google.protobuf.ByteString) ref;
+          customerCardIdBuilder_.setMessage(value);
         }
+        instrumentCase_ = 5;
+        return this;
       }
       /**
-       * <code>optional string customer_card_id = 6;</code>
+       * <code>optional .squareup.connect.v3.actions.ChargeRequest.CustomerCardInstrument customer_card_id = 5;</code>
        *
        * <pre>
        *--&#64;desc Specific card ID linked to the Customer.
        * </pre>
        */
       public Builder setCustomerCardId(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  instrumentCase_ = 6;
-        instrument_ = value;
-        onChanged();
+          squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument.Builder builderForValue) {
+        if (customerCardIdBuilder_ == null) {
+          instrument_ = builderForValue.build();
+          onChanged();
+        } else {
+          customerCardIdBuilder_.setMessage(builderForValue.build());
+        }
+        instrumentCase_ = 5;
         return this;
       }
       /**
-       * <code>optional string customer_card_id = 6;</code>
+       * <code>optional .squareup.connect.v3.actions.ChargeRequest.CustomerCardInstrument customer_card_id = 5;</code>
+       *
+       * <pre>
+       *--&#64;desc Specific card ID linked to the Customer.
+       * </pre>
+       */
+      public Builder mergeCustomerCardId(squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument value) {
+        if (customerCardIdBuilder_ == null) {
+          if (instrumentCase_ == 5 &&
+              instrument_ != squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument.getDefaultInstance()) {
+            instrument_ = squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument.newBuilder((squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument) instrument_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            instrument_ = value;
+          }
+          onChanged();
+        } else {
+          if (instrumentCase_ == 5) {
+            customerCardIdBuilder_.mergeFrom(value);
+          }
+          customerCardIdBuilder_.setMessage(value);
+        }
+        instrumentCase_ = 5;
+        return this;
+      }
+      /**
+       * <code>optional .squareup.connect.v3.actions.ChargeRequest.CustomerCardInstrument customer_card_id = 5;</code>
        *
        * <pre>
        *--&#64;desc Specific card ID linked to the Customer.
        * </pre>
        */
       public Builder clearCustomerCardId() {
-        if (instrumentCase_ == 6) {
-          instrumentCase_ = 0;
-          instrument_ = null;
-          onChanged();
+        if (customerCardIdBuilder_ == null) {
+          if (instrumentCase_ == 5) {
+            instrumentCase_ = 0;
+            instrument_ = null;
+            onChanged();
+          }
+        } else {
+          if (instrumentCase_ == 5) {
+            instrumentCase_ = 0;
+            instrument_ = null;
+          }
+          customerCardIdBuilder_.clear();
         }
         return this;
       }
       /**
-       * <code>optional string customer_card_id = 6;</code>
+       * <code>optional .squareup.connect.v3.actions.ChargeRequest.CustomerCardInstrument customer_card_id = 5;</code>
        *
        * <pre>
        *--&#64;desc Specific card ID linked to the Customer.
        * </pre>
        */
-      public Builder setCustomerCardIdBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  instrumentCase_ = 6;
-        instrument_ = value;
-        onChanged();
-        return this;
+      public squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument.Builder getCustomerCardIdBuilder() {
+        return getCustomerCardIdFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .squareup.connect.v3.actions.ChargeRequest.CustomerCardInstrument customer_card_id = 5;</code>
+       *
+       * <pre>
+       *--&#64;desc Specific card ID linked to the Customer.
+       * </pre>
+       */
+      public squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrumentOrBuilder getCustomerCardIdOrBuilder() {
+        if ((instrumentCase_ == 5) && (customerCardIdBuilder_ != null)) {
+          return customerCardIdBuilder_.getMessageOrBuilder();
+        } else {
+          if (instrumentCase_ == 5) {
+            return (squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument) instrument_;
+          }
+          return squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>optional .squareup.connect.v3.actions.ChargeRequest.CustomerCardInstrument customer_card_id = 5;</code>
+       *
+       * <pre>
+       *--&#64;desc Specific card ID linked to the Customer.
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument, squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument.Builder, squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrumentOrBuilder> 
+          getCustomerCardIdFieldBuilder() {
+        if (customerCardIdBuilder_ == null) {
+          if (!(instrumentCase_ == 5)) {
+            instrument_ = squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument.getDefaultInstance();
+          }
+          customerCardIdBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument, squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument.Builder, squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrumentOrBuilder>(
+                  (squareup.connect.v3.actions.Charge.ChargeRequest.CustomerCardInstrument) instrument_,
+                  getParentForChildren(),
+                  isClean());
+          instrument_ = null;
+        }
+        instrumentCase_ = 5;
+        onChanged();;
+        return customerCardIdBuilder_;
       }
 
       private boolean delayCapture_ ;
       /**
-       * <code>optional bool delay_capture = 7;</code>
+       * <code>optional bool delay_capture = 6;</code>
        *
        * <pre>
        *--&#64;desc Request that the created payment only execute Auth and require a separate call for capture.
        * </pre>
        */
       public boolean hasDelayCapture() {
-        return ((bitField0_ & 0x00000040) == 0x00000040);
+        return ((bitField0_ & 0x00000020) == 0x00000020);
       }
       /**
-       * <code>optional bool delay_capture = 7;</code>
+       * <code>optional bool delay_capture = 6;</code>
        *
        * <pre>
        *--&#64;desc Request that the created payment only execute Auth and require a separate call for capture.
@@ -1738,27 +3250,27 @@ public final class Charge {
         return delayCapture_;
       }
       /**
-       * <code>optional bool delay_capture = 7;</code>
+       * <code>optional bool delay_capture = 6;</code>
        *
        * <pre>
        *--&#64;desc Request that the created payment only execute Auth and require a separate call for capture.
        * </pre>
        */
       public Builder setDelayCapture(boolean value) {
-        bitField0_ |= 0x00000040;
+        bitField0_ |= 0x00000020;
         delayCapture_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional bool delay_capture = 7;</code>
+       * <code>optional bool delay_capture = 6;</code>
        *
        * <pre>
        *--&#64;desc Request that the created payment only execute Auth and require a separate call for capture.
        * </pre>
        */
       public Builder clearDelayCapture() {
-        bitField0_ = (bitField0_ & ~0x00000040);
+        bitField0_ = (bitField0_ & ~0x00000020);
         delayCapture_ = false;
         onChanged();
         return this;
@@ -1766,13 +3278,13 @@ public final class Charge {
 
       private java.lang.Object referenceId_ = "";
       /**
-       * <code>optional string reference_id = 8;</code>
+       * <code>optional string reference_id = 7;</code>
        */
       public boolean hasReferenceId() {
-        return ((bitField0_ & 0x00000080) == 0x00000080);
+        return ((bitField0_ & 0x00000040) == 0x00000040);
       }
       /**
-       * <code>optional string reference_id = 8;</code>
+       * <code>optional string reference_id = 7;</code>
        */
       public java.lang.String getReferenceId() {
         java.lang.Object ref = referenceId_;
@@ -1789,7 +3301,7 @@ public final class Charge {
         }
       }
       /**
-       * <code>optional string reference_id = 8;</code>
+       * <code>optional string reference_id = 7;</code>
        */
       public com.google.protobuf.ByteString
           getReferenceIdBytes() {
@@ -1805,36 +3317,36 @@ public final class Charge {
         }
       }
       /**
-       * <code>optional string reference_id = 8;</code>
+       * <code>optional string reference_id = 7;</code>
        */
       public Builder setReferenceId(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000080;
+  bitField0_ |= 0x00000040;
         referenceId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string reference_id = 8;</code>
+       * <code>optional string reference_id = 7;</code>
        */
       public Builder clearReferenceId() {
-        bitField0_ = (bitField0_ & ~0x00000080);
+        bitField0_ = (bitField0_ & ~0x00000040);
         referenceId_ = getDefaultInstance().getReferenceId();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string reference_id = 8;</code>
+       * <code>optional string reference_id = 7;</code>
        */
       public Builder setReferenceIdBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000080;
+  bitField0_ |= 0x00000040;
         referenceId_ = value;
         onChanged();
         return this;
@@ -1842,13 +3354,13 @@ public final class Charge {
 
       private java.lang.Object note_ = "";
       /**
-       * <code>optional string note = 9;</code>
+       * <code>optional string note = 8;</code>
        */
       public boolean hasNote() {
-        return ((bitField0_ & 0x00000100) == 0x00000100);
+        return ((bitField0_ & 0x00000080) == 0x00000080);
       }
       /**
-       * <code>optional string note = 9;</code>
+       * <code>optional string note = 8;</code>
        */
       public java.lang.String getNote() {
         java.lang.Object ref = note_;
@@ -1865,7 +3377,7 @@ public final class Charge {
         }
       }
       /**
-       * <code>optional string note = 9;</code>
+       * <code>optional string note = 8;</code>
        */
       public com.google.protobuf.ByteString
           getNoteBytes() {
@@ -1881,36 +3393,36 @@ public final class Charge {
         }
       }
       /**
-       * <code>optional string note = 9;</code>
+       * <code>optional string note = 8;</code>
        */
       public Builder setNote(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000100;
+  bitField0_ |= 0x00000080;
         note_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string note = 9;</code>
+       * <code>optional string note = 8;</code>
        */
       public Builder clearNote() {
-        bitField0_ = (bitField0_ & ~0x00000100);
+        bitField0_ = (bitField0_ & ~0x00000080);
         note_ = getDefaultInstance().getNote();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string note = 9;</code>
+       * <code>optional string note = 8;</code>
        */
       public Builder setNoteBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000100;
+  bitField0_ |= 0x00000080;
         note_ = value;
         onChanged();
         return this;
@@ -2873,6 +4385,16 @@ public final class Charge {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_squareup_connect_v3_actions_ChargeRequest_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_squareup_connect_v3_actions_ChargeRequest_CardNonceInstrument_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_squareup_connect_v3_actions_ChargeRequest_CardNonceInstrument_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_squareup_connect_v3_actions_ChargeRequest_CustomerCardInstrument_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_squareup_connect_v3_actions_ChargeRequest_CustomerCardInstrument_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_squareup_connect_v3_actions_ChargeResponse_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -2887,21 +4409,30 @@ public final class Charge {
   static {
     java.lang.String[] descriptorData = {
       "\n(squareup/connect/v3/actions/charge.pro" +
-      "to\022\033squareup.connect.v3.actions\032/squareu" +
-      "p/connect/v3/resources/transaction.proto" +
-      "\032)squareup/connect/v3/resources/error.pr" +
-      "oto\032)squareup/connect/v3/resources/money" +
-      ".proto\"\211\002\n\rChargeRequest\022\023\n\013location_id\030" +
-      "\001 \002(\t\022\027\n\017idempotency_key\030\002 \001(\t\022:\n\014amount" +
-      "_money\030\003 \002(\0132$.squareup.connect.v3.resou" +
-      "rces.Money\022\023\n\013customer_id\030\004 \001(\t\022\024\n\ncard_" +
-      "nonce\030\005 \001(\tH\000\022\032\n\020customer_card_id\030\006 \001(\tH",
-      "\000\022\025\n\rdelay_capture\030\007 \001(\010\022\024\n\014reference_id" +
-      "\030\010 \001(\t\022\014\n\004note\030\t \001(\tB\014\n\ninstrument\"\207\001\n\016C" +
-      "hargeResponse\0224\n\006errors\030\001 \003(\0132$.squareup" +
-      ".connect.v3.resources.Error\022?\n\013transacti" +
-      "on\030\002 \001(\0132*.squareup.connect.v3.resources" +
-      ".Transaction"
+      "to\022\033squareup.connect.v3.actions\032+squareu" +
+      "p/connect/v3/resources/address.proto\032/sq" +
+      "uareup/connect/v3/resources/transaction." +
+      "proto\032)squareup/connect/v3/resources/err" +
+      "or.proto\032)squareup/connect/v3/resources/" +
+      "money.proto\"\301\004\n\rChargeRequest\022\023\n\013locatio" +
+      "n_id\030\001 \002(\t\022\027\n\017idempotency_key\030\002 \002(\t\022:\n\014a" +
+      "mount_money\030\003 \002(\0132$.squareup.connect.v3." +
+      "resources.Money\022T\n\ncard_nonce\030\004 \001(\0132>.sq",
+      "uareup.connect.v3.actions.ChargeRequest." +
+      "CardNonceInstrumentH\000\022]\n\020customer_card_i" +
+      "d\030\005 \001(\0132A.squareup.connect.v3.actions.Ch" +
+      "argeRequest.CustomerCardInstrumentH\000\022\025\n\r" +
+      "delay_capture\030\006 \001(\010\022\024\n\014reference_id\030\007 \001(" +
+      "\t\022\014\n\004note\030\010 \001(\t\032\177\n\023CardNonceInstrument\022\022" +
+      "\n\ncard_nonce\030\001 \002(\t\022?\n\017billing_address\030\002 " +
+      "\001(\0132&.squareup.connect.v3.resources.Addr" +
+      "ess\022\023\n\013customer_id\030\003 \001(\t\032G\n\026CustomerCard" +
+      "Instrument\022\023\n\013customer_id\030\001 \002(\t\022\030\n\020custo",
+      "mer_card_id\030\002 \001(\tB\014\n\ninstrument\"\207\001\n\016Char" +
+      "geResponse\0224\n\006errors\030\001 \003(\0132$.squareup.co" +
+      "nnect.v3.resources.Error\022?\n\013transaction\030" +
+      "\002 \001(\0132*.squareup.connect.v3.resources.Tr" +
+      "ansaction"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -2914,6 +4445,7 @@ public final class Charge {
     com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
+          squareup.connect.v3.resources.AddressOuterClass.getDescriptor(),
           squareup.connect.v3.resources.TransactionOuterClass.getDescriptor(),
           squareup.connect.v3.resources.ErrorOuterClass.getDescriptor(),
           squareup.connect.v3.resources.MoneyOuterClass.getDescriptor(),
@@ -2923,13 +4455,26 @@ public final class Charge {
     internal_static_squareup_connect_v3_actions_ChargeRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_squareup_connect_v3_actions_ChargeRequest_descriptor,
-        new java.lang.String[] { "LocationId", "IdempotencyKey", "AmountMoney", "CustomerId", "CardNonce", "CustomerCardId", "DelayCapture", "ReferenceId", "Note", "Instrument", });
+        new java.lang.String[] { "LocationId", "IdempotencyKey", "AmountMoney", "CardNonce", "CustomerCardId", "DelayCapture", "ReferenceId", "Note", "Instrument", });
+    internal_static_squareup_connect_v3_actions_ChargeRequest_CardNonceInstrument_descriptor =
+      internal_static_squareup_connect_v3_actions_ChargeRequest_descriptor.getNestedTypes().get(0);
+    internal_static_squareup_connect_v3_actions_ChargeRequest_CardNonceInstrument_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_squareup_connect_v3_actions_ChargeRequest_CardNonceInstrument_descriptor,
+        new java.lang.String[] { "CardNonce", "BillingAddress", "CustomerId", });
+    internal_static_squareup_connect_v3_actions_ChargeRequest_CustomerCardInstrument_descriptor =
+      internal_static_squareup_connect_v3_actions_ChargeRequest_descriptor.getNestedTypes().get(1);
+    internal_static_squareup_connect_v3_actions_ChargeRequest_CustomerCardInstrument_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_squareup_connect_v3_actions_ChargeRequest_CustomerCardInstrument_descriptor,
+        new java.lang.String[] { "CustomerId", "CustomerCardId", });
     internal_static_squareup_connect_v3_actions_ChargeResponse_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_squareup_connect_v3_actions_ChargeResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_squareup_connect_v3_actions_ChargeResponse_descriptor,
         new java.lang.String[] { "Errors", "Transaction", });
+    squareup.connect.v3.resources.AddressOuterClass.getDescriptor();
     squareup.connect.v3.resources.TransactionOuterClass.getDescriptor();
     squareup.connect.v3.resources.ErrorOuterClass.getDescriptor();
     squareup.connect.v3.resources.MoneyOuterClass.getDescriptor();

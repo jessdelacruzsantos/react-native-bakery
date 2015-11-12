@@ -18,57 +18,54 @@ public final class Service {
   static {
     java.lang.String[] descriptorData = {
       "\n!squareup/connect/v3/service.proto\022\023squ" +
-      "areup.connect.v3\032&squareup/connect/v3/ac" +
-      "tions/card.proto\032(squareup/connect/v3/ac" +
-      "tions/charge.proto\032*squareup/connect/v3/" +
-      "actions/customer.proto\032*squareup/connect" +
-      "/v3/actions/location.proto\032(squareup/con" +
-      "nect/v3/actions/refund.proto\032-squareup/c" +
-      "onnect/v3/actions/transaction.proto2\334\r\n\017" +
-      "SquareConnectV3\022a\n\006Charge\022*.squareup.con" +
-      "nect.v3.actions.ChargeRequest\032+.squareup",
-      ".connect.v3.actions.ChargeResponse\022a\n\006Re" +
-      "fund\022*.squareup.connect.v3.actions.Refun" +
-      "dRequest\032+.squareup.connect.v3.actions.R" +
-      "efundResponse\022v\n\rListLocations\0221.squareu" +
-      "p.connect.v3.actions.ListLocationsReques" +
-      "t\0322.squareup.connect.v3.actions.ListLoca" +
-      "tionsResponse\022m\n\nCreateCard\022..squareup.c" +
-      "onnect.v3.actions.CreateCardRequest\032/.sq" +
-      "uareup.connect.v3.actions.CreateCardResp" +
-      "onse\022y\n\016UpsertCustomer\0222.squareup.connec",
-      "t.v3.actions.UpsertCustomerRequest\0323.squ" +
-      "areup.connect.v3.actions.UpsertCustomerR" +
-      "esponse\022v\n\rListCustomers\0221.squareup.conn" +
-      "ect.v3.actions.ListCustomersRequest\0322.sq" +
-      "uareup.connect.v3.actions.ListCustomersR" +
-      "esponse\022\177\n\020RetrieveCustomer\0224.squareup.c" +
-      "onnect.v3.actions.RetrieveCustomerReques" +
-      "t\0325.squareup.connect.v3.actions.Retrieve" +
-      "CustomerResponse\022\205\001\n\022CreateCustomerCard\022" +
-      "6.squareup.connect.v3.actions.CreateCust",
-      "omerCardRequest\0327.squareup.connect.v3.ac" +
-      "tions.CreateCustomerCardResponse\022\205\001\n\022Upd" +
-      "ateCustomerCard\0226.squareup.connect.v3.ac" +
-      "tions.UpdateCustomerCardRequest\0327.square" +
-      "up.connect.v3.actions.UpdateCustomerCard" +
-      "Response\022\205\001\n\022DeleteCustomerCard\0226.square" +
-      "up.connect.v3.actions.DeleteCustomerCard" +
-      "Request\0327.squareup.connect.v3.actions.De" +
-      "leteCustomerCardResponse\022\205\001\n\022CaptureTran" +
-      "saction\0226.squareup.connect.v3.actions.Ca",
-      "ptureTransactionRequest\0327.squareup.conne" +
-      "ct.v3.actions.CaptureTransactionResponse" +
-      "\022|\n\017VoidTransaction\0223.squareup.connect.v" +
-      "3.actions.VoidTransactionRequest\0324.squar" +
-      "eup.connect.v3.actions.VoidTransactionRe" +
-      "sponse\022\177\n\020ListTransactions\0224.squareup.co" +
-      "nnect.v3.actions.ListTransactionsRequest" +
-      "\0325.squareup.connect.v3.actions.ListTrans" +
-      "actionsResponse\022\210\001\n\023RetrieveTransaction\022" +
-      "7.squareup.connect.v3.actions.RetrieveTr",
-      "ansactionRequest\0328.squareup.connect.v3.a" +
-      "ctions.RetrieveTransactionResponse"
+      "areup.connect.v3\032,squareup/connect/v3/ac" +
+      "tions/card_nonce.proto\032(squareup/connect" +
+      "/v3/actions/charge.proto\032*squareup/conne" +
+      "ct/v3/actions/customer.proto\032*squareup/c" +
+      "onnect/v3/actions/location.proto\032(square" +
+      "up/connect/v3/actions/refund.proto\032-squa" +
+      "reup/connect/v3/actions/transaction.prot" +
+      "o2\343\014\n\017SquareConnectV3\022a\n\006Charge\022*.square" +
+      "up.connect.v3.actions.ChargeRequest\032+.sq",
+      "uareup.connect.v3.actions.ChargeResponse" +
+      "\022a\n\006Refund\022*.squareup.connect.v3.actions" +
+      ".RefundRequest\032+.squareup.connect.v3.act" +
+      "ions.RefundResponse\022v\n\rListLocations\0221.s" +
+      "quareup.connect.v3.actions.ListLocations" +
+      "Request\0322.squareup.connect.v3.actions.Li" +
+      "stLocationsResponse\022|\n\017CreateCardNonce\0223" +
+      ".squareup.connect.v3.actions.CreateCardN" +
+      "onceRequest\0324.squareup.connect.v3.action" +
+      "s.CreateCardNonceResponse\022y\n\016UpsertCusto",
+      "mer\0222.squareup.connect.v3.actions.Upsert" +
+      "CustomerRequest\0323.squareup.connect.v3.ac" +
+      "tions.UpsertCustomerResponse\022v\n\rListCust" +
+      "omers\0221.squareup.connect.v3.actions.List" +
+      "CustomersRequest\0322.squareup.connect.v3.a" +
+      "ctions.ListCustomersResponse\022\177\n\020Retrieve" +
+      "Customer\0224.squareup.connect.v3.actions.R" +
+      "etrieveCustomerRequest\0325.squareup.connec" +
+      "t.v3.actions.RetrieveCustomerResponse\022\205\001" +
+      "\n\022CreateCustomerCard\0226.squareup.connect.",
+      "v3.actions.CreateCustomerCardRequest\0327.s" +
+      "quareup.connect.v3.actions.CreateCustome" +
+      "rCardResponse\022\205\001\n\022DeleteCustomerCard\0226.s" +
+      "quareup.connect.v3.actions.DeleteCustome" +
+      "rCardRequest\0327.squareup.connect.v3.actio" +
+      "ns.DeleteCustomerCardResponse\022\205\001\n\022Captur" +
+      "eTransaction\0226.squareup.connect.v3.actio" +
+      "ns.CaptureTransactionRequest\0327.squareup." +
+      "connect.v3.actions.CaptureTransactionRes" +
+      "ponse\022|\n\017VoidTransaction\0223.squareup.conn",
+      "ect.v3.actions.VoidTransactionRequest\0324." +
+      "squareup.connect.v3.actions.VoidTransact" +
+      "ionResponse\022\177\n\020ListTransactions\0224.square" +
+      "up.connect.v3.actions.ListTransactionsRe" +
+      "quest\0325.squareup.connect.v3.actions.List" +
+      "TransactionsResponse\022\210\001\n\023RetrieveTransac" +
+      "tion\0227.squareup.connect.v3.actions.Retri" +
+      "eveTransactionRequest\0328.squareup.connect" +
+      ".v3.actions.RetrieveTransactionResponse"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -81,14 +78,14 @@ public final class Service {
     com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
-          squareup.connect.v3.actions.Card.getDescriptor(),
+          squareup.connect.v3.actions.CardNonce.getDescriptor(),
           squareup.connect.v3.actions.Charge.getDescriptor(),
           squareup.connect.v3.actions.Customer.getDescriptor(),
           squareup.connect.v3.actions.Location.getDescriptor(),
           squareup.connect.v3.actions.Refund.getDescriptor(),
           squareup.connect.v3.actions.Transaction.getDescriptor(),
         }, assigner);
-    squareup.connect.v3.actions.Card.getDescriptor();
+    squareup.connect.v3.actions.CardNonce.getDescriptor();
     squareup.connect.v3.actions.Charge.getDescriptor();
     squareup.connect.v3.actions.Customer.getDescriptor();
     squareup.connect.v3.actions.Location.getDescriptor();

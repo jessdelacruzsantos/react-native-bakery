@@ -19,7 +19,7 @@ module Squareup
           set_fully_qualified_name "squareup.connect.v3.actions.RefundRequest"
 
           required :string, :location_id, 1
-          optional :string, :idempotency_key, 2
+          required :string, :idempotency_key, 2
           required :string, :source_transaction_id, 3
           required ::Squareup::Connect::V3::Resources::Refund::Type, :type, 4
           required :string, :reason, 5

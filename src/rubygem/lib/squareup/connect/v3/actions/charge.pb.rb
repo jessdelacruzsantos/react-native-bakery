@@ -3,6 +3,7 @@
 
 require 'protocol_buffers'
 
+begin; require 'squareup/connect/v3/resources/address.pb'; rescue LoadError; end
 begin; require 'squareup/connect/v3/resources/transaction.pb'; rescue LoadError; end
 begin; require 'squareup/connect/v3/resources/error.pb'; rescue LoadError; end
 begin; require 'squareup/connect/v3/resources/money.pb'; rescue LoadError; end
@@ -16,17 +17,36 @@ module Squareup
         class ChargeResponse < ::ProtocolBuffers::Message; end
 
         class ChargeRequest < ::ProtocolBuffers::Message
+          # forward declarations
+          class CardNonceInstrument < ::ProtocolBuffers::Message; end
+          class CustomerCardInstrument < ::ProtocolBuffers::Message; end
+
           set_fully_qualified_name "squareup.connect.v3.actions.ChargeRequest"
 
+          # nested messages
+          class CardNonceInstrument < ::ProtocolBuffers::Message
+            set_fully_qualified_name "squareup.connect.v3.actions.ChargeRequest.CardNonceInstrument"
+
+            required :string, :card_nonce, 1
+            optional ::Squareup::Connect::V3::Resources::Address, :billing_address, 2
+            optional :string, :customer_id, 3
+          end
+
+          class CustomerCardInstrument < ::ProtocolBuffers::Message
+            set_fully_qualified_name "squareup.connect.v3.actions.ChargeRequest.CustomerCardInstrument"
+
+            required :string, :customer_id, 1
+            optional :string, :customer_card_id, 2
+          end
+
           required :string, :location_id, 1
-          optional :string, :idempotency_key, 2
+          required :string, :idempotency_key, 2
           required ::Squareup::Connect::V3::Resources::Money, :amount_money, 3
-          optional :string, :customer_id, 4
-          optional :string, :card_nonce, 5
-          optional :string, :customer_card_id, 6
-          optional :bool, :delay_capture, 7
-          optional :string, :reference_id, 8
-          optional :string, :note, 9
+          optional ::Squareup::Connect::V3::Actions::ChargeRequest::CardNonceInstrument, :card_nonce, 4
+          optional ::Squareup::Connect::V3::Actions::ChargeRequest::CustomerCardInstrument, :customer_card_id, 5
+          optional :bool, :delay_capture, 6
+          optional :string, :reference_id, 7
+          optional :string, :note, 8
         end
 
         class ChargeResponse < ::ProtocolBuffers::Message

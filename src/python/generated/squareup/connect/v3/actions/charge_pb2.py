@@ -13,6 +13,7 @@ from google.protobuf import descriptor_pb2
 _sym_db = _symbol_database.Default()
 
 
+from squareup.connect.v3.resources import address_pb2 as squareup_dot_connect_dot_v3_dot_resources_dot_address__pb2
 from squareup.connect.v3.resources import transaction_pb2 as squareup_dot_connect_dot_v3_dot_resources_dot_transaction__pb2
 from squareup.connect.v3.resources import error_pb2 as squareup_dot_connect_dot_v3_dot_resources_dot_error__pb2
 from squareup.connect.v3.resources import money_pb2 as squareup_dot_connect_dot_v3_dot_resources_dot_money__pb2
@@ -22,13 +23,94 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='squareup/connect/v3/actions/charge.proto',
   package='squareup.connect.v3.actions',
   syntax='proto2',
-  serialized_pb=_b('\n(squareup/connect/v3/actions/charge.proto\x12\x1bsquareup.connect.v3.actions\x1a/squareup/connect/v3/resources/transaction.proto\x1a)squareup/connect/v3/resources/error.proto\x1a)squareup/connect/v3/resources/money.proto\"\x89\x02\n\rChargeRequest\x12\x13\n\x0blocation_id\x18\x01 \x02(\t\x12\x17\n\x0fidempotency_key\x18\x02 \x01(\t\x12:\n\x0c\x61mount_money\x18\x03 \x02(\x0b\x32$.squareup.connect.v3.resources.Money\x12\x13\n\x0b\x63ustomer_id\x18\x04 \x01(\t\x12\x14\n\ncard_nonce\x18\x05 \x01(\tH\x00\x12\x1a\n\x10\x63ustomer_card_id\x18\x06 \x01(\tH\x00\x12\x15\n\rdelay_capture\x18\x07 \x01(\x08\x12\x14\n\x0creference_id\x18\x08 \x01(\t\x12\x0c\n\x04note\x18\t \x01(\tB\x0c\n\ninstrument\"\x87\x01\n\x0e\x43hargeResponse\x12\x34\n\x06\x65rrors\x18\x01 \x03(\x0b\x32$.squareup.connect.v3.resources.Error\x12?\n\x0btransaction\x18\x02 \x01(\x0b\x32*.squareup.connect.v3.resources.Transaction')
+  serialized_pb=_b('\n(squareup/connect/v3/actions/charge.proto\x12\x1bsquareup.connect.v3.actions\x1a+squareup/connect/v3/resources/address.proto\x1a/squareup/connect/v3/resources/transaction.proto\x1a)squareup/connect/v3/resources/error.proto\x1a)squareup/connect/v3/resources/money.proto\"\xc1\x04\n\rChargeRequest\x12\x13\n\x0blocation_id\x18\x01 \x02(\t\x12\x17\n\x0fidempotency_key\x18\x02 \x02(\t\x12:\n\x0c\x61mount_money\x18\x03 \x02(\x0b\x32$.squareup.connect.v3.resources.Money\x12T\n\ncard_nonce\x18\x04 \x01(\x0b\x32>.squareup.connect.v3.actions.ChargeRequest.CardNonceInstrumentH\x00\x12]\n\x10\x63ustomer_card_id\x18\x05 \x01(\x0b\x32\x41.squareup.connect.v3.actions.ChargeRequest.CustomerCardInstrumentH\x00\x12\x15\n\rdelay_capture\x18\x06 \x01(\x08\x12\x14\n\x0creference_id\x18\x07 \x01(\t\x12\x0c\n\x04note\x18\x08 \x01(\t\x1a\x7f\n\x13\x43\x61rdNonceInstrument\x12\x12\n\ncard_nonce\x18\x01 \x02(\t\x12?\n\x0f\x62illing_address\x18\x02 \x01(\x0b\x32&.squareup.connect.v3.resources.Address\x12\x13\n\x0b\x63ustomer_id\x18\x03 \x01(\t\x1aG\n\x16\x43ustomerCardInstrument\x12\x13\n\x0b\x63ustomer_id\x18\x01 \x02(\t\x12\x18\n\x10\x63ustomer_card_id\x18\x02 \x01(\tB\x0c\n\ninstrument\"\x87\x01\n\x0e\x43hargeResponse\x12\x34\n\x06\x65rrors\x18\x01 \x03(\x0b\x32$.squareup.connect.v3.resources.Error\x12?\n\x0btransaction\x18\x02 \x01(\x0b\x32*.squareup.connect.v3.resources.Transaction')
   ,
-  dependencies=[squareup_dot_connect_dot_v3_dot_resources_dot_transaction__pb2.DESCRIPTOR,squareup_dot_connect_dot_v3_dot_resources_dot_error__pb2.DESCRIPTOR,squareup_dot_connect_dot_v3_dot_resources_dot_money__pb2.DESCRIPTOR,])
+  dependencies=[squareup_dot_connect_dot_v3_dot_resources_dot_address__pb2.DESCRIPTOR,squareup_dot_connect_dot_v3_dot_resources_dot_transaction__pb2.DESCRIPTOR,squareup_dot_connect_dot_v3_dot_resources_dot_error__pb2.DESCRIPTOR,squareup_dot_connect_dot_v3_dot_resources_dot_money__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
+
+_CHARGEREQUEST_CARDNONCEINSTRUMENT = _descriptor.Descriptor(
+  name='CardNonceInstrument',
+  full_name='squareup.connect.v3.actions.ChargeRequest.CardNonceInstrument',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='card_nonce', full_name='squareup.connect.v3.actions.ChargeRequest.CardNonceInstrument.card_nonce', index=0,
+      number=1, type=9, cpp_type=9, label=2,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='billing_address', full_name='squareup.connect.v3.actions.ChargeRequest.CardNonceInstrument.billing_address', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='customer_id', full_name='squareup.connect.v3.actions.ChargeRequest.CardNonceInstrument.customer_id', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=617,
+  serialized_end=744,
+)
+
+_CHARGEREQUEST_CUSTOMERCARDINSTRUMENT = _descriptor.Descriptor(
+  name='CustomerCardInstrument',
+  full_name='squareup.connect.v3.actions.ChargeRequest.CustomerCardInstrument',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='customer_id', full_name='squareup.connect.v3.actions.ChargeRequest.CustomerCardInstrument.customer_id', index=0,
+      number=1, type=9, cpp_type=9, label=2,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='customer_card_id', full_name='squareup.connect.v3.actions.ChargeRequest.CustomerCardInstrument.customer_card_id', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=746,
+  serialized_end=817,
+)
 
 _CHARGEREQUEST = _descriptor.Descriptor(
   name='ChargeRequest',
@@ -46,7 +128,7 @@ _CHARGEREQUEST = _descriptor.Descriptor(
       options=None),
     _descriptor.FieldDescriptor(
       name='idempotency_key', full_name='squareup.connect.v3.actions.ChargeRequest.idempotency_key', index=1,
-      number=2, type=9, cpp_type=9, label=1,
+      number=2, type=9, cpp_type=9, label=2,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -59,43 +141,36 @@ _CHARGEREQUEST = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='customer_id', full_name='squareup.connect.v3.actions.ChargeRequest.customer_id', index=3,
-      number=4, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
+      name='card_nonce', full_name='squareup.connect.v3.actions.ChargeRequest.card_nonce', index=3,
+      number=4, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='card_nonce', full_name='squareup.connect.v3.actions.ChargeRequest.card_nonce', index=4,
-      number=5, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
+      name='customer_card_id', full_name='squareup.connect.v3.actions.ChargeRequest.customer_card_id', index=4,
+      number=5, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='customer_card_id', full_name='squareup.connect.v3.actions.ChargeRequest.customer_card_id', index=5,
-      number=6, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='delay_capture', full_name='squareup.connect.v3.actions.ChargeRequest.delay_capture', index=6,
-      number=7, type=8, cpp_type=7, label=1,
+      name='delay_capture', full_name='squareup.connect.v3.actions.ChargeRequest.delay_capture', index=5,
+      number=6, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='reference_id', full_name='squareup.connect.v3.actions.ChargeRequest.reference_id', index=7,
-      number=8, type=9, cpp_type=9, label=1,
+      name='reference_id', full_name='squareup.connect.v3.actions.ChargeRequest.reference_id', index=6,
+      number=7, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='note', full_name='squareup.connect.v3.actions.ChargeRequest.note', index=8,
-      number=9, type=9, cpp_type=9, label=1,
+      name='note', full_name='squareup.connect.v3.actions.ChargeRequest.note', index=7,
+      number=8, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -103,7 +178,7 @@ _CHARGEREQUEST = _descriptor.Descriptor(
   ],
   extensions=[
   ],
-  nested_types=[],
+  nested_types=[_CHARGEREQUEST_CARDNONCEINSTRUMENT, _CHARGEREQUEST_CUSTOMERCARDINSTRUMENT, ],
   enum_types=[
   ],
   options=None,
@@ -115,8 +190,8 @@ _CHARGEREQUEST = _descriptor.Descriptor(
       name='instrument', full_name='squareup.connect.v3.actions.ChargeRequest.instrument',
       index=0, containing_type=None, fields=[]),
   ],
-  serialized_start=209,
-  serialized_end=474,
+  serialized_start=254,
+  serialized_end=831,
 )
 
 
@@ -153,11 +228,16 @@ _CHARGERESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=477,
-  serialized_end=612,
+  serialized_start=834,
+  serialized_end=969,
 )
 
+_CHARGEREQUEST_CARDNONCEINSTRUMENT.fields_by_name['billing_address'].message_type = squareup_dot_connect_dot_v3_dot_resources_dot_address__pb2._ADDRESS
+_CHARGEREQUEST_CARDNONCEINSTRUMENT.containing_type = _CHARGEREQUEST
+_CHARGEREQUEST_CUSTOMERCARDINSTRUMENT.containing_type = _CHARGEREQUEST
 _CHARGEREQUEST.fields_by_name['amount_money'].message_type = squareup_dot_connect_dot_v3_dot_resources_dot_money__pb2._MONEY
+_CHARGEREQUEST.fields_by_name['card_nonce'].message_type = _CHARGEREQUEST_CARDNONCEINSTRUMENT
+_CHARGEREQUEST.fields_by_name['customer_card_id'].message_type = _CHARGEREQUEST_CUSTOMERCARDINSTRUMENT
 _CHARGEREQUEST.oneofs_by_name['instrument'].fields.append(
   _CHARGEREQUEST.fields_by_name['card_nonce'])
 _CHARGEREQUEST.fields_by_name['card_nonce'].containing_oneof = _CHARGEREQUEST.oneofs_by_name['instrument']
@@ -170,11 +250,27 @@ DESCRIPTOR.message_types_by_name['ChargeRequest'] = _CHARGEREQUEST
 DESCRIPTOR.message_types_by_name['ChargeResponse'] = _CHARGERESPONSE
 
 ChargeRequest = _reflection.GeneratedProtocolMessageType('ChargeRequest', (_message.Message,), dict(
+
+  CardNonceInstrument = _reflection.GeneratedProtocolMessageType('CardNonceInstrument', (_message.Message,), dict(
+    DESCRIPTOR = _CHARGEREQUEST_CARDNONCEINSTRUMENT,
+    __module__ = 'squareup.connect.v3.actions.charge_pb2'
+    # @@protoc_insertion_point(class_scope:squareup.connect.v3.actions.ChargeRequest.CardNonceInstrument)
+    ))
+  ,
+
+  CustomerCardInstrument = _reflection.GeneratedProtocolMessageType('CustomerCardInstrument', (_message.Message,), dict(
+    DESCRIPTOR = _CHARGEREQUEST_CUSTOMERCARDINSTRUMENT,
+    __module__ = 'squareup.connect.v3.actions.charge_pb2'
+    # @@protoc_insertion_point(class_scope:squareup.connect.v3.actions.ChargeRequest.CustomerCardInstrument)
+    ))
+  ,
   DESCRIPTOR = _CHARGEREQUEST,
   __module__ = 'squareup.connect.v3.actions.charge_pb2'
   # @@protoc_insertion_point(class_scope:squareup.connect.v3.actions.ChargeRequest)
   ))
 _sym_db.RegisterMessage(ChargeRequest)
+_sym_db.RegisterMessage(ChargeRequest.CardNonceInstrument)
+_sym_db.RegisterMessage(ChargeRequest.CustomerCardInstrument)
 
 ChargeResponse = _reflection.GeneratedProtocolMessageType('ChargeResponse', (_message.Message,), dict(
   DESCRIPTOR = _CHARGERESPONSE,
