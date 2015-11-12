@@ -20,7 +20,7 @@ namespace squareup\connect {
 
   class SquareConnect {
 
-    private static $connectRoot = 'https://connect.squareup.com';
+    private static $connectRoot = 'https://connect.squareupstaging.com';
 
     {{#each this.endpoints}}
     public static function {{this.id}}($context, $requestObject) {
@@ -49,18 +49,114 @@ namespace squareup\connect {
       $response = curl_exec($ch);
       $information = curl_getinfo($ch);
       $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-      $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-      $responseHeaders = substr($response, 0, $header_size);
-      $responseBody = substr($response, $header_size);
+      $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+      $responseHeaders = substr($response, 0, $headerSize);
+      $responseBody = substr($response, $headerSize);
       curl_close ($ch);
 
       $responseWrapper->parse($responseBody);
       return $responseWrapper;
     }
+
+    public static function ObtainToken($clientId, $clientSecret, $code, $redirectUri = '') {
+      $ch = curl_init();
+      $requestHeaders = array(
+        'Content-Type: application/json'
+      );
+      $requestBody = array (
+        'client_id' => $clientId,
+        'client_secret' => $clientSecret,
+        'code' => $code
+      );
+      if ($redirectUri != '') {
+        $requestBody['redirect_uri'] = $redirectUri;
+      }
+      curl_setopt($ch, CURLOPT_HTTPHEADER, $requestHeaders);
+      curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+      curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($requestBody));
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($ch, CURLOPT_HEADER, 1);
+      curl_setopt($ch, CURLOPT_URL, self::$connectRoot . '/oauth2/token');
+
+      $response = curl_exec($ch);
+      $responseSummary = new OAuthResponse();
+      $responseSummary->code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+      $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+      $responseSummary->headers = substr($response, 0, $headerSize);
+      $responseSummary->body = substr($response, $headerSize);
+
+      curl_close($ch);
+      return $responseSummary;
+    }
+
+    public static function RenewToken($clientId, $clientSecret, $accessToken) {
+      $ch = curl_init();
+      $requestHeaders = array(
+        'Content-Type: application/json',
+        'Authorization: Client ' . $clientSecret
+      );
+      $requestBody = array (
+        'access_token' => $accessToken
+      );
+      curl_setopt($ch, CURLOPT_HTTPHEADER, $requestHeaders);
+      curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+      curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($requestBody));
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($ch, CURLOPT_HEADER, 1);
+      curl_setopt($ch, CURLOPT_URL, self::$connectRoot . '/oauth2/clients/' . $clientId . '/access-token/renew');
+
+      $response = curl_exec($ch);
+      $responseSummary = new OAuthResponse();
+      $responseSummary->code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+      $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+      $responseSummary->headers = substr($response, 0, $headerSize);
+      $responseSummary->body = substr($response, $headerSize);
+
+      curl_close($ch);
+      return $responseSummary;
+    }
+
+    public static function RevokeToken($clientId, $clientSecret, $accessToken, $merchantId = '') {
+      $ch = curl_init();
+      $requestHeaders = array(
+        'Content-Type: application/json',
+        'Authorization: Client ' . $clientSecret
+      );
+      $requestBody = array (
+        'client_id' => $clientId
+      );
+      if ($merchantId == '') {
+        $requestBody['access_token'] = $accessToken;
+      } else {
+        $requestBody['merchant_id'] = $merchantId;
+      }
+      curl_setopt($ch, CURLOPT_HTTPHEADER, $requestHeaders);
+      curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+      curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($requestBody));
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($ch, CURLOPT_HEADER, 1);
+      curl_setopt($ch, CURLOPT_URL, self::$connectRoot . '/oauth2/revoke');
+
+      $response = curl_exec($ch);
+      $responseSummary = new OAuthResponse();
+      $responseSummary->code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+      $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+      $responseSummary->headers = substr($response, 0, $headerSize);
+      $responseSummary->body = substr($response, $headerSize);
+
+      curl_close($ch);
+      return $responseSummary;
+    }
   }
 
   class RequestContext {
     public $accessToken;
+  }
+
+  class OAuthResponse {
+    public $headers;
+    public $body;
+    public $code;
   }
 }
 
