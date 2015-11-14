@@ -40,9 +40,9 @@ namespace squareup\connect {
       return self::sendRequest($requestPath, $context, $requestObject->serialize(), $responseWrapper);
     }
 
-    public static function CreateCard($context, $requestObject) {
-      $requestPath = '/services/squareup.connect.v3.SquareConnectV3/CreateCard';
-      $responseWrapper = new \squareup\connect\v3\actions\CreateCardResponse();
+    public static function CreateCardNonce($context, $requestObject) {
+      $requestPath = '/services/squareup.connect.v3.SquareConnectV3/CreateCardNonce';
+      $responseWrapper = new \squareup\connect\v3\actions\CreateCardNonceResponse();
       return self::sendRequest($requestPath, $context, $requestObject->serialize(), $responseWrapper);
     }
 
@@ -67,12 +67,6 @@ namespace squareup\connect {
     public static function CreateCustomerCard($context, $requestObject) {
       $requestPath = '/services/squareup.connect.v3.SquareConnectV3/CreateCustomerCard';
       $responseWrapper = new \squareup\connect\v3\actions\CreateCustomerCardResponse();
-      return self::sendRequest($requestPath, $context, $requestObject->serialize(), $responseWrapper);
-    }
-
-    public static function UpdateCustomerCard($context, $requestObject) {
-      $requestPath = '/services/squareup.connect.v3.SquareConnectV3/UpdateCustomerCard';
-      $responseWrapper = new \squareup\connect\v3\actions\UpdateCustomerCardResponse();
       return self::sendRequest($requestPath, $context, $requestObject->serialize(), $responseWrapper);
     }
 
@@ -107,7 +101,7 @@ namespace squareup\connect {
     }
 
 
-    public static function sendRequest($path, $context, $body, $responseWrapper) {
+    private static function sendRequest($path, $context, $body, $responseWrapper) {
       $ch = curl_init();
 
       $requestHeaders = array(

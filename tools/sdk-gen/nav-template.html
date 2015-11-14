@@ -1,0 +1,38 @@
+<div id="toc" class="tocify">
+  <ul class="tocify-header">
+    <li class="tocify-item" data-unique="navesection-methods">
+      <a>Methods</a>
+    </li>
+    <ul class="tocify-subheader">
+      {{#each this.endpoints}}
+        <li class="tocify-item" data-unique="endpoint-{{#idify}}{{this.id}}{{/idify}}">
+          <a>{{this.id}}</a>
+        </li>
+      {{/each}}
+    </ul>
+  </ul>
+  <ul>
+    <li class="tocify-item" data-unique="navsection-datatypes">
+      <a>Data Types</a>
+    </li>
+    <ul class="tocify-subheader">
+      {{#each this.datatypes}}
+        <li class="tocify-item" data-unique="datatype-{{#idify}}{{this.id}}{{/idify}}">
+          <a>{{this.name}}</a>
+        </li>
+      {{/each}}
+    </ul>
+  </ul>
+  <ul>
+    <li class="tocify-item" data-unique="navsection-enums">
+      <a>Enums</a>
+    </li>
+    <ul class="tocify-subheader">
+      {{#each this.enums}}
+        <li class="tocify-item" data-unique="enum-{{#idify}}{{this.id}}{{/idify}}">
+          <a>{{this.name}}</a>
+        </li>
+      {{/each}}
+    </ul>
+  </ul>
+</div>

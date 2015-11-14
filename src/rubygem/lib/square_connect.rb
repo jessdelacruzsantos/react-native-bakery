@@ -36,10 +36,10 @@ class SquareConnect
     return self.sendRequest(requestPath, context, requestBody, Squareup::Connect::V3::Actions::ListLocationsResponse)
   end
 
-  def self.CreateCard(context, requestObject)
-    requestPath = '/services/squareup.connect.v3.SquareConnectV3/CreateCard'
+  def self.CreateCardNonce(context, requestObject)
+    requestPath = '/services/squareup.connect.v3.SquareConnectV3/CreateCardNonce'
     requestBody = requestObject.serialize_to_string()
-    return self.sendRequest(requestPath, context, requestBody, Squareup::Connect::V3::Actions::CreateCardResponse)
+    return self.sendRequest(requestPath, context, requestBody, Squareup::Connect::V3::Actions::CreateCardNonceResponse)
   end
 
   def self.UpsertCustomer(context, requestObject)
@@ -64,12 +64,6 @@ class SquareConnect
     requestPath = '/services/squareup.connect.v3.SquareConnectV3/CreateCustomerCard'
     requestBody = requestObject.serialize_to_string()
     return self.sendRequest(requestPath, context, requestBody, Squareup::Connect::V3::Actions::CreateCustomerCardResponse)
-  end
-
-  def self.UpdateCustomerCard(context, requestObject)
-    requestPath = '/services/squareup.connect.v3.SquareConnectV3/UpdateCustomerCard'
-    requestBody = requestObject.serialize_to_string()
-    return self.sendRequest(requestPath, context, requestBody, Squareup::Connect::V3::Actions::UpdateCustomerCardResponse)
   end
 
   def self.DeleteCustomerCard(context, requestObject)

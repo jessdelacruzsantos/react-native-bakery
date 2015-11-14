@@ -31,7 +31,7 @@ namespace squareup\connect {
 
     {{/each}}
 
-    public static function sendRequest($path, $context, $body, $responseWrapper) {
+    private static function sendRequest($path, $context, $body, $responseWrapper) {
       $ch = curl_init();
 
       $requestHeaders = array(

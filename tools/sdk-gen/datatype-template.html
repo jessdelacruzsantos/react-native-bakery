@@ -1,0 +1,22 @@
+<div name="datatype-{{#idify}}{{this.name}}{{/idify}}" data-unique="datatype-{{#idify}}{{this.name}}{{/idify}}"></div>
+<h3 id="datatype-{{#idify}}{{this.name}}{{/idify}}" class="datatype"><code>{{this.name}}</code></h3>
+{{#convertMarkdown}}{{{this.description}}}{{/convertMarkdown}}
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each this.fields}}
+    <tr>
+      <td><code>{{this.name}}</code></td>
+      <td><code>{{#processType}}{{this.type}}{{/processType}}{{#checkArray}}{{this.isarray}}{{/checkArray}}</code></td>
+      <td>{{#convertMarkdown}}{{{this.description}}}{{/convertMarkdown}}</td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>

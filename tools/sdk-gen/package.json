@@ -9,6 +9,7 @@
   "author": "barlow",
   "license": "ISC",
   "dependencies": {
-    "handlebars": "^4.0.0"
+    "handlebars": "^4.0.0",
+    "markdown": "0.5.x"
   }
 }
