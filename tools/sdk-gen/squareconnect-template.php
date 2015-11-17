@@ -45,6 +45,7 @@ namespace squareup\connect {
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
       curl_setopt($ch, CURLOPT_HEADER, 1);
       curl_setopt($ch, CURLOPT_URL, self::$connectRoot . $path);
+      curl_setopt($ch, CURLOPT_USERAGENT, 'square-connect-php-0.1');
 
       $response = curl_exec($ch);
       $information = curl_getinfo($ch);

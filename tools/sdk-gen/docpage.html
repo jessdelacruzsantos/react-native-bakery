@@ -1,0 +1,4419 @@
+<div id="toc" class="tocify">
+  <ul class="tocify-header">
+    <li class="tocify-item" data-unique="navesection-methods">
+      <a>Methods</a>
+    </li>
+    <ul class="tocify-subheader">
+        <li class="tocify-item" data-unique="endpoint-charge">
+          <a href="#endpoint-charge">Charge</a>
+        </li>
+        <li class="tocify-item" data-unique="endpoint-refund">
+          <a href="#endpoint-refund">Refund</a>
+        </li>
+        <li class="tocify-item" data-unique="endpoint-listlocations">
+          <a href="#endpoint-listlocations">ListLocations</a>
+        </li>
+        <li class="tocify-item" data-unique="endpoint-createcardnonce">
+          <a href="#endpoint-createcardnonce">CreateCardNonce</a>
+        </li>
+        <li class="tocify-item" data-unique="endpoint-upsertcustomer">
+          <a href="#endpoint-upsertcustomer">UpsertCustomer</a>
+        </li>
+        <li class="tocify-item" data-unique="endpoint-listcustomers">
+          <a href="#endpoint-listcustomers">ListCustomers</a>
+        </li>
+        <li class="tocify-item" data-unique="endpoint-retrievecustomer">
+          <a href="#endpoint-retrievecustomer">RetrieveCustomer</a>
+        </li>
+        <li class="tocify-item" data-unique="endpoint-createcustomercard">
+          <a href="#endpoint-createcustomercard">CreateCustomerCard</a>
+        </li>
+        <li class="tocify-item" data-unique="endpoint-deletecustomercard">
+          <a href="#endpoint-deletecustomercard">DeleteCustomerCard</a>
+        </li>
+        <li class="tocify-item" data-unique="endpoint-capturetransaction">
+          <a href="#endpoint-capturetransaction">CaptureTransaction</a>
+        </li>
+        <li class="tocify-item" data-unique="endpoint-voidtransaction">
+          <a href="#endpoint-voidtransaction">VoidTransaction</a>
+        </li>
+        <li class="tocify-item" data-unique="endpoint-listtransactions">
+          <a href="#endpoint-listtransactions">ListTransactions</a>
+        </li>
+        <li class="tocify-item" data-unique="endpoint-retrievetransaction">
+          <a href="#endpoint-retrievetransaction">RetrieveTransaction</a>
+        </li>
+    </ul>
+  </ul>
+  <ul>
+    <li class="tocify-item" data-unique="navsection-datatypes">
+      <a>Data Types</a>
+    </li>
+    <ul class="tocify-subheader">
+        <li class="tocify-item" data-unique="datatype-squareupconnectv3actionsupsertcustomerrequest">
+          <a href="#datatype-upsertcustomerrequest">UpsertCustomerRequest</a>
+        </li>
+        <li class="tocify-item" data-unique="datatype-squareupconnectv3actionsrefundrequest">
+          <a href="#datatype-refundrequest">RefundRequest</a>
+        </li>
+        <li class="tocify-item" data-unique="datatype-squareupconnectv3actionsrefundresponse">
+          <a href="#datatype-refundresponse">RefundResponse</a>
+        </li>
+        <li class="tocify-item" data-unique="datatype-squareupconnectv3actionslistcustomersresponse">
+          <a href="#datatype-listcustomersresponse">ListCustomersResponse</a>
+        </li>
+        <li class="tocify-item" data-unique="datatype-squareupconnectv3actionsretrievetransactionrequest">
+          <a href="#datatype-retrievetransactionrequest">RetrieveTransactionRequest</a>
+        </li>
+        <li class="tocify-item" data-unique="datatype-squareupconnectv3actionsretrievetransactionresponse">
+          <a href="#datatype-retrievetransactionresponse">RetrieveTransactionResponse</a>
+        </li>
+        <li class="tocify-item" data-unique="datatype-squareupconnectv3actionslistcustomersrequest">
+          <a href="#datatype-listcustomersrequest">ListCustomersRequest</a>
+        </li>
+        <li class="tocify-item" data-unique="datatype-squareupconnectv3actionslistcustomersrequestparams">
+          <a href="#datatype-listcustomersrequestparams">ListCustomersRequest.Params</a>
+        </li>
+        <li class="tocify-item" data-unique="datatype-squareupconnectv3actionscapturetransactionrequest">
+          <a href="#datatype-capturetransactionrequest">CaptureTransactionRequest</a>
+        </li>
+        <li class="tocify-item" data-unique="datatype-squareupconnectv3resourcestransaction">
+          <a href="#datatype-transaction">Transaction</a>
+        </li>
+        <li class="tocify-item" data-unique="datatype-squareupconnectv3actionslistlocationsrequest">
+          <a href="#datatype-listlocationsrequest">ListLocationsRequest</a>
+        </li>
+        <li class="tocify-item" data-unique="datatype-squareupconnectv3resourcestender">
+          <a href="#datatype-tender">Tender</a>
+        </li>
+        <li class="tocify-item" data-unique="datatype-squareupconnectv3resourcestendercharge">
+          <a href="#datatype-tendercharge">Tender.Charge</a>
+        </li>
+        <li class="tocify-item" data-unique="datatype-squareupconnectv3actionsvoidtransactionresponse">
+          <a href="#datatype-voidtransactionresponse">VoidTransactionResponse</a>
+        </li>
+        <li class="tocify-item" data-unique="datatype-squareupconnectv3actionsdeletecustomercardresponse">
+          <a href="#datatype-deletecustomercardresponse">DeleteCustomerCardResponse</a>
+        </li>
+        <li class="tocify-item" data-unique="datatype-squareupconnectv3actionslisttransactionsresponse">
+          <a href="#datatype-listtransactionsresponse">ListTransactionsResponse</a>
+        </li>
+        <li class="tocify-item" data-unique="datatype-squareupconnectv3resourceslocation">
+          <a href="#datatype-location">Location</a>
+        </li>
+        <li class="tocify-item" data-unique="datatype-squareupconnectv3actionsretrievecustomerresponse">
+          <a href="#datatype-retrievecustomerresponse">RetrieveCustomerResponse</a>
+        </li>
+        <li class="tocify-item" data-unique="datatype-squareupconnectv3actionsdeletecustomercardrequest">
+          <a href="#datatype-deletecustomercardrequest">DeleteCustomerCardRequest</a>
+        </li>
+        <li class="tocify-item" data-unique="datatype-squareupconnectv3actionscreatecustomercardresponse">
+          <a href="#datatype-createcustomercardresponse">CreateCustomerCardResponse</a>
+        </li>
+        <li class="tocify-item" data-unique="datatype-squareupconnectv3actionscreatecardnoncerequest">
+          <a href="#datatype-createcardnoncerequest">CreateCardNonceRequest</a>
+        </li>
+        <li class="tocify-item" data-unique="datatype-squareupconnectv3resourcesmoney">
+          <a href="#datatype-money">Money</a>
+        </li>
+        <li class="tocify-item" data-unique="datatype-squareupconnectv3resourcesaddress">
+          <a href="#datatype-address">Address</a>
+        </li>
+        <li class="tocify-item" data-unique="datatype-squareupconnectv3actionslistlocationsresponse">
+          <a href="#datatype-listlocationsresponse">ListLocationsResponse</a>
+        </li>
+        <li class="tocify-item" data-unique="datatype-squareupconnectv3resourcescarddata">
+          <a href="#datatype-carddata">CardData</a>
+        </li>
+        <li class="tocify-item" data-unique="datatype-squareupconnectv3actionscreatecardnonceresponse">
+          <a href="#datatype-createcardnonceresponse">CreateCardNonceResponse</a>
+        </li>
+        <li class="tocify-item" data-unique="datatype-squareupconnectv3actionsretrievecustomerrequest">
+          <a href="#datatype-retrievecustomerrequest">RetrieveCustomerRequest</a>
+        </li>
+        <li class="tocify-item" data-unique="datatype-squareupconnectv3actionschargeresponse">
+          <a href="#datatype-chargeresponse">ChargeResponse</a>
+        </li>
+        <li class="tocify-item" data-unique="datatype-squareupconnectv3resourcescustomer">
+          <a href="#datatype-customer">Customer</a>
+        </li>
+        <li class="tocify-item" data-unique="datatype-squareupconnectv3actionsvoidtransactionrequest">
+          <a href="#datatype-voidtransactionrequest">VoidTransactionRequest</a>
+        </li>
+        <li class="tocify-item" data-unique="datatype-squareupconnectv3actionschargerequest">
+          <a href="#datatype-chargerequest">ChargeRequest</a>
+        </li>
+        <li class="tocify-item" data-unique="datatype-squareupconnectv3actionschargerequestcardnonceinstrument">
+          <a href="#datatype-chargerequestcardnonceinstrument">ChargeRequest.CardNonceInstrument</a>
+        </li>
+        <li class="tocify-item" data-unique="datatype-squareupconnectv3actionschargerequestcustomercardinstrument">
+          <a href="#datatype-chargerequestcustomercardinstrument">ChargeRequest.CustomerCardInstrument</a>
+        </li>
+        <li class="tocify-item" data-unique="datatype-squareupconnectv3resourcescard">
+          <a href="#datatype-card">Card</a>
+        </li>
+        <li class="tocify-item" data-unique="datatype-squareupconnectv3resourcesrefund">
+          <a href="#datatype-refund">Refund</a>
+        </li>
+        <li class="tocify-item" data-unique="datatype-squareupconnectv3actionsupsertcustomerresponse">
+          <a href="#datatype-upsertcustomerresponse">UpsertCustomerResponse</a>
+        </li>
+        <li class="tocify-item" data-unique="datatype-squareupconnectv3resourceserror">
+          <a href="#datatype-error">Error</a>
+        </li>
+        <li class="tocify-item" data-unique="datatype-squareupconnectv3actionscreatecustomercardrequest">
+          <a href="#datatype-createcustomercardrequest">CreateCustomerCardRequest</a>
+        </li>
+        <li class="tocify-item" data-unique="datatype-squareupconnectv3actionscapturetransactionresponse">
+          <a href="#datatype-capturetransactionresponse">CaptureTransactionResponse</a>
+        </li>
+        <li class="tocify-item" data-unique="datatype-squareupconnectv3actionslisttransactionsrequest">
+          <a href="#datatype-listtransactionsrequest">ListTransactionsRequest</a>
+        </li>
+        <li class="tocify-item" data-unique="datatype-squareupconnectv3actionslisttransactionsrequestparams">
+          <a href="#datatype-listtransactionsrequestparams">ListTransactionsRequest.Params</a>
+        </li>
+    </ul>
+  </ul>
+  <ul>
+    <li class="tocify-item" data-unique="navsection-enums">
+      <a>Enums</a>
+    </li>
+    <ul class="tocify-subheader">
+        <li class="tocify-item" data-unique="enum-squareupconnectv3resourcescurrency">
+          <a href="#enum-currency">Currency</a>
+        </li>
+        <li class="tocify-item" data-unique="enum-squareupconnectv3resourcestenderchargestatus">
+          <a href="#enum-chargestatus">Charge.Status</a>
+        </li>
+        <li class="tocify-item" data-unique="enum-squareupconnectv3resourceslocationcapability">
+          <a href="#enum-locationcapability">Location.Capability</a>
+        </li>
+        <li class="tocify-item" data-unique="enum-squareupconnectv3resourcescardbrand">
+          <a href="#enum-cardbrand">Card.Brand</a>
+        </li>
+        <li class="tocify-item" data-unique="enum-squareupconnectv3resourcescountry">
+          <a href="#enum-country">Country</a>
+        </li>
+        <li class="tocify-item" data-unique="enum-squareupconnectv3resourcesrefundtype">
+          <a href="#enum-refundtype">Refund.Type</a>
+        </li>
+        <li class="tocify-item" data-unique="enum-squareupconnectv3resourceserrortype">
+          <a href="#enum-errortype">Error.Type</a>
+        </li>
+        <li class="tocify-item" data-unique="enum-squareupconnectv3actionslisttransactionsrequestparamssort">
+          <a href="#enum-paramssort">Params.Sort</a>
+        </li>
+    </ul>
+  </ul>
+</div>
+
+<div name="endpoint--" data-unique="endpoint--"></div>
+<h3 id="endpoint-charge" class="endpoint">Charge</h3>
+
+<p>Required <a href="#permissionscope">permissions</a>:
+  <code>PAYMENTS_WRITE</code>
+</p>
+<h4>Request Object: <code>ChargeRequest</code></h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>location_id</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>idempotency_key</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>amount_money</code></td>
+      <td><code><a href="#datatype-money">Money</a></code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>delay_capture</code></td>
+      <td><code>boolean</code></td>
+      <td><p>Request that the created payment only execute Auth and require a separate call for capture.</p></td>
+    </tr>
+    <tr>
+      <td><code>reference_id</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>note</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>location_id</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>idempotency_key</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>amount_money</code></td>
+      <td><code><a href="#datatype-money">Money</a></code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>delay_capture</code></td>
+      <td><code>boolean</code></td>
+      <td><p>Request that the created payment only execute Auth and require a separate call for capture.</p></td>
+    </tr>
+    <tr>
+      <td><code>reference_id</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>note</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+<h4>Response Object: <code>ChargeResponse</code></h4>
+<table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>errors</code></td>
+        <td><code><a href="#datatype-error">Error</a>[]</code></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>transaction</code></td>
+        <td><code><a href="#datatype-transaction">Transaction</a></code></td>
+        <td></td>
+      </tr>
+    </tbody>
+</table>
+
+<div name="endpoint--" data-unique="endpoint--"></div>
+<h3 id="endpoint-refund" class="endpoint">Refund</h3>
+
+<p>Required <a href="#permissionscope">permissions</a>:
+  <code>PAYMENTS_WRITE</code>
+</p>
+<h4>Request Object: <code>RefundRequest</code></h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>location_id</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>idempotency_key</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>source_transaction_id</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>type</code></td>
+      <td><code><a href="#enum-refundtype">Refund.Type</a></code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>reason</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>amount_money</code></td>
+      <td><code><a href="#datatype-money">Money</a></code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+<h4>Response Object: <code>RefundResponse</code></h4>
+<table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>errors</code></td>
+        <td><code><a href="#datatype-error">Error</a>[]</code></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>refund</code></td>
+        <td><code><a href="#datatype-refund">Refund</a></code></td>
+        <td></td>
+      </tr>
+    </tbody>
+</table>
+
+<div name="endpoint-location-" data-unique="endpoint-location-"></div>
+<h3 id="endpoint-listlocations" class="endpoint">ListLocations</h3>
+<p>Provides summary information for all of a business&#39;s locations.</p>
+<p>Required <a href="#permissionscope">permissions</a>:
+  <code>MERCHANT_PROFILE_READ</code>
+</p>
+<h4>Request Object: <code>ListLocationsRequest</code></h4>
+(No fields)
+<h4>Response Object: <code>ListLocationsResponse</code></h4>
+<table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>errors</code></td>
+        <td><code><a href="#datatype-error">Error</a>[]</code></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>locations</code></td>
+        <td><code><a href="#datatype-location">Location</a>[]</code></td>
+        <td></td>
+      </tr>
+    </tbody>
+</table>
+
+<div name="endpoint-card-" data-unique="endpoint-card-"></div>
+<h3 id="endpoint-createcardnonce" class="endpoint">CreateCardNonce</h3>
+<p>Make a one time use token (nonce) to return to the seller&#39;s site which is
+separate and distinct from the card PAN. (Nonce is safe to persist, as it
+is not a payment card, although it can only be used one time.)</p>
+<p>Required <a href="#permissionscope">permissions</a>:
+  <code>PAYMENTS_WRITE</code>
+</p>
+<h4>Request Object: <code>CreateCardNonceRequest</code></h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>client_id</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>business_id</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>card_data</code></td>
+      <td><code><a href="#datatype-carddata">CardData</a></code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+<h4>Response Object: <code>CreateCardNonceResponse</code></h4>
+<table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>errors</code></td>
+        <td><code><a href="#datatype-error">Error</a>[]</code></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>card_nonce</code></td>
+        <td><code>string</code></td>
+        <td><p>card nonce result. One time use token that represents this card data.</p></td>
+      </tr>
+      <tr>
+        <td><code>card</code></td>
+        <td><code><a href="#datatype-card">Card</a></code></td>
+        <td></td>
+      </tr>
+    </tbody>
+</table>
+
+<div name="endpoint-customer-" data-unique="endpoint-customer-"></div>
+<h3 id="endpoint-upsertcustomer" class="endpoint">UpsertCustomer</h3>
+
+<p>Required <a href="#permissionscope">permissions</a>:
+  <code>CUSTOMERS_WRITE</code>
+</p>
+<h4>Request Object: <code>UpsertCustomerRequest</code></h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>customer</code></td>
+      <td><code><a href="#datatype-customer">Customer</a></code></td>
+      <td><p>Note: changes to Customer.cards are ignored in this request.</p></td>
+    </tr>
+  </tbody>
+</table>
+<h4>Response Object: <code>UpsertCustomerResponse</code></h4>
+<table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>errors</code></td>
+        <td><code><a href="#datatype-error">Error</a>[]</code></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>customer</code></td>
+        <td><code><a href="#datatype-customer">Customer</a></code></td>
+        <td></td>
+      </tr>
+    </tbody>
+</table>
+
+<div name="endpoint-customer-" data-unique="endpoint-customer-"></div>
+<h3 id="endpoint-listcustomers" class="endpoint">ListCustomers</h3>
+
+<p>Required <a href="#permissionscope">permissions</a>:
+  <code>CUSTOMERS_READ</code>
+</p>
+<h4>Request Object: <code>ListCustomersRequest</code></h4>
+(No fields)
+<h4>Response Object: <code>ListCustomersResponse</code></h4>
+<table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>errors</code></td>
+        <td><code><a href="#datatype-error">Error</a>[]</code></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>customers</code></td>
+        <td><code><a href="#datatype-customer">Customer</a>[]</code></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>cursor</code></td>
+        <td><code>string</code></td>
+        <td></td>
+      </tr>
+    </tbody>
+</table>
+
+<div name="endpoint-customer-" data-unique="endpoint-customer-"></div>
+<h3 id="endpoint-retrievecustomer" class="endpoint">RetrieveCustomer</h3>
+
+<p>Required <a href="#permissionscope">permissions</a>:
+  <code>CUSTOMERS_READ</code>
+</p>
+<h4>Request Object: <code>RetrieveCustomerRequest</code></h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>location_id</code></td>
+      <td><code>string</code></td>
+      <td><p>if not specified, Customer will be pulled at the business level.</p></td>
+    </tr>
+    <tr>
+      <td><code>customer_id</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+<h4>Response Object: <code>RetrieveCustomerResponse</code></h4>
+<table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>errors</code></td>
+        <td><code><a href="#datatype-error">Error</a>[]</code></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>customer</code></td>
+        <td><code><a href="#datatype-customer">Customer</a></code></td>
+        <td></td>
+      </tr>
+    </tbody>
+</table>
+
+<div name="endpoint-customercard-" data-unique="endpoint-customercard-"></div>
+<h3 id="endpoint-createcustomercard" class="endpoint">CreateCustomerCard</h3>
+
+<p>Required <a href="#permissionscope">permissions</a>:
+  <code>CUSTOMERS_WRITE</code>
+</p>
+<h4>Request Object: <code>CreateCustomerCardRequest</code></h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>location_id</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>customer_id</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>card_nonce</code></td>
+      <td><code>string</code></td>
+      <td><p>Card nonce. One time use token that represents card data to create an instrument linked to this customer.</p></td>
+    </tr>
+    <tr>
+      <td><code>card_data</code></td>
+      <td><code><a href="#datatype-carddata">CardData</a></code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+<h4>Response Object: <code>CreateCustomerCardResponse</code></h4>
+<table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>errors</code></td>
+        <td><code><a href="#datatype-error">Error</a>[]</code></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>card</code></td>
+        <td><code><a href="#datatype-card">Card</a></code></td>
+        <td></td>
+      </tr>
+    </tbody>
+</table>
+
+<div name="endpoint-customercard-" data-unique="endpoint-customercard-"></div>
+<h3 id="endpoint-deletecustomercard" class="endpoint">DeleteCustomerCard</h3>
+
+<p>Required <a href="#permissionscope">permissions</a>:
+  <code>CUSTOMERS_WRITE</code>
+</p>
+<h4>Request Object: <code>DeleteCustomerCardRequest</code></h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>location_id</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>customer_id</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>card_id</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+<h4>Response Object: <code>DeleteCustomerCardResponse</code></h4>
+<table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>errors</code></td>
+        <td><code><a href="#datatype-error">Error</a>[]</code></td>
+        <td></td>
+      </tr>
+    </tbody>
+</table>
+
+<div name="endpoint-transaction-" data-unique="endpoint-transaction-"></div>
+<h3 id="endpoint-capturetransaction" class="endpoint">CaptureTransaction</h3>
+<p>For executing delayed capture.</p>
+<p>Required <a href="#permissionscope">permissions</a>:
+  <code>PAYMENTS_WRITE</code>
+</p>
+<h4>Request Object: <code>CaptureTransactionRequest</code></h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>location_id</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>transaction_id</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+<h4>Response Object: <code>CaptureTransactionResponse</code></h4>
+<table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>errors</code></td>
+        <td><code><a href="#datatype-error">Error</a>[]</code></td>
+        <td></td>
+      </tr>
+    </tbody>
+</table>
+
+<div name="endpoint-transaction-" data-unique="endpoint-transaction-"></div>
+<h3 id="endpoint-voidtransaction" class="endpoint">VoidTransaction</h3>
+<p>For canceling a delayed capture transaction.</p>
+<p>Required <a href="#permissionscope">permissions</a>:
+  <code>PAYMENTS_WRITE</code>
+</p>
+<h4>Request Object: <code>VoidTransactionRequest</code></h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>location_id</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>transaction_id</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+<h4>Response Object: <code>VoidTransactionResponse</code></h4>
+<table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>errors</code></td>
+        <td><code><a href="#datatype-error">Error</a>[]</code></td>
+        <td></td>
+      </tr>
+    </tbody>
+</table>
+
+<div name="endpoint-transaction-" data-unique="endpoint-transaction-"></div>
+<h3 id="endpoint-listtransactions" class="endpoint">ListTransactions</h3>
+<p>Provides summary information for all transactions taken at a particular location
+during a date range.</p>
+<p>Required <a href="#permissionscope">permissions</a>:
+  <code>PAYMENTS_READ</code>
+</p>
+<h4>Request Object: <code>ListTransactionsRequest</code></h4>
+(No fields)
+<h4>Response Object: <code>ListTransactionsResponse</code></h4>
+<table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>errors</code></td>
+        <td><code><a href="#datatype-error">Error</a>[]</code></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>transactions</code></td>
+        <td><code><a href="#datatype-transaction">Transaction</a>[]</code></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>cursor</code></td>
+        <td><code>string</code></td>
+        <td></td>
+      </tr>
+    </tbody>
+</table>
+
+<div name="endpoint-transaction-" data-unique="endpoint-transaction-"></div>
+<h3 id="endpoint-retrievetransaction" class="endpoint">RetrieveTransaction</h3>
+<p>Provides comprehensive information for a single transaction.</p>
+<p>Required <a href="#permissionscope">permissions</a>:
+  <code>PAYMENTS_READ</code>
+</p>
+<h4>Request Object: <code>RetrieveTransactionRequest</code></h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>location_id</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>transaction_id</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+<h4>Response Object: <code>RetrieveTransactionResponse</code></h4>
+<table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>errors</code></td>
+        <td><code><a href="#datatype-error">Error</a>[]</code></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><code>transaction</code></td>
+        <td><code><a href="#datatype-transaction">Transaction</a></code></td>
+        <td></td>
+      </tr>
+    </tbody>
+</table>
+
+<div name="datatype-upsertcustomerrequest" data-unique="datatype-upsertcustomerrequest"></div>
+<h3 id="datatype-upsertcustomerrequest" class="datatype"><code>UpsertCustomerRequest</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>customer</code></td>
+      <td><code><a href="#datatype-customer">Customer</a></code></td>
+      <td><p>Note: changes to Customer.cards are ignored in this request.</p></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="datatype-refundrequest" data-unique="datatype-refundrequest"></div>
+<h3 id="datatype-refundrequest" class="datatype"><code>RefundRequest</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>location_id</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>idempotency_key</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>source_transaction_id</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>type</code></td>
+      <td><code><a href="#enum-refundtype">Refund.Type</a></code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>reason</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>amount_money</code></td>
+      <td><code><a href="#datatype-money">Money</a></code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="datatype-refundresponse" data-unique="datatype-refundresponse"></div>
+<h3 id="datatype-refundresponse" class="datatype"><code>RefundResponse</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>errors</code></td>
+      <td><code><a href="#datatype-error">Error</a>[]</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>refund</code></td>
+      <td><code><a href="#datatype-refund">Refund</a></code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="datatype-listcustomersresponse" data-unique="datatype-listcustomersresponse"></div>
+<h3 id="datatype-listcustomersresponse" class="datatype"><code>ListCustomersResponse</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>errors</code></td>
+      <td><code><a href="#datatype-error">Error</a>[]</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>customers</code></td>
+      <td><code><a href="#datatype-customer">Customer</a>[]</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>cursor</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="datatype-retrievetransactionrequest" data-unique="datatype-retrievetransactionrequest"></div>
+<h3 id="datatype-retrievetransactionrequest" class="datatype"><code>RetrieveTransactionRequest</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>location_id</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>transaction_id</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="datatype-retrievetransactionresponse" data-unique="datatype-retrievetransactionresponse"></div>
+<h3 id="datatype-retrievetransactionresponse" class="datatype"><code>RetrieveTransactionResponse</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>errors</code></td>
+      <td><code><a href="#datatype-error">Error</a>[]</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>transaction</code></td>
+      <td><code><a href="#datatype-transaction">Transaction</a></code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="datatype-listcustomersrequest" data-unique="datatype-listcustomersrequest"></div>
+<h3 id="datatype-listcustomersrequest" class="datatype"><code>ListCustomersRequest</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>params</code></td>
+      <td><code><a href="#datatype-listcustomersrequestparams">ListCustomersRequest.Params</a></code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>cursor</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="datatype-listcustomersrequestparams" data-unique="datatype-listcustomersrequestparams"></div>
+<h3 id="datatype-listcustomersrequestparams" class="datatype"><code>ListCustomersRequest.Params</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>location_id</code></td>
+      <td><code>string</code></td>
+      <td><p>if not specified, customers across all locations will be returned.</p></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="datatype-capturetransactionrequest" data-unique="datatype-capturetransactionrequest"></div>
+<h3 id="datatype-capturetransactionrequest" class="datatype"><code>CaptureTransactionRequest</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>location_id</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>transaction_id</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="datatype-transaction" data-unique="datatype-transaction"></div>
+<h3 id="datatype-transaction" class="datatype"><code>Transaction</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>id</code></td>
+      <td><code>string</code></td>
+      <td><p>The transaction&#39;s unique ID.</p></td>
+    </tr>
+    <tr>
+      <td><code>business_id</code></td>
+      <td><code>string</code></td>
+      <td><p>The ID of the transaction&#39;s associated business.</p></td>
+    </tr>
+    <tr>
+      <td><code>location_id</code></td>
+      <td><code>string</code></td>
+      <td><p>The ID of the transaction&#39;s associated location.</p></td>
+    </tr>
+    <tr>
+      <td><code>created_at</code></td>
+      <td><code>string</code></td>
+      <td><p>The time when the transaction was created, in RFC 3339 format.</p></td>
+    </tr>
+    <tr>
+      <td><code>tenders</code></td>
+      <td><code><a href="#datatype-tender">Tender</a>[]</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>refunds</code></td>
+      <td><code><a href="#datatype-refund">Refund</a>[]</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>reference_id</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="datatype-listlocationsrequest" data-unique="datatype-listlocationsrequest"></div>
+<h3 id="datatype-listlocationsrequest" class="datatype"><code>ListLocationsRequest</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+
+<div name="datatype-tender" data-unique="datatype-tender"></div>
+<h3 id="datatype-tender" class="datatype"><code>Tender</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>id</code></td>
+      <td><code>string</code></td>
+      <td><p>The tender&#39;s unique ID.</p></td>
+    </tr>
+    <tr>
+      <td><code>business_id</code></td>
+      <td><code>string</code></td>
+      <td><p>The ID of the tender&#39;s associated business.</p></td>
+    </tr>
+    <tr>
+      <td><code>location_id</code></td>
+      <td><code>string</code></td>
+      <td><p>The ID of the tender&#39;s associated location.</p></td>
+    </tr>
+    <tr>
+      <td><code>transaction_id</code></td>
+      <td><code>string</code></td>
+      <td><p>The ID of the tender&#39;s associated transaction.</p></td>
+    </tr>
+    <tr>
+      <td><code>created_at</code></td>
+      <td><code>string</code></td>
+      <td><p>The time when the tender was created, in RFC 3339 format.</p></td>
+    </tr>
+    <tr>
+      <td><code>note</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>amount_money</code></td>
+      <td><code><a href="#datatype-money">Money</a></code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>customer_id</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>charge</code></td>
+      <td><code><a href="#datatype-tendercharge">Tender.Charge</a></code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="datatype-tendercharge" data-unique="datatype-tendercharge"></div>
+<h3 id="datatype-tendercharge" class="datatype"><code>Tender.Charge</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>status</code></td>
+      <td><code><a href="#enum-chargestatus">Charge.Status</a></code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>card</code></td>
+      <td><code><a href="#datatype-card">Card</a></code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="datatype-voidtransactionresponse" data-unique="datatype-voidtransactionresponse"></div>
+<h3 id="datatype-voidtransactionresponse" class="datatype"><code>VoidTransactionResponse</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>errors</code></td>
+      <td><code><a href="#datatype-error">Error</a>[]</code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="datatype-deletecustomercardresponse" data-unique="datatype-deletecustomercardresponse"></div>
+<h3 id="datatype-deletecustomercardresponse" class="datatype"><code>DeleteCustomerCardResponse</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>errors</code></td>
+      <td><code><a href="#datatype-error">Error</a>[]</code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="datatype-listtransactionsresponse" data-unique="datatype-listtransactionsresponse"></div>
+<h3 id="datatype-listtransactionsresponse" class="datatype"><code>ListTransactionsResponse</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>errors</code></td>
+      <td><code><a href="#datatype-error">Error</a>[]</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>transactions</code></td>
+      <td><code><a href="#datatype-transaction">Transaction</a>[]</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>cursor</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="datatype-location" data-unique="datatype-location"></div>
+<h3 id="datatype-location" class="datatype"><code>Location</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>id</code></td>
+      <td><code>string</code></td>
+      <td><p>The location&#39;s unique ID.</p></td>
+    </tr>
+    <tr>
+      <td><code>business_id</code></td>
+      <td><code>string</code></td>
+      <td><p>The ID of the location&#39;s associated business.</p></td>
+    </tr>
+    <tr>
+      <td><code>name</code></td>
+      <td><code>string</code></td>
+      <td><p>The name given to the location.</p></td>
+    </tr>
+    <tr>
+      <td><code>address</code></td>
+      <td><code><a href="#datatype-address">Address</a></code></td>
+      <td><p>The address of this location.</p></td>
+    </tr>
+    <tr>
+      <td><code>timezone</code></td>
+      <td><code>string</code></td>
+      <td><p>The IANA Timezone Database identifier for the location&#39;s timezone.</p></td>
+    </tr>
+    <tr>
+      <td><code>capabilities</code></td>
+      <td><code><a href="#enum-locationcapability">Location.Capability</a>[]</code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="datatype-retrievecustomerresponse" data-unique="datatype-retrievecustomerresponse"></div>
+<h3 id="datatype-retrievecustomerresponse" class="datatype"><code>RetrieveCustomerResponse</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>errors</code></td>
+      <td><code><a href="#datatype-error">Error</a>[]</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>customer</code></td>
+      <td><code><a href="#datatype-customer">Customer</a></code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="datatype-deletecustomercardrequest" data-unique="datatype-deletecustomercardrequest"></div>
+<h3 id="datatype-deletecustomercardrequest" class="datatype"><code>DeleteCustomerCardRequest</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>location_id</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>customer_id</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>card_id</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="datatype-createcustomercardresponse" data-unique="datatype-createcustomercardresponse"></div>
+<h3 id="datatype-createcustomercardresponse" class="datatype"><code>CreateCustomerCardResponse</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>errors</code></td>
+      <td><code><a href="#datatype-error">Error</a>[]</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>card</code></td>
+      <td><code><a href="#datatype-card">Card</a></code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="datatype-createcardnoncerequest" data-unique="datatype-createcardnoncerequest"></div>
+<h3 id="datatype-createcardnoncerequest" class="datatype"><code>CreateCardNonceRequest</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>client_id</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>business_id</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>card_data</code></td>
+      <td><code><a href="#datatype-carddata">CardData</a></code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="datatype-money" data-unique="datatype-money"></div>
+<h3 id="datatype-money" class="datatype"><code>Money</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>amount</code></td>
+      <td><code>number</code></td>
+      <td><p>Amount in the lowest denominated value of this Currency. E.g. in USD
+these are cents, in JPY they are Yen (which do not have a &#39;cent&#39; concept).</p></td>
+    </tr>
+    <tr>
+      <td><code>currency</code></td>
+      <td><code><a href="#enum-currency">Currency</a></code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="datatype-address" data-unique="datatype-address"></div>
+<h3 id="datatype-address" class="datatype"><code>Address</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>line_1</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>line_2</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>line_3</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>locality</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>sublocality</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>sublocality_2</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>sublocality_3</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>region</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>region_2</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>region_3</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>postal_code</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>country</code></td>
+      <td><code><a href="#enum-country">Country</a></code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="datatype-listlocationsresponse" data-unique="datatype-listlocationsresponse"></div>
+<h3 id="datatype-listlocationsresponse" class="datatype"><code>ListLocationsResponse</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>errors</code></td>
+      <td><code><a href="#datatype-error">Error</a>[]</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>locations</code></td>
+      <td><code><a href="#datatype-location">Location</a>[]</code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="datatype-carddata" data-unique="datatype-carddata"></div>
+<h3 id="datatype-carddata" class="datatype"><code>CardData</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>number</code></td>
+      <td><code>string</code></td>
+      <td><p>The number on the card.</p></td>
+    </tr>
+    <tr>
+      <td><code>exp_month</code></td>
+      <td><code>number</code></td>
+      <td><p>The month of the card&#39;s expiration date, which must be between 1-12.</p></td>
+    </tr>
+    <tr>
+      <td><code>exp_year</code></td>
+      <td><code>number</code></td>
+      <td><p>The year of the card&#39;s expiration date, which must be a 4 digit year.</p></td>
+    </tr>
+    <tr>
+      <td><code>cvv</code></td>
+      <td><code>string</code></td>
+      <td><p>The card verification value (i.e. security code) printed on the card.</p></td>
+    </tr>
+    <tr>
+      <td><code>name</code></td>
+      <td><code>string</code></td>
+      <td><p>The cardholder name</p></td>
+    </tr>
+    <tr>
+      <td><code>billing_address</code></td>
+      <td><code><a href="#datatype-address">Address</a></code></td>
+      <td><p>Postal code in the address is required for US and Canada payments.</p></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="datatype-createcardnonceresponse" data-unique="datatype-createcardnonceresponse"></div>
+<h3 id="datatype-createcardnonceresponse" class="datatype"><code>CreateCardNonceResponse</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>errors</code></td>
+      <td><code><a href="#datatype-error">Error</a>[]</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>card_nonce</code></td>
+      <td><code>string</code></td>
+      <td><p>card nonce result. One time use token that represents this card data.</p></td>
+    </tr>
+    <tr>
+      <td><code>card</code></td>
+      <td><code><a href="#datatype-card">Card</a></code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="datatype-retrievecustomerrequest" data-unique="datatype-retrievecustomerrequest"></div>
+<h3 id="datatype-retrievecustomerrequest" class="datatype"><code>RetrieveCustomerRequest</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>location_id</code></td>
+      <td><code>string</code></td>
+      <td><p>if not specified, Customer will be pulled at the business level.</p></td>
+    </tr>
+    <tr>
+      <td><code>customer_id</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="datatype-chargeresponse" data-unique="datatype-chargeresponse"></div>
+<h3 id="datatype-chargeresponse" class="datatype"><code>ChargeResponse</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>errors</code></td>
+      <td><code><a href="#datatype-error">Error</a>[]</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>transaction</code></td>
+      <td><code><a href="#datatype-transaction">Transaction</a></code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="datatype-customer" data-unique="datatype-customer"></div>
+<h3 id="datatype-customer" class="datatype"><code>Customer</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>id</code></td>
+      <td><code>string</code></td>
+      <td><p>The customer&#39;s unique ID.</p></td>
+    </tr>
+    <tr>
+      <td><code>business_id</code></td>
+      <td><code>string</code></td>
+      <td><p>The ID of the customer&#39;s associated business.</p></td>
+    </tr>
+    <tr>
+      <td><code>location_id</code></td>
+      <td><code>string</code></td>
+      <td><p>The ID of the customer&#39;s associated location.</p></td>
+    </tr>
+    <tr>
+      <td><code>created_at</code></td>
+      <td><code>string</code></td>
+      <td><p>The time when the customer was created, in RFC 3339 format.</p></td>
+    </tr>
+    <tr>
+      <td><code>updated_at</code></td>
+      <td><code>string</code></td>
+      <td><p>The time when the customer was updated, in RFC 3339 format.</p></td>
+    </tr>
+    <tr>
+      <td><code>cards</code></td>
+      <td><code><a href="#datatype-card">Card</a>[]</code></td>
+      <td><p>Cards on file for the customer.</p></td>
+    </tr>
+    <tr>
+      <td><code>given_name</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>family_name</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>nickname</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>email_address</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>address</code></td>
+      <td><code><a href="#datatype-address">Address</a></code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>phone_number</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>memo</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="datatype-voidtransactionrequest" data-unique="datatype-voidtransactionrequest"></div>
+<h3 id="datatype-voidtransactionrequest" class="datatype"><code>VoidTransactionRequest</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>location_id</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>transaction_id</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="datatype-chargerequest" data-unique="datatype-chargerequest"></div>
+<h3 id="datatype-chargerequest" class="datatype"><code>ChargeRequest</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>location_id</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>idempotency_key</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>amount_money</code></td>
+      <td><code><a href="#datatype-money">Money</a></code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>delay_capture</code></td>
+      <td><code>boolean</code></td>
+      <td><p>Request that the created payment only execute Auth and require a separate call for capture.</p></td>
+    </tr>
+    <tr>
+      <td><code>reference_id</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>note</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>card_nonce</code></td>
+      <td><code><a href="#datatype-chargerequestcardnonceinstrument">ChargeRequest.CardNonceInstrument</a></code></td>
+      <td><p>Tokenized card nonce</p></td>
+    </tr>
+    <tr>
+      <td><code>customer_card_id</code></td>
+      <td><code><a href="#datatype-chargerequestcustomercardinstrument">ChargeRequest.CustomerCardInstrument</a></code></td>
+      <td><p>Specific card ID linked to the Customer.</p></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="datatype-chargerequestcardnonceinstrument" data-unique="datatype-chargerequestcardnonceinstrument"></div>
+<h3 id="datatype-chargerequestcardnonceinstrument" class="datatype"><code>ChargeRequest.CardNonceInstrument</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>card_nonce</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>billing_address</code></td>
+      <td><code><a href="#datatype-address">Address</a></code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>customer_id</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="datatype-chargerequestcustomercardinstrument" data-unique="datatype-chargerequestcustomercardinstrument"></div>
+<h3 id="datatype-chargerequestcustomercardinstrument" class="datatype"><code>ChargeRequest.CustomerCardInstrument</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>customer_id</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>customer_card_id</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="datatype-card" data-unique="datatype-card"></div>
+<h3 id="datatype-card" class="datatype"><code>Card</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>id</code></td>
+      <td><code>string</code></td>
+      <td><p>The card&#39;s unique ID.</p></td>
+    </tr>
+    <tr>
+      <td><code>card_brand</code></td>
+      <td><code><a href="#enum-cardbrand">Card.Brand</a></code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>last_4</code></td>
+      <td><code>string</code></td>
+      <td><p>last 4 digits of card number</p></td>
+    </tr>
+    <tr>
+      <td><code>exp_month</code></td>
+      <td><code>number</code></td>
+      <td><p>The month of the card&#39;s expiration date, which must be between 1-12.</p></td>
+    </tr>
+    <tr>
+      <td><code>exp_year</code></td>
+      <td><code>number</code></td>
+      <td><p>The year of the card&#39;s expiration date, which must be a 4 digit year.</p></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="datatype-refund" data-unique="datatype-refund"></div>
+<h3 id="datatype-refund" class="datatype"><code>Refund</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>business_id</code></td>
+      <td><code>string</code></td>
+      <td><p>The ID of the refund&#39;s associated business.</p></td>
+    </tr>
+    <tr>
+      <td><code>location_id</code></td>
+      <td><code>string</code></td>
+      <td><p>The ID of the refund&#39;s associated location.</p></td>
+    </tr>
+    <tr>
+      <td><code>source_transaction_id</code></td>
+      <td><code>string</code></td>
+      <td><p>The ID of the transaction refunded.</p></td>
+    </tr>
+    <tr>
+      <td><code>created_at</code></td>
+      <td><code>string</code></td>
+      <td><p>The time when the refund was created, in RFC 3339 format.</p></td>
+    </tr>
+    <tr>
+      <td><code>type</code></td>
+      <td><code><a href="#enum-refundtype">Refund.Type</a></code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>reason</code></td>
+      <td><code>string</code></td>
+      <td><p>The reason for the refund being issued.</p></td>
+    </tr>
+    <tr>
+      <td><code>amount_money</code></td>
+      <td><code><a href="#datatype-money">Money</a></code></td>
+      <td><p>The amount of money refunded.</p></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="datatype-upsertcustomerresponse" data-unique="datatype-upsertcustomerresponse"></div>
+<h3 id="datatype-upsertcustomerresponse" class="datatype"><code>UpsertCustomerResponse</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>errors</code></td>
+      <td><code><a href="#datatype-error">Error</a>[]</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>customer</code></td>
+      <td><code><a href="#datatype-customer">Customer</a></code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="datatype-error" data-unique="datatype-error"></div>
+<h3 id="datatype-error" class="datatype"><code>Error</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>type</code></td>
+      <td><code><a href="#enum-errortype">Error.Type</a></code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>detail</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>field</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="datatype-createcustomercardrequest" data-unique="datatype-createcustomercardrequest"></div>
+<h3 id="datatype-createcustomercardrequest" class="datatype"><code>CreateCustomerCardRequest</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>location_id</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>customer_id</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>card_nonce</code></td>
+      <td><code>string</code></td>
+      <td><p>Card nonce. One time use token that represents card data to create an instrument linked to this customer.</p></td>
+    </tr>
+    <tr>
+      <td><code>card_data</code></td>
+      <td><code><a href="#datatype-carddata">CardData</a></code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="datatype-capturetransactionresponse" data-unique="datatype-capturetransactionresponse"></div>
+<h3 id="datatype-capturetransactionresponse" class="datatype"><code>CaptureTransactionResponse</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>errors</code></td>
+      <td><code><a href="#datatype-error">Error</a>[]</code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="datatype-listtransactionsrequest" data-unique="datatype-listtransactionsrequest"></div>
+<h3 id="datatype-listtransactionsrequest" class="datatype"><code>ListTransactionsRequest</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>params</code></td>
+      <td><code><a href="#datatype-listtransactionsrequestparams">ListTransactionsRequest.Params</a></code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>cursor</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="datatype-listtransactionsrequestparams" data-unique="datatype-listtransactionsrequestparams"></div>
+<h3 id="datatype-listtransactionsrequestparams" class="datatype"><code>ListTransactionsRequest.Params</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>location_id</code></td>
+      <td><code>string</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>begin_time</code></td>
+      <td><code>string</code></td>
+      <td><p>The beginning of the requested reporting period, in RFC 3339 format.</p></td>
+    </tr>
+    <tr>
+      <td><code>end_time</code></td>
+      <td><code>string</code></td>
+      <td><p>The end of the requested reporting period, in RFC 3339 format.</p></td>
+    </tr>
+    <tr>
+      <td><code>sort</code></td>
+      <td><code><a href="#enum-paramssort">Params.Sort</a></code></td>
+      <td><p>The order in which results are listed in the response.</p></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="enum-currency" data-unique="enum-currency"></div>
+<h3 id="enum-currency" class="enum"><code>Currency</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>AED</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>AFN</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>ALL</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>AMD</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>ANG</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>AOA</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>ARS</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>AUD</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>AWG</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>AZN</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>BAM</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>BBD</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>BDT</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>BGN</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>BHD</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>BIF</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>BMD</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>BND</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>BOB</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>BOV</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>BRL</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>BSD</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>BTN</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>BWP</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>BYR</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>BZD</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>CAD</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>CDF</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>CHE</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>CHF</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>CHW</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>CLF</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>CLP</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>CNY</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>COP</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>COU</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>CRC</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>CUC</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>CUP</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>CVE</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>CZK</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>DJF</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>DKK</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>DOP</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>DZD</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>EGP</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>ERN</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>ETB</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>EUR</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>FJD</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>FKP</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>GBP</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>GEL</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>GHS</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>GIP</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>GMD</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>GNF</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>GTQ</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>GYD</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>HKD</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>HNL</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>HRK</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>HTG</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>HUF</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>IDR</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>ILS</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>INR</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>IQD</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>IRR</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>ISK</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>JMD</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>JOD</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>JPY</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>KES</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>KGS</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>KHR</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>KMF</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>KPW</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>KRW</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>KWD</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>KYD</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>KZT</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>LAK</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>LBP</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>LKR</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>LRD</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>LSL</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>LTL</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>LVL</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>LYD</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>MAD</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>MDL</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>MGA</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>MKD</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>MMK</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>MNT</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>MOP</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>MRO</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>MUR</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>MVR</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>MWK</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>MXN</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>MXV</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>MYR</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>MZN</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>NAD</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>NGN</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>NIO</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>NOK</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>NPR</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>NZD</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>OMR</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>PAB</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>PEN</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>PGK</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>PHP</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>PKR</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>PLN</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>PYG</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>QAR</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>RON</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>RSD</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>RUB</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>RWF</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>SAR</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>SBD</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>SCR</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>SDG</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>SEK</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>SGD</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>SHP</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>SLL</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>SOS</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>SRD</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>SSP</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>STD</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>SVC</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>SYP</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>SZL</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>THB</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>TJS</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>TMT</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>TND</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>TOP</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>TRY</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>TTD</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>TWD</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>TZS</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>UAH</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>UGX</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>USD</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>USN</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>USS</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>UYI</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>UYU</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>UZS</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>VEF</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>VND</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>VUV</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>WST</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>XAF</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>XAG</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>XAU</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>XBA</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>XBB</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>XBC</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>XBD</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>XCD</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>XDR</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>XOF</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>XPD</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>XPF</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>XPT</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>XTS</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>XXX</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>YER</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>ZAR</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>ZMK</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>ZMW</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>BTC</code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="enum-chargestatus" data-unique="enum-chargestatus"></div>
+<h3 id="enum-chargestatus" class="enum"><code>Charge.Status</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>UNKNOWN</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>AUTHORIZED</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>CAPTURED</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>VOIDED</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>FAILED</code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="enum-locationcapability" data-unique="enum-locationcapability"></div>
+<h3 id="enum-locationcapability" class="enum"><code>Location.Capability</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>CREDIT_CARD_PROCESSING</code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="enum-cardbrand" data-unique="enum-cardbrand"></div>
+<h3 id="enum-cardbrand" class="enum"><code>Card.Brand</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>OTHER_BRAND</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>VISA</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>MASTERCARD</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>AMERICAN_EXPRESS</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>DISCOVER</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>DISCOVER_DINERS</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>JCB</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>CHINA_UNIONPAY</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>SQUARE_GIFT_CARD</code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="enum-country" data-unique="enum-country"></div>
+<h3 id="enum-country" class="enum"><code>Country</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ZZ</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>AD</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>AE</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>AF</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>AG</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>AI</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>AL</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>AM</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>AO</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>AQ</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>AR</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>AS</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>AT</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>AU</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>AW</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>AX</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>AZ</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>BA</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>BB</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>BD</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>BE</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>BF</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>BG</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>BH</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>BI</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>BJ</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>BL</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>BM</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>BN</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>BO</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>BQ</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>BR</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>BS</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>BT</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>BV</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>BW</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>BY</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>BZ</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>CA</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>CC</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>CD</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>CF</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>CG</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>CH</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>CI</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>CK</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>CL</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>CM</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>CN</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>CO</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>CR</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>CU</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>CV</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>CW</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>CX</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>CY</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>CZ</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>DE</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>DJ</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>DK</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>DM</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>DO</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>DZ</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>EC</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>EE</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>EG</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>EH</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>ER</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>ES</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>ET</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>FI</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>FJ</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>FK</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>FM</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>FO</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>FR</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>GA</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>GB</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>GD</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>GE</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>GF</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>GG</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>GH</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>GI</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>GL</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>GM</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>GN</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>GP</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>GQ</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>GR</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>GS</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>GT</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>GU</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>GW</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>GY</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>HK</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>HM</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>HN</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>HR</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>HT</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>HU</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>ID</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>IE</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>IL</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>IM</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>IN</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>IO</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>IQ</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>IR</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>IS</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>IT</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>JE</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>JM</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>JO</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>JP</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>KE</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>KG</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>KH</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>KI</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>KM</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>KN</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>KP</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>KR</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>KW</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>KY</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>KZ</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>LA</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>LB</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>LC</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>LI</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>LK</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>LR</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>LS</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>LT</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>LU</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>LV</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>LY</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>MA</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>MC</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>MD</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>ME</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>MF</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>MG</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>MH</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>MK</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>ML</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>MM</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>MN</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>MO</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>MP</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>MQ</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>MR</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>MS</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>MT</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>MU</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>MV</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>MW</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>MX</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>MY</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>MZ</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>NA</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>NC</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>NE</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>NF</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>NG</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>NI</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>NL</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>NO</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>NP</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>NR</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>NU</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>NZ</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>OM</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>PA</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>PE</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>PF</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>PG</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>PH</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>PK</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>PL</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>PM</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>PN</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>PR</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>PS</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>PT</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>PW</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>PY</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>QA</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>RE</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>RO</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>RS</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>RU</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>RW</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>SA</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>SB</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>SC</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>SD</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>SE</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>SG</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>SH</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>SI</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>SJ</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>SK</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>SL</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>SM</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>SN</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>SO</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>SR</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>SS</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>ST</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>SV</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>SX</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>SY</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>SZ</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>TC</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>TD</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>TF</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>TG</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>TH</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>TJ</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>TK</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>TL</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>TM</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>TN</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>TO</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>TR</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>TT</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>TV</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>TW</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>TZ</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>UA</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>UG</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>UM</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>US</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>UY</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>UZ</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>VA</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>VC</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>VE</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>VG</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>VI</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>VN</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>VU</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>WF</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>WS</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>YE</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>YT</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>ZA</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>ZM</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>ZW</code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="enum-refundtype" data-unique="enum-refundtype"></div>
+<h3 id="enum-refundtype" class="enum"><code>Refund.Type</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>FULL</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>PARTIAL</code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="enum-errortype" data-unique="enum-errortype"></div>
+<h3 id="enum-errortype" class="enum"><code>Error.Type</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>INTERNAL_SERVER_ERROR</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>UNAUTHORIZED</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>ACCESS_TOKEN_EXPIRED</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>ACCESS_TOKEN_REVOKED</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>FORBIDDEN</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>INSUFFICIENT_SCOPES</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>APPLICATION_DISABLED</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>V1_APPLICATION</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>V1_ACCESS_TOKEN</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>CARD_PROCESSING_NOT_ENABLED</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>BAD_REQUEST</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>MISSING_REQUIRED_PARAMETER</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>INCORRECT_TYPE</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>INVALID_TIME</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>INVALID_TIME_RANGE</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>INVALID_VALUE</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>INVALID_CURSOR</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>UNKNOWN_QUERY_PARAMETER</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>CONFLICTING_PARAMETERS</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>EXPECTED_JSON_BODY</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>INVALID_SORT_ORDER</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>VALUE_TOO_LONG</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>VALUE_TOO_LOW</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>EXPECTED_BOOLEAN</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>EXPECTED_INTEGER</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>EXPECTED_FLOAT</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>EXPECTED_STRING</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>EXPECTED_OBJECT</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>EXPECTED_ARRAY</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>INVALID_ARRAY_VALUE</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>INVALID_ENUM_VALUE</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>INVALID_CONTENT_TYPE</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>INVALID_FORM_VALUE</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>CARD_DECLINED</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>CARD_EXPIRED</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>VERIFY_CVV_FAILURE</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>VERIFY_AVS_FAILURE</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>INVALID_EXPIRATION</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>INVALID_EXPIRATION_YEAR</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>INVALID_EXPIRATION_DATE</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>INVALID_CARD</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>DELAYED_TRANSACTION_EXPIRED</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>DELAYED_TRANSACTION_CANCELED</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>DELAYED_TRANSACTION_CAPTURED</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>DELAYED_TRANSACTION_FAILED</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>CARD_TOKEN_EXPIRED</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>CARD_TOKEN_USED</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>AMOUNT_TOO_HIGH</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>NOT_FOUND</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>REQUEST_TIMEOUT</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>REQUEST_ENTITY_TOO_LARGE</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>UNSUPPORTED_MEDIA_TYPE</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>RATE_LIMITED</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>NOT_IMPLEMENTED</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>SERVICE_UNAVAILABLE</code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<div name="enum-paramssort" data-unique="enum-paramssort"></div>
+<h3 id="enum-paramssort" class="enum"><code>Params.Sort</code></h3>
+
+<h4>Fields</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>CREATED_AT_DESC</code></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>CREATED_AT_ASC</code></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
