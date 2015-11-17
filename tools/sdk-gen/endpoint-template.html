@@ -1,5 +1,5 @@
 <div name="endpoint-{{#idify}}{{this.entity}}-{{action}}{{/idify}}" data-unique="endpoint-{{#idify}}{{this.entity}}-{{this.action}}{{/idify}}"></div>
-<h3 id="endpoint-{{#idify}}{{this.entity}}-{{this.action}}{{/idify}}" class="endpoint">{{this.id}}</h3>
+<h3 id="endpoint-{{#idify}}{{this.id}}{{/idify}}" class="endpoint">{{this.id}}</h3>
 {{#convertMarkdown}}{{{this.description}}}{{/convertMarkdown}}
 <p>Required <a href="#permissionscope">permissions</a>:
 {{#each this.oauthpermissions}}

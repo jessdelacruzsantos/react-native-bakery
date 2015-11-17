@@ -6,7 +6,7 @@
     <ul class="tocify-subheader">
       {{#each this.endpoints}}
         <li class="tocify-item" data-unique="endpoint-{{#idify}}{{this.id}}{{/idify}}">
-          <a>{{this.id}}</a>
+          <a href="#endpoint-{{#idify}}{{this.id}}{{/idify}}">{{this.id}}</a>
         </li>
       {{/each}}
     </ul>
@@ -18,7 +18,7 @@
     <ul class="tocify-subheader">
       {{#each this.datatypes}}
         <li class="tocify-item" data-unique="datatype-{{#idify}}{{this.id}}{{/idify}}">
-          <a>{{this.name}}</a>
+          <a href="#datatype-{{#idify}}{{this.name}}{{/idify}}">{{this.name}}</a>
         </li>
       {{/each}}
     </ul>
@@ -30,7 +30,7 @@
     <ul class="tocify-subheader">
       {{#each this.enums}}
         <li class="tocify-item" data-unique="enum-{{#idify}}{{this.id}}{{/idify}}">
-          <a>{{this.name}}</a>
+          <a href="#enum-{{#idify}}{{this.name}}{{/idify}}">{{this.name}}</a>
         </li>
       {{/each}}
     </ul>
