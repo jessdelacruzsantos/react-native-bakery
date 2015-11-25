@@ -1,5 +1,6 @@
 var handlebars = require('handlebars');
 var fs = require('fs');
+var stringFormat = require("string-template");
 
 
 // Load in the API definitions and index them
@@ -10,10 +11,13 @@ var phpTemplate = handlebars.compile(fs.readFileSync('squareconnect-template.php
 var rubyTemplate = handlebars.compile(fs.readFileSync('squareconnect-template.rb', 'utf-8'));
 
 var warnings = [];
+var protoBaseTypes = ['double', 'float', 'int32', 'int64', 'uint32', 'uint64',
+                      'sint32', 'sint64', 'fixed32', 'fixed64', 'sfixed32',
+                      'sfixed64', 'bool', 'string', 'bytes'];
 
 // Helper methods for Handlebars
 
-// Removes whitespace in addition to making lower case
+// Removes whitespace and periods in addition to making lower case
 handlebars.registerHelper('idify', function(options) {
   return options.fn(this).toLowerCase().replace(/ /g,'').replace(/\./g, '');
 });
@@ -27,9 +31,168 @@ handlebars.registerHelper('classify', function(options) {
   return options.fn(this).replace('.', '');
 });
 
+// Backslashes don't play nice in templates. This mitigates that.
 handlebars.registerHelper('backslash', function(options) {
   return '\\';
 });
+
+handlebars.registerHelper('populateRequestObject', function(options) {
+  var inputType = options.fn(this);
+  return populateRequest(inputType);
+});
+
+// Generates PHP code that builds and populates a request object based on
+// input parameterss
+function populateRequest(inputType) {
+  var typeName = '.' + inputType;
+  var datatype = findDatatype(typeName);
+  if (datatype == null) {
+    console.log("ERROR, couldn't find an object to match input type " + inputType);
+    return '';
+  }
+
+  var codeLines = [];
+
+  var className = getSDKClassName(datatype.id, 'php');
+
+  // Instantiate the request type
+  //codeLines.push('$request = new \\squareup\\connect\\v3\\actions\\' + datatype.name + '();');
+  codeLines.push('$request = new ' + className + '();');
+
+  // Generate field assignment lines for all fields in the request type
+  for (var i = 0; i < datatype.fields.length; i++) {
+    codeLines.push(generateFieldAssignment(datatype.fields[i], []));
+  }
+
+  return generateSDKString(codeLines);
+}
+
+function getSDKClassName(entityId, language) {
+  if (language == 'php') {
+    return '\\' + entityId.replace(/\./g, "\\");
+  } else {
+    return '';
+  }
+}
+
+function generateFieldAssignment(field, pathComponents) {
+  var codeLines = [];
+  var objectPath = generateObjectPath(pathComponents, 'php');
+  var parameterPath = generateObjectPath(pathComponents, 'php-array');
+
+  // If this field is an int or string or whatever, just do a generic assignment.
+  // Same if it's an array of *anything*.
+  // Also need some logic here to check if the field is there, and if it's a
+  // required one, to fail if it's not
+  if (protoBaseTypes.indexOf(field.type) > -1 || isEnum(field.type)) {
+
+    return stringFormat("{0}->{1} = self::checkValue('{2}', {3}['{4}'], {5});", [
+      objectPath, field.name, field.name, parameterPath, field.name, field.required
+    ]);
+
+  // Otherwise it's an enum or SDK-defined class, so there's more work to do.
+} else {
+    var datatype = findDatatype(field.type);
+    if (datatype == null) {
+      console.log("ERROR, couldn't find an object to match input type " + field.type);
+      return null;
+    }
+    var className = getSDKClassName(datatype.id, 'php');
+
+    // Make sure a value for the object was provided
+    codeLines.push(stringFormat("if ({0}['{1}']) {", [parameterPath, field.name]));
+
+    // If it was, instantiate the corresponding proto wrapper class
+    codeLines.push(stringFormat("  {0}->{1} = new {2}();", [objectPath, field.name, className]));
+
+    // Loop through the object's fields and assign them
+    for (var i = 0; i < datatype.fields.length; i++) {
+      var extendedPath = pathComponents.slice();
+      extendedPath.push(field.name);
+      codeLines.push('  ' + generateFieldAssignment(datatype.fields[i], extendedPath));
+    }
+    codeLines.push('}');
+
+    // Throw in an exception if it's a required field and it *wasn't* provided.
+    if (field.required) {
+      codeLines.push('else {');
+      codeLines.push("  throw new \\Exception('Missing required field " + field.name + "');");
+      codeLines.push('}')
+    }
+
+    return generateSDKString(codeLines);
+  }
+}
+
+// Turn an array of strings into a single string with newlines
+function generateSDKString(codeLines) {
+  var generatedString = '';
+  for (var i = 0; i < codeLines.length; i++) {
+    if (codeLines[i] !== '') {
+      generatedString = generatedString + codeLines[i] + '\n';
+    }
+  }
+  return generatedString;
+}
+
+function isEnum(symbolName) {
+  var datatypes = apiDefinition.enums;
+  var matchingEnums = [];
+
+  // Find the request type in the API definition
+  for (var i = 0; i < enums.length; i++) {
+    if (enums[i].id.indexOf(symbolName, enums[i].id.length - symbolName.length) !== -1) {
+      matchingEnums.push(enums[i]);
+    }
+  }
+  if (matchingEnums.length == 1) {
+    console.log("It's an ENUM!");
+    return true;
+
+    // Either there are no matches or multiple matches. Bad news either way.
+  } else {
+    return false;
+  }
+}
+
+// Builds paths for assignment of nested parameters
+function generateObjectPath(pathComponents, language) {
+  if (language == 'php') {
+    var path = '$request';
+    for (var i = 0; i < pathComponents.length; i++) {
+      path = path + '->' + pathComponents[i];
+    }
+    return path;
+  } else if (language == 'php-array') {
+    var path = '$requestArray';
+    for (var i = 0; i < pathComponents.length; i++) {
+      path = path + "['" + pathComponents[i] + "']";
+    }
+    return path;
+  } else {
+    return '';
+  }
+}
+
+// Fetches all of the information for a particular datatype in the API by its name.
+function findDatatype(datatypeName) {
+  var datatypes = apiDefinition.datatypes;
+  var matchingDatatypes = [];
+
+  // Find the request type in the API definition
+  for (var i = 0; i < datatypes.length; i++) {
+    if (datatypes[i].id.indexOf(datatypeName, datatypes[i].id.length - datatypeName.length) !== -1) {
+      matchingDatatypes.push(datatypes[i]);
+    }
+  }
+  if (matchingDatatypes.length == 1) {
+    return matchingDatatypes[0];
+
+    // Either there are no matches or multiple matches. Bad news either way.
+  } else {
+    return null;
+  }
+}
 
 // Sort endpoints into buckets by entity
 var endpoints = apiDefinition.endpoints;
@@ -103,8 +266,8 @@ var homeDirectory = process.env['HOME'];
 console.log("Writing PHP core class");
 fs.writeFileSync(homeDirectory + '/Development/connect-sdks/src/php/SquareConnect.php', phpCore);
 
-console.log("Writing Ruby core class");
-fs.writeFileSync(homeDirectory + '/Development/connect-sdks/src/rubygem/lib/square_connect.rb', rubyCore);
+//console.log("Writing Ruby core class");
+//fs.writeFileSync(homeDirectory + '/Development/connect-sdks/src/rubygem/lib/square_connect.rb', rubyCore);
 
 console.log("All done.");
 
@@ -114,14 +277,6 @@ console.log("All done.");
 for (var i = 0; i < warnings.length; i++) {
   console.log(warnings[i]);
 }*/
-
-/*// Write the docpage out.
-fs.writeFile("/Users/barlow/Development/connect-documentation-website/source/sections/_connect_v2_docpage.html", docpageHTML, function(err){
-  if(err) {
-  	return console.log(err);
-  }
-  console.log('Docpage saved successfully');
-})*/
 
 function validateEndpoint(endpoint) {
   if (endpoint.httpmethod == undefined || endpoint.httpmethod == '') {
@@ -165,32 +320,70 @@ function validateEnums(enums) {
   }
 }
 
-function populateSchema(sections, symbols) {
+// Generates an index of all the datatypes and enums on the docpage,
+// along with their IDs. This enables cross-linking.
+function indexTypes(apiDefinition) {
+  var typeIndex = {};
+  var datatypes = apiDefinition.datatypes;
+  for (var i = 0; i < datatypes.length; i++) {
+    typeIndex[datatypes[i].id] = {
+      'target': 'datatype-' + datatypes[i].name.toLowerCase().replace(/ /g,'').replace(/\./g, ''),
+      'name': datatypes[i].name
+    };
+  }
+  var enums = apiDefinition.enums;
+  for (var i = 0; i < enums.length; i++) {
+    typeIndex[enums[i].id] = {
+      'target': 'enum-' + enums[i].name.toLowerCase().replace(/ /g,'').replace(/\./g, ''),
+      'name': enums[i].name
+  	};
+  }
+  return typeIndex;
+}
 
-  for (var i = 0; i < sections.length; i++) {
-    var section = sections[i];
-    if (section.hasOwnProperty('entity')) {
-      var correspondingSymbols = symbols[section.entity];
-      if (correspondingSymbols != undefined) {
-        if (correspondingSymbols.hasOwnProperty('datatypes')){
-          section.datatypes = correspondingSymbols.datatypes;
-        }
-        if (correspondingSymbols.hasOwnProperty('enums')) {
-          section.enums = correspondingSymbols.enums;
-        }
-        if (correspondingSymbols.hasOwnProperty('endpoints')) {
-          section.endpoints = correspondingSymbols.endpoints;
-        }
-        if (correspondingSymbols.hasOwnProperty('articles')) {
-          section.articles = correspondingSymbols.articles;
-        }
-        if (correspondingSymbols.hasOwnProperty('changelogs')) {
-          section.changelogs = correspondingSymbols.changelogs;
-        }
+function processType(type) {
+  var typeString = type;
+
+  // First, convert simple proto types to simple js types
+  if (typeString == "int32" || typeString == "int64") {
+    return "number";
+  } else if (typeString == "bool"){
+    return "boolean";
+  } else if (typeString == "string") {
+    return "string";
+  } else {
+
+    // Okay, we have a custom type. First, find all of the types in the index that
+    // the field might be referring to
+
+    // Namespace the type to prevent collisions with symbols with the same suffix
+    typeString = '.' + typeString;
+
+    var possibleTypes = [];
+    for (var key in typeIndex) {
+      if (key.indexOf(typeString, key.length - typeString.length) !== -1) {
+        possibleTypes.push(key);
       }
     }
-    if (section.hasOwnProperty('sections')) {
-        populateSchema(sections[i].sections, symbols);
+
+    // No matches. Add a warning.
+    if (possibleTypes.length == 0) {
+      warnings.push('No matches found for symbol ' + typeString + ', cannot cross-link');
+      return typeString;
+
+    // Exactly one match. Perfect. Link to that type.
+    } else if (possibleTypes.length == 1) {
+      var type = typeIndex[possibleTypes[0]];
+      return '<a href="#' + type.target + '">' + type.name + '</a>';
+
+    // Multiple types matched.
+    } else {
+      warnings.push('Multiple matches found for symbol ' + typeString + ', cannot cross-link\n' +
+                      'Possible values:');
+      for (var i = 0; i < possibleTypes.length; i++) {
+        warnings.push(possibleTypes[i]);
+      }
+      return typeString;
     }
   }
 }

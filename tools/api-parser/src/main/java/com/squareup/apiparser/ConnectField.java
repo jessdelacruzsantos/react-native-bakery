@@ -65,6 +65,9 @@ public class ConnectField {
     this.type = field.type().toString();
     this.parseDocumentationString(field.documentation());
     this.isArray = (field.label() == Field.Label.REPEATED);
+    if (field.label() == Field.Label.REQUIRED) {
+      this.setRequired(true);
+    }
   }
 
   private void parseDocumentationString(String docString) {
@@ -75,8 +78,6 @@ public class ConnectField {
       switch (keyword) {
         case "desc":
           this.setDescription(entry.replaceFirst("desc", "").trim());
-        case "required":
-          this.setRequired(true);
           break;
         default:
           break;

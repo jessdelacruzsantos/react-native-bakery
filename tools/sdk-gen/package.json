@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "handlebars": "^4.0.0",
-    "markdown": "0.5.x"
+    "markdown": "0.5.x",
+    "string-template": "0.2.x"
   }
 }

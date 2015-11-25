@@ -22,82 +22,291 @@ namespace squareup\connect {
 
     private static $connectRoot = 'https://connect.squareupstaging.com';
 
-    public static function Charge($context, $requestObject) {
+    public static function Charge($context, $requestArray) {
       $requestPath = '/services/squareup.connect.v3.SquareConnectV3/Charge';
+      $request = new \squareup\connect\v3\actions\ChargeRequest();
+$request->location_id = self::checkValue('location_id', $requestArray['location_id'], true);
+$request->idempotency_key = self::checkValue('idempotency_key', $requestArray['idempotency_key'], true);
+if ($requestArray['amount_money']) {
+  $request->amount_money = new \squareup\connect\v3\resources\Money();
+  $request->amount_money->amount = self::checkValue('amount', $requestArray['amount_money']['amount'], false);
+  $request->amount_money->currency = self::checkValue('currency', $requestArray['amount_money']['currency'], false);
+}
+else {
+  throw new \Exception('Missing required field amount_money');
+}
+
+$request->delay_capture = self::checkValue('delay_capture', $requestArray['delay_capture'], false);
+$request->reference_id = self::checkValue('reference_id', $requestArray['reference_id'], false);
+$request->note = self::checkValue('note', $requestArray['note'], false);
+if ($requestArray['card_nonce']) {
+  $request->card_nonce = new \squareup\connect\v3\actions\ChargeRequest\CardNonceInstrument();
+  $request->card_nonce->card_nonce = self::checkValue('card_nonce', $requestArray['card_nonce']['card_nonce'], true);
+  if ($requestArray['card_nonce']['billing_address']) {
+  $request->card_nonce->billing_address = new \squareup\connect\v3\resources\Address();
+  $request->card_nonce->billing_address->line_1 = self::checkValue('line_1', $requestArray['card_nonce']['billing_address']['line_1'], false);
+  $request->card_nonce->billing_address->line_2 = self::checkValue('line_2', $requestArray['card_nonce']['billing_address']['line_2'], false);
+  $request->card_nonce->billing_address->line_3 = self::checkValue('line_3', $requestArray['card_nonce']['billing_address']['line_3'], false);
+  $request->card_nonce->billing_address->locality = self::checkValue('locality', $requestArray['card_nonce']['billing_address']['locality'], false);
+  $request->card_nonce->billing_address->sublocality = self::checkValue('sublocality', $requestArray['card_nonce']['billing_address']['sublocality'], false);
+  $request->card_nonce->billing_address->sublocality_2 = self::checkValue('sublocality_2', $requestArray['card_nonce']['billing_address']['sublocality_2'], false);
+  $request->card_nonce->billing_address->sublocality_3 = self::checkValue('sublocality_3', $requestArray['card_nonce']['billing_address']['sublocality_3'], false);
+  $request->card_nonce->billing_address->region = self::checkValue('region', $requestArray['card_nonce']['billing_address']['region'], false);
+  $request->card_nonce->billing_address->region_2 = self::checkValue('region_2', $requestArray['card_nonce']['billing_address']['region_2'], false);
+  $request->card_nonce->billing_address->region_3 = self::checkValue('region_3', $requestArray['card_nonce']['billing_address']['region_3'], false);
+  $request->card_nonce->billing_address->postal_code = self::checkValue('postal_code', $requestArray['card_nonce']['billing_address']['postal_code'], false);
+  $request->card_nonce->billing_address->country = self::checkValue('country', $requestArray['card_nonce']['billing_address']['country'], false);
+}
+
+  $request->card_nonce->customer_id = self::checkValue('customer_id', $requestArray['card_nonce']['customer_id'], false);
+}
+
+if ($requestArray['customer_card']) {
+  $request->customer_card = new \squareup\connect\v3\actions\ChargeRequest\CustomerCardInstrument();
+  $request->customer_card->customer_id = self::checkValue('customer_id', $requestArray['customer_card']['customer_id'], true);
+  $request->customer_card->customer_card_id = self::checkValue('customer_card_id', $requestArray['customer_card']['customer_card_id'], false);
+}
+
+
       $responseWrapper = new \squareup\connect\v3\actions\ChargeResponse();
-      return self::sendRequest($requestPath, $context, $requestObject->serialize(), $responseWrapper);
+      return self::sendRequest($requestPath, $context, $request->serialize(), $responseWrapper);
     }
 
-    public static function Refund($context, $requestObject) {
-      $requestPath = '/services/squareup.connect.v3.SquareConnectV3/Refund';
-      $responseWrapper = new \squareup\connect\v3\actions\RefundResponse();
-      return self::sendRequest($requestPath, $context, $requestObject->serialize(), $responseWrapper);
+    public static function RefundTender($context, $requestArray) {
+      $requestPath = '/services/squareup.connect.v3.SquareConnectV3/RefundTender';
+      $request = new \squareup\connect\v3\actions\RefundTenderRequest();
+$request->location_id = self::checkValue('location_id', $requestArray['location_id'], true);
+$request->idempotency_key = self::checkValue('idempotency_key', $requestArray['idempotency_key'], true);
+$request->source_transaction_id = self::checkValue('source_transaction_id', $requestArray['source_transaction_id'], true);
+$request->source_tender_id = self::checkValue('source_tender_id', $requestArray['source_tender_id'], true);
+$request->reason = self::checkValue('reason', $requestArray['reason'], true);
+if ($requestArray['amount_money']) {
+  $request->amount_money = new \squareup\connect\v3\resources\Money();
+  $request->amount_money->amount = self::checkValue('amount', $requestArray['amount_money']['amount'], false);
+  $request->amount_money->currency = self::checkValue('currency', $requestArray['amount_money']['currency'], false);
+}
+else {
+  throw new \Exception('Missing required field amount_money');
+}
+
+
+      $responseWrapper = new \squareup\connect\v3\actions\RefundTenderResponse();
+      return self::sendRequest($requestPath, $context, $request->serialize(), $responseWrapper);
     }
 
-    public static function ListLocations($context, $requestObject) {
+    public static function ListLocations($context, $requestArray) {
       $requestPath = '/services/squareup.connect.v3.SquareConnectV3/ListLocations';
+      $request = new \squareup\connect\v3\actions\ListLocationsRequest();
+
       $responseWrapper = new \squareup\connect\v3\actions\ListLocationsResponse();
-      return self::sendRequest($requestPath, $context, $requestObject->serialize(), $responseWrapper);
+      return self::sendRequest($requestPath, $context, $request->serialize(), $responseWrapper);
     }
 
-    public static function CreateCardNonce($context, $requestObject) {
+    public static function CreateCardNonce($context, $requestArray) {
       $requestPath = '/services/squareup.connect.v3.SquareConnectV3/CreateCardNonce';
+      $request = new \squareup\connect\v3\actions\CreateCardNonceRequest();
+$request->client_id = self::checkValue('client_id', $requestArray['client_id'], true);
+$request->business_id = self::checkValue('business_id', $requestArray['business_id'], false);
+if ($requestArray['card_data']) {
+  $request->card_data = new \squareup\connect\v3\resources\CardData();
+  $request->card_data->number = self::checkValue('number', $requestArray['card_data']['number'], false);
+  $request->card_data->exp_month = self::checkValue('exp_month', $requestArray['card_data']['exp_month'], false);
+  $request->card_data->exp_year = self::checkValue('exp_year', $requestArray['card_data']['exp_year'], false);
+  $request->card_data->cvv = self::checkValue('cvv', $requestArray['card_data']['cvv'], false);
+  $request->card_data->name = self::checkValue('name', $requestArray['card_data']['name'], false);
+  if ($requestArray['card_data']['billing_address']) {
+  $request->card_data->billing_address = new \squareup\connect\v3\resources\Address();
+  $request->card_data->billing_address->line_1 = self::checkValue('line_1', $requestArray['card_data']['billing_address']['line_1'], false);
+  $request->card_data->billing_address->line_2 = self::checkValue('line_2', $requestArray['card_data']['billing_address']['line_2'], false);
+  $request->card_data->billing_address->line_3 = self::checkValue('line_3', $requestArray['card_data']['billing_address']['line_3'], false);
+  $request->card_data->billing_address->locality = self::checkValue('locality', $requestArray['card_data']['billing_address']['locality'], false);
+  $request->card_data->billing_address->sublocality = self::checkValue('sublocality', $requestArray['card_data']['billing_address']['sublocality'], false);
+  $request->card_data->billing_address->sublocality_2 = self::checkValue('sublocality_2', $requestArray['card_data']['billing_address']['sublocality_2'], false);
+  $request->card_data->billing_address->sublocality_3 = self::checkValue('sublocality_3', $requestArray['card_data']['billing_address']['sublocality_3'], false);
+  $request->card_data->billing_address->region = self::checkValue('region', $requestArray['card_data']['billing_address']['region'], false);
+  $request->card_data->billing_address->region_2 = self::checkValue('region_2', $requestArray['card_data']['billing_address']['region_2'], false);
+  $request->card_data->billing_address->region_3 = self::checkValue('region_3', $requestArray['card_data']['billing_address']['region_3'], false);
+  $request->card_data->billing_address->postal_code = self::checkValue('postal_code', $requestArray['card_data']['billing_address']['postal_code'], false);
+  $request->card_data->billing_address->country = self::checkValue('country', $requestArray['card_data']['billing_address']['country'], false);
+}
+
+}
+else {
+  throw new \Exception('Missing required field card_data');
+}
+
+
       $responseWrapper = new \squareup\connect\v3\actions\CreateCardNonceResponse();
-      return self::sendRequest($requestPath, $context, $requestObject->serialize(), $responseWrapper);
+      return self::sendRequest($requestPath, $context, $request->serialize(), $responseWrapper);
     }
 
-    public static function UpsertCustomer($context, $requestObject) {
+    public static function UpsertCustomer($context, $requestArray) {
       $requestPath = '/services/squareup.connect.v3.SquareConnectV3/UpsertCustomer';
+      $request = new \squareup\connect\v3\actions\UpsertCustomerRequest();
+if ($requestArray['customer']) {
+  $request->customer = new \squareup\connect\v3\resources\Customer();
+  $request->customer->id = self::checkValue('id', $requestArray['customer']['id'], false);
+  $request->customer->business_id = self::checkValue('business_id', $requestArray['customer']['business_id'], false);
+  $request->customer->location_id = self::checkValue('location_id', $requestArray['customer']['location_id'], false);
+  $request->customer->created_at = self::checkValue('created_at', $requestArray['customer']['created_at'], false);
+  $request->customer->updated_at = self::checkValue('updated_at', $requestArray['customer']['updated_at'], false);
+  if ($requestArray['customer']['cards']) {
+  $request->customer->cards = new \squareup\connect\v3\resources\Card();
+  $request->customer->cards->id = self::checkValue('id', $requestArray['customer']['cards']['id'], false);
+  $request->customer->cards->card_brand = self::checkValue('card_brand', $requestArray['customer']['cards']['card_brand'], false);
+  $request->customer->cards->last_4 = self::checkValue('last_4', $requestArray['customer']['cards']['last_4'], false);
+  $request->customer->cards->exp_month = self::checkValue('exp_month', $requestArray['customer']['cards']['exp_month'], false);
+  $request->customer->cards->exp_year = self::checkValue('exp_year', $requestArray['customer']['cards']['exp_year'], false);
+}
+
+  $request->customer->given_name = self::checkValue('given_name', $requestArray['customer']['given_name'], false);
+  $request->customer->family_name = self::checkValue('family_name', $requestArray['customer']['family_name'], false);
+  $request->customer->nickname = self::checkValue('nickname', $requestArray['customer']['nickname'], false);
+  $request->customer->email_address = self::checkValue('email_address', $requestArray['customer']['email_address'], false);
+  if ($requestArray['customer']['address']) {
+  $request->customer->address = new \squareup\connect\v3\resources\Address();
+  $request->customer->address->line_1 = self::checkValue('line_1', $requestArray['customer']['address']['line_1'], false);
+  $request->customer->address->line_2 = self::checkValue('line_2', $requestArray['customer']['address']['line_2'], false);
+  $request->customer->address->line_3 = self::checkValue('line_3', $requestArray['customer']['address']['line_3'], false);
+  $request->customer->address->locality = self::checkValue('locality', $requestArray['customer']['address']['locality'], false);
+  $request->customer->address->sublocality = self::checkValue('sublocality', $requestArray['customer']['address']['sublocality'], false);
+  $request->customer->address->sublocality_2 = self::checkValue('sublocality_2', $requestArray['customer']['address']['sublocality_2'], false);
+  $request->customer->address->sublocality_3 = self::checkValue('sublocality_3', $requestArray['customer']['address']['sublocality_3'], false);
+  $request->customer->address->region = self::checkValue('region', $requestArray['customer']['address']['region'], false);
+  $request->customer->address->region_2 = self::checkValue('region_2', $requestArray['customer']['address']['region_2'], false);
+  $request->customer->address->region_3 = self::checkValue('region_3', $requestArray['customer']['address']['region_3'], false);
+  $request->customer->address->postal_code = self::checkValue('postal_code', $requestArray['customer']['address']['postal_code'], false);
+  $request->customer->address->country = self::checkValue('country', $requestArray['customer']['address']['country'], false);
+}
+
+  $request->customer->phone_number = self::checkValue('phone_number', $requestArray['customer']['phone_number'], false);
+  $request->customer->memo = self::checkValue('memo', $requestArray['customer']['memo'], false);
+}
+else {
+  throw new \Exception('Missing required field customer');
+}
+
+
       $responseWrapper = new \squareup\connect\v3\actions\UpsertCustomerResponse();
-      return self::sendRequest($requestPath, $context, $requestObject->serialize(), $responseWrapper);
+      return self::sendRequest($requestPath, $context, $request->serialize(), $responseWrapper);
     }
 
-    public static function ListCustomers($context, $requestObject) {
+    public static function ListCustomers($context, $requestArray) {
       $requestPath = '/services/squareup.connect.v3.SquareConnectV3/ListCustomers';
+      $request = new \squareup\connect\v3\actions\ListCustomersRequest();
+if ($requestArray['params']) {
+  $request->params = new \squareup\connect\v3\actions\ListCustomersRequest\Params();
+  $request->params->location_id = self::checkValue('location_id', $requestArray['params']['location_id'], false);
+}
+
+$request->cursor = self::checkValue('cursor', $requestArray['cursor'], false);
+
       $responseWrapper = new \squareup\connect\v3\actions\ListCustomersResponse();
-      return self::sendRequest($requestPath, $context, $requestObject->serialize(), $responseWrapper);
+      return self::sendRequest($requestPath, $context, $request->serialize(), $responseWrapper);
     }
 
-    public static function RetrieveCustomer($context, $requestObject) {
+    public static function RetrieveCustomer($context, $requestArray) {
       $requestPath = '/services/squareup.connect.v3.SquareConnectV3/RetrieveCustomer';
+      $request = new \squareup\connect\v3\actions\RetrieveCustomerRequest();
+$request->location_id = self::checkValue('location_id', $requestArray['location_id'], false);
+$request->customer_id = self::checkValue('customer_id', $requestArray['customer_id'], true);
+
       $responseWrapper = new \squareup\connect\v3\actions\RetrieveCustomerResponse();
-      return self::sendRequest($requestPath, $context, $requestObject->serialize(), $responseWrapper);
+      return self::sendRequest($requestPath, $context, $request->serialize(), $responseWrapper);
     }
 
-    public static function CreateCustomerCard($context, $requestObject) {
+    public static function CreateCustomerCard($context, $requestArray) {
       $requestPath = '/services/squareup.connect.v3.SquareConnectV3/CreateCustomerCard';
+      $request = new \squareup\connect\v3\actions\CreateCustomerCardRequest();
+$request->location_id = self::checkValue('location_id', $requestArray['location_id'], true);
+$request->customer_id = self::checkValue('customer_id', $requestArray['customer_id'], true);
+$request->card_nonce = self::checkValue('card_nonce', $requestArray['card_nonce'], false);
+if ($requestArray['card_data']) {
+  $request->card_data = new \squareup\connect\v3\resources\CardData();
+  $request->card_data->number = self::checkValue('number', $requestArray['card_data']['number'], false);
+  $request->card_data->exp_month = self::checkValue('exp_month', $requestArray['card_data']['exp_month'], false);
+  $request->card_data->exp_year = self::checkValue('exp_year', $requestArray['card_data']['exp_year'], false);
+  $request->card_data->cvv = self::checkValue('cvv', $requestArray['card_data']['cvv'], false);
+  $request->card_data->name = self::checkValue('name', $requestArray['card_data']['name'], false);
+  if ($requestArray['card_data']['billing_address']) {
+  $request->card_data->billing_address = new \squareup\connect\v3\resources\Address();
+  $request->card_data->billing_address->line_1 = self::checkValue('line_1', $requestArray['card_data']['billing_address']['line_1'], false);
+  $request->card_data->billing_address->line_2 = self::checkValue('line_2', $requestArray['card_data']['billing_address']['line_2'], false);
+  $request->card_data->billing_address->line_3 = self::checkValue('line_3', $requestArray['card_data']['billing_address']['line_3'], false);
+  $request->card_data->billing_address->locality = self::checkValue('locality', $requestArray['card_data']['billing_address']['locality'], false);
+  $request->card_data->billing_address->sublocality = self::checkValue('sublocality', $requestArray['card_data']['billing_address']['sublocality'], false);
+  $request->card_data->billing_address->sublocality_2 = self::checkValue('sublocality_2', $requestArray['card_data']['billing_address']['sublocality_2'], false);
+  $request->card_data->billing_address->sublocality_3 = self::checkValue('sublocality_3', $requestArray['card_data']['billing_address']['sublocality_3'], false);
+  $request->card_data->billing_address->region = self::checkValue('region', $requestArray['card_data']['billing_address']['region'], false);
+  $request->card_data->billing_address->region_2 = self::checkValue('region_2', $requestArray['card_data']['billing_address']['region_2'], false);
+  $request->card_data->billing_address->region_3 = self::checkValue('region_3', $requestArray['card_data']['billing_address']['region_3'], false);
+  $request->card_data->billing_address->postal_code = self::checkValue('postal_code', $requestArray['card_data']['billing_address']['postal_code'], false);
+  $request->card_data->billing_address->country = self::checkValue('country', $requestArray['card_data']['billing_address']['country'], false);
+}
+
+}
+
+
       $responseWrapper = new \squareup\connect\v3\actions\CreateCustomerCardResponse();
-      return self::sendRequest($requestPath, $context, $requestObject->serialize(), $responseWrapper);
+      return self::sendRequest($requestPath, $context, $request->serialize(), $responseWrapper);
     }
 
-    public static function DeleteCustomerCard($context, $requestObject) {
+    public static function DeleteCustomerCard($context, $requestArray) {
       $requestPath = '/services/squareup.connect.v3.SquareConnectV3/DeleteCustomerCard';
+      $request = new \squareup\connect\v3\actions\DeleteCustomerCardRequest();
+$request->location_id = self::checkValue('location_id', $requestArray['location_id'], true);
+$request->customer_id = self::checkValue('customer_id', $requestArray['customer_id'], true);
+$request->card_id = self::checkValue('card_id', $requestArray['card_id'], true);
+
       $responseWrapper = new \squareup\connect\v3\actions\DeleteCustomerCardResponse();
-      return self::sendRequest($requestPath, $context, $requestObject->serialize(), $responseWrapper);
+      return self::sendRequest($requestPath, $context, $request->serialize(), $responseWrapper);
     }
 
-    public static function CaptureTransaction($context, $requestObject) {
+    public static function CaptureTransaction($context, $requestArray) {
       $requestPath = '/services/squareup.connect.v3.SquareConnectV3/CaptureTransaction';
+      $request = new \squareup\connect\v3\actions\CaptureTransactionRequest();
+$request->location_id = self::checkValue('location_id', $requestArray['location_id'], true);
+$request->transaction_id = self::checkValue('transaction_id', $requestArray['transaction_id'], true);
+
       $responseWrapper = new \squareup\connect\v3\actions\CaptureTransactionResponse();
-      return self::sendRequest($requestPath, $context, $requestObject->serialize(), $responseWrapper);
+      return self::sendRequest($requestPath, $context, $request->serialize(), $responseWrapper);
     }
 
-    public static function VoidTransaction($context, $requestObject) {
+    public static function VoidTransaction($context, $requestArray) {
       $requestPath = '/services/squareup.connect.v3.SquareConnectV3/VoidTransaction';
+      $request = new \squareup\connect\v3\actions\VoidTransactionRequest();
+$request->location_id = self::checkValue('location_id', $requestArray['location_id'], true);
+$request->transaction_id = self::checkValue('transaction_id', $requestArray['transaction_id'], true);
+
       $responseWrapper = new \squareup\connect\v3\actions\VoidTransactionResponse();
-      return self::sendRequest($requestPath, $context, $requestObject->serialize(), $responseWrapper);
+      return self::sendRequest($requestPath, $context, $request->serialize(), $responseWrapper);
     }
 
-    public static function ListTransactions($context, $requestObject) {
+    public static function ListTransactions($context, $requestArray) {
       $requestPath = '/services/squareup.connect.v3.SquareConnectV3/ListTransactions';
+      $request = new \squareup\connect\v3\actions\ListTransactionsRequest();
+if ($requestArray['params']) {
+  $request->params = new \squareup\connect\v3\actions\ListTransactionsRequest\Params();
+  $request->params->location_id = self::checkValue('location_id', $requestArray['params']['location_id'], true);
+  $request->params->begin_time = self::checkValue('begin_time', $requestArray['params']['begin_time'], true);
+  $request->params->end_time = self::checkValue('end_time', $requestArray['params']['end_time'], true);
+  $request->params->sort = self::checkValue('sort', $requestArray['params']['sort'], true);
+}
+
+$request->cursor = self::checkValue('cursor', $requestArray['cursor'], false);
+
       $responseWrapper = new \squareup\connect\v3\actions\ListTransactionsResponse();
-      return self::sendRequest($requestPath, $context, $requestObject->serialize(), $responseWrapper);
+      return self::sendRequest($requestPath, $context, $request->serialize(), $responseWrapper);
     }
 
-    public static function RetrieveTransaction($context, $requestObject) {
+    public static function RetrieveTransaction($context, $requestArray) {
       $requestPath = '/services/squareup.connect.v3.SquareConnectV3/RetrieveTransaction';
+      $request = new \squareup\connect\v3\actions\RetrieveTransactionRequest();
+$request->location_id = self::checkValue('location_id', $requestArray['location_id'], true);
+$request->transaction_id = self::checkValue('transaction_id', $requestArray['transaction_id'], true);
+
       $responseWrapper = new \squareup\connect\v3\actions\RetrieveTransactionResponse();
-      return self::sendRequest($requestPath, $context, $requestObject->serialize(), $responseWrapper);
+      return self::sendRequest($requestPath, $context, $request->serialize(), $responseWrapper);
     }
 
 
@@ -127,6 +336,13 @@ namespace squareup\connect {
 
       $responseWrapper->parse($responseBody);
       return $responseWrapper;
+    }
+
+    private static function checkValue($fieldName, $value, $required) {
+      if ($value === NULL && $required) {
+        throw new \Exception('Missing required field ' . $fieldName);
+      }
+      return $value;
     }
 
     public static function ObtainToken($clientId, $clientSecret, $code, $redirectUri = '') {

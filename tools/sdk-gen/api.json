@@ -26,31 +26,31 @@
       "httpmethod": "",
       "params": [
         {
-          "description": "",
+          "description": "The ID of the location to associate the created payment with.",
           "name": "location_id",
           "isarray": false,
-          "required": false,
+          "required": true,
           "type": "string"
         },
         {
           "description": "",
           "name": "idempotency_key",
           "isarray": false,
-          "required": false,
+          "required": true,
           "type": "string"
         },
         {
-          "description": "",
+          "description": "The amount of money to charge.",
           "name": "amount_money",
           "isarray": false,
-          "required": false,
+          "required": true,
           "type": "resources.Money"
         },
         {
           "description": "Request that the created payment only execute Auth and require a separate call for capture.",
           "name": "delay_capture",
           "isarray": false,
-          "required": true,
+          "required": false,
           "type": "bool"
         },
         {
@@ -68,31 +68,31 @@
           "type": "string"
         },
         {
-          "description": "",
+          "description": "The ID of the location to associate the created payment with.",
           "name": "location_id",
           "isarray": false,
-          "required": false,
+          "required": true,
           "type": "string"
         },
         {
           "description": "",
           "name": "idempotency_key",
           "isarray": false,
-          "required": false,
+          "required": true,
           "type": "string"
         },
         {
-          "description": "",
+          "description": "The amount of money to charge.",
           "name": "amount_money",
           "isarray": false,
-          "required": false,
+          "required": true,
           "type": "resources.Money"
         },
         {
           "description": "Request that the created payment only execute Auth and require a separate call for capture.",
           "name": "delay_capture",
           "isarray": false,
-          "required": true,
+          "required": false,
           "type": "bool"
         },
         {
@@ -114,7 +114,7 @@
       "inputtype": "actions.ChargeRequest"
     },
     {
-      "id": "Refund",
+      "id": "RefundTender",
       "responsefields": [
         {
           "description": "",
@@ -128,61 +128,61 @@
           "name": "refund",
           "isarray": false,
           "required": false,
-          "type": "resources.Refund"
+          "type": "resources.TenderRefund"
         }
       ],
       "description": "",
       "entity": "",
       "path": "",
       "action": "",
-      "outputtype": "actions.RefundResponse",
+      "outputtype": "actions.RefundTenderResponse",
       "httpmethod": "",
       "params": [
         {
           "description": "",
           "name": "location_id",
           "isarray": false,
-          "required": false,
+          "required": true,
           "type": "string"
         },
         {
           "description": "",
           "name": "idempotency_key",
           "isarray": false,
-          "required": false,
+          "required": true,
           "type": "string"
         },
         {
           "description": "",
           "name": "source_transaction_id",
           "isarray": false,
-          "required": false,
+          "required": true,
           "type": "string"
         },
         {
           "description": "",
-          "name": "type",
+          "name": "source_tender_id",
           "isarray": false,
-          "required": false,
-          "type": "resources.Refund.Type"
+          "required": true,
+          "type": "string"
         },
         {
           "description": "",
           "name": "reason",
           "isarray": false,
-          "required": false,
+          "required": true,
           "type": "string"
         },
         {
           "description": "",
           "name": "amount_money",
           "isarray": false,
-          "required": false,
+          "required": true,
           "type": "resources.Money"
         }
       ],
       "oauthpermissions": ["PAYMENTS_WRITE"],
-      "inputtype": "actions.RefundRequest"
+      "inputtype": "actions.RefundTenderRequest"
     },
     {
       "id": "ListLocations",
@@ -225,7 +225,7 @@
           "description": "card nonce result. One time use token that represents this card data.",
           "name": "card_nonce",
           "isarray": false,
-          "required": true,
+          "required": false,
           "type": "string"
         },
         {
@@ -247,7 +247,7 @@
           "description": "",
           "name": "client_id",
           "isarray": false,
-          "required": false,
+          "required": true,
           "type": "string"
         },
         {
@@ -261,7 +261,7 @@
           "description": "",
           "name": "card_data",
           "isarray": false,
-          "required": false,
+          "required": true,
           "type": "resources.CardData"
         }
       ],
@@ -365,14 +365,14 @@
           "description": "if not specified, Customer will be pulled at the business level.",
           "name": "location_id",
           "isarray": false,
-          "required": true,
+          "required": false,
           "type": "string"
         },
         {
           "description": "",
           "name": "customer_id",
           "isarray": false,
-          "required": false,
+          "required": true,
           "type": "string"
         }
       ],
@@ -408,21 +408,21 @@
           "description": "",
           "name": "location_id",
           "isarray": false,
-          "required": false,
+          "required": true,
           "type": "string"
         },
         {
           "description": "",
           "name": "customer_id",
           "isarray": false,
-          "required": false,
+          "required": true,
           "type": "string"
         },
         {
           "description": "Card nonce. One time use token that represents card data to create an instrument linked to this customer.",
           "name": "card_nonce",
           "isarray": false,
-          "required": true,
+          "required": false,
           "type": "string"
         },
         {
@@ -456,21 +456,21 @@
           "description": "",
           "name": "location_id",
           "isarray": false,
-          "required": false,
+          "required": true,
           "type": "string"
         },
         {
           "description": "",
           "name": "customer_id",
           "isarray": false,
-          "required": false,
+          "required": true,
           "type": "string"
         },
         {
           "description": "",
           "name": "card_id",
           "isarray": false,
-          "required": false,
+          "required": true,
           "type": "string"
         }
       ],
@@ -497,14 +497,14 @@
           "description": "",
           "name": "location_id",
           "isarray": false,
-          "required": false,
+          "required": true,
           "type": "string"
         },
         {
           "description": "",
           "name": "transaction_id",
           "isarray": false,
-          "required": false,
+          "required": true,
           "type": "string"
         }
       ],
@@ -531,14 +531,14 @@
           "description": "",
           "name": "location_id",
           "isarray": false,
-          "required": false,
+          "required": true,
           "type": "string"
         },
         {
           "description": "",
           "name": "transaction_id",
           "isarray": false,
-          "required": false,
+          "required": true,
           "type": "string"
         }
       ],
@@ -608,14 +608,14 @@
           "description": "",
           "name": "location_id",
           "isarray": false,
-          "required": false,
+          "required": true,
           "type": "string"
         },
         {
           "description": "",
           "name": "transaction_id",
           "isarray": false,
-          "required": false,
+          "required": true,
           "type": "string"
         }
       ],
@@ -635,76 +635,6 @@
         "required": true,
         "type": "resources.Customer"
       }]
-    },
-    {
-      "id": "squareup.connect.v3.actions.RefundRequest",
-      "description": "",
-      "name": "RefundRequest",
-      "fields": [
-        {
-          "description": "",
-          "name": "location_id",
-          "isarray": false,
-          "required": false,
-          "type": "string"
-        },
-        {
-          "description": "",
-          "name": "idempotency_key",
-          "isarray": false,
-          "required": false,
-          "type": "string"
-        },
-        {
-          "description": "",
-          "name": "source_transaction_id",
-          "isarray": false,
-          "required": false,
-          "type": "string"
-        },
-        {
-          "description": "",
-          "name": "type",
-          "isarray": false,
-          "required": false,
-          "type": "resources.Refund.Type"
-        },
-        {
-          "description": "",
-          "name": "reason",
-          "isarray": false,
-          "required": false,
-          "type": "string"
-        },
-        {
-          "description": "",
-          "name": "amount_money",
-          "isarray": false,
-          "required": false,
-          "type": "resources.Money"
-        }
-      ]
-    },
-    {
-      "id": "squareup.connect.v3.actions.RefundResponse",
-      "description": "",
-      "name": "RefundResponse",
-      "fields": [
-        {
-          "description": "",
-          "name": "errors",
-          "isarray": true,
-          "required": false,
-          "type": "resources.Error"
-        },
-        {
-          "description": "",
-          "name": "refund",
-          "isarray": false,
-          "required": false,
-          "type": "resources.Refund"
-        }
-      ]
     },
     {
       "id": "squareup.connect.v3.actions.ListCustomersResponse",
@@ -743,14 +673,14 @@
           "description": "",
           "name": "location_id",
           "isarray": false,
-          "required": false,
+          "required": true,
           "type": "string"
         },
         {
           "description": "",
           "name": "transaction_id",
           "isarray": false,
-          "required": false,
+          "required": true,
           "type": "string"
         }
       ]
@@ -805,7 +735,7 @@
         "description": "if not specified, customers across all locations will be returned.",
         "name": "location_id",
         "isarray": false,
-        "required": true,
+        "required": false,
         "type": "string"
       }]
     },
@@ -818,14 +748,14 @@
           "description": "",
           "name": "location_id",
           "isarray": false,
-          "required": false,
+          "required": true,
           "type": "string"
         },
         {
           "description": "",
           "name": "transaction_id",
           "isarray": false,
-          "required": false,
+          "required": true,
           "type": "string"
         }
       ]
@@ -839,28 +769,28 @@
           "description": "The transaction's unique ID.",
           "name": "id",
           "isarray": false,
-          "required": true,
+          "required": false,
           "type": "string"
         },
         {
           "description": "The ID of the transaction's associated business.",
           "name": "business_id",
           "isarray": false,
-          "required": true,
+          "required": false,
           "type": "string"
         },
         {
           "description": "The ID of the transaction's associated location.",
           "name": "location_id",
           "isarray": false,
-          "required": true,
+          "required": false,
           "type": "string"
         },
         {
           "description": "The time when the transaction was created, in RFC 3339 format.",
           "name": "created_at",
           "isarray": false,
-          "required": true,
+          "required": false,
           "type": "string"
         },
         {
@@ -872,10 +802,10 @@
         },
         {
           "description": "",
-          "name": "refunds",
+          "name": "tender_refunds",
           "isarray": true,
           "required": false,
-          "type": "Refund"
+          "type": "TenderRefund"
         },
         {
           "description": "",
@@ -883,6 +813,69 @@
           "isarray": false,
           "required": false,
           "type": "string"
+        }
+      ]
+    },
+    {
+      "id": "squareup.connect.v3.resources.TenderRefund",
+      "description": "",
+      "name": "TenderRefund",
+      "fields": [
+        {
+          "description": "The unique ID of the refund.",
+          "name": "id",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "The ID of the refund's associated business.",
+          "name": "business_id",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "The ID of the refund's associated location.",
+          "name": "location_id",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "The ID of the transaction refunded.",
+          "name": "source_transaction_id",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "The ID of the tender refunded.",
+          "name": "source_tender_id",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "The time when the refund was created, in RFC 3339 format.",
+          "name": "created_at",
+          "isarray": false,
+          "required": false,
+          "type": "string"
+        },
+        {
+          "description": "The reason for the refund being issued.",
+          "name": "reason",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "The amount of money refunded.",
+          "name": "amount_money",
+          "isarray": false,
+          "required": true,
+          "type": "Money"
         }
       ]
     },
@@ -901,35 +894,35 @@
           "description": "The tender's unique ID.",
           "name": "id",
           "isarray": false,
-          "required": true,
+          "required": false,
           "type": "string"
         },
         {
           "description": "The ID of the tender's associated business.",
           "name": "business_id",
           "isarray": false,
-          "required": true,
+          "required": false,
           "type": "string"
         },
         {
           "description": "The ID of the tender's associated location.",
           "name": "location_id",
           "isarray": false,
-          "required": true,
+          "required": false,
           "type": "string"
         },
         {
           "description": "The ID of the tender's associated transaction.",
           "name": "transaction_id",
           "isarray": false,
-          "required": true,
+          "required": false,
           "type": "string"
         },
         {
           "description": "The time when the tender was created, in RFC 3339 format.",
           "name": "created_at",
           "isarray": false,
-          "required": true,
+          "required": false,
           "type": "string"
         },
         {
@@ -980,6 +973,55 @@
           "isarray": false,
           "required": false,
           "type": "Card"
+        }
+      ]
+    },
+    {
+      "id": "squareup.connect.v3.actions.RefundTenderRequest",
+      "description": "",
+      "name": "RefundTenderRequest",
+      "fields": [
+        {
+          "description": "",
+          "name": "location_id",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "idempotency_key",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "source_transaction_id",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "source_tender_id",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "reason",
+          "isarray": false,
+          "required": true,
+          "type": "string"
+        },
+        {
+          "description": "",
+          "name": "amount_money",
+          "isarray": false,
+          "required": true,
+          "type": "resources.Money"
         }
       ]
     },
@@ -1036,6 +1078,27 @@
       ]
     },
     {
+      "id": "squareup.connect.v3.actions.RefundTenderResponse",
+      "description": "",
+      "name": "RefundTenderResponse",
+      "fields": [
+        {
+          "description": "",
+          "name": "errors",
+          "isarray": true,
+          "required": false,
+          "type": "resources.Error"
+        },
+        {
+          "description": "",
+          "name": "refund",
+          "isarray": false,
+          "required": false,
+          "type": "resources.TenderRefund"
+        }
+      ]
+    },
+    {
       "id": "squareup.connect.v3.resources.Location",
       "description": "",
       "name": "Location",
@@ -1044,35 +1107,35 @@
           "description": "The location's unique ID.",
           "name": "id",
           "isarray": false,
-          "required": true,
+          "required": false,
           "type": "string"
         },
         {
           "description": "The ID of the location's associated business.",
           "name": "business_id",
           "isarray": false,
-          "required": true,
+          "required": false,
           "type": "string"
         },
         {
           "description": "The name given to the location.",
           "name": "name",
           "isarray": false,
-          "required": true,
+          "required": false,
           "type": "string"
         },
         {
           "description": "The address of this location.",
           "name": "address",
           "isarray": false,
-          "required": true,
+          "required": false,
           "type": "Address"
         },
         {
           "description": "The IANA Timezone Database identifier for the location's timezone.",
           "name": "timezone",
           "isarray": false,
-          "required": true,
+          "required": false,
           "type": "string"
         },
         {
@@ -1114,21 +1177,21 @@
           "description": "",
           "name": "location_id",
           "isarray": false,
-          "required": false,
+          "required": true,
           "type": "string"
         },
         {
           "description": "",
           "name": "customer_id",
           "isarray": false,
-          "required": false,
+          "required": true,
           "type": "string"
         },
         {
           "description": "",
           "name": "card_id",
           "isarray": false,
-          "required": false,
+          "required": true,
           "type": "string"
         }
       ]
@@ -1163,7 +1226,7 @@
           "description": "",
           "name": "client_id",
           "isarray": false,
-          "required": false,
+          "required": true,
           "type": "string"
         },
         {
@@ -1177,7 +1240,7 @@
           "description": "",
           "name": "card_data",
           "isarray": false,
-          "required": false,
+          "required": true,
           "type": "resources.CardData"
         }
       ]
@@ -1191,7 +1254,7 @@
           "description": "Amount in the lowest denominated value of this Currency. E.g. in USD\nthese are cents, in JPY they are Yen (which do not have a 'cent' concept).",
           "name": "amount",
           "isarray": false,
-          "required": true,
+          "required": false,
           "type": "int64"
         },
         {
@@ -1324,42 +1387,42 @@
           "description": "The number on the card.",
           "name": "number",
           "isarray": false,
-          "required": true,
+          "required": false,
           "type": "string"
         },
         {
           "description": "The month of the card's expiration date, which must be between 1-12.",
           "name": "exp_month",
           "isarray": false,
-          "required": true,
+          "required": false,
           "type": "int64"
         },
         {
           "description": "The year of the card's expiration date, which must be a 4 digit year.",
           "name": "exp_year",
           "isarray": false,
-          "required": true,
+          "required": false,
           "type": "int64"
         },
         {
           "description": "The card verification value (i.e. security code) printed on the card.",
           "name": "cvv",
           "isarray": false,
-          "required": true,
+          "required": false,
           "type": "string"
         },
         {
           "description": "The cardholder name",
           "name": "name",
           "isarray": false,
-          "required": true,
+          "required": false,
           "type": "string"
         },
         {
           "description": "Postal code in the address is required for US and Canada payments.",
           "name": "billing_address",
           "isarray": false,
-          "required": true,
+          "required": false,
           "type": "Address"
         }
       ]
@@ -1380,7 +1443,7 @@
           "description": "card nonce result. One time use token that represents this card data.",
           "name": "card_nonce",
           "isarray": false,
-          "required": true,
+          "required": false,
           "type": "string"
         },
         {
@@ -1401,14 +1464,14 @@
           "description": "if not specified, Customer will be pulled at the business level.",
           "name": "location_id",
           "isarray": false,
-          "required": true,
+          "required": false,
           "type": "string"
         },
         {
           "description": "",
           "name": "customer_id",
           "isarray": false,
-          "required": false,
+          "required": true,
           "type": "string"
         }
       ]
@@ -1443,42 +1506,42 @@
           "description": "The customer's unique ID.",
           "name": "id",
           "isarray": false,
-          "required": true,
+          "required": false,
           "type": "string"
         },
         {
           "description": "The ID of the customer's associated business.",
           "name": "business_id",
           "isarray": false,
-          "required": true,
+          "required": false,
           "type": "string"
         },
         {
           "description": "The ID of the customer's associated location.",
           "name": "location_id",
           "isarray": false,
-          "required": true,
+          "required": false,
           "type": "string"
         },
         {
           "description": "The time when the customer was created, in RFC 3339 format.",
           "name": "created_at",
           "isarray": false,
-          "required": true,
+          "required": false,
           "type": "string"
         },
         {
           "description": "The time when the customer was updated, in RFC 3339 format.",
           "name": "updated_at",
           "isarray": false,
-          "required": true,
+          "required": false,
           "type": "string"
         },
         {
           "description": "Cards on file for the customer.",
           "name": "cards",
           "isarray": true,
-          "required": true,
+          "required": false,
           "type": "Card"
         },
         {
@@ -1541,14 +1604,14 @@
           "description": "",
           "name": "location_id",
           "isarray": false,
-          "required": false,
+          "required": true,
           "type": "string"
         },
         {
           "description": "",
           "name": "transaction_id",
           "isarray": false,
-          "required": false,
+          "required": true,
           "type": "string"
         }
       ]
@@ -1559,31 +1622,31 @@
       "name": "ChargeRequest",
       "fields": [
         {
-          "description": "",
+          "description": "The ID of the location to associate the created payment with.",
           "name": "location_id",
           "isarray": false,
-          "required": false,
+          "required": true,
           "type": "string"
         },
         {
           "description": "",
           "name": "idempotency_key",
           "isarray": false,
-          "required": false,
+          "required": true,
           "type": "string"
         },
         {
-          "description": "",
+          "description": "The amount of money to charge.",
           "name": "amount_money",
           "isarray": false,
-          "required": false,
+          "required": true,
           "type": "resources.Money"
         },
         {
           "description": "Request that the created payment only execute Auth and require a separate call for capture.",
           "name": "delay_capture",
           "isarray": false,
-          "required": true,
+          "required": false,
           "type": "bool"
         },
         {
@@ -1604,14 +1667,14 @@
           "description": "Tokenized card nonce",
           "name": "card_nonce",
           "isarray": false,
-          "required": true,
+          "required": false,
           "type": "ChargeRequest.CardNonceInstrument"
         },
         {
-          "description": "Specific card ID linked to the Customer.",
-          "name": "customer_card_id",
+          "description": "A card-on-file for a customer.",
+          "name": "customer_card",
           "isarray": false,
-          "required": true,
+          "required": false,
           "type": "ChargeRequest.CustomerCardInstrument"
         }
       ]
@@ -1625,7 +1688,7 @@
           "description": "",
           "name": "card_nonce",
           "isarray": false,
-          "required": false,
+          "required": true,
           "type": "string"
         },
         {
@@ -1653,7 +1716,7 @@
           "description": "",
           "name": "customer_id",
           "isarray": false,
-          "required": false,
+          "required": true,
           "type": "string"
         },
         {
@@ -1674,7 +1737,7 @@
           "description": "The card's unique ID.",
           "name": "id",
           "isarray": false,
-          "required": true,
+          "required": false,
           "type": "string"
         },
         {
@@ -1688,78 +1751,22 @@
           "description": "last 4 digits of card number",
           "name": "last_4",
           "isarray": false,
-          "required": true,
+          "required": false,
           "type": "string"
         },
         {
           "description": "The month of the card's expiration date, which must be between 1-12.",
           "name": "exp_month",
           "isarray": false,
-          "required": true,
+          "required": false,
           "type": "int64"
         },
         {
           "description": "The year of the card's expiration date, which must be a 4 digit year.",
           "name": "exp_year",
           "isarray": false,
-          "required": true,
-          "type": "int64"
-        }
-      ]
-    },
-    {
-      "id": "squareup.connect.v3.resources.Refund",
-      "description": "",
-      "name": "Refund",
-      "fields": [
-        {
-          "description": "The ID of the refund's associated business.",
-          "name": "business_id",
-          "isarray": false,
-          "required": true,
-          "type": "string"
-        },
-        {
-          "description": "The ID of the refund's associated location.",
-          "name": "location_id",
-          "isarray": false,
-          "required": true,
-          "type": "string"
-        },
-        {
-          "description": "The ID of the transaction refunded.",
-          "name": "source_transaction_id",
-          "isarray": false,
-          "required": true,
-          "type": "string"
-        },
-        {
-          "description": "The time when the refund was created, in RFC 3339 format.",
-          "name": "created_at",
-          "isarray": false,
-          "required": true,
-          "type": "string"
-        },
-        {
-          "description": "",
-          "name": "type",
-          "isarray": false,
           "required": false,
-          "type": "Refund.Type"
-        },
-        {
-          "description": "The reason for the refund being issued.",
-          "name": "reason",
-          "isarray": false,
-          "required": true,
-          "type": "string"
-        },
-        {
-          "description": "The amount of money refunded.",
-          "name": "amount_money",
-          "isarray": false,
-          "required": true,
-          "type": "Money"
+          "type": "int64"
         }
       ]
     },
@@ -1821,21 +1828,21 @@
           "description": "",
           "name": "location_id",
           "isarray": false,
-          "required": false,
+          "required": true,
           "type": "string"
         },
         {
           "description": "",
           "name": "customer_id",
           "isarray": false,
-          "required": false,
+          "required": true,
           "type": "string"
         },
         {
           "description": "Card nonce. One time use token that represents card data to create an instrument linked to this customer.",
           "name": "card_nonce",
           "isarray": false,
-          "required": true,
+          "required": false,
           "type": "string"
         },
         {
@@ -1889,7 +1896,7 @@
           "description": "",
           "name": "location_id",
           "isarray": false,
-          "required": false,
+          "required": true,
           "type": "string"
         },
         {
@@ -5064,27 +5071,6 @@
       ],
       "description": "",
       "name": "Country"
-    },
-    {
-      "id": "squareup.connect.v3.resources.Refund.Type",
-      "values": [
-        {
-          "description": "",
-          "name": "FULL",
-          "isarray": false,
-          "required": false,
-          "type": ""
-        },
-        {
-          "description": "",
-          "name": "PARTIAL",
-          "isarray": false,
-          "required": false,
-          "type": ""
-        }
-      ],
-      "description": "",
-      "name": "Refund.Type"
     },
     {
       "id": "squareup.connect.v3.resources.Error.Type",

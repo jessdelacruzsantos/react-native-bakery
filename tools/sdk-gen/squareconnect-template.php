@@ -23,10 +23,11 @@ namespace squareup\connect {
     private static $connectRoot = 'https://connect.squareupstaging.com';
 
     {{#each this.endpoints}}
-    public static function {{this.id}}($context, $requestObject) {
+    public static function {{this.id}}($context, $requestArray) {
       $requestPath = '/services/squareup.connect.v3.SquareConnectV3/{{this.id}}';
+      {{#populateRequestObject}}{{this.inputtype}}{{/populateRequestObject}}
       $responseWrapper = new \squareup\connect\v3\actions{{#backslash}}{{/backslash}}{{this.id}}Response();
-      return self::sendRequest($requestPath, $context, $requestObject->serialize(), $responseWrapper);
+      return self::sendRequest($requestPath, $context, $request->serialize(), $responseWrapper);
     }
 
     {{/each}}
@@ -57,6 +58,13 @@ namespace squareup\connect {
 
       $responseWrapper->parse($responseBody);
       return $responseWrapper;
+    }
+
+    private static function checkValue($fieldName, $value, $required) {
+      if ($value === NULL && $required) {
+        throw new \Exception('Missing required field ' . $fieldName);
+      }
+      return $value;
     }
 
     public static function ObtainToken($clientId, $clientSecret, $code, $redirectUri = '') {
