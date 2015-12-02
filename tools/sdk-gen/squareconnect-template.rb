@@ -16,13 +16,13 @@ end
 
 class SquareConnect
 
-  @@connectRoot = URI.parse('https://connect.squareup.com')
+  @@connectRoot = URI.parse('https://connect.squareupstaging.com')
 
   {{#each this.endpoints}}
-  def self.{{this.id}}(context, requestObject)
+  def self.{{this.id}}(context, requestHash)
     requestPath = '/services/squareup.connect.v3.SquareConnectV3/{{this.id}}'
-    requestBody = requestObject.serialize_to_string()
-    return self.sendRequest(requestPath, context, requestBody, Squareup::Connect::V3::Actions::{{#paramify}}{{this.outputtype}}{{/paramify}})
+    {{#populateRequestObjectRuby}}{{this.inputtype}}{{/populateRequestObjectRuby}}
+    return ::ProtocolBuffers::Message.to_hash(self.sendRequest(requestPath, context, request.serialize_to_string(), Squareup::Connect::V3::Actions::{{this.id}}Response))
   end
 
   {{/each}}
@@ -36,6 +36,13 @@ class SquareConnect
     request.body = body
     response = http.request(request)
     return responseClass.parse(response.body)
+  end
+
+  def self.checkValue(fieldName, value, required)
+    if (value.nil? && required)
+      raise "Missing required field " + fieldName
+    end
+    return value
   end
 
   def self.ObtainToken(clientId, clientSecret, code, redirectUri = '')
@@ -91,6 +98,7 @@ class SquareConnect
 
     return response
   end
+
 end
 
 class RequestContext

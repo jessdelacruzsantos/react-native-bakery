@@ -7,4 +7,6 @@ Gem::Specification.new do |gem|
   gem.summary = 'foo'
   gem.authors = 'barlow'
   gem.require_paths = ['lib']
+  gem.add_runtime_dependency "ruby-protocol-buffers",
+    ["= 1.6.1"]
 end

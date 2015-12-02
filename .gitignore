@@ -1,3 +1,4 @@
 target/
 *.gem
 vendor/
+sdk-test/

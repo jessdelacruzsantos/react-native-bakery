@@ -41,6 +41,36 @@ handlebars.registerHelper('populateRequestObject', function(options) {
   return populateRequest(inputType);
 });
 
+handlebars.registerHelper('populateRequestObjectRuby', function(options) {
+  var inputType = options.fn(this);
+  return populateRequestRuby(inputType);
+});
+
+
+function populateRequestRuby(inputType) {
+  var typeName = '.' + inputType;
+  var datatype = findDatatype(typeName);
+  if (datatype == null) {
+    console.log("ERROR, couldn't find an object to match input type " + inputType);
+    return '';
+  }
+
+  var codeLines = [];
+
+  var className = getSDKClassName(datatype.id, 'ruby');
+
+  // Instantiate the request type
+  //codeLines.push('$request = new \\squareup\\connect\\v3\\actions\\' + datatype.name + '();');
+  codeLines.push('request = ' + className + '.new()');
+
+  // Generate field assignment lines for all fields in the request type
+  for (var i = 0; i < datatype.fields.length; i++) {
+    codeLines.push(generateFieldAssignmentRuby(datatype.fields[i], []));
+  }
+
+  return generateSDKString(codeLines);
+}
+
 // Generates PHP code that builds and populates a request object based on
 // input parameterss
 function populateRequest(inputType) {
@@ -67,11 +97,62 @@ function populateRequest(inputType) {
   return generateSDKString(codeLines);
 }
 
+// Based on a datatype's full name in the proto file, generate the
+// corresponding SDK class name for the appropriate language.
+// Each language's naming conventions differ slightly.
 function getSDKClassName(entityId, language) {
   if (language == 'php') {
     return '\\' + entityId.replace(/\./g, "\\");
+  } else if (language == 'ruby') {
+    var tempstring = '::' + entityId.replace(/\./g, "::");
+    tempstring = tempstring.replace(/::[a-z]/g, function(txt) {
+      return '::' + txt.charAt(2).toUpperCase();
+    });
+    return tempstring.substr(2);
   } else {
     return '';
+  }
+}
+
+function generateFieldAssignmentRuby(field, pathComponents) {
+  var codeLines = [];
+  var objectPath = generateObjectPath(pathComponents, 'ruby');
+  var parameterPath = generateObjectPath(pathComponents, 'ruby-array');
+
+  if (protoBaseTypes.indexOf(field.type) > -1 || isEnum(field.type)) {
+    return stringFormat("{0}.{1} = self.checkValue('{2}', {3}['{4}'], {5})", [
+      objectPath, field.name, field.name, parameterPath, field.name, field.required
+    ]);
+  } else {
+    var datatype = findDatatype(field.type);
+    if (datatype == null) {
+      console.log("ERROR, couldn't find an object to match input type " + field.type);
+      return null;
+    }
+    var className = getSDKClassName(datatype.id, 'ruby');
+
+    // Make sure a value for the object was provided
+    codeLines.push(stringFormat("if !{0}['{1}'].nil?", [parameterPath, field.name]));
+
+    // If it was, instantiate the corresponding proto wrapper class
+    codeLines.push(stringFormat("  {0}.{1} = {2}.new();", [objectPath, field.name, className]));
+
+    // Loop through the object's fields and assign them
+    for (var i = 0; i < datatype.fields.length; i++) {
+      var extendedPath = pathComponents.slice();
+      extendedPath.push(field.name);
+      codeLines.push('  ' + generateFieldAssignmentRuby(datatype.fields[i], extendedPath));
+    }
+  
+
+    // Throw in an exception if it's a required field and it *wasn't* provided.
+    if (field.required) {
+      codeLines.push('else');
+      codeLines.push("  raise \"Missing required field \" + field.name");
+    }
+    codeLines.push('end');
+
+    return generateSDKString(codeLines);
   }
 }
 
@@ -146,7 +227,6 @@ function isEnum(symbolName) {
     }
   }
   if (matchingEnums.length == 1) {
-    console.log("It's an ENUM!");
     return true;
 
     // Either there are no matches or multiple matches. Bad news either way.
@@ -169,7 +249,21 @@ function generateObjectPath(pathComponents, language) {
       path = path + "['" + pathComponents[i] + "']";
     }
     return path;
-  } else {
+  } else if (language == 'ruby') {
+    var path = 'request';
+    for (var i = 0; i < pathComponents.length; i++) {
+      path = path + '.' + pathComponents[i];
+    }
+    return path;
+  } else if (language == 'ruby-array') {
+    var path = 'requestHash';
+    for (var i = 0; i < pathComponents.length; i++) {
+      path = path + "['" + pathComponents[i] + "']";
+    }
+    return path;
+  }
+
+  {
     return '';
   }
 }
@@ -266,8 +360,8 @@ var homeDirectory = process.env['HOME'];
 console.log("Writing PHP core class");
 fs.writeFileSync(homeDirectory + '/Development/connect-sdks/src/php/SquareConnect.php', phpCore);
 
-//console.log("Writing Ruby core class");
-//fs.writeFileSync(homeDirectory + '/Development/connect-sdks/src/rubygem/lib/square_connect.rb', rubyCore);
+console.log("Writing Ruby core class");
+fs.writeFileSync(homeDirectory + '/Development/connect-sdks/src/rubygem/lib/square_connect.rb', rubyCore);
 
 console.log("All done.");
 

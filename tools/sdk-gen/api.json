@@ -26,7 +26,7 @@
       "httpmethod": "",
       "params": [
         {
-          "description": "The ID of the location to associate the created payment with.",
+          "description": "",
           "name": "location_id",
           "isarray": false,
           "required": true,
@@ -40,7 +40,7 @@
           "type": "string"
         },
         {
-          "description": "The amount of money to charge.",
+          "description": "",
           "name": "amount_money",
           "isarray": false,
           "required": true,
@@ -68,7 +68,7 @@
           "type": "string"
         },
         {
-          "description": "The ID of the location to associate the created payment with.",
+          "description": "",
           "name": "location_id",
           "isarray": false,
           "required": true,
@@ -82,7 +82,7 @@
           "type": "string"
         },
         {
-          "description": "The amount of money to charge.",
+          "description": "",
           "name": "amount_money",
           "isarray": false,
           "required": true,
@@ -876,6 +876,13 @@
           "isarray": false,
           "required": true,
           "type": "Money"
+        },
+        {
+          "description": "",
+          "name": "status",
+          "isarray": false,
+          "required": true,
+          "type": "Status"
         }
       ]
     },
@@ -1622,7 +1629,7 @@
       "name": "ChargeRequest",
       "fields": [
         {
-          "description": "The ID of the location to associate the created payment with.",
+          "description": "",
           "name": "location_id",
           "isarray": false,
           "required": true,
@@ -1636,7 +1643,7 @@
           "type": "string"
         },
         {
-          "description": "The amount of money to charge.",
+          "description": "",
           "name": "amount_money",
           "isarray": false,
           "required": true,
@@ -3190,6 +3197,48 @@
       ],
       "description": "",
       "name": "Currency"
+    },
+    {
+      "id": "squareup.connect.v3.resources.TenderRefund.Status",
+      "values": [
+        {
+          "description": "",
+          "name": "UNKNOWN",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "PENDING",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "APPROVED",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "REJECTED",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "FAILED",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        }
+      ],
+      "description": "",
+      "name": "TenderRefund.Status"
     },
     {
       "id": "squareup.connect.v3.resources.Tender.Charge.Status",
@@ -5407,6 +5456,27 @@
         {
           "description": "",
           "name": "AMOUNT_TOO_HIGH",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "REFUND_AMOUNT_INVALID",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "REFUND_ALREADY_PENDING",
+          "isarray": false,
+          "required": false,
+          "type": ""
+        },
+        {
+          "description": "",
+          "name": "PAYMENT_NOT_REFUNDABLE",
           "isarray": false,
           "required": false,
           "type": ""
