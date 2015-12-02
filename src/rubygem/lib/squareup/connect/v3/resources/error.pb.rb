@@ -67,6 +67,9 @@ module Squareup
             CARD_TOKEN_EXPIRED = 40045
             CARD_TOKEN_USED = 40046
             AMOUNT_TOO_HIGH = 40047
+            REFUND_AMOUNT_INVALID = 40048
+            REFUND_ALREADY_PENDING = 40049
+            PAYMENT_NOT_REFUNDABLE = 40050
             NOT_FOUND = 40400
             REQUEST_TIMEOUT = 40800
             REQUEST_ENTITY_TOO_LARGE = 41300

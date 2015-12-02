@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='squareup/connect/v3/resources/tender.proto',
   package='squareup.connect.v3.resources',
   syntax='proto2',
-  serialized_pb=_b('\n*squareup/connect/v3/resources/tender.proto\x12\x1dsquareup.connect.v3.resources\x1a(squareup/connect/v3/resources/card.proto\x1a)squareup/connect/v3/resources/money.proto\"\xe7\x03\n\x06Tender\x12\n\n\x02id\x18\x01 \x01(\t\x12\x13\n\x0b\x62usiness_id\x18\x02 \x01(\t\x12\x13\n\x0blocation_id\x18\x03 \x01(\t\x12\x16\n\x0etransaction_id\x18\x04 \x01(\t\x12\x12\n\ncreated_at\x18\x05 \x01(\t\x12\x0c\n\x04note\x18\x06 \x01(\t\x12:\n\x0c\x61mount_money\x18\x07 \x01(\x0b\x32$.squareup.connect.v3.resources.Money\x12\x13\n\x0b\x63ustomer_id\x18\x08 \x01(\t\x12>\n\x06\x63harge\x18\t \x01(\x0b\x32,.squareup.connect.v3.resources.Tender.ChargeH\x00\x1a\xcd\x01\n\x06\x43harge\x12\x43\n\x06status\x18\x01 \x01(\x0e\x32\x33.squareup.connect.v3.resources.Tender.Charge.Status\x12\x31\n\x04\x63\x61rd\x18\x02 \x01(\x0b\x32#.squareup.connect.v3.resources.Card\"K\n\x06Status\x12\x0b\n\x07UNKNOWN\x10\x00\x12\x0e\n\nAUTHORIZED\x10\x01\x12\x0c\n\x08\x43\x41PTURED\x10\x02\x12\n\n\x06VOIDED\x10\x03\x12\n\n\x06\x46\x41ILED\x10\x04\x42\x0c\n\ninstrument')
+  serialized_pb=_b('\n*squareup/connect/v3/resources/tender.proto\x12\x1dsquareup.connect.v3.resources\x1a(squareup/connect/v3/resources/card.proto\x1a)squareup/connect/v3/resources/money.proto\"\xe7\x03\n\x06Tender\x12\n\n\x02id\x18\x01 \x01(\t\x12\x13\n\x0b\x62usiness_id\x18\x02 \x01(\t\x12\x13\n\x0blocation_id\x18\x03 \x01(\t\x12\x16\n\x0etransaction_id\x18\x04 \x01(\t\x12\x12\n\ncreated_at\x18\x05 \x01(\t\x12\x0c\n\x04note\x18\x06 \x01(\t\x12:\n\x0c\x61mount_money\x18\x07 \x01(\x0b\x32$.squareup.connect.v3.resources.Money\x12\x13\n\x0b\x63ustomer_id\x18\x08 \x01(\t\x12>\n\x06\x63harge\x18\t \x01(\x0b\x32,.squareup.connect.v3.resources.Tender.ChargeH\x00\x1a\xcd\x01\n\x06\x43harge\x12\x43\n\x06status\x18\x01 \x01(\x0e\x32\x33.squareup.connect.v3.resources.Tender.Charge.Status\x12\x31\n\x04\x63\x61rd\x18\x02 \x01(\x0b\x32#.squareup.connect.v3.resources.Card\"K\n\x06Status\x12\x0b\n\x07UNKNOWN\x10\x00\x12\x0e\n\nAUTHORIZED\x10\x01\x12\x0c\n\x08\x43\x41PTURED\x10\x02\x12\n\n\x06VOIDED\x10\x03\x12\n\n\x06\x46\x41ILED\x10\x04\x42\x0c\n\ninstrumentB,\n(com.squareup.protos.connect.v3.resourcesP\x01')
   ,
   dependencies=[squareup_dot_connect_dot_v3_dot_resources_dot_card__pb2.DESCRIPTOR,squareup_dot_connect_dot_v3_dot_resources_dot_money__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -217,4 +217,6 @@ _sym_db.RegisterMessage(Tender)
 _sym_db.RegisterMessage(Tender.Charge)
 
 
+DESCRIPTOR.has_options = True
+DESCRIPTOR._options = _descriptor._ParseOptions(descriptor_pb2.FileOptions(), _b('\n(com.squareup.protos.connect.v3.resourcesP\001'))
 # @@protoc_insertion_point(module_scope)

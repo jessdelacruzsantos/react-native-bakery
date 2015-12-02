@@ -43,7 +43,7 @@ module Squareup
           required :string, :idempotency_key, 2
           required ::Squareup::Connect::V3::Resources::Money, :amount_money, 3
           optional ::Squareup::Connect::V3::Actions::ChargeRequest::CardNonceInstrument, :card_nonce, 4
-          optional ::Squareup::Connect::V3::Actions::ChargeRequest::CustomerCardInstrument, :customer_card_id, 5
+          optional ::Squareup::Connect::V3::Actions::ChargeRequest::CustomerCardInstrument, :customer_card, 5
           optional :bool, :delay_capture, 6
           optional :string, :reference_id, 7
           optional :string, :note, 8

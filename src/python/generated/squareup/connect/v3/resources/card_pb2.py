@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='squareup/connect/v3/resources/card.proto',
   package='squareup.connect.v3.resources',
   syntax='proto2',
-  serialized_pb=_b('\n(squareup/connect/v3/resources/card.proto\x12\x1dsquareup.connect.v3.resources\x1a+squareup/connect/v3/resources/address.proto\"\xa7\x02\n\x04\x43\x61rd\x12\n\n\x02id\x18\x01 \x01(\t\x12=\n\ncard_brand\x18\x02 \x01(\x0e\x32).squareup.connect.v3.resources.Card.Brand\x12\x0e\n\x06last_4\x18\x03 \x01(\t\x12\x11\n\texp_month\x18\x04 \x01(\x03\x12\x10\n\x08\x65xp_year\x18\x05 \x01(\x03\"\x9e\x01\n\x05\x42rand\x12\x0f\n\x0bOTHER_BRAND\x10\x00\x12\x08\n\x04VISA\x10\x01\x12\x0e\n\nMASTERCARD\x10\x02\x12\x14\n\x10\x41MERICAN_EXPRESS\x10\x03\x12\x0c\n\x08\x44ISCOVER\x10\x04\x12\x13\n\x0f\x44ISCOVER_DINERS\x10\x05\x12\x07\n\x03JCB\x10\x06\x12\x12\n\x0e\x43HINA_UNIONPAY\x10\x07\x12\x14\n\x10SQUARE_GIFT_CARD\x10\x08\"\x9b\x01\n\x08\x43\x61rdData\x12\x0e\n\x06number\x18\x01 \x01(\t\x12\x11\n\texp_month\x18\x02 \x01(\x03\x12\x10\n\x08\x65xp_year\x18\x03 \x01(\x03\x12\x0b\n\x03\x63vv\x18\x04 \x01(\t\x12\x0c\n\x04name\x18\x05 \x01(\t\x12?\n\x0f\x62illing_address\x18\x06 \x01(\x0b\x32&.squareup.connect.v3.resources.Address')
+  serialized_pb=_b('\n(squareup/connect/v3/resources/card.proto\x12\x1dsquareup.connect.v3.resources\x1a+squareup/connect/v3/resources/address.proto\"\xa7\x02\n\x04\x43\x61rd\x12\n\n\x02id\x18\x01 \x01(\t\x12=\n\ncard_brand\x18\x02 \x01(\x0e\x32).squareup.connect.v3.resources.Card.Brand\x12\x0e\n\x06last_4\x18\x03 \x01(\t\x12\x11\n\texp_month\x18\x04 \x01(\x03\x12\x10\n\x08\x65xp_year\x18\x05 \x01(\x03\"\x9e\x01\n\x05\x42rand\x12\x0f\n\x0bOTHER_BRAND\x10\x00\x12\x08\n\x04VISA\x10\x01\x12\x0e\n\nMASTERCARD\x10\x02\x12\x14\n\x10\x41MERICAN_EXPRESS\x10\x03\x12\x0c\n\x08\x44ISCOVER\x10\x04\x12\x13\n\x0f\x44ISCOVER_DINERS\x10\x05\x12\x07\n\x03JCB\x10\x06\x12\x12\n\x0e\x43HINA_UNIONPAY\x10\x07\x12\x14\n\x10SQUARE_GIFT_CARD\x10\x08\"\x9b\x01\n\x08\x43\x61rdData\x12\x0e\n\x06number\x18\x01 \x01(\t\x12\x11\n\texp_month\x18\x02 \x01(\x03\x12\x10\n\x08\x65xp_year\x18\x03 \x01(\x03\x12\x0b\n\x03\x63vv\x18\x04 \x01(\t\x12\x0c\n\x04name\x18\x05 \x01(\t\x12?\n\x0f\x62illing_address\x18\x06 \x01(\x0b\x32&.squareup.connect.v3.resources.AddressB,\n(com.squareup.protos.connect.v3.resourcesP\x01')
   ,
   dependencies=[squareup_dot_connect_dot_v3_dot_resources_dot_address__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -224,4 +224,6 @@ CardData = _reflection.GeneratedProtocolMessageType('CardData', (_message.Messag
 _sym_db.RegisterMessage(CardData)
 
 
+DESCRIPTOR.has_options = True
+DESCRIPTOR._options = _descriptor._ParseOptions(descriptor_pb2.FileOptions(), _b('\n(com.squareup.protos.connect.v3.resourcesP\001'))
 # @@protoc_insertion_point(module_scope)

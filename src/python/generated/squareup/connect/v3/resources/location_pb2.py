@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='squareup/connect/v3/resources/location.proto',
   package='squareup.connect.v3.resources',
   syntax='proto2',
-  serialized_pb=_b('\n,squareup/connect/v3/resources/location.proto\x12\x1dsquareup.connect.v3.resources\x1a+squareup/connect/v3/resources/address.proto\"\xf8\x01\n\x08Location\x12\n\n\x02id\x18\x01 \x01(\t\x12\x13\n\x0b\x62usiness_id\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x03 \x01(\t\x12\x37\n\x07\x61\x64\x64ress\x18\x04 \x01(\x0b\x32&.squareup.connect.v3.resources.Address\x12\x10\n\x08timezone\x18\x05 \x01(\t\x12H\n\x0c\x63\x61pabilities\x18\n \x03(\x0e\x32\x32.squareup.connect.v3.resources.Location.Capability\"(\n\nCapability\x12\x1a\n\x16\x43REDIT_CARD_PROCESSING\x10\x01')
+  serialized_pb=_b('\n,squareup/connect/v3/resources/location.proto\x12\x1dsquareup.connect.v3.resources\x1a+squareup/connect/v3/resources/address.proto\"\xf8\x01\n\x08Location\x12\n\n\x02id\x18\x01 \x01(\t\x12\x13\n\x0b\x62usiness_id\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x03 \x01(\t\x12\x37\n\x07\x61\x64\x64ress\x18\x04 \x01(\x0b\x32&.squareup.connect.v3.resources.Address\x12\x10\n\x08timezone\x18\x05 \x01(\t\x12H\n\x0c\x63\x61pabilities\x18\n \x03(\x0e\x32\x32.squareup.connect.v3.resources.Location.Capability\"(\n\nCapability\x12\x1a\n\x16\x43REDIT_CARD_PROCESSING\x10\x01\x42,\n(com.squareup.protos.connect.v3.resourcesP\x01')
   ,
   dependencies=[squareup_dot_connect_dot_v3_dot_resources_dot_address__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -125,4 +125,6 @@ Location = _reflection.GeneratedProtocolMessageType('Location', (_message.Messag
 _sym_db.RegisterMessage(Location)
 
 
+DESCRIPTOR.has_options = True
+DESCRIPTOR._options = _descriptor._ParseOptions(descriptor_pb2.FileOptions(), _b('\n(com.squareup.protos.connect.v3.resourcesP\001'))
 # @@protoc_insertion_point(module_scope)

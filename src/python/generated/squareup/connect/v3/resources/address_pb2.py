@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='squareup/connect/v3/resources/address.proto',
   package='squareup.connect.v3.resources',
   syntax='proto2',
-  serialized_pb=_b('\n+squareup/connect/v3/resources/address.proto\x12\x1dsquareup.connect.v3.resources\x1a+squareup/connect/v3/resources/country.proto\"\x90\x02\n\x07\x41\x64\x64ress\x12\x0e\n\x06line_1\x18\x01 \x01(\t\x12\x0e\n\x06line_2\x18\x02 \x01(\t\x12\x0e\n\x06line_3\x18\x03 \x01(\t\x12\x10\n\x08locality\x18\x06 \x01(\t\x12\x13\n\x0bsublocality\x18\x07 \x01(\t\x12\x15\n\rsublocality_2\x18\x08 \x01(\t\x12\x15\n\rsublocality_3\x18\t \x01(\t\x12\x0e\n\x06region\x18\r \x01(\t\x12\x10\n\x08region_2\x18\x0e \x01(\t\x12\x10\n\x08region_3\x18\x0f \x01(\t\x12\x13\n\x0bpostal_code\x18\x10 \x01(\t\x12\x37\n\x07\x63ountry\x18\x11 \x01(\x0e\x32&.squareup.connect.v3.resources.Country')
+  serialized_pb=_b('\n+squareup/connect/v3/resources/address.proto\x12\x1dsquareup.connect.v3.resources\x1a+squareup/connect/v3/resources/country.proto\"\x90\x02\n\x07\x41\x64\x64ress\x12\x0e\n\x06line_1\x18\x01 \x01(\t\x12\x0e\n\x06line_2\x18\x02 \x01(\t\x12\x0e\n\x06line_3\x18\x03 \x01(\t\x12\x10\n\x08locality\x18\x06 \x01(\t\x12\x13\n\x0bsublocality\x18\x07 \x01(\t\x12\x15\n\rsublocality_2\x18\x08 \x01(\t\x12\x15\n\rsublocality_3\x18\t \x01(\t\x12\x0e\n\x06region\x18\r \x01(\t\x12\x10\n\x08region_2\x18\x0e \x01(\t\x12\x10\n\x08region_3\x18\x0f \x01(\t\x12\x13\n\x0bpostal_code\x18\x10 \x01(\t\x12\x37\n\x07\x63ountry\x18\x11 \x01(\x0e\x32&.squareup.connect.v3.resources.CountryB,\n(com.squareup.protos.connect.v3.resourcesP\x01')
   ,
   dependencies=[squareup_dot_connect_dot_v3_dot_resources_dot_country__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -146,4 +146,6 @@ Address = _reflection.GeneratedProtocolMessageType('Address', (_message.Message,
 _sym_db.RegisterMessage(Address)
 
 
+DESCRIPTOR.has_options = True
+DESCRIPTOR._options = _descriptor._ParseOptions(descriptor_pb2.FileOptions(), _b('\n(com.squareup.protos.connect.v3.resourcesP\001'))
 # @@protoc_insertion_point(module_scope)

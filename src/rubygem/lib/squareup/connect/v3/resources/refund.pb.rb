@@ -10,30 +10,35 @@ module Squareup
     module V3
       module Resources
         # forward declarations
-        class Refund < ::ProtocolBuffers::Message; end
+        class TenderRefund < ::ProtocolBuffers::Message; end
 
-        class Refund < ::ProtocolBuffers::Message
+        class TenderRefund < ::ProtocolBuffers::Message
           # forward declarations
 
           # enums
-          module Type
+          module Status
             include ::ProtocolBuffers::Enum
 
-            set_fully_qualified_name "squareup.connect.v3.resources.Refund.Type"
+            set_fully_qualified_name "squareup.connect.v3.resources.TenderRefund.Status"
 
-            FULL = 1
-            PARTIAL = 2
+            UNKNOWN = 0
+            PENDING = 1
+            APPROVED = 2
+            REJECTED = 3
+            FAILED = 4
           end
 
-          set_fully_qualified_name "squareup.connect.v3.resources.Refund"
+          set_fully_qualified_name "squareup.connect.v3.resources.TenderRefund"
 
+          required :string, :id, 1
           optional :string, :business_id, 2
-          optional :string, :location_id, 3
-          optional :string, :source_transaction_id, 4
-          optional :string, :created_at, 5
-          optional ::Squareup::Connect::V3::Resources::Refund::Type, :type, 6
-          optional :string, :reason, 7
-          optional ::Squareup::Connect::V3::Resources::Money, :amount_money, 8
+          required :string, :location_id, 3
+          required :string, :source_transaction_id, 4
+          required :string, :source_tender_id, 5
+          optional :string, :created_at, 6
+          required :string, :reason, 7
+          required ::Squareup::Connect::V3::Resources::Money, :amount_money, 8
+          required ::Squareup::Connect::V3::Resources::TenderRefund::Status, :status, 9
         end
 
       end

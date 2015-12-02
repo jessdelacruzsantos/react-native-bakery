@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='squareup/connect/v3/actions/location.proto',
   package='squareup.connect.v3.actions',
   syntax='proto2',
-  serialized_pb=_b('\n*squareup/connect/v3/actions/location.proto\x12\x1bsquareup.connect.v3.actions\x1a)squareup/connect/v3/resources/error.proto\x1a,squareup/connect/v3/resources/location.proto\"\x16\n\x14ListLocationsRequest\"\x89\x01\n\x15ListLocationsResponse\x12\x34\n\x06\x65rrors\x18\x01 \x03(\x0b\x32$.squareup.connect.v3.resources.Error\x12:\n\tlocations\x18\x02 \x03(\x0b\x32\'.squareup.connect.v3.resources.Location')
+  serialized_pb=_b('\n*squareup/connect/v3/actions/location.proto\x12\x1bsquareup.connect.v3.actions\x1a)squareup/connect/v3/resources/error.proto\x1a,squareup/connect/v3/resources/location.proto\"\x16\n\x14ListLocationsRequest\"\x89\x01\n\x15ListLocationsResponse\x12\x34\n\x06\x65rrors\x18\x01 \x03(\x0b\x32$.squareup.connect.v3.resources.Error\x12:\n\tlocations\x18\x02 \x03(\x0b\x32\'.squareup.connect.v3.resources.LocationB*\n&com.squareup.protos.connect.v3.actionsP\x01')
   ,
   dependencies=[squareup_dot_connect_dot_v3_dot_resources_dot_error__pb2.DESCRIPTOR,squareup_dot_connect_dot_v3_dot_resources_dot_location__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -110,4 +110,6 @@ ListLocationsResponse = _reflection.GeneratedProtocolMessageType('ListLocationsR
 _sym_db.RegisterMessage(ListLocationsResponse)
 
 
+DESCRIPTOR.has_options = True
+DESCRIPTOR._options = _descriptor._ParseOptions(descriptor_pb2.FileOptions(), _b('\n&com.squareup.protos.connect.v3.actionsP\001'))
 # @@protoc_insertion_point(module_scope)

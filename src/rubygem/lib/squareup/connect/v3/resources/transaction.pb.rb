@@ -21,7 +21,7 @@ module Squareup
           optional :string, :location_id, 3
           optional :string, :created_at, 6
           repeated ::Squareup::Connect::V3::Resources::Tender, :tenders, 7
-          repeated ::Squareup::Connect::V3::Resources::Refund, :refunds, 8
+          repeated ::Squareup::Connect::V3::Resources::TenderRefund, :tender_refunds, 8
           optional :string, :reference_id, 9
         end
 

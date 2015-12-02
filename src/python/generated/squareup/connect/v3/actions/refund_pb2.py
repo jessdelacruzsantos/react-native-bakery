@@ -13,68 +13,68 @@ from google.protobuf import descriptor_pb2
 _sym_db = _symbol_database.Default()
 
 
-from squareup.connect.v3.resources import refund_pb2 as squareup_dot_connect_dot_v3_dot_resources_dot_refund__pb2
 from squareup.connect.v3.resources import error_pb2 as squareup_dot_connect_dot_v3_dot_resources_dot_error__pb2
 from squareup.connect.v3.resources import money_pb2 as squareup_dot_connect_dot_v3_dot_resources_dot_money__pb2
+from squareup.connect.v3.resources import refund_pb2 as squareup_dot_connect_dot_v3_dot_resources_dot_refund__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='squareup/connect/v3/actions/refund.proto',
   package='squareup.connect.v3.actions',
   syntax='proto2',
-  serialized_pb=_b('\n(squareup/connect/v3/actions/refund.proto\x12\x1bsquareup.connect.v3.actions\x1a*squareup/connect/v3/resources/refund.proto\x1a)squareup/connect/v3/resources/error.proto\x1a)squareup/connect/v3/resources/money.proto\"\xe2\x01\n\rRefundRequest\x12\x13\n\x0blocation_id\x18\x01 \x02(\t\x12\x17\n\x0fidempotency_key\x18\x02 \x02(\t\x12\x1d\n\x15source_transaction_id\x18\x03 \x02(\t\x12\x38\n\x04type\x18\x04 \x02(\x0e\x32*.squareup.connect.v3.resources.Refund.Type\x12\x0e\n\x06reason\x18\x05 \x02(\t\x12:\n\x0c\x61mount_money\x18\x06 \x01(\x0b\x32$.squareup.connect.v3.resources.Money\"}\n\x0eRefundResponse\x12\x34\n\x06\x65rrors\x18\x01 \x03(\x0b\x32$.squareup.connect.v3.resources.Error\x12\x35\n\x06refund\x18\x02 \x01(\x0b\x32%.squareup.connect.v3.resources.Refund')
+  serialized_pb=_b('\n(squareup/connect/v3/actions/refund.proto\x12\x1bsquareup.connect.v3.actions\x1a)squareup/connect/v3/resources/error.proto\x1a)squareup/connect/v3/resources/money.proto\x1a*squareup/connect/v3/resources/refund.proto\"\xc8\x01\n\x13RefundTenderRequest\x12\x13\n\x0blocation_id\x18\x01 \x02(\t\x12\x17\n\x0fidempotency_key\x18\x02 \x02(\t\x12\x1d\n\x15source_transaction_id\x18\x03 \x02(\t\x12\x18\n\x10source_tender_id\x18\x04 \x02(\t\x12\x0e\n\x06reason\x18\x05 \x02(\t\x12:\n\x0c\x61mount_money\x18\x06 \x02(\x0b\x32$.squareup.connect.v3.resources.Money\"\x89\x01\n\x14RefundTenderResponse\x12\x34\n\x06\x65rrors\x18\x01 \x03(\x0b\x32$.squareup.connect.v3.resources.Error\x12;\n\x06refund\x18\x02 \x01(\x0b\x32+.squareup.connect.v3.resources.TenderRefundB*\n&com.squareup.protos.connect.v3.actionsP\x01')
   ,
-  dependencies=[squareup_dot_connect_dot_v3_dot_resources_dot_refund__pb2.DESCRIPTOR,squareup_dot_connect_dot_v3_dot_resources_dot_error__pb2.DESCRIPTOR,squareup_dot_connect_dot_v3_dot_resources_dot_money__pb2.DESCRIPTOR,])
+  dependencies=[squareup_dot_connect_dot_v3_dot_resources_dot_error__pb2.DESCRIPTOR,squareup_dot_connect_dot_v3_dot_resources_dot_money__pb2.DESCRIPTOR,squareup_dot_connect_dot_v3_dot_resources_dot_refund__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
 
-_REFUNDREQUEST = _descriptor.Descriptor(
-  name='RefundRequest',
-  full_name='squareup.connect.v3.actions.RefundRequest',
+_REFUNDTENDERREQUEST = _descriptor.Descriptor(
+  name='RefundTenderRequest',
+  full_name='squareup.connect.v3.actions.RefundTenderRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='location_id', full_name='squareup.connect.v3.actions.RefundRequest.location_id', index=0,
+      name='location_id', full_name='squareup.connect.v3.actions.RefundTenderRequest.location_id', index=0,
       number=1, type=9, cpp_type=9, label=2,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='idempotency_key', full_name='squareup.connect.v3.actions.RefundRequest.idempotency_key', index=1,
+      name='idempotency_key', full_name='squareup.connect.v3.actions.RefundTenderRequest.idempotency_key', index=1,
       number=2, type=9, cpp_type=9, label=2,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='source_transaction_id', full_name='squareup.connect.v3.actions.RefundRequest.source_transaction_id', index=2,
+      name='source_transaction_id', full_name='squareup.connect.v3.actions.RefundTenderRequest.source_transaction_id', index=2,
       number=3, type=9, cpp_type=9, label=2,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='type', full_name='squareup.connect.v3.actions.RefundRequest.type', index=3,
-      number=4, type=14, cpp_type=8, label=2,
-      has_default_value=False, default_value=1,
+      name='source_tender_id', full_name='squareup.connect.v3.actions.RefundTenderRequest.source_tender_id', index=3,
+      number=4, type=9, cpp_type=9, label=2,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='reason', full_name='squareup.connect.v3.actions.RefundRequest.reason', index=4,
+      name='reason', full_name='squareup.connect.v3.actions.RefundTenderRequest.reason', index=4,
       number=5, type=9, cpp_type=9, label=2,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='amount_money', full_name='squareup.connect.v3.actions.RefundRequest.amount_money', index=5,
-      number=6, type=11, cpp_type=10, label=1,
+      name='amount_money', full_name='squareup.connect.v3.actions.RefundTenderRequest.amount_money', index=5,
+      number=6, type=11, cpp_type=10, label=2,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -92,26 +92,26 @@ _REFUNDREQUEST = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=204,
-  serialized_end=430,
+  serialized_end=404,
 )
 
 
-_REFUNDRESPONSE = _descriptor.Descriptor(
-  name='RefundResponse',
-  full_name='squareup.connect.v3.actions.RefundResponse',
+_REFUNDTENDERRESPONSE = _descriptor.Descriptor(
+  name='RefundTenderResponse',
+  full_name='squareup.connect.v3.actions.RefundTenderResponse',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='errors', full_name='squareup.connect.v3.actions.RefundResponse.errors', index=0,
+      name='errors', full_name='squareup.connect.v3.actions.RefundTenderResponse.errors', index=0,
       number=1, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='refund', full_name='squareup.connect.v3.actions.RefundResponse.refund', index=1,
+      name='refund', full_name='squareup.connect.v3.actions.RefundTenderResponse.refund', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -129,30 +129,31 @@ _REFUNDRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=432,
-  serialized_end=557,
+  serialized_start=407,
+  serialized_end=544,
 )
 
-_REFUNDREQUEST.fields_by_name['type'].enum_type = squareup_dot_connect_dot_v3_dot_resources_dot_refund__pb2._REFUND_TYPE
-_REFUNDREQUEST.fields_by_name['amount_money'].message_type = squareup_dot_connect_dot_v3_dot_resources_dot_money__pb2._MONEY
-_REFUNDRESPONSE.fields_by_name['errors'].message_type = squareup_dot_connect_dot_v3_dot_resources_dot_error__pb2._ERROR
-_REFUNDRESPONSE.fields_by_name['refund'].message_type = squareup_dot_connect_dot_v3_dot_resources_dot_refund__pb2._REFUND
-DESCRIPTOR.message_types_by_name['RefundRequest'] = _REFUNDREQUEST
-DESCRIPTOR.message_types_by_name['RefundResponse'] = _REFUNDRESPONSE
+_REFUNDTENDERREQUEST.fields_by_name['amount_money'].message_type = squareup_dot_connect_dot_v3_dot_resources_dot_money__pb2._MONEY
+_REFUNDTENDERRESPONSE.fields_by_name['errors'].message_type = squareup_dot_connect_dot_v3_dot_resources_dot_error__pb2._ERROR
+_REFUNDTENDERRESPONSE.fields_by_name['refund'].message_type = squareup_dot_connect_dot_v3_dot_resources_dot_refund__pb2._TENDERREFUND
+DESCRIPTOR.message_types_by_name['RefundTenderRequest'] = _REFUNDTENDERREQUEST
+DESCRIPTOR.message_types_by_name['RefundTenderResponse'] = _REFUNDTENDERRESPONSE
 
-RefundRequest = _reflection.GeneratedProtocolMessageType('RefundRequest', (_message.Message,), dict(
-  DESCRIPTOR = _REFUNDREQUEST,
+RefundTenderRequest = _reflection.GeneratedProtocolMessageType('RefundTenderRequest', (_message.Message,), dict(
+  DESCRIPTOR = _REFUNDTENDERREQUEST,
   __module__ = 'squareup.connect.v3.actions.refund_pb2'
-  # @@protoc_insertion_point(class_scope:squareup.connect.v3.actions.RefundRequest)
+  # @@protoc_insertion_point(class_scope:squareup.connect.v3.actions.RefundTenderRequest)
   ))
-_sym_db.RegisterMessage(RefundRequest)
+_sym_db.RegisterMessage(RefundTenderRequest)
 
-RefundResponse = _reflection.GeneratedProtocolMessageType('RefundResponse', (_message.Message,), dict(
-  DESCRIPTOR = _REFUNDRESPONSE,
+RefundTenderResponse = _reflection.GeneratedProtocolMessageType('RefundTenderResponse', (_message.Message,), dict(
+  DESCRIPTOR = _REFUNDTENDERRESPONSE,
   __module__ = 'squareup.connect.v3.actions.refund_pb2'
-  # @@protoc_insertion_point(class_scope:squareup.connect.v3.actions.RefundResponse)
+  # @@protoc_insertion_point(class_scope:squareup.connect.v3.actions.RefundTenderResponse)
   ))
-_sym_db.RegisterMessage(RefundResponse)
+_sym_db.RegisterMessage(RefundTenderResponse)
 
 
+DESCRIPTOR.has_options = True
+DESCRIPTOR._options = _descriptor._ParseOptions(descriptor_pb2.FileOptions(), _b('\n&com.squareup.protos.connect.v3.actionsP\001'))
 # @@protoc_insertion_point(module_scope)

@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='squareup/connect/v3/resources/customer.proto',
   package='squareup.connect.v3.resources',
   syntax='proto2',
-  serialized_pb=_b('\n,squareup/connect/v3/resources/customer.proto\x12\x1dsquareup.connect.v3.resources\x1a+squareup/connect/v3/resources/address.proto\x1a(squareup/connect/v3/resources/card.proto\"\xcb\x02\n\x08\x43ustomer\x12\n\n\x02id\x18\x01 \x01(\t\x12\x13\n\x0b\x62usiness_id\x18\x02 \x01(\t\x12\x13\n\x0blocation_id\x18\x03 \x01(\t\x12\x12\n\ncreated_at\x18\x04 \x01(\t\x12\x12\n\nupdated_at\x18\x05 \x01(\t\x12\x32\n\x05\x63\x61rds\x18\x06 \x03(\x0b\x32#.squareup.connect.v3.resources.Card\x12\x12\n\ngiven_name\x18\x07 \x01(\t\x12\x13\n\x0b\x66\x61mily_name\x18\x08 \x01(\t\x12\x10\n\x08nickname\x18\t \x01(\t\x12\x15\n\remail_address\x18\n \x01(\t\x12\x37\n\x07\x61\x64\x64ress\x18\x0b \x01(\x0b\x32&.squareup.connect.v3.resources.Address\x12\x14\n\x0cphone_number\x18\x0c \x01(\t\x12\x0c\n\x04memo\x18\r \x01(\t')
+  serialized_pb=_b('\n,squareup/connect/v3/resources/customer.proto\x12\x1dsquareup.connect.v3.resources\x1a+squareup/connect/v3/resources/address.proto\x1a(squareup/connect/v3/resources/card.proto\"\xcb\x02\n\x08\x43ustomer\x12\n\n\x02id\x18\x01 \x01(\t\x12\x13\n\x0b\x62usiness_id\x18\x02 \x01(\t\x12\x13\n\x0blocation_id\x18\x03 \x01(\t\x12\x12\n\ncreated_at\x18\x04 \x01(\t\x12\x12\n\nupdated_at\x18\x05 \x01(\t\x12\x32\n\x05\x63\x61rds\x18\x06 \x03(\x0b\x32#.squareup.connect.v3.resources.Card\x12\x12\n\ngiven_name\x18\x07 \x01(\t\x12\x13\n\x0b\x66\x61mily_name\x18\x08 \x01(\t\x12\x10\n\x08nickname\x18\t \x01(\t\x12\x15\n\remail_address\x18\n \x01(\t\x12\x37\n\x07\x61\x64\x64ress\x18\x0b \x01(\x0b\x32&.squareup.connect.v3.resources.Address\x12\x14\n\x0cphone_number\x18\x0c \x01(\t\x12\x0c\n\x04memo\x18\r \x01(\tB,\n(com.squareup.protos.connect.v3.resourcesP\x01')
   ,
   dependencies=[squareup_dot_connect_dot_v3_dot_resources_dot_address__pb2.DESCRIPTOR,squareup_dot_connect_dot_v3_dot_resources_dot_card__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -155,4 +155,6 @@ Customer = _reflection.GeneratedProtocolMessageType('Customer', (_message.Messag
 _sym_db.RegisterMessage(Customer)
 
 
+DESCRIPTOR.has_options = True
+DESCRIPTOR._options = _descriptor._ParseOptions(descriptor_pb2.FileOptions(), _b('\n(com.squareup.protos.connect.v3.resourcesP\001'))
 # @@protoc_insertion_point(module_scope)

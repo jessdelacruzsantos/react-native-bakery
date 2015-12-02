@@ -3,34 +3,34 @@
 
 require 'protocol_buffers'
 
-begin; require 'squareup/connect/v3/resources/refund.pb'; rescue LoadError; end
 begin; require 'squareup/connect/v3/resources/error.pb'; rescue LoadError; end
 begin; require 'squareup/connect/v3/resources/money.pb'; rescue LoadError; end
+begin; require 'squareup/connect/v3/resources/refund.pb'; rescue LoadError; end
 
 module Squareup
   module Connect
     module V3
       module Actions
         # forward declarations
-        class RefundRequest < ::ProtocolBuffers::Message; end
-        class RefundResponse < ::ProtocolBuffers::Message; end
+        class RefundTenderRequest < ::ProtocolBuffers::Message; end
+        class RefundTenderResponse < ::ProtocolBuffers::Message; end
 
-        class RefundRequest < ::ProtocolBuffers::Message
-          set_fully_qualified_name "squareup.connect.v3.actions.RefundRequest"
+        class RefundTenderRequest < ::ProtocolBuffers::Message
+          set_fully_qualified_name "squareup.connect.v3.actions.RefundTenderRequest"
 
           required :string, :location_id, 1
           required :string, :idempotency_key, 2
           required :string, :source_transaction_id, 3
-          required ::Squareup::Connect::V3::Resources::Refund::Type, :type, 4
+          required :string, :source_tender_id, 4
           required :string, :reason, 5
-          optional ::Squareup::Connect::V3::Resources::Money, :amount_money, 6
+          required ::Squareup::Connect::V3::Resources::Money, :amount_money, 6
         end
 
-        class RefundResponse < ::ProtocolBuffers::Message
-          set_fully_qualified_name "squareup.connect.v3.actions.RefundResponse"
+        class RefundTenderResponse < ::ProtocolBuffers::Message
+          set_fully_qualified_name "squareup.connect.v3.actions.RefundTenderResponse"
 
           repeated ::Squareup::Connect::V3::Resources::Error, :errors, 1
-          optional ::Squareup::Connect::V3::Resources::Refund, :refund, 2
+          optional ::Squareup::Connect::V3::Resources::TenderRefund, :refund, 2
         end
 
       end

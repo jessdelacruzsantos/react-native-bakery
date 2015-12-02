@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='squareup/connect/v3/actions/card_nonce.proto',
   package='squareup.connect.v3.actions',
   syntax='proto2',
-  serialized_pb=_b('\n,squareup/connect/v3/actions/card_nonce.proto\x12\x1bsquareup.connect.v3.actions\x1a(squareup/connect/v3/resources/card.proto\x1a)squareup/connect/v3/resources/error.proto\"|\n\x16\x43reateCardNonceRequest\x12\x11\n\tclient_id\x18\x01 \x02(\t\x12\x13\n\x0b\x62usiness_id\x18\x02 \x01(\t\x12:\n\tcard_data\x18\x03 \x02(\x0b\x32\'.squareup.connect.v3.resources.CardData\"\x96\x01\n\x17\x43reateCardNonceResponse\x12\x34\n\x06\x65rrors\x18\x01 \x03(\x0b\x32$.squareup.connect.v3.resources.Error\x12\x12\n\ncard_nonce\x18\x02 \x01(\t\x12\x31\n\x04\x63\x61rd\x18\x03 \x01(\x0b\x32#.squareup.connect.v3.resources.Card')
+  serialized_pb=_b('\n,squareup/connect/v3/actions/card_nonce.proto\x12\x1bsquareup.connect.v3.actions\x1a(squareup/connect/v3/resources/card.proto\x1a)squareup/connect/v3/resources/error.proto\"|\n\x16\x43reateCardNonceRequest\x12\x11\n\tclient_id\x18\x01 \x02(\t\x12\x13\n\x0b\x62usiness_id\x18\x02 \x01(\t\x12:\n\tcard_data\x18\x03 \x02(\x0b\x32\'.squareup.connect.v3.resources.CardData\"\x96\x01\n\x17\x43reateCardNonceResponse\x12\x34\n\x06\x65rrors\x18\x01 \x03(\x0b\x32$.squareup.connect.v3.resources.Error\x12\x12\n\ncard_nonce\x18\x02 \x01(\t\x12\x31\n\x04\x63\x61rd\x18\x03 \x01(\x0b\x32#.squareup.connect.v3.resources.CardB*\n&com.squareup.protos.connect.v3.actionsP\x01')
   ,
   dependencies=[squareup_dot_connect_dot_v3_dot_resources_dot_card__pb2.DESCRIPTOR,squareup_dot_connect_dot_v3_dot_resources_dot_error__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -139,4 +139,6 @@ CreateCardNonceResponse = _reflection.GeneratedProtocolMessageType('CreateCardNo
 _sym_db.RegisterMessage(CreateCardNonceResponse)
 
 
+DESCRIPTOR.has_options = True
+DESCRIPTOR._options = _descriptor._ParseOptions(descriptor_pb2.FileOptions(), _b('\n&com.squareup.protos.connect.v3.actionsP\001'))
 # @@protoc_insertion_point(module_scope)

@@ -17,7 +17,7 @@ module Squareup
         set_fully_qualified_name "squareup.connect.v3.SquareConnectV3"
 
         rpc :charge, "Charge", ::Squareup::Connect::V3::Actions::ChargeRequest, ::Squareup::Connect::V3::Actions::ChargeResponse
-        rpc :refund, "Refund", ::Squareup::Connect::V3::Actions::RefundRequest, ::Squareup::Connect::V3::Actions::RefundResponse
+        rpc :refund_tender, "RefundTender", ::Squareup::Connect::V3::Actions::RefundTenderRequest, ::Squareup::Connect::V3::Actions::RefundTenderResponse
         rpc :list_locations, "ListLocations", ::Squareup::Connect::V3::Actions::ListLocationsRequest, ::Squareup::Connect::V3::Actions::ListLocationsResponse
         rpc :create_card_nonce, "CreateCardNonce", ::Squareup::Connect::V3::Actions::CreateCardNonceRequest, ::Squareup::Connect::V3::Actions::CreateCardNonceResponse
         rpc :upsert_customer, "UpsertCustomer", ::Squareup::Connect::V3::Actions::UpsertCustomerRequest, ::Squareup::Connect::V3::Actions::UpsertCustomerResponse
