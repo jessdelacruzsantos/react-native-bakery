@@ -19,7 +19,7 @@ public class ConnectEnum {
     this.values = new ArrayList<ConnectField>();
     this.id = id;
     for (EnumConstantElement field : enumm.constants()) {
-      values.add(new ConnectField(field.name(), "", field.documentation()));
+      values.add(new ConnectField(field.name(), "", field.tag(), field.documentation()));
     }
     this.parseDocumentationString(enumm.documentation());
   }

@@ -145,7 +145,7 @@ public class ConnectEndpoint {
         this.params.add(new ConnectField(fe));
       }
       for (OneOfElement ooe : ((MessageElement)requestType).oneOfs()) {
-        for (FieldElement fe : ((MessageElement)requestType).fields()) {
+        for (FieldElement fe : ooe.fields()) {
           this.params.add(new ConnectField(fe));
         }
       }

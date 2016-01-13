@@ -8,6 +8,7 @@ import org.json.JSONObject;
 public class ConnectField {
   private String name = "";
   private String type = "";
+  private int value = 0;
   private String description = "";
   private Boolean required = false;
   private Boolean isArray = false;
@@ -54,9 +55,10 @@ public class ConnectField {
     this.typeId = typeId;
   }
 
-  public ConnectField(String name, String type, String documentation) {
+  public ConnectField(String name, String type, int value, String documentation) {
     this.name = name;
     this.type = type;
+    this.value = value;
     this.parseDocumentationString(documentation);
   }
 
@@ -92,6 +94,7 @@ public class ConnectField {
     fieldJson.put("description", this.description);
     fieldJson.put("required", this.required);
     fieldJson.put("isarray", this.isArray);
+    fieldJson.put("value", this.value);
     return fieldJson;
   }
 }
