@@ -12,6 +12,8 @@ public class ConnectField {
   private String description = "";
   private Boolean required = false;
   private Boolean isArray = false;
+  private Boolean isPathParam = false;
+
 
   private String typeId = "";
 
@@ -55,6 +57,14 @@ public class ConnectField {
     this.typeId = typeId;
   }
 
+  public Boolean getIsPathParam() {
+    return isPathParam;
+  }
+
+  public void setIsPathParam(Boolean isPathParam) {
+    this.isPathParam = isPathParam;
+  }
+
   public ConnectField(String name, String type, int value, String documentation) {
     this.name = name;
     this.type = type;
@@ -81,6 +91,8 @@ public class ConnectField {
         case "desc":
           this.setDescription(entry.replaceFirst("desc", "").trim());
           break;
+        case "pathparam":
+          this.setIsPathParam(true);
         default:
           break;
       }
@@ -95,6 +107,7 @@ public class ConnectField {
     fieldJson.put("required", this.required);
     fieldJson.put("isarray", this.isArray);
     fieldJson.put("value", this.value);
+    fieldJson.put("ispathparam", this.isPathParam);
     return fieldJson;
   }
 }

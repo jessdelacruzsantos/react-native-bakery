@@ -42,12 +42,23 @@ public class ConnectDatatype {
     }
   }
 
+  // Converts the Datatype to a format that conforms to the Swagger 2.0 specification
   public JSONObject toJson() {
+
     JSONObject root = new JSONObject();
-    root.put("name", this.name);
-    root.put("description", this.description);
-    root.put("id", this.id);
-    root.put("fields", this.arrayifyFields(this.fields));
+    JSONObject datatypeName = new JSONObject();
+    datatypeName.put("type", "object");
+    JSONObject datatypeProperties = new JSONObject();
+
+    for (ConnectField property : this.fields) {
+      JSONObject datatypeProperty = new JSONObject();
+      datatypeProperty.put("type", property.getType());
+      datatypeProperties.put(property.getName(), datatypeProperty);
+    }
+
+    datatypeName.put("properties", datatypeProperties);
+    datatypeName.put("description", this.description);
+    root.put(this.name, datatypeName);
     return root;
   }
 

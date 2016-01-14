@@ -164,23 +164,73 @@ public class ConnectEndpoint {
     }
   }
 
+
+  // Builds out endpoint JSON in the format expected by the Swagger 2.0 specification.
   public JSONObject toJson() {
     JSONObject root = new JSONObject();
-    root.put("id", this.id);
-    root.put("entity", this.entity);
-    root.put("action", this.action);
-    root.put("httpmethod", this.httpmethod);
-    root.put("path", this.path);
-    root.put("description", this.description);
-    root.put("oauthpermissions", this.oauthpermissions.toArray(new String[this.oauthpermissions.size()]));
-    root.put("inputtype", this.inputType);
-    root.put("outputtype", this.outputType);
+    JSONObject swaggerPath = new JSONObject();
+    JSONObject swaggerHTTPMethod = new JSONObject();
 
-    if (!this.params.isEmpty()) {
-      root.put("params", this.arrayifyFields(this.params));
+    JSONArray swaggerTags = new JSONArray();
+    swaggerTags.put(this.entity);
+
+    swaggerHTTPMethod.put("tags", swaggerTags);
+    swaggerHTTPMethod.put("summary", this.id);
+    swaggerHTTPMethod.put("description", this.description);
+
+    JSONArray swaggerParameters = new JSONArray();
+
+
+    // POST and PUT requests list a single "body" parameter in Swagger, regardless
+    // of how many fields that body parameter includes.
+    if (this.httpmethod.equals("POST") || this.httpmethod.equals("PUT")) {
+      JSONObject swaggerBodyParameter = new JSONObject();
+      swaggerBodyParameter.put("name", "body");
+      swaggerBodyParameter.put("in", "body");
+
+      JSONObject swaggerBodyParameterSchema = new JSONObject();
+      swaggerBodyParameterSchema.put("$ref", "#/definitions/" + this.inputType);
+
+      swaggerBodyParameter.put("schema", swaggerBodyParameterSchema);
+      swaggerParameters.put(swaggerBodyParameter);
     }
 
-    root.put("responsefields", this.arrayifyFields(this.responsefields));
+    for (ConnectField param : this.params) {
+      if (param.getIsPathParam()) {
+        JSONObject swaggerPathParameter = new JSONObject();
+        swaggerPathParameter.put("name", param.getName());
+        swaggerPathParameter.put("in", "path");
+        swaggerPathParameter.put("type", "string");
+        swaggerPathParameter.put("required", true);
+        swaggerParameters.put(swaggerPathParameter);
+      } else if (this.httpmethod.equals("GET") || this.httpmethod.equals("DELETE")) {
+        JSONObject swaggerQueryParameter = new JSONObject();
+        swaggerQueryParameter.put("name", param.getName());
+        swaggerQueryParameter.put("in", "query");
+        swaggerQueryParameter.put("type", param.getType());
+        swaggerQueryParameter.put("required", param.getRequired());
+        swaggerParameters.put(swaggerQueryParameter);
+      }
+    }
+
+    swaggerHTTPMethod.put("parameters", swaggerParameters);
+
+    JSONObject swaggerResponses = new JSONObject();
+    JSONObject swaggerSuccessResponse = new JSONObject();
+
+    swaggerSuccessResponse.put("description", "Success");
+
+    JSONObject swaggerSuccessResponseSchema = new JSONObject();
+    swaggerSuccessResponseSchema.put("$ref", "#/definitions/" + this.outputType);
+
+    swaggerSuccessResponse.put("schema", swaggerSuccessResponseSchema);
+    swaggerResponses.put("200", swaggerSuccessResponse);
+
+    swaggerHTTPMethod.put("responses", swaggerResponses);
+
+    swaggerPath.put(this.httpmethod.toLowerCase(), swaggerHTTPMethod);
+    root.put(this.path, swaggerPath);
+
     return root;
   }
 
