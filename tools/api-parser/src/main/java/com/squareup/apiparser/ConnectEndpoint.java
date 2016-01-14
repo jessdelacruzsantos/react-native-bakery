@@ -188,8 +188,15 @@ public class ConnectEndpoint {
       swaggerBodyParameter.put("name", "body");
       swaggerBodyParameter.put("in", "body");
 
+
+      String typeName = this.inputType;
+
+      // When specifying the name of the resource, get rid of pointless proto prefixes
+      typeName = typeName.replaceFirst("resources.", "");
+      typeName = typeName.replaceFirst("actions.", "");
+
       JSONObject swaggerBodyParameterSchema = new JSONObject();
-      swaggerBodyParameterSchema.put("$ref", "#/definitions/" + this.inputType);
+      swaggerBodyParameterSchema.put("$ref", "#/definitions/" + typeName);
 
       swaggerBodyParameter.put("schema", swaggerBodyParameterSchema);
       swaggerParameters.put(swaggerBodyParameter);
@@ -220,8 +227,15 @@ public class ConnectEndpoint {
 
     swaggerSuccessResponse.put("description", "Success");
 
+
+    String typeName = this.outputType;
+
+    // When specifying the name of the resource, get rid of pointless proto prefixes
+    typeName = typeName.replaceFirst("resources.", "");
+    typeName = typeName.replaceFirst("actions.", "");
+
     JSONObject swaggerSuccessResponseSchema = new JSONObject();
-    swaggerSuccessResponseSchema.put("$ref", "#/definitions/" + this.outputType);
+    swaggerSuccessResponseSchema.put("$ref", "#/definitions/" + typeName);
 
     swaggerSuccessResponse.put("schema", swaggerSuccessResponseSchema);
     swaggerResponses.put("200", swaggerSuccessResponse);
