@@ -65,6 +65,14 @@ public class ConnectField {
     this.isPathParam = isPathParam;
   }
 
+  public int getValue() {
+    return value;
+  }
+
+  public void setValue(int value) {
+    this.value = value;
+  }
+
   public ConnectField(String name, String type, int value, String documentation) {
     this.name = name;
     this.type = type;

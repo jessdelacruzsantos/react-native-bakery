@@ -4,7 +4,9 @@ import com.squareup.wire.schema.internal.parser.FieldElement;
 import com.squareup.wire.schema.internal.parser.MessageElement;
 import com.squareup.wire.schema.internal.parser.OneOfElement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -13,6 +15,15 @@ public class ConnectDatatype {
   private String name = "";
   private String description = "";
   private List<ConnectField> fields;
+  private static final Map<String, String> typeMap;
+  static {
+    Map<String, String> aMap = new HashMap<String, String>();
+    aMap.put("int32", "integer");
+    aMap.put("int64", "integer");
+    aMap.put("bool", "boolean");
+    aMap.put("string", "string");
+    typeMap = aMap;
+  }
 
   public ConnectDatatype(MessageElement message, String id) {
     this.name = message.name();
@@ -52,7 +63,21 @@ public class ConnectDatatype {
 
     for (ConnectField property : this.fields) {
       JSONObject datatypeProperty = new JSONObject();
-      datatypeProperty.put("type", property.getType());
+
+      // If the field has a proto base type, assign it the corresponding swagger base type
+      if (typeMap.containsKey(property.getType())) {
+        datatypeProperty.put("type", typeMap.get(property.getType()));
+
+        // Otherwise, assign it the appropriate custom swagger resource
+      } else {
+        String typeName = property.getType();
+
+        // When specifying the name of the resource, get rid of pointless proto prefixes
+        typeName = typeName.replaceFirst("resources.", "");
+        typeName = typeName.replaceFirst("actions.", "");
+
+        datatypeProperty.put("$ref", "#/definitions/" + typeName);
+      }
       datatypeProperties.put(property.getName(), datatypeProperty);
     }
 

@@ -26,11 +26,25 @@ public class ConnectEnum {
 
   public JSONObject toJson() {
     JSONObject root = new JSONObject();
+    JSONObject enumName = new JSONObject();
+    enumName.put("type", "integer");
+
+    JSONArray enumValues = new JSONArray();
+    for (ConnectField value : values) {
+      enumValues.put(value.getValue());
+    }
+
+    enumName.put("enum", enumValues);
+    enumName.put("description", this.description);
+    root.put(this.name, enumName);
+    return root;
+
+    /*JSONObject root = new JSONObject();
     root.put("name", this.name);
     root.put("description", this.description);
     root.put("id", this.id);
     root.put("values", this.arrayifyFields(this.values));
-    return root;
+    return root;   */
   }
 
   private JSONArray arrayifyFields(List<ConnectField> fields) {
