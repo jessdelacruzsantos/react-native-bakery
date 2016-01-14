@@ -1,9 +1,9 @@
 {
   "endpoints": [
-    {"/v2/{location_id}/charge": {"post": {
+    {"/v2/locations/{location_id}/transactions": {"post": {
       "summary": "Charge",
-      "tags": ["Payment"],
-      "description": "Charges a card.\n\nNeat, huh?",
+      "tags": ["Transaction"],
+      "description": "Charges a card represented by a token.",
       "parameters": [
         {
           "schema": {"$ref": "#/definitions/ChargeRequest"},
@@ -142,21 +142,47 @@
         "description": "Success"
       }}
     }}},
-    {"": {"": {
+    {"/v2/locations/{location_id}/transactions": {"get": {
       "summary": "ListTransactions",
       "tags": ["Transaction"],
-      "description": "Provides summary information for all transactions taken at a particular location\nduring a date range.",
-      "parameters": [],
+      "description": "Lists transactions for a particular location.",
+      "parameters": [
+        {
+          "name": "params",
+          "required": false,
+          "type": "ListTransactionsRequest.Params",
+          "in": "query"
+        },
+        {
+          "name": "cursor",
+          "required": false,
+          "type": "string",
+          "in": "query"
+        }
+      ],
       "responses": {"200": {
         "schema": {"$ref": "#/definitions/ListTransactionsResponse"},
         "description": "Success"
       }}
     }}},
-    {"": {"": {
+    {"/v2/locations/{location_id}/transactions/{transaction_id}": {"get": {
       "summary": "RetrieveTransaction",
       "tags": ["Transaction"],
-      "description": "Provides comprehensive information for a single transaction.",
-      "parameters": [],
+      "description": "Retrieves details for a single transaction.",
+      "parameters": [
+        {
+          "name": "location_id",
+          "required": true,
+          "type": "string",
+          "in": "path"
+        },
+        {
+          "name": "transaction_id",
+          "required": true,
+          "type": "string",
+          "in": "path"
+        }
+      ],
       "responses": {"200": {
         "schema": {"$ref": "#/definitions/RetrieveTransactionResponse"},
         "description": "Success"
