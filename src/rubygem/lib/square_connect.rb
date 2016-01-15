@@ -34,31 +34,47 @@ end
 request.delay_capture = self.checkValue('delay_capture', requestHash['delay_capture'], false)
 request.reference_id = self.checkValue('reference_id', requestHash['reference_id'], false)
 request.note = self.checkValue('note', requestHash['note'], false)
+request.customer_id = self.checkValue('customer_id', requestHash['customer_id'], false)
+if !requestHash['billing_address'].nil?
+  request.billing_address = Squareup::Connect::V3::Resources::Address.new();
+  request.billing_address.line_1 = self.checkValue('line_1', requestHash['billing_address']['line_1'], false)
+  request.billing_address.line_2 = self.checkValue('line_2', requestHash['billing_address']['line_2'], false)
+  request.billing_address.line_3 = self.checkValue('line_3', requestHash['billing_address']['line_3'], false)
+  request.billing_address.locality = self.checkValue('locality', requestHash['billing_address']['locality'], false)
+  request.billing_address.sublocality = self.checkValue('sublocality', requestHash['billing_address']['sublocality'], false)
+  request.billing_address.sublocality_2 = self.checkValue('sublocality_2', requestHash['billing_address']['sublocality_2'], false)
+  request.billing_address.sublocality_3 = self.checkValue('sublocality_3', requestHash['billing_address']['sublocality_3'], false)
+  request.billing_address.region = self.checkValue('region', requestHash['billing_address']['region'], false)
+  request.billing_address.region_2 = self.checkValue('region_2', requestHash['billing_address']['region_2'], false)
+  request.billing_address.region_3 = self.checkValue('region_3', requestHash['billing_address']['region_3'], false)
+  request.billing_address.postal_code = self.checkValue('postal_code', requestHash['billing_address']['postal_code'], false)
+  request.billing_address.country = self.checkValue('country', requestHash['billing_address']['country'], false)
+end
+
+if !requestHash['shipping_address'].nil?
+  request.shipping_address = Squareup::Connect::V3::Resources::Address.new();
+  request.shipping_address.line_1 = self.checkValue('line_1', requestHash['shipping_address']['line_1'], false)
+  request.shipping_address.line_2 = self.checkValue('line_2', requestHash['shipping_address']['line_2'], false)
+  request.shipping_address.line_3 = self.checkValue('line_3', requestHash['shipping_address']['line_3'], false)
+  request.shipping_address.locality = self.checkValue('locality', requestHash['shipping_address']['locality'], false)
+  request.shipping_address.sublocality = self.checkValue('sublocality', requestHash['shipping_address']['sublocality'], false)
+  request.shipping_address.sublocality_2 = self.checkValue('sublocality_2', requestHash['shipping_address']['sublocality_2'], false)
+  request.shipping_address.sublocality_3 = self.checkValue('sublocality_3', requestHash['shipping_address']['sublocality_3'], false)
+  request.shipping_address.region = self.checkValue('region', requestHash['shipping_address']['region'], false)
+  request.shipping_address.region_2 = self.checkValue('region_2', requestHash['shipping_address']['region_2'], false)
+  request.shipping_address.region_3 = self.checkValue('region_3', requestHash['shipping_address']['region_3'], false)
+  request.shipping_address.postal_code = self.checkValue('postal_code', requestHash['shipping_address']['postal_code'], false)
+  request.shipping_address.country = self.checkValue('country', requestHash['shipping_address']['country'], false)
+end
+
+request.customer_browser_ip_address = self.checkValue('customer_browser_ip_address', requestHash['customer_browser_ip_address'], false)
 if !requestHash['card_nonce'].nil?
   request.card_nonce = Squareup::Connect::V3::Actions::ChargeRequest::CardNonceInstrument.new();
   request.card_nonce.card_nonce = self.checkValue('card_nonce', requestHash['card_nonce']['card_nonce'], true)
-  if !requestHash['card_nonce']['billing_address'].nil?
-  request.card_nonce.billing_address = Squareup::Connect::V3::Resources::Address.new();
-  request.card_nonce.billing_address.line_1 = self.checkValue('line_1', requestHash['card_nonce']['billing_address']['line_1'], false)
-  request.card_nonce.billing_address.line_2 = self.checkValue('line_2', requestHash['card_nonce']['billing_address']['line_2'], false)
-  request.card_nonce.billing_address.line_3 = self.checkValue('line_3', requestHash['card_nonce']['billing_address']['line_3'], false)
-  request.card_nonce.billing_address.locality = self.checkValue('locality', requestHash['card_nonce']['billing_address']['locality'], false)
-  request.card_nonce.billing_address.sublocality = self.checkValue('sublocality', requestHash['card_nonce']['billing_address']['sublocality'], false)
-  request.card_nonce.billing_address.sublocality_2 = self.checkValue('sublocality_2', requestHash['card_nonce']['billing_address']['sublocality_2'], false)
-  request.card_nonce.billing_address.sublocality_3 = self.checkValue('sublocality_3', requestHash['card_nonce']['billing_address']['sublocality_3'], false)
-  request.card_nonce.billing_address.region = self.checkValue('region', requestHash['card_nonce']['billing_address']['region'], false)
-  request.card_nonce.billing_address.region_2 = self.checkValue('region_2', requestHash['card_nonce']['billing_address']['region_2'], false)
-  request.card_nonce.billing_address.region_3 = self.checkValue('region_3', requestHash['card_nonce']['billing_address']['region_3'], false)
-  request.card_nonce.billing_address.postal_code = self.checkValue('postal_code', requestHash['card_nonce']['billing_address']['postal_code'], false)
-  request.card_nonce.billing_address.country = self.checkValue('country', requestHash['card_nonce']['billing_address']['country'], false)
-end
-
-  request.card_nonce.customer_id = self.checkValue('customer_id', requestHash['card_nonce']['customer_id'], false)
 end
 
 if !requestHash['customer_card'].nil?
   request.customer_card = Squareup::Connect::V3::Actions::ChargeRequest::CustomerCardInstrument.new();
-  request.customer_card.customer_id = self.checkValue('customer_id', requestHash['customer_card']['customer_id'], true)
   request.customer_card.customer_card_id = self.checkValue('customer_card_id', requestHash['customer_card']['customer_card_id'], false)
 end
 
@@ -86,6 +102,28 @@ end
     return ::ProtocolBuffers::Message.to_hash(self.sendRequest(requestPath, context, request.serialize_to_string(), Squareup::Connect::V3::Actions::RefundTenderResponse))
   end
 
+  def self.ListTenderRefunds(context, requestHash)
+    requestPath = '/services/squareup.connect.v3.SquareConnectV3/ListTenderRefunds'
+    request = Squareup::Connect::V3::Actions::ListTenderRefundsRequest.new()
+if !requestHash['params'].nil?
+  request.params = Squareup::Connect::V3::Actions::ListTenderRefundsRequest::Params.new();
+  request.params.location_id = self.checkValue('location_id', requestHash['params']['location_id'], true)
+  if !requestHash['params']['ordered_time_range'].nil?
+  request.params.ordered_time_range = Squareup::Connect::V3::Actions::OrderedTimeRange.new();
+  request.params.ordered_time_range.begin_time = self.checkValue('begin_time', requestHash['params']['ordered_time_range']['begin_time'], true)
+  request.params.ordered_time_range.end_time = self.checkValue('end_time', requestHash['params']['ordered_time_range']['end_time'], true)
+  request.params.ordered_time_range.sort = self.checkValue('sort', requestHash['params']['ordered_time_range']['sort'], true)
+else
+  raise "Missing required field " + field.name
+end
+
+end
+
+request.cursor = self.checkValue('cursor', requestHash['cursor'], false)
+
+    return ::ProtocolBuffers::Message.to_hash(self.sendRequest(requestPath, context, request.serialize_to_string(), Squareup::Connect::V3::Actions::ListTenderRefundsResponse))
+  end
+
   def self.ListLocations(context, requestHash)
     requestPath = '/services/squareup.connect.v3.SquareConnectV3/ListLocations'
     request = Squareup::Connect::V3::Actions::ListLocationsRequest.new()
@@ -104,27 +142,12 @@ if !requestHash['card_data'].nil?
   request.card_data.exp_month = self.checkValue('exp_month', requestHash['card_data']['exp_month'], false)
   request.card_data.exp_year = self.checkValue('exp_year', requestHash['card_data']['exp_year'], false)
   request.card_data.cvv = self.checkValue('cvv', requestHash['card_data']['cvv'], false)
-  request.card_data.name = self.checkValue('name', requestHash['card_data']['name'], false)
-  if !requestHash['card_data']['billing_address'].nil?
-  request.card_data.billing_address = Squareup::Connect::V3::Resources::Address.new();
-  request.card_data.billing_address.line_1 = self.checkValue('line_1', requestHash['card_data']['billing_address']['line_1'], false)
-  request.card_data.billing_address.line_2 = self.checkValue('line_2', requestHash['card_data']['billing_address']['line_2'], false)
-  request.card_data.billing_address.line_3 = self.checkValue('line_3', requestHash['card_data']['billing_address']['line_3'], false)
-  request.card_data.billing_address.locality = self.checkValue('locality', requestHash['card_data']['billing_address']['locality'], false)
-  request.card_data.billing_address.sublocality = self.checkValue('sublocality', requestHash['card_data']['billing_address']['sublocality'], false)
-  request.card_data.billing_address.sublocality_2 = self.checkValue('sublocality_2', requestHash['card_data']['billing_address']['sublocality_2'], false)
-  request.card_data.billing_address.sublocality_3 = self.checkValue('sublocality_3', requestHash['card_data']['billing_address']['sublocality_3'], false)
-  request.card_data.billing_address.region = self.checkValue('region', requestHash['card_data']['billing_address']['region'], false)
-  request.card_data.billing_address.region_2 = self.checkValue('region_2', requestHash['card_data']['billing_address']['region_2'], false)
-  request.card_data.billing_address.region_3 = self.checkValue('region_3', requestHash['card_data']['billing_address']['region_3'], false)
-  request.card_data.billing_address.postal_code = self.checkValue('postal_code', requestHash['card_data']['billing_address']['postal_code'], false)
-  request.card_data.billing_address.country = self.checkValue('country', requestHash['card_data']['billing_address']['country'], false)
-end
-
 else
   raise "Missing required field " + field.name
 end
 
+request.fingerprint = self.checkValue('fingerprint', requestHash['fingerprint'], false)
+request.fingerprint_components_json = self.checkValue('fingerprint_components_json', requestHash['fingerprint_components_json'], false)
 
     return ::ProtocolBuffers::Message.to_hash(self.sendRequest(requestPath, context, request.serialize_to_string(), Squareup::Connect::V3::Actions::CreateCardNonceResponse))
   end
@@ -136,7 +159,6 @@ if !requestHash['customer'].nil?
   request.customer = Squareup::Connect::V3::Resources::Customer.new();
   request.customer.id = self.checkValue('id', requestHash['customer']['id'], false)
   request.customer.business_id = self.checkValue('business_id', requestHash['customer']['business_id'], false)
-  request.customer.location_id = self.checkValue('location_id', requestHash['customer']['location_id'], false)
   request.customer.created_at = self.checkValue('created_at', requestHash['customer']['created_at'], false)
   request.customer.updated_at = self.checkValue('updated_at', requestHash['customer']['updated_at'], false)
   if !requestHash['customer']['cards'].nil?
@@ -146,6 +168,23 @@ if !requestHash['customer'].nil?
   request.customer.cards.last_4 = self.checkValue('last_4', requestHash['customer']['cards']['last_4'], false)
   request.customer.cards.exp_month = self.checkValue('exp_month', requestHash['customer']['cards']['exp_month'], false)
   request.customer.cards.exp_year = self.checkValue('exp_year', requestHash['customer']['cards']['exp_year'], false)
+  request.customer.cards.cardholder_name = self.checkValue('cardholder_name', requestHash['customer']['cards']['cardholder_name'], false)
+  if !requestHash['customer']['cards']['billing_address'].nil?
+  request.customer.cards.billing_address = Squareup::Connect::V3::Resources::Address.new();
+  request.customer.cards.billing_address.line_1 = self.checkValue('line_1', requestHash['customer']['cards']['billing_address']['line_1'], false)
+  request.customer.cards.billing_address.line_2 = self.checkValue('line_2', requestHash['customer']['cards']['billing_address']['line_2'], false)
+  request.customer.cards.billing_address.line_3 = self.checkValue('line_3', requestHash['customer']['cards']['billing_address']['line_3'], false)
+  request.customer.cards.billing_address.locality = self.checkValue('locality', requestHash['customer']['cards']['billing_address']['locality'], false)
+  request.customer.cards.billing_address.sublocality = self.checkValue('sublocality', requestHash['customer']['cards']['billing_address']['sublocality'], false)
+  request.customer.cards.billing_address.sublocality_2 = self.checkValue('sublocality_2', requestHash['customer']['cards']['billing_address']['sublocality_2'], false)
+  request.customer.cards.billing_address.sublocality_3 = self.checkValue('sublocality_3', requestHash['customer']['cards']['billing_address']['sublocality_3'], false)
+  request.customer.cards.billing_address.region = self.checkValue('region', requestHash['customer']['cards']['billing_address']['region'], false)
+  request.customer.cards.billing_address.region_2 = self.checkValue('region_2', requestHash['customer']['cards']['billing_address']['region_2'], false)
+  request.customer.cards.billing_address.region_3 = self.checkValue('region_3', requestHash['customer']['cards']['billing_address']['region_3'], false)
+  request.customer.cards.billing_address.postal_code = self.checkValue('postal_code', requestHash['customer']['cards']['billing_address']['postal_code'], false)
+  request.customer.cards.billing_address.country = self.checkValue('country', requestHash['customer']['cards']['billing_address']['country'], false)
+end
+
 end
 
   request.customer.given_name = self.checkValue('given_name', requestHash['customer']['given_name'], false)
@@ -183,7 +222,6 @@ end
     request = Squareup::Connect::V3::Actions::ListCustomersRequest.new()
 if !requestHash['params'].nil?
   request.params = Squareup::Connect::V3::Actions::ListCustomersRequest::Params.new();
-  request.params.location_id = self.checkValue('location_id', requestHash['params']['location_id'], false)
 end
 
 request.cursor = self.checkValue('cursor', requestHash['cursor'], false)
@@ -194,43 +232,41 @@ request.cursor = self.checkValue('cursor', requestHash['cursor'], false)
   def self.RetrieveCustomer(context, requestHash)
     requestPath = '/services/squareup.connect.v3.SquareConnectV3/RetrieveCustomer'
     request = Squareup::Connect::V3::Actions::RetrieveCustomerRequest.new()
-request.location_id = self.checkValue('location_id', requestHash['location_id'], false)
 request.customer_id = self.checkValue('customer_id', requestHash['customer_id'], true)
 
     return ::ProtocolBuffers::Message.to_hash(self.sendRequest(requestPath, context, request.serialize_to_string(), Squareup::Connect::V3::Actions::RetrieveCustomerResponse))
   end
 
+  def self.DeleteCustomer(context, requestHash)
+    requestPath = '/services/squareup.connect.v3.SquareConnectV3/DeleteCustomer'
+    request = Squareup::Connect::V3::Actions::DeleteCustomerRequest.new()
+request.customer_id = self.checkValue('customer_id', requestHash['customer_id'], true)
+
+    return ::ProtocolBuffers::Message.to_hash(self.sendRequest(requestPath, context, request.serialize_to_string(), Squareup::Connect::V3::Actions::DeleteCustomerResponse))
+  end
+
   def self.CreateCustomerCard(context, requestHash)
     requestPath = '/services/squareup.connect.v3.SquareConnectV3/CreateCustomerCard'
     request = Squareup::Connect::V3::Actions::CreateCustomerCardRequest.new()
-request.location_id = self.checkValue('location_id', requestHash['location_id'], true)
 request.customer_id = self.checkValue('customer_id', requestHash['customer_id'], true)
-request.card_nonce = self.checkValue('card_nonce', requestHash['card_nonce'], false)
-if !requestHash['card_data'].nil?
-  request.card_data = Squareup::Connect::V3::Resources::CardData.new();
-  request.card_data.number = self.checkValue('number', requestHash['card_data']['number'], false)
-  request.card_data.exp_month = self.checkValue('exp_month', requestHash['card_data']['exp_month'], false)
-  request.card_data.exp_year = self.checkValue('exp_year', requestHash['card_data']['exp_year'], false)
-  request.card_data.cvv = self.checkValue('cvv', requestHash['card_data']['cvv'], false)
-  request.card_data.name = self.checkValue('name', requestHash['card_data']['name'], false)
-  if !requestHash['card_data']['billing_address'].nil?
-  request.card_data.billing_address = Squareup::Connect::V3::Resources::Address.new();
-  request.card_data.billing_address.line_1 = self.checkValue('line_1', requestHash['card_data']['billing_address']['line_1'], false)
-  request.card_data.billing_address.line_2 = self.checkValue('line_2', requestHash['card_data']['billing_address']['line_2'], false)
-  request.card_data.billing_address.line_3 = self.checkValue('line_3', requestHash['card_data']['billing_address']['line_3'], false)
-  request.card_data.billing_address.locality = self.checkValue('locality', requestHash['card_data']['billing_address']['locality'], false)
-  request.card_data.billing_address.sublocality = self.checkValue('sublocality', requestHash['card_data']['billing_address']['sublocality'], false)
-  request.card_data.billing_address.sublocality_2 = self.checkValue('sublocality_2', requestHash['card_data']['billing_address']['sublocality_2'], false)
-  request.card_data.billing_address.sublocality_3 = self.checkValue('sublocality_3', requestHash['card_data']['billing_address']['sublocality_3'], false)
-  request.card_data.billing_address.region = self.checkValue('region', requestHash['card_data']['billing_address']['region'], false)
-  request.card_data.billing_address.region_2 = self.checkValue('region_2', requestHash['card_data']['billing_address']['region_2'], false)
-  request.card_data.billing_address.region_3 = self.checkValue('region_3', requestHash['card_data']['billing_address']['region_3'], false)
-  request.card_data.billing_address.postal_code = self.checkValue('postal_code', requestHash['card_data']['billing_address']['postal_code'], false)
-  request.card_data.billing_address.country = self.checkValue('country', requestHash['card_data']['billing_address']['country'], false)
+request.card_nonce = self.checkValue('card_nonce', requestHash['card_nonce'], true)
+if !requestHash['billing_address'].nil?
+  request.billing_address = Squareup::Connect::V3::Resources::Address.new();
+  request.billing_address.line_1 = self.checkValue('line_1', requestHash['billing_address']['line_1'], false)
+  request.billing_address.line_2 = self.checkValue('line_2', requestHash['billing_address']['line_2'], false)
+  request.billing_address.line_3 = self.checkValue('line_3', requestHash['billing_address']['line_3'], false)
+  request.billing_address.locality = self.checkValue('locality', requestHash['billing_address']['locality'], false)
+  request.billing_address.sublocality = self.checkValue('sublocality', requestHash['billing_address']['sublocality'], false)
+  request.billing_address.sublocality_2 = self.checkValue('sublocality_2', requestHash['billing_address']['sublocality_2'], false)
+  request.billing_address.sublocality_3 = self.checkValue('sublocality_3', requestHash['billing_address']['sublocality_3'], false)
+  request.billing_address.region = self.checkValue('region', requestHash['billing_address']['region'], false)
+  request.billing_address.region_2 = self.checkValue('region_2', requestHash['billing_address']['region_2'], false)
+  request.billing_address.region_3 = self.checkValue('region_3', requestHash['billing_address']['region_3'], false)
+  request.billing_address.postal_code = self.checkValue('postal_code', requestHash['billing_address']['postal_code'], false)
+  request.billing_address.country = self.checkValue('country', requestHash['billing_address']['country'], false)
 end
 
-end
-
+request.cardholder_name = self.checkValue('cardholder_name', requestHash['cardholder_name'], false)
 
     return ::ProtocolBuffers::Message.to_hash(self.sendRequest(requestPath, context, request.serialize_to_string(), Squareup::Connect::V3::Actions::CreateCustomerCardResponse))
   end
@@ -238,7 +274,6 @@ end
   def self.DeleteCustomerCard(context, requestHash)
     requestPath = '/services/squareup.connect.v3.SquareConnectV3/DeleteCustomerCard'
     request = Squareup::Connect::V3::Actions::DeleteCustomerCardRequest.new()
-request.location_id = self.checkValue('location_id', requestHash['location_id'], true)
 request.customer_id = self.checkValue('customer_id', requestHash['customer_id'], true)
 request.card_id = self.checkValue('card_id', requestHash['card_id'], true)
 
@@ -269,9 +304,15 @@ request.transaction_id = self.checkValue('transaction_id', requestHash['transact
 if !requestHash['params'].nil?
   request.params = Squareup::Connect::V3::Actions::ListTransactionsRequest::Params.new();
   request.params.location_id = self.checkValue('location_id', requestHash['params']['location_id'], true)
-  request.params.begin_time = self.checkValue('begin_time', requestHash['params']['begin_time'], true)
-  request.params.end_time = self.checkValue('end_time', requestHash['params']['end_time'], true)
-  request.params.sort = self.checkValue('sort', requestHash['params']['sort'], true)
+  if !requestHash['params']['ordered_time_range'].nil?
+  request.params.ordered_time_range = Squareup::Connect::V3::Actions::OrderedTimeRange.new();
+  request.params.ordered_time_range.begin_time = self.checkValue('begin_time', requestHash['params']['ordered_time_range']['begin_time'], true)
+  request.params.ordered_time_range.end_time = self.checkValue('end_time', requestHash['params']['ordered_time_range']['end_time'], true)
+  request.params.ordered_time_range.sort = self.checkValue('sort', requestHash['params']['ordered_time_range']['sort'], true)
+else
+  raise "Missing required field " + field.name
+end
+
 end
 
 request.cursor = self.checkValue('cursor', requestHash['cursor'], false)

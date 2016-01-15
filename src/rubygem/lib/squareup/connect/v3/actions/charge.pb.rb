@@ -28,15 +28,12 @@ module Squareup
             set_fully_qualified_name "squareup.connect.v3.actions.ChargeRequest.CardNonceInstrument"
 
             required :string, :card_nonce, 1
-            optional ::Squareup::Connect::V3::Resources::Address, :billing_address, 2
-            optional :string, :customer_id, 3
           end
 
           class CustomerCardInstrument < ::ProtocolBuffers::Message
             set_fully_qualified_name "squareup.connect.v3.actions.ChargeRequest.CustomerCardInstrument"
 
-            required :string, :customer_id, 1
-            optional :string, :customer_card_id, 2
+            optional :string, :customer_card_id, 1
           end
 
           required :string, :location_id, 1
@@ -47,6 +44,10 @@ module Squareup
           optional :bool, :delay_capture, 6
           optional :string, :reference_id, 7
           optional :string, :note, 8
+          optional :string, :customer_id, 9
+          optional ::Squareup::Connect::V3::Resources::Address, :billing_address, 10
+          optional ::Squareup::Connect::V3::Resources::Address, :shipping_address, 11
+          optional :string, :customer_browser_ip_address, 12
         end
 
         class ChargeResponse < ::ProtocolBuffers::Message

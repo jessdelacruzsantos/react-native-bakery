@@ -5,6 +5,7 @@ require 'protocol_buffers'
 
 begin; require 'squareup/connect/v3/resources/card.pb'; rescue LoadError; end
 begin; require 'squareup/connect/v3/resources/customer.pb'; rescue LoadError; end
+begin; require 'squareup/connect/v3/resources/address.pb'; rescue LoadError; end
 begin; require 'squareup/connect/v3/resources/error.pb'; rescue LoadError; end
 
 module Squareup
@@ -18,6 +19,8 @@ module Squareup
         class UpsertCustomerResponse < ::ProtocolBuffers::Message; end
         class RetrieveCustomerRequest < ::ProtocolBuffers::Message; end
         class RetrieveCustomerResponse < ::ProtocolBuffers::Message; end
+        class DeleteCustomerRequest < ::ProtocolBuffers::Message; end
+        class DeleteCustomerResponse < ::ProtocolBuffers::Message; end
         class CreateCustomerCardRequest < ::ProtocolBuffers::Message; end
         class CreateCustomerCardResponse < ::ProtocolBuffers::Message; end
         class DeleteCustomerCardRequest < ::ProtocolBuffers::Message; end
@@ -33,7 +36,6 @@ module Squareup
           class Params < ::ProtocolBuffers::Message
             set_fully_qualified_name "squareup.connect.v3.actions.ListCustomersRequest.Params"
 
-            optional :string, :location_id, 1
           end
 
           optional ::Squareup::Connect::V3::Actions::ListCustomersRequest::Params, :params, 1
@@ -64,8 +66,7 @@ module Squareup
         class RetrieveCustomerRequest < ::ProtocolBuffers::Message
           set_fully_qualified_name "squareup.connect.v3.actions.RetrieveCustomerRequest"
 
-          optional :string, :location_id, 1
-          required :string, :customer_id, 2
+          required :string, :customer_id, 1
         end
 
         class RetrieveCustomerResponse < ::ProtocolBuffers::Message
@@ -75,13 +76,25 @@ module Squareup
           optional ::Squareup::Connect::V3::Resources::Customer, :customer, 2
         end
 
+        class DeleteCustomerRequest < ::ProtocolBuffers::Message
+          set_fully_qualified_name "squareup.connect.v3.actions.DeleteCustomerRequest"
+
+          required :string, :customer_id, 1
+        end
+
+        class DeleteCustomerResponse < ::ProtocolBuffers::Message
+          set_fully_qualified_name "squareup.connect.v3.actions.DeleteCustomerResponse"
+
+          repeated ::Squareup::Connect::V3::Resources::Error, :errors, 1
+        end
+
         class CreateCustomerCardRequest < ::ProtocolBuffers::Message
           set_fully_qualified_name "squareup.connect.v3.actions.CreateCustomerCardRequest"
 
-          required :string, :location_id, 1
-          required :string, :customer_id, 2
-          optional :string, :card_nonce, 3
-          optional ::Squareup::Connect::V3::Resources::CardData, :card_data, 4
+          required :string, :customer_id, 1
+          required :string, :card_nonce, 2
+          optional ::Squareup::Connect::V3::Resources::Address, :billing_address, 3
+          optional :string, :cardholder_name, 4
         end
 
         class CreateCustomerCardResponse < ::ProtocolBuffers::Message
@@ -94,9 +107,8 @@ module Squareup
         class DeleteCustomerCardRequest < ::ProtocolBuffers::Message
           set_fully_qualified_name "squareup.connect.v3.actions.DeleteCustomerCardRequest"
 
-          required :string, :location_id, 1
-          required :string, :customer_id, 2
-          required :string, :card_id, 3
+          required :string, :customer_id, 1
+          required :string, :card_id, 2
         end
 
         class DeleteCustomerCardResponse < ::ProtocolBuffers::Message

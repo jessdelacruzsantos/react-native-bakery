@@ -40,6 +40,8 @@ module Squareup
           optional :string, :last_4, 3
           optional :int64, :exp_month, 4
           optional :int64, :exp_year, 5
+          optional :string, :cardholder_name, 6
+          optional ::Squareup::Connect::V3::Resources::Address, :billing_address, 7
         end
 
         class CardData < ::ProtocolBuffers::Message
@@ -49,8 +51,6 @@ module Squareup
           optional :int64, :exp_month, 2
           optional :int64, :exp_year, 3
           optional :string, :cvv, 4
-          optional :string, :name, 5
-          optional ::Squareup::Connect::V3::Resources::Address, :billing_address, 6
         end
 
       end

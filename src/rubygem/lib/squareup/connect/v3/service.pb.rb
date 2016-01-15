@@ -18,11 +18,13 @@ module Squareup
 
         rpc :charge, "Charge", ::Squareup::Connect::V3::Actions::ChargeRequest, ::Squareup::Connect::V3::Actions::ChargeResponse
         rpc :refund_tender, "RefundTender", ::Squareup::Connect::V3::Actions::RefundTenderRequest, ::Squareup::Connect::V3::Actions::RefundTenderResponse
+        rpc :list_tender_refunds, "ListTenderRefunds", ::Squareup::Connect::V3::Actions::ListTenderRefundsRequest, ::Squareup::Connect::V3::Actions::ListTenderRefundsResponse
         rpc :list_locations, "ListLocations", ::Squareup::Connect::V3::Actions::ListLocationsRequest, ::Squareup::Connect::V3::Actions::ListLocationsResponse
         rpc :create_card_nonce, "CreateCardNonce", ::Squareup::Connect::V3::Actions::CreateCardNonceRequest, ::Squareup::Connect::V3::Actions::CreateCardNonceResponse
         rpc :upsert_customer, "UpsertCustomer", ::Squareup::Connect::V3::Actions::UpsertCustomerRequest, ::Squareup::Connect::V3::Actions::UpsertCustomerResponse
         rpc :list_customers, "ListCustomers", ::Squareup::Connect::V3::Actions::ListCustomersRequest, ::Squareup::Connect::V3::Actions::ListCustomersResponse
         rpc :retrieve_customer, "RetrieveCustomer", ::Squareup::Connect::V3::Actions::RetrieveCustomerRequest, ::Squareup::Connect::V3::Actions::RetrieveCustomerResponse
+        rpc :delete_customer, "DeleteCustomer", ::Squareup::Connect::V3::Actions::DeleteCustomerRequest, ::Squareup::Connect::V3::Actions::DeleteCustomerResponse
         rpc :create_customer_card, "CreateCustomerCard", ::Squareup::Connect::V3::Actions::CreateCustomerCardRequest, ::Squareup::Connect::V3::Actions::CreateCustomerCardResponse
         rpc :delete_customer_card, "DeleteCustomerCard", ::Squareup::Connect::V3::Actions::DeleteCustomerCardRequest, ::Squareup::Connect::V3::Actions::DeleteCustomerCardResponse
         rpc :capture_transaction, "CaptureTransaction", ::Squareup::Connect::V3::Actions::CaptureTransactionRequest, ::Squareup::Connect::V3::Actions::CaptureTransactionResponse

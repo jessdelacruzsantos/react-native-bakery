@@ -3,6 +3,7 @@
 
 require 'protocol_buffers'
 
+begin; require 'squareup/connect/v3/actions/time_range_params.pb'; rescue LoadError; end
 begin; require 'squareup/connect/v3/resources/error.pb'; rescue LoadError; end
 begin; require 'squareup/connect/v3/resources/money.pb'; rescue LoadError; end
 begin; require 'squareup/connect/v3/resources/refund.pb'; rescue LoadError; end
@@ -14,6 +15,8 @@ module Squareup
         # forward declarations
         class RefundTenderRequest < ::ProtocolBuffers::Message; end
         class RefundTenderResponse < ::ProtocolBuffers::Message; end
+        class ListTenderRefundsRequest < ::ProtocolBuffers::Message; end
+        class ListTenderRefundsResponse < ::ProtocolBuffers::Message; end
 
         class RefundTenderRequest < ::ProtocolBuffers::Message
           set_fully_qualified_name "squareup.connect.v3.actions.RefundTenderRequest"
@@ -31,6 +34,32 @@ module Squareup
 
           repeated ::Squareup::Connect::V3::Resources::Error, :errors, 1
           optional ::Squareup::Connect::V3::Resources::TenderRefund, :refund, 2
+        end
+
+        class ListTenderRefundsRequest < ::ProtocolBuffers::Message
+          # forward declarations
+          class Params < ::ProtocolBuffers::Message; end
+
+          set_fully_qualified_name "squareup.connect.v3.actions.ListTenderRefundsRequest"
+
+          # nested messages
+          class Params < ::ProtocolBuffers::Message
+            set_fully_qualified_name "squareup.connect.v3.actions.ListTenderRefundsRequest.Params"
+
+            required :string, :location_id, 1
+            required ::Squareup::Connect::V3::Actions::OrderedTimeRange, :ordered_time_range, 2
+          end
+
+          optional ::Squareup::Connect::V3::Actions::ListTenderRefundsRequest::Params, :params, 1
+          optional :string, :cursor, 2
+        end
+
+        class ListTenderRefundsResponse < ::ProtocolBuffers::Message
+          set_fully_qualified_name "squareup.connect.v3.actions.ListTenderRefundsResponse"
+
+          repeated ::Squareup::Connect::V3::Resources::Error, :errors, 1
+          repeated ::Squareup::Connect::V3::Resources::TenderRefund, :refund, 2
+          optional :string, :cursor, 3
         end
 
       end

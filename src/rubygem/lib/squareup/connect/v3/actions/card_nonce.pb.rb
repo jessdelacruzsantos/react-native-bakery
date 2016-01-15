@@ -20,6 +20,8 @@ module Squareup
           required :string, :client_id, 1
           optional :string, :business_id, 2
           required ::Squareup::Connect::V3::Resources::CardData, :card_data, 3
+          optional :string, :fingerprint, 4
+          optional :string, :fingerprint_components_json, 5
         end
 
         class CreateCardNonceResponse < ::ProtocolBuffers::Message

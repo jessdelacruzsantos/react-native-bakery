@@ -70,6 +70,7 @@ module Squareup
             REFUND_AMOUNT_INVALID = 40048
             REFUND_ALREADY_PENDING = 40049
             PAYMENT_NOT_REFUNDABLE = 40050
+            INVALID_CARD_DATA = 40051
             NOT_FOUND = 40400
             REQUEST_TIMEOUT = 40800
             REQUEST_ENTITY_TOO_LARGE = 41300

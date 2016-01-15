@@ -3,6 +3,7 @@
 
 require 'protocol_buffers'
 
+begin; require 'squareup/connect/v3/actions/time_range_params.pb'; rescue LoadError; end
 begin; require 'squareup/connect/v3/resources/error.pb'; rescue LoadError; end
 begin; require 'squareup/connect/v3/resources/transaction.pb'; rescue LoadError; end
 
@@ -28,24 +29,10 @@ module Squareup
 
           # nested messages
           class Params < ::ProtocolBuffers::Message
-            # forward declarations
-
-            # enums
-            module Sort
-              include ::ProtocolBuffers::Enum
-
-              set_fully_qualified_name "squareup.connect.v3.actions.ListTransactionsRequest.Params.Sort"
-
-              CREATED_AT_DESC = 0
-              CREATED_AT_ASC = 1
-            end
-
             set_fully_qualified_name "squareup.connect.v3.actions.ListTransactionsRequest.Params"
 
             required :string, :location_id, 1
-            required :string, :begin_time, 2
-            required :string, :end_time, 3
-            required ::Squareup::Connect::V3::Actions::ListTransactionsRequest::Params::Sort, :sort, 4
+            required ::Squareup::Connect::V3::Actions::OrderedTimeRange, :ordered_time_range, 2
           end
 
           optional ::Squareup::Connect::V3::Actions::ListTransactionsRequest::Params, :params, 1

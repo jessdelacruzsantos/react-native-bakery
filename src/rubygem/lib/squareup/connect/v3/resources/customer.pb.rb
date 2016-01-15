@@ -18,17 +18,16 @@ module Squareup
 
           optional :string, :id, 1
           optional :string, :business_id, 2
-          optional :string, :location_id, 3
-          optional :string, :created_at, 4
-          optional :string, :updated_at, 5
-          repeated ::Squareup::Connect::V3::Resources::Card, :cards, 6
-          optional :string, :given_name, 7
-          optional :string, :family_name, 8
-          optional :string, :nickname, 9
-          optional :string, :email_address, 10
-          optional ::Squareup::Connect::V3::Resources::Address, :address, 11
-          optional :string, :phone_number, 12
-          optional :string, :memo, 13
+          optional :string, :created_at, 3
+          optional :string, :updated_at, 4
+          repeated ::Squareup::Connect::V3::Resources::Card, :cards, 5
+          optional :string, :given_name, 6
+          optional :string, :family_name, 7
+          optional :string, :nickname, 8
+          optional :string, :email_address, 9
+          optional ::Squareup::Connect::V3::Resources::Address, :address, 10
+          optional :string, :phone_number, 11
+          optional :string, :memo, 12
         end
 
       end

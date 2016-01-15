@@ -15,19 +15,19 @@ module Squareup
 
         class Tender < ::ProtocolBuffers::Message
           # forward declarations
-          class Charge < ::ProtocolBuffers::Message; end
+          class CardDetails < ::ProtocolBuffers::Message; end
 
           set_fully_qualified_name "squareup.connect.v3.resources.Tender"
 
           # nested messages
-          class Charge < ::ProtocolBuffers::Message
+          class CardDetails < ::ProtocolBuffers::Message
             # forward declarations
 
             # enums
             module Status
               include ::ProtocolBuffers::Enum
 
-              set_fully_qualified_name "squareup.connect.v3.resources.Tender.Charge.Status"
+              set_fully_qualified_name "squareup.connect.v3.resources.Tender.CardDetails.Status"
 
               UNKNOWN = 0
               AUTHORIZED = 1
@@ -36,9 +36,9 @@ module Squareup
               FAILED = 4
             end
 
-            set_fully_qualified_name "squareup.connect.v3.resources.Tender.Charge"
+            set_fully_qualified_name "squareup.connect.v3.resources.Tender.CardDetails"
 
-            optional ::Squareup::Connect::V3::Resources::Tender::Charge::Status, :status, 1
+            optional ::Squareup::Connect::V3::Resources::Tender::CardDetails::Status, :status, 1
             optional ::Squareup::Connect::V3::Resources::Card, :card, 2
           end
 
@@ -50,7 +50,8 @@ module Squareup
           optional :string, :note, 6
           optional ::Squareup::Connect::V3::Resources::Money, :amount_money, 7
           optional :string, :customer_id, 8
-          optional ::Squareup::Connect::V3::Resources::Tender::Charge, :charge, 9
+          optional ::Squareup::Connect::V3::Resources::Tender::CardDetails, :card_details, 9
+          optional ::Squareup::Connect::V3::Resources::Money, :processing_fee_money, 10
         end
 
       end
