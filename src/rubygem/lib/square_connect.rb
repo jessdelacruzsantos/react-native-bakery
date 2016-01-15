@@ -16,7 +16,7 @@ end
 
 class SquareConnect
 
-  @@connectRoot = URI.parse('https://connect.squareupstaging.com')
+  @@connectRoot = URI.parse('https://connect.squareup.com')
 
   def self.Charge(context, requestHash)
     requestPath = '/services/squareup.connect.v3.SquareConnectV3/Charge'
