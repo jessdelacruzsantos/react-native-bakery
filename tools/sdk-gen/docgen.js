@@ -8,10 +8,16 @@ var apiDefinition = JSON.parse(fs.readFileSync('api.json', 'utf-8'));
 var typeIndex = indexTypes(apiDefinition);
 
 // Load in HTML templates for doc types
+var docpageTemplate = handlebars.compile(fs.readFileSync('docpage-template.html', 'utf-8'));
 var endpointTemplate = handlebars.compile(fs.readFileSync('endpoint-template.html', 'utf-8'));
 var navTemplate = handlebars.compile(fs.readFileSync('nav-template.html', 'utf-8'));
 var datatypeTemplate = handlebars.compile(fs.readFileSync('datatype-template.html', 'utf-8'));
 var enumTemplate = handlebars.compile(fs.readFileSync('enum-template.html', 'utf-8'));
+
+handlebars.registerPartial('endpoint', endpointTemplate);
+handlebars.registerPartial('nav', navTemplate);
+handlebars.registerPartial('datatype', datatypeTemplate);
+handlebars.registerPartial('enum', enumTemplate);
 
 var warnings = [];
 
@@ -32,6 +38,14 @@ handlebars.registerHelper('checkArray', function(options) {
   	return '[]';
   } else {
   	return '';
+  }
+});
+
+handlebars.registerHelper('checkRequired', function(options) {
+  if (options.fn(this) == 'true') {
+    return '<br><strong>(required)</strong>';
+  } else {
+    return '';
   }
 });
 
@@ -100,7 +114,7 @@ handlebars.registerHelper('backslash', function(options) {
 // Sort endpoints into buckets by entity
 var endpoints = apiDefinition.endpoints;
 
-var navHTML = navTemplate(apiDefinition);
+/*var navHTML = navTemplate(apiDefinition);
 console.log(navHTML);
 
 for (var i = 0; i < endpoints.length; i++) {
@@ -120,8 +134,10 @@ var enums = apiDefinition.enums;
 for (var i = 0; i < enums.length; i++) {
   var enumHTML = enumTemplate(enums[i]);
   console.log(enumHTML);
-}
+}*/
 
+var docpageHTML = docpageTemplate(apiDefinition);
+console.log(docpageHTML);
 
 
 

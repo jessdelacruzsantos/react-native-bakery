@@ -1,12 +1,12 @@
 <div name="endpoint-{{#idify}}{{this.entity}}-{{action}}{{/idify}}" data-unique="endpoint-{{#idify}}{{this.entity}}-{{this.action}}{{/idify}}"></div>
-<h3 id="endpoint-{{#idify}}{{this.id}}{{/idify}}" class="endpoint">{{this.id}}</h3>
+<h3 id="endpoint-{{#idify}}{{this.id}}{{/idify}}" class="endpoint"><code>{{this.id}}</code></h3>
 {{#convertMarkdown}}{{{this.description}}}{{/convertMarkdown}}
-<p>Required <a href="#permissionscope">permissions</a>:
+<p>Required permissions:
 {{#each this.oauthpermissions}}
   <code>{{this}}</code>
 {{/each}}</p>
-<h4>Request Object: <code>{{#paramify}}{{this.inputtype}}{{/paramify}}</code></h4>
 {{#if this.params}}
+<h4>Parameters</h4>
 <table>
   <thead>
     <tr>
@@ -18,7 +18,7 @@
   <tbody>
     {{#each this.params}}
     <tr>
-      <td><code>{{this.name}}</code></td>
+      <td><code>{{this.name}}</code>{{#checkRequired}}{{this.required}}{{/checkRequired}}</td>
       <td><code>{{#processType}}{{this.type}}{{/processType}}{{#checkArray}}{{this.isarray}}{{/checkArray}}</code></td>
       <td>{{#convertMarkdown}}{{{this.description}}}{{/convertMarkdown}}</td>
     </tr>
@@ -26,9 +26,9 @@
   </tbody>
 </table>
 {{else}}
-(No fields)
+(No parameters)
 {{/if}}
-<h4>Response Object: <code>{{#paramify}}{{this.outputtype}}{{/paramify}}</code></h4>
+<h4>Response fields</h4>
 <table>
     <thead>
       <tr>

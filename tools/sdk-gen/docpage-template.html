@@ -1,0 +1,40 @@
+<style>
+body {
+  font-family: "Helvetica Neue", sans-serif;
+}
+#toc {
+  float: left;
+  margin-right: 40px;
+}
+#main-view {
+  max-width: 1000px;
+}
+.endpoint {
+  margin-top: 40px;
+}
+h3>code{
+  font-size: 20px;
+}
+
+td {
+  padding: 5px;	
+}
+
+</style>
+
+<h1>Connect API v2 Documentation</h1>
+{{> nav}}
+<div id="main-view">
+<h2>Methods</h2>
+{{#each endpoints}}
+  {{> endpoint}}
+{{/each}}
+<h2>Data Types</h2>
+{{#each datatypes}}
+  {{> datatype}}
+{{/each}}
+<h2>Enums</h2>
+{{#each enums}}
+  {{> enum}}
+{{/each}}
+</div>
