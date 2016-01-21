@@ -7,8 +7,8 @@ var stringFormat = require("string-template");
 var apiDefinition = JSON.parse(fs.readFileSync('api.json', 'utf-8'));
 
 // Load in the various language SDK templates
-var phpTemplate = handlebars.compile(fs.readFileSync('squareconnect-template.php', 'utf-8'));
-var rubyTemplate = handlebars.compile(fs.readFileSync('squareconnect-template.rb', 'utf-8'));
+var phpTemplate = handlebars.compile(fs.readFileSync('proto-sdk-templates/squareconnect-template.php', 'utf-8'));
+var rubyTemplate = handlebars.compile(fs.readFileSync('proto/sdk-templates/squareconnect-template.rb', 'utf-8'));
 
 var warnings = [];
 var protoBaseTypes = ['double', 'float', 'int32', 'int64', 'uint32', 'uint64',
