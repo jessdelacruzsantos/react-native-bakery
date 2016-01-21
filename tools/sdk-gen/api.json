@@ -1,48 +1,163 @@
 {
-  "endpoints": [
-    {"/v2/locations/{location_id}/transactions": {"post": {
-      "summary": "Charge",
-      "tags": ["Transaction"],
-      "description": "Charges a card represented by a token.",
-      "parameters": [
-        {
-          "schema": {"$ref": "#/definitions/ChargeRequest"},
+  "paths": {
+    "/v2/locations/{location_id}/transactions": {
+      "": {"get": {
+        "summary": "ListTransactions",
+        "tags": ["Transaction"],
+        "description": "Lists transactions for a particular location.",
+        "parameters": [
+          {
+            "name": "params",
+            "required": false,
+            "type": "ListTransactionsRequest.Params",
+            "in": "query"
+          },
+          {
+            "name": "cursor",
+            "required": false,
+            "type": "string",
+            "in": "query"
+          }
+        ],
+        "responses": {"200": {
+          "schema": {"$ref": "#/definitions/ListTransactionsResponse"},
+          "description": "Success"
+        }}
+      }},
+      "post": {
+        "summary": "Charge",
+        "tags": ["Transaction"],
+        "description": "Charges a card represented by a token.",
+        "parameters": [
+          {
+            "schema": {"$ref": "#/definitions/ChargeRequest"},
+            "name": "body",
+            "in": "body"
+          },
+          {
+            "name": "location_id",
+            "required": true,
+            "type": "string",
+            "in": "path"
+          }
+        ],
+        "responses": {"200": {
+          "schema": {"$ref": "#/definitions/ChargeResponse"},
+          "description": "Success"
+        }}
+      }
+    },
+    "/v2/locations/{location_id}/refunds": {
+      "": {"get": {
+        "summary": "ListTenderRefunds",
+        "tags": ["Refund"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "params",
+            "required": false,
+            "type": "ListTenderRefundsRequest.Params",
+            "in": "query"
+          },
+          {
+            "name": "cursor",
+            "required": false,
+            "type": "string",
+            "in": "query"
+          }
+        ],
+        "responses": {"200": {
+          "schema": {"$ref": "#/definitions/ListTenderRefundsResponse"},
+          "description": "Success"
+        }}
+      }},
+      "post": {
+        "summary": "RefundTender",
+        "tags": ["Refund"],
+        "description": "",
+        "parameters": [{
+          "schema": {"$ref": "#/definitions/RefundTenderRequest"},
           "name": "body",
           "in": "body"
-        },
-        {
-          "name": "location_id",
+        }],
+        "responses": {"200": {
+          "schema": {"$ref": "#/definitions/RefundTenderResponse"},
+          "description": "Success"
+        }}
+      }
+    },
+    "/v2/customers": {
+      "": {"get": {
+        "summary": "ListCustomers",
+        "tags": ["Customer"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "params",
+            "required": false,
+            "type": "ListCustomersRequest.Params",
+            "in": "query"
+          },
+          {
+            "name": "cursor",
+            "required": false,
+            "type": "string",
+            "in": "query"
+          }
+        ],
+        "responses": {"200": {
+          "schema": {"$ref": "#/definitions/ListCustomersResponse"},
+          "description": "Success"
+        }}
+      }},
+      "post": {
+        "summary": "UpsertCustomer",
+        "tags": ["Customer"],
+        "description": "",
+        "parameters": [{
+          "schema": {"$ref": "#/definitions/UpsertCustomerRequest"},
+          "name": "body",
+          "in": "body"
+        }],
+        "responses": {"200": {
+          "schema": {"$ref": "#/definitions/UpsertCustomerResponse"},
+          "description": "Success"
+        }}
+      }
+    },
+    "/v2/customers/{customer_id}": {
+      "": {"delete": {
+        "summary": "DeleteCustomer",
+        "tags": ["Customer"],
+        "description": "",
+        "parameters": [{
+          "name": "customer_id",
           "required": true,
           "type": "string",
-          "in": "path"
-        }
-      ],
-      "responses": {"200": {
-        "schema": {"$ref": "#/definitions/ChargeResponse"},
-        "description": "Success"
-      }}
-    }}},
-    {"": {"": {
-      "summary": "RefundTender",
-      "tags": [""],
-      "description": "",
-      "parameters": [],
-      "responses": {"200": {
-        "schema": {"$ref": "#/definitions/RefundTenderResponse"},
-        "description": "Success"
-      }}
-    }}},
-    {"": {"": {
-      "summary": "ListTenderRefunds",
-      "tags": [""],
-      "description": "",
-      "parameters": [],
-      "responses": {"200": {
-        "schema": {"$ref": "#/definitions/ListTenderRefundsResponse"},
-        "description": "Success"
-      }}
-    }}},
-    {"": {"": {
+          "in": "query"
+        }],
+        "responses": {"200": {
+          "schema": {"$ref": "#/definitions/DeleteCustomerResponse"},
+          "description": "Success"
+        }}
+      }},
+      "get": {
+        "summary": "RetrieveCustomer",
+        "tags": ["Customer"],
+        "description": "",
+        "parameters": [{
+          "name": "customer_id",
+          "required": true,
+          "type": "string",
+          "in": "query"
+        }],
+        "responses": {"200": {
+          "schema": {"$ref": "#/definitions/RetrieveCustomerResponse"},
+          "description": "Success"
+        }}
+      }
+    },
+    "/v2/locations": {"get": {
       "summary": "ListLocations",
       "tags": ["Location"],
       "description": "Provides summary information for all of a business's locations.",
@@ -51,215 +166,171 @@
         "schema": {"$ref": "#/definitions/ListLocationsResponse"},
         "description": "Success"
       }}
-    }}},
-    {"": {"": {
-      "summary": "CreateCardNonce",
-      "tags": ["Card"],
-      "description": "Make a one time use token (nonce) to return to the seller's site which is\nseparate and distinct from the card PAN. (Nonce is safe to persist, as it\nis not a payment card, although it can only be used one time.)",
-      "parameters": [],
-      "responses": {"200": {
-        "schema": {"$ref": "#/definitions/CreateCardNonceResponse"},
-        "description": "Success"
-      }}
-    }}},
-    {"": {"": {
-      "summary": "UpsertCustomer",
-      "tags": ["Customer"],
-      "description": "",
-      "parameters": [],
-      "responses": {"200": {
-        "schema": {"$ref": "#/definitions/UpsertCustomerResponse"},
-        "description": "Success"
-      }}
-    }}},
-    {"": {"": {
-      "summary": "ListCustomers",
-      "tags": ["Customer"],
-      "description": "",
-      "parameters": [],
-      "responses": {"200": {
-        "schema": {"$ref": "#/definitions/ListCustomersResponse"},
-        "description": "Success"
-      }}
-    }}},
-    {"": {"": {
-      "summary": "RetrieveCustomer",
-      "tags": ["Customer"],
-      "description": "",
-      "parameters": [],
-      "responses": {"200": {
-        "schema": {"$ref": "#/definitions/RetrieveCustomerResponse"},
-        "description": "Success"
-      }}
-    }}},
-    {"": {"": {
-      "summary": "DeleteCustomer",
-      "tags": ["Customer"],
-      "description": "",
-      "parameters": [],
-      "responses": {"200": {
-        "schema": {"$ref": "#/definitions/DeleteCustomerResponse"},
-        "description": "Success"
-      }}
-    }}},
-    {"": {"": {
-      "summary": "CreateCustomerCard",
-      "tags": ["Customer.Card"],
-      "description": "",
-      "parameters": [],
-      "responses": {"200": {
-        "schema": {"$ref": "#/definitions/CreateCustomerCardResponse"},
-        "description": "Success"
-      }}
-    }}},
-    {"": {"": {
+    }},
+    "/v2/locations/{location_id}/transactions/{transaction_id}": {
+      "": {"get": {
+        "summary": "RetrieveTransaction",
+        "tags": ["Transaction"],
+        "description": "Retrieves details for a single transaction.",
+        "parameters": [
+          {
+            "name": "location_id",
+            "required": true,
+            "type": "string",
+            "in": "path"
+          },
+          {
+            "name": "transaction_id",
+            "required": true,
+            "type": "string",
+            "in": "path"
+          }
+        ],
+        "responses": {"200": {
+          "schema": {"$ref": "#/definitions/RetrieveTransactionResponse"},
+          "description": "Success"
+        }}
+      }},
+      "post": {
+        "summary": "CaptureTransaction",
+        "tags": ["Transaction"],
+        "description": "For executing delayed capture.",
+        "parameters": [{
+          "schema": {"$ref": "#/definitions/CaptureTransactionRequest"},
+          "name": "body",
+          "in": "body"
+        }],
+        "responses": {"200": {
+          "schema": {"$ref": "#/definitions/CaptureTransactionResponse"},
+          "description": "Success"
+        }}
+      }
+    },
+    "/v2/customers/{customer_id}/cards/{card_id}": {"delete": {
       "summary": "DeleteCustomerCard",
       "tags": ["Customer.Card"],
       "description": "",
-      "parameters": [],
+      "parameters": [
+        {
+          "name": "customer_id",
+          "required": true,
+          "type": "string",
+          "in": "query"
+        },
+        {
+          "name": "card_id",
+          "required": true,
+          "type": "string",
+          "in": "query"
+        }
+      ],
       "responses": {"200": {
         "schema": {"$ref": "#/definitions/DeleteCustomerCardResponse"},
         "description": "Success"
       }}
-    }}},
-    {"": {"": {
-      "summary": "CaptureTransaction",
-      "tags": ["Transaction"],
-      "description": "For executing delayed capture.",
-      "parameters": [],
-      "responses": {"200": {
-        "schema": {"$ref": "#/definitions/CaptureTransactionResponse"},
-        "description": "Success"
-      }}
-    }}},
-    {"": {"": {
-      "summary": "VoidTransaction",
-      "tags": ["Transaction"],
-      "description": "For canceling a delayed capture transaction.",
-      "parameters": [],
-      "responses": {"200": {
-        "schema": {"$ref": "#/definitions/VoidTransactionResponse"},
-        "description": "Success"
-      }}
-    }}},
-    {"/v2/locations/{location_id}/transactions": {"get": {
-      "summary": "ListTransactions",
-      "tags": ["Transaction"],
-      "description": "Lists transactions for a particular location.",
-      "parameters": [
-        {
-          "name": "params",
-          "required": false,
-          "type": "ListTransactionsRequest.Params",
-          "in": "query"
-        },
-        {
-          "name": "cursor",
-          "required": false,
-          "type": "string",
-          "in": "query"
-        }
-      ],
-      "responses": {"200": {
-        "schema": {"$ref": "#/definitions/ListTransactionsResponse"},
-        "description": "Success"
-      }}
-    }}},
-    {"/v2/locations/{location_id}/transactions/{transaction_id}": {"get": {
-      "summary": "RetrieveTransaction",
-      "tags": ["Transaction"],
-      "description": "Retrieves details for a single transaction.",
-      "parameters": [
-        {
-          "name": "location_id",
-          "required": true,
-          "type": "string",
-          "in": "path"
-        },
-        {
-          "name": "transaction_id",
-          "required": true,
-          "type": "string",
-          "in": "path"
-        }
-      ],
-      "responses": {"200": {
-        "schema": {"$ref": "#/definitions/RetrieveTransactionResponse"},
-        "description": "Success"
-      }}
-    }}}
-  ],
-  "datatypes": [
-    {"UpsertCustomerRequest": {
-      "description": "",
-      "properties": {"customer": {"$ref": "#/definitions/Customer"}},
-      "type": "object"
     }},
-    {"RetrieveTransactionRequest": {
+    "/v2/customers/{customer_id}/cards": {"post": {
+      "summary": "CreateCustomerCard",
+      "tags": ["Customer.Card"],
+      "description": "",
+      "parameters": [{
+        "schema": {"$ref": "#/definitions/CreateCustomerCardRequest"},
+        "name": "body",
+        "in": "body"
+      }],
+      "responses": {"200": {
+        "schema": {"$ref": "#/definitions/CreateCustomerCardResponse"},
+        "description": "Success"
+      }}
+    }}
+  },
+  "host": "connect.squareup.com",
+  "schemes": ["https"],
+  "produces": ["application/json"],
+  "swagger": "2.0",
+  "definitions": {
+    "CreateCardNonceResponse": {
       "description": "",
       "properties": {
-        "transaction_id": {"type": "string"},
-        "location_id": {"type": "string"}
+        "errors": {"$ref": "#/definitions/Error"},
+        "card": {"$ref": "#/definitions/Card"},
+        "card_nonce": {"type": "string"}
       },
       "type": "object"
-    }},
-    {"DeleteCustomerResponse": {
+    },
+    "VoidTransactionResponse": {
       "description": "",
       "properties": {"errors": {"$ref": "#/definitions/Error"}},
       "type": "object"
-    }},
-    {"ListCustomersResponse": {
+    },
+    "ListTransactionsRequest.Params": {
       "description": "",
       "properties": {
-        "cursor": {"type": "string"},
-        "errors": {"$ref": "#/definitions/Error"},
-        "customers": {"$ref": "#/definitions/Customer"}
+        "ordered_time_range": {"$ref": "#/definitions/OrderedTimeRange"},
+        "location_id": {"type": "string"}
       },
       "type": "object"
-    }},
-    {"RetrieveTransactionResponse": {
+    },
+    "DeleteCustomerResponse": {
+      "description": "",
+      "properties": {"errors": {"$ref": "#/definitions/Error"}},
+      "type": "object"
+    },
+    "CreateCustomerCardRequest": {
+      "description": "",
+      "properties": {
+        "card_nonce": {"type": "string"},
+        "cardholder_name": {"type": "string"},
+        "customer_id": {"type": "string"},
+        "billing_address": {"$ref": "#/definitions/Address"}
+      },
+      "type": "object"
+    },
+    "RetrieveCustomerResponse": {
+      "description": "",
+      "properties": {
+        "errors": {"$ref": "#/definitions/Error"},
+        "customer": {"$ref": "#/definitions/Customer"}
+      },
+      "type": "object"
+    },
+    "OrderedTimeRange": {
+      "description": "",
+      "properties": {
+        "sort": {"$ref": "#/definitions/Sort"},
+        "begin_time": {"type": "string"},
+        "end_time": {"type": "string"}
+      },
+      "type": "object"
+    },
+    "RetrieveTransactionResponse": {
       "description": "",
       "properties": {
         "errors": {"$ref": "#/definitions/Error"},
         "transaction": {"$ref": "#/definitions/Transaction"}
       },
       "type": "object"
-    }},
-    {"ListCustomersRequest": {
+    },
+    "CreateCardNonceRequest": {
       "description": "",
       "properties": {
-        "cursor": {"type": "string"},
-        "params": {"$ref": "#/definitions/ListCustomersRequest.Params"}
-      },
-      "type": "object"
-    }},
-    {"ListCustomersRequest.Params": {
-      "description": "",
-      "properties": {},
-      "type": "object"
-    }},
-    {"CaptureTransactionRequest": {
-      "description": "",
-      "properties": {
-        "transaction_id": {"type": "string"},
-        "location_id": {"type": "string"}
-      },
-      "type": "object"
-    }},
-    {"Transaction": {
-      "description": "",
-      "properties": {
-        "id": {"type": "string"},
-        "reference_id": {"type": "string"},
+        "fingerprint_components_json": {"type": "string"},
+        "fingerprint": {"type": "string"},
+        "card_data": {"$ref": "#/definitions/CardData"},
         "business_id": {"type": "string"},
-        "created_at": {"type": "string"},
-        "tenders": {"$ref": "#/definitions/Tender"},
-        "tender_refunds": {"$ref": "#/definitions/TenderRefund"},
-        "location_id": {"type": "string"}
+        "client_id": {"type": "string"}
       },
       "type": "object"
-    }},
-    {"TenderRefund": {
+    },
+    "DeleteCustomerCardRequest": {
+      "description": "",
+      "properties": {
+        "card_id": {"type": "string"},
+        "customer_id": {"type": "string"}
+      },
+      "type": "object"
+    },
+    "TenderRefund": {
       "description": "",
       "properties": {
         "id": {"type": "string"},
@@ -273,231 +344,539 @@
         "location_id": {"type": "string"}
       },
       "type": "object"
-    }},
-    {"ListTenderRefundsRequest": {
+    },
+    "Currency": {
       "description": "",
-      "properties": {
-        "cursor": {"type": "string"},
-        "params": {"$ref": "#/definitions/ListTenderRefundsRequest.Params"}
-      },
-      "type": "object"
-    }},
-    {"ListTenderRefundsRequest.Params": {
+      "enum": [
+        "AED",
+        "AFN",
+        "ALL",
+        "AMD",
+        "ANG",
+        "AOA",
+        "ARS",
+        "AUD",
+        "AWG",
+        "AZN",
+        "BAM",
+        "BBD",
+        "BDT",
+        "BGN",
+        "BHD",
+        "BIF",
+        "BMD",
+        "BND",
+        "BOB",
+        "BOV",
+        "BRL",
+        "BSD",
+        "BTN",
+        "BWP",
+        "BYR",
+        "BZD",
+        "CAD",
+        "CDF",
+        "CHE",
+        "CHF",
+        "CHW",
+        "CLF",
+        "CLP",
+        "CNY",
+        "COP",
+        "COU",
+        "CRC",
+        "CUC",
+        "CUP",
+        "CVE",
+        "CZK",
+        "DJF",
+        "DKK",
+        "DOP",
+        "DZD",
+        "EGP",
+        "ERN",
+        "ETB",
+        "EUR",
+        "FJD",
+        "FKP",
+        "GBP",
+        "GEL",
+        "GHS",
+        "GIP",
+        "GMD",
+        "GNF",
+        "GTQ",
+        "GYD",
+        "HKD",
+        "HNL",
+        "HRK",
+        "HTG",
+        "HUF",
+        "IDR",
+        "ILS",
+        "INR",
+        "IQD",
+        "IRR",
+        "ISK",
+        "JMD",
+        "JOD",
+        "JPY",
+        "KES",
+        "KGS",
+        "KHR",
+        "KMF",
+        "KPW",
+        "KRW",
+        "KWD",
+        "KYD",
+        "KZT",
+        "LAK",
+        "LBP",
+        "LKR",
+        "LRD",
+        "LSL",
+        "LTL",
+        "LVL",
+        "LYD",
+        "MAD",
+        "MDL",
+        "MGA",
+        "MKD",
+        "MMK",
+        "MNT",
+        "MOP",
+        "MRO",
+        "MUR",
+        "MVR",
+        "MWK",
+        "MXN",
+        "MXV",
+        "MYR",
+        "MZN",
+        "NAD",
+        "NGN",
+        "NIO",
+        "NOK",
+        "NPR",
+        "NZD",
+        "OMR",
+        "PAB",
+        "PEN",
+        "PGK",
+        "PHP",
+        "PKR",
+        "PLN",
+        "PYG",
+        "QAR",
+        "RON",
+        "RSD",
+        "RUB",
+        "RWF",
+        "SAR",
+        "SBD",
+        "SCR",
+        "SDG",
+        "SEK",
+        "SGD",
+        "SHP",
+        "SLL",
+        "SOS",
+        "SRD",
+        "SSP",
+        "STD",
+        "SVC",
+        "SYP",
+        "SZL",
+        "THB",
+        "TJS",
+        "TMT",
+        "TND",
+        "TOP",
+        "TRY",
+        "TTD",
+        "TWD",
+        "TZS",
+        "UAH",
+        "UGX",
+        "USD",
+        "USN",
+        "USS",
+        "UYI",
+        "UYU",
+        "UZS",
+        "VEF",
+        "VND",
+        "VUV",
+        "WST",
+        "XAF",
+        "XAG",
+        "XAU",
+        "XBA",
+        "XBB",
+        "XBC",
+        "XBD",
+        "XCD",
+        "XDR",
+        "XOF",
+        "XPD",
+        "XPF",
+        "XPT",
+        "XTS",
+        "XXX",
+        "YER",
+        "ZAR",
+        "ZMK",
+        "ZMW",
+        "BTC"
+      ],
+      "type": "string"
+    },
+    "ChargeRequest.CustomerCardInstrument": {
       "description": "",
-      "properties": {
-        "ordered_time_range": {"$ref": "#/definitions/OrderedTimeRange"},
-        "location_id": {"type": "string"}
-      },
+      "properties": {"customer_card_id": {"type": "string"}},
       "type": "object"
-    }},
-    {"ListLocationsRequest": {
+    },
+    "OrderedTimeRange.Sort": {
       "description": "",
-      "properties": {},
-      "type": "object"
-    }},
-    {"Tender": {
-      "description": "",
-      "properties": {
-        "id": {"type": "string"},
-        "processing_fee_money": {"$ref": "#/definitions/Money"},
-        "amount_money": {"$ref": "#/definitions/Money"},
-        "business_id": {"type": "string"},
-        "created_at": {"type": "string"},
-        "card_details": {"$ref": "#/definitions/Tender.CardDetails"},
-        "customer_id": {"type": "string"},
-        "note": {"type": "string"},
-        "transaction_id": {"type": "string"},
-        "location_id": {"type": "string"}
-      },
-      "type": "object"
-    }},
-    {"Tender.CardDetails": {
+      "enum": [
+        "DESC",
+        "ASC"
+      ],
+      "type": "string"
+    },
+    "Tender.CardDetails": {
       "description": "",
       "properties": {
         "status": {"$ref": "#/definitions/CardDetails.Status"},
         "card": {"$ref": "#/definitions/Card"}
       },
       "type": "object"
-    }},
-    {"RefundTenderRequest": {
+    },
+    "ListCustomersRequest.Params": {
+      "description": "",
+      "properties": {},
+      "type": "object"
+    },
+    "Location.Capability": {
+      "description": "",
+      "enum": ["CREDIT_CARD_PROCESSING"],
+      "type": "string"
+    },
+    "UpsertCustomerRequest": {
+      "description": "",
+      "properties": {"customer": {"$ref": "#/definitions/Customer"}},
+      "type": "object"
+    },
+    "Country": {
+      "description": "",
+      "enum": [
+        "ZZ",
+        "AD",
+        "AE",
+        "AF",
+        "AG",
+        "AI",
+        "AL",
+        "AM",
+        "AO",
+        "AQ",
+        "AR",
+        "AS",
+        "AT",
+        "AU",
+        "AW",
+        "AX",
+        "AZ",
+        "BA",
+        "BB",
+        "BD",
+        "BE",
+        "BF",
+        "BG",
+        "BH",
+        "BI",
+        "BJ",
+        "BL",
+        "BM",
+        "BN",
+        "BO",
+        "BQ",
+        "BR",
+        "BS",
+        "BT",
+        "BV",
+        "BW",
+        "BY",
+        "BZ",
+        "CA",
+        "CC",
+        "CD",
+        "CF",
+        "CG",
+        "CH",
+        "CI",
+        "CK",
+        "CL",
+        "CM",
+        "CN",
+        "CO",
+        "CR",
+        "CU",
+        "CV",
+        "CW",
+        "CX",
+        "CY",
+        "CZ",
+        "DE",
+        "DJ",
+        "DK",
+        "DM",
+        "DO",
+        "DZ",
+        "EC",
+        "EE",
+        "EG",
+        "EH",
+        "ER",
+        "ES",
+        "ET",
+        "FI",
+        "FJ",
+        "FK",
+        "FM",
+        "FO",
+        "FR",
+        "GA",
+        "GB",
+        "GD",
+        "GE",
+        "GF",
+        "GG",
+        "GH",
+        "GI",
+        "GL",
+        "GM",
+        "GN",
+        "GP",
+        "GQ",
+        "GR",
+        "GS",
+        "GT",
+        "GU",
+        "GW",
+        "GY",
+        "HK",
+        "HM",
+        "HN",
+        "HR",
+        "HT",
+        "HU",
+        "ID",
+        "IE",
+        "IL",
+        "IM",
+        "IN",
+        "IO",
+        "IQ",
+        "IR",
+        "IS",
+        "IT",
+        "JE",
+        "JM",
+        "JO",
+        "JP",
+        "KE",
+        "KG",
+        "KH",
+        "KI",
+        "KM",
+        "KN",
+        "KP",
+        "KR",
+        "KW",
+        "KY",
+        "KZ",
+        "LA",
+        "LB",
+        "LC",
+        "LI",
+        "LK",
+        "LR",
+        "LS",
+        "LT",
+        "LU",
+        "LV",
+        "LY",
+        "MA",
+        "MC",
+        "MD",
+        "ME",
+        "MF",
+        "MG",
+        "MH",
+        "MK",
+        "ML",
+        "MM",
+        "MN",
+        "MO",
+        "MP",
+        "MQ",
+        "MR",
+        "MS",
+        "MT",
+        "MU",
+        "MV",
+        "MW",
+        "MX",
+        "MY",
+        "MZ",
+        "NA",
+        "NC",
+        "NE",
+        "NF",
+        "NG",
+        "NI",
+        "NL",
+        "NO",
+        "NP",
+        "NR",
+        "NU",
+        "NZ",
+        "OM",
+        "PA",
+        "PE",
+        "PF",
+        "PG",
+        "PH",
+        "PK",
+        "PL",
+        "PM",
+        "PN",
+        "PR",
+        "PS",
+        "PT",
+        "PW",
+        "PY",
+        "QA",
+        "RE",
+        "RO",
+        "RS",
+        "RU",
+        "RW",
+        "SA",
+        "SB",
+        "SC",
+        "SD",
+        "SE",
+        "SG",
+        "SH",
+        "SI",
+        "SJ",
+        "SK",
+        "SL",
+        "SM",
+        "SN",
+        "SO",
+        "SR",
+        "SS",
+        "ST",
+        "SV",
+        "SX",
+        "SY",
+        "SZ",
+        "TC",
+        "TD",
+        "TF",
+        "TG",
+        "TH",
+        "TJ",
+        "TK",
+        "TL",
+        "TM",
+        "TN",
+        "TO",
+        "TR",
+        "TT",
+        "TV",
+        "TW",
+        "TZ",
+        "UA",
+        "UG",
+        "UM",
+        "US",
+        "UY",
+        "UZ",
+        "VA",
+        "VC",
+        "VE",
+        "VG",
+        "VI",
+        "VN",
+        "VU",
+        "WF",
+        "WS",
+        "YE",
+        "YT",
+        "ZA",
+        "ZM",
+        "ZW"
+      ],
+      "type": "string"
+    },
+    "ChargeRequest.CardNonceInstrument": {
+      "description": "",
+      "properties": {"card_nonce": {"type": "string"}},
+      "type": "object"
+    },
+    "ListTransactionsRequest": {
       "description": "",
       "properties": {
-        "amount_money": {"$ref": "#/definitions/Money"},
-        "reason": {"type": "string"},
-        "source_transaction_id": {"type": "string"},
-        "idempotency_key": {"type": "string"},
-        "source_tender_id": {"type": "string"},
-        "location_id": {"type": "string"}
-      },
-      "type": "object"
-    }},
-    {"VoidTransactionResponse": {
-      "description": "",
-      "properties": {"errors": {"$ref": "#/definitions/Error"}},
-      "type": "object"
-    }},
-    {"DeleteCustomerCardResponse": {
-      "description": "",
-      "properties": {"errors": {"$ref": "#/definitions/Error"}},
-      "type": "object"
-    }},
-    {"ListTransactionsResponse": {
-      "description": "",
-      "properties": {
-        "transactions": {"$ref": "#/definitions/Transaction"},
         "cursor": {"type": "string"},
-        "errors": {"$ref": "#/definitions/Error"}
+        "params": {"$ref": "#/definitions/ListTransequest.Params"}
       },
       "type": "object"
-    }},
-    {"RefundTenderResponse": {
+    },
+    "Card.Brand": {
+      "description": "",
+      "enum": [
+        "OTHER_BRAND",
+        "VISA",
+        "MASTERCARD",
+        "AMERICAN_EXPRESS",
+        "DISCOVER",
+        "DISCOVER_DINERS",
+        "JCB",
+        "CHINA_UNIONPAY",
+        "SQUARE_GIFT_CARD"
+      ],
+      "type": "string"
+    },
+    "ListTenderRefundsResponse": {
       "description": "",
       "properties": {
+        "cursor": {"type": "string"},
         "errors": {"$ref": "#/definitions/Error"},
         "refund": {"$ref": "#/definitions/TenderRefund"}
       },
       "type": "object"
-    }},
-    {"Location": {
+    },
+    "ListCustomersRequest": {
       "description": "",
       "properties": {
-        "id": {"type": "string"},
-        "timezone": {"type": "string"},
-        "address": {"$ref": "#/definitions/Address"},
-        "name": {"type": "string"},
-        "business_id": {"type": "string"},
-        "capabilities": {"$ref": "#/definitions/Location.Capability"}
+        "cursor": {"type": "string"},
+        "params": {"$ref": "#/definitions/ListCustomersRequest.Params"}
       },
       "type": "object"
-    }},
-    {"RetrieveCustomerResponse": {
+    },
+    "ListTenderRefundsRequest.Params": {
       "description": "",
       "properties": {
-        "errors": {"$ref": "#/definitions/Error"},
-        "customer": {"$ref": "#/definitions/Customer"}
-      },
-      "type": "object"
-    }},
-    {"DeleteCustomerCardRequest": {
-      "description": "",
-      "properties": {
-        "card_id": {"type": "string"},
-        "customer_id": {"type": "string"}
-      },
-      "type": "object"
-    }},
-    {"CreateCardNonceRequest": {
-      "description": "",
-      "properties": {
-        "fingerprint": {"type": "string"},
-        "card_data": {"$ref": "#/definitions/CardData"},
-        "business_id": {"type": "string"},
-        "client_id": {"type": "string"}
-      },
-      "type": "object"
-    }},
-    {"CreateCustomerCardResponse": {
-      "description": "",
-      "properties": {
-        "errors": {"$ref": "#/definitions/Error"},
-        "card": {"$ref": "#/definitions/Card"}
-      },
-      "type": "object"
-    }},
-    {"Money": {
-      "description": "",
-      "properties": {
-        "amount": {"type": "integer"},
-        "currency": {"$ref": "#/definitions/Currency"}
-      },
-      "type": "object"
-    }},
-    {"Address": {
-      "description": "",
-      "properties": {
-        "region": {"type": "string"},
-        "region_2": {"type": "string"},
-        "line_3": {"type": "string"},
-        "postal_code": {"type": "string"},
-        "locality": {"type": "string"},
-        "line_1": {"type": "string"},
-        "sublocality": {"type": "string"},
-        "line_2": {"type": "string"},
-        "sublocality_3": {"type": "string"},
-        "region_3": {"type": "string"},
-        "sublocality_2": {"type": "string"},
-        "country": {"$ref": "#/definitions/Country"}
-      },
-      "type": "object"
-    }},
-    {"ListLocationsResponse": {
-      "description": "",
-      "properties": {
-        "errors": {"$ref": "#/definitions/Error"},
-        "locations": {"$ref": "#/definitions/Location"}
-      },
-      "type": "object"
-    }},
-    {"CardData": {
-      "description": "",
-      "properties": {
-        "exp_year": {"type": "integer"},
-        "exp_month": {"type": "integer"},
-        "name": {"type": "string"},
-        "cvv": {"type": "string"},
-        "number": {"type": "string"}
-      },
-      "type": "object"
-    }},
-    {"CreateCardNonceResponse": {
-      "description": "",
-      "properties": {
-        "errors": {"$ref": "#/definitions/Error"},
-        "card": {"$ref": "#/definitions/Card"},
-        "card_nonce": {"type": "string"}
-      },
-      "type": "object"
-    }},
-    {"RetrieveCustomerRequest": {
-      "description": "",
-      "properties": {"customer_id": {"type": "string"}},
-      "type": "object"
-    }},
-    {"ChargeResponse": {
-      "description": "",
-      "properties": {
-        "errors": {"$ref": "#/definitions/Error"},
-        "transaction": {"$ref": "#/definitions/Transaction"}
-      },
-      "type": "object"
-    }},
-    {"Customer": {
-      "description": "",
-      "properties": {
-        "id": {"type": "string"},
-        "phone_number": {"type": "string"},
-        "updated_at": {"type": "string"},
-        "memo": {"type": "string"},
-        "address": {"$ref": "#/definitions/Address"},
-        "nickname": {"type": "string"},
-        "business_id": {"type": "string"},
-        "family_name": {"type": "string"},
-        "created_at": {"type": "string"},
-        "given_name": {"type": "string"},
-        "cards": {"$ref": "#/definitions/Card"},
-        "email_address": {"type": "string"}
-      },
-      "type": "object"
-    }},
-    {"VoidTransactionRequest": {
-      "description": "",
-      "properties": {
-        "transaction_id": {"type": "string"},
+        "ordered_time_range": {"$ref": "#/definitions/OrderedTimeRange"},
         "location_id": {"type": "string"}
       },
       "type": "object"
-    }},
-    {"ChargeRequest": {
+    },
+    "ChargeRequest": {
       "description": "",
       "properties": {
         "shipping_address": {"$ref": "#/definitions/Address"},
@@ -514,51 +893,228 @@
         "location_id": {"type": "string"}
       },
       "type": "object"
-    }},
-    {"ChargeRequest.CardNonceInstrument": {
-      "description": "",
-      "properties": {"card_nonce": {"type": "string"}},
-      "type": "object"
-    }},
-    {"ChargeRequest.CustomerCardInstrument": {
-      "description": "",
-      "properties": {"customer_card_id": {"type": "string"}},
-      "type": "object"
-    }},
-    {"Card": {
+    },
+    "ListTransactionsResponse": {
       "description": "",
       "properties": {
-        "id": {"type": "string"},
-        "exp_year": {"type": "integer"},
-        "exp_month": {"type": "integer"},
-        "card_brand": {"$ref": "#/definitions/Card.Brand"},
-        "last_4": {"type": "string"}
+        "transactions": {"$ref": "#/definitions/Transaction"},
+        "cursor": {"type": "string"},
+        "errors": {"$ref": "#/definitions/Error"}
       },
       "type": "object"
-    }},
-    {"OrderedTimeRange": {
-      "description": "",
-      "properties": {
-        "sort": {"$ref": "#/definitions/Sort"},
-        "begin_time": {"type": "string"},
-        "end_time": {"type": "string"}
-      },
-      "type": "object"
-    }},
-    {"DeleteCustomerRequest": {
+    },
+    "DeleteCustomerRequest": {
       "description": "",
       "properties": {"customer_id": {"type": "string"}},
       "type": "object"
-    }},
-    {"UpsertCustomerResponse": {
+    },
+    "ListLocationsRequest": {
+      "description": "",
+      "properties": {},
+      "type": "object"
+    },
+    "ChargeResponse": {
       "description": "",
       "properties": {
         "errors": {"$ref": "#/definitions/Error"},
-        "customer": {"$ref": "#/definitions/Customer"}
+        "transaction": {"$ref": "#/definitions/Transaction"}
       },
       "type": "object"
-    }},
-    {"Error": {
+    },
+    "CaptureTransactionResponse": {
+      "description": "",
+      "properties": {"errors": {"$ref": "#/definitions/Error"}},
+      "type": "object"
+    },
+    "Error.Type": {
+      "description": "",
+      "enum": [
+        "INTERNAL_SERVER_ERROR",
+        "UNAUTHORIZED",
+        "ACCESS_TOKEN_EXPIRED",
+        "ACCESS_TOKEN_REVOKED",
+        "FORBIDDEN",
+        "INSUFFICIENT_SCOPES",
+        "APPLICATION_DISABLED",
+        "V1_APPLICATION",
+        "V1_ACCESS_TOKEN",
+        "CARD_PROCESSING_NOT_ENABLED",
+        "BAD_REQUEST",
+        "MISSING_REQUIRED_PARAMETER",
+        "INCORRECT_TYPE",
+        "INVALID_TIME",
+        "INVALID_TIME_RANGE",
+        "INVALID_VALUE",
+        "INVALID_CURSOR",
+        "UNKNOWN_QUERY_PARAMETER",
+        "CONFLICTING_PARAMETERS",
+        "EXPECTED_JSON_BODY",
+        "INVALID_SORT_ORDER",
+        "VALUE_TOO_LONG",
+        "VALUE_TOO_LOW",
+        "EXPECTED_BOOLEAN",
+        "EXPECTED_INTEGER",
+        "EXPECTED_FLOAT",
+        "EXPECTED_STRING",
+        "EXPECTED_OBJECT",
+        "EXPECTED_ARRAY",
+        "INVALID_ARRAY_VALUE",
+        "INVALID_ENUM_VALUE",
+        "INVALID_CONTENT_TYPE",
+        "INVALID_FORM_VALUE",
+        "CARD_DECLINED",
+        "CARD_EXPIRED",
+        "VERIFY_CVV_FAILURE",
+        "VERIFY_AVS_FAILURE",
+        "INVALID_EXPIRATION",
+        "INVALID_EXPIRATION_YEAR",
+        "INVALID_EXPIRATION_DATE",
+        "INVALID_CARD",
+        "DELAYED_TRANSACTION_EXPIRED",
+        "DELAYED_TRANSACTION_CANCELED",
+        "DELAYED_TRANSACTION_CAPTURED",
+        "DELAYED_TRANSACTION_FAILED",
+        "CARD_TOKEN_EXPIRED",
+        "CARD_TOKEN_USED",
+        "AMOUNT_TOO_HIGH",
+        "REFUND_AMOUNT_INVALID",
+        "REFUND_ALREADY_PENDING",
+        "PAYMENT_NOT_REFUNDABLE",
+        "INVALID_CARD_DATA",
+        "NOT_FOUND",
+        "REQUEST_TIMEOUT",
+        "REQUEST_ENTITY_TOO_LARGE",
+        "UNSUPPORTED_MEDIA_TYPE",
+        "RATE_LIMITED",
+        "NOT_IMPLEMENTED",
+        "SERVICE_UNAVAILABLE"
+      ],
+      "type": "string"
+    },
+    "ListTenderRefundsRequest": {
+      "description": "",
+      "properties": {
+        "cursor": {"type": "string"},
+        "params": {"$ref": "#/definitions/ListTenderRefundsRequest.Params"}
+      },
+      "type": "object"
+    },
+    "CaptureTransactionRequest": {
+      "description": "",
+      "properties": {
+        "transaction_id": {"type": "string"},
+        "location_id": {"type": "string"}
+      },
+      "type": "object"
+    },
+    "Tender": {
+      "description": "",
+      "properties": {
+        "id": {"type": "string"},
+        "processing_fee_money": {"$ref": "#/definitions/Money"},
+        "amount_money": {"$ref": "#/definitions/Money"},
+        "business_id": {"type": "string"},
+        "created_at": {"type": "string"},
+        "card_details": {"$ref": "#/definitions/Tender.CardDetails"},
+        "customer_id": {"type": "string"},
+        "note": {"type": "string"},
+        "transaction_id": {"type": "string"},
+        "location_id": {"type": "string"}
+      },
+      "type": "object"
+    },
+    "DeleteCustomerCardResponse": {
+      "description": "",
+      "properties": {"errors": {"$ref": "#/definitions/Error"}},
+      "type": "object"
+    },
+    "TenderRefund.Status": {
+      "description": "",
+      "enum": [
+        "UNKNOWN",
+        "PENDING",
+        "APPROVED",
+        "REJECTED",
+        "FAILED"
+      ],
+      "type": "string"
+    },
+    "CreateCustomerCardResponse": {
+      "description": "",
+      "properties": {
+        "errors": {"$ref": "#/definitions/Error"},
+        "card": {"$ref": "#/definitions/Card"}
+      },
+      "type": "object"
+    },
+    "ListLocationsResponse": {
+      "description": "",
+      "properties": {
+        "errors": {"$ref": "#/definitions/Error"},
+        "locations": {"$ref": "#/definitions/Location"}
+      },
+      "type": "object"
+    },
+    "Customer": {
+      "description": "",
+      "properties": {
+        "id": {"type": "string"},
+        "phone_number": {"type": "string"},
+        "updated_at": {"type": "string"},
+        "memo": {"type": "string"},
+        "address": {"$ref": "#/definitions/Address"},
+        "nickname": {"type": "string"},
+        "business_id": {"type": "string"},
+        "family_name": {"type": "string"},
+        "created_at": {"type": "string"},
+        "given_name": {"type": "string"},
+        "cards": {"$ref": "#/definitions/Card"},
+        "email_address": {"type": "string"}
+      },
+      "type": "object"
+    },
+    "Transaction": {
+      "description": "",
+      "properties": {
+        "id": {"type": "string"},
+        "reference_id": {"type": "string"},
+        "business_id": {"type": "string"},
+        "created_at": {"type": "string"},
+        "tenders": {"$ref": "#/definitions/Tender"},
+        "tender_refunds": {"$ref": "#/definitions/TenderRefund"},
+        "location_id": {"type": "string"}
+      },
+      "type": "object"
+    },
+    "Money": {
+      "description": "",
+      "properties": {
+        "amount": {"type": "integer"},
+        "currency": {"$ref": "#/definitions/Currency"}
+      },
+      "type": "object"
+    },
+    "Location": {
+      "description": "",
+      "properties": {
+        "id": {"type": "string"},
+        "timezone": {"type": "string"},
+        "address": {"$ref": "#/definitions/Address"},
+        "name": {"type": "string"},
+        "business_id": {"type": "string"},
+        "capabilities": {"$ref": "#/definitions/Location.Capability"}
+      },
+      "type": "object"
+    },
+    "RetrieveTransactionRequest": {
+      "description": "",
+      "properties": {
+        "transaction_id": {"type": "string"},
+        "location_id": {"type": "string"}
+      },
+      "type": "object"
+    },
+    "Error": {
       "description": "",
       "properties": {
         "field": {"type": "string"},
@@ -566,604 +1122,113 @@
         "type": {"$ref": "#/definitions/Error.Type"}
       },
       "type": "object"
-    }},
-    {"CreateCustomerCardRequest": {
+    },
+    "RefundTenderRequest": {
       "description": "",
       "properties": {
-        "card_nonce": {"type": "string"},
-        "customer_id": {"type": "string"},
-        "billing_address": {"$ref": "#/definitions/Address"}
+        "amount_money": {"$ref": "#/definitions/Money"},
+        "reason": {"type": "string"},
+        "source_transaction_id": {"type": "string"},
+        "idempotency_key": {"type": "string"},
+        "source_tender_id": {"type": "string"},
+        "location_id": {"type": "string"}
       },
       "type": "object"
-    }},
-    {"CaptureTransactionResponse": {
-      "description": "",
-      "properties": {"errors": {"$ref": "#/definitions/Error"}},
-      "type": "object"
-    }},
-    {"ListTenderRefundsResponse": {
+    },
+    "ListCustomersResponse": {
       "description": "",
       "properties": {
         "cursor": {"type": "string"},
         "errors": {"$ref": "#/definitions/Error"},
+        "customers": {"$ref": "#/definitions/Customer"}
+      },
+      "type": "object"
+    },
+    "RefundTenderResponse": {
+      "description": "",
+      "properties": {
+        "errors": {"$ref": "#/definitions/Error"},
         "refund": {"$ref": "#/definitions/TenderRefund"}
       },
       "type": "object"
-    }},
-    {"ListTransactionsRequest": {
+    },
+    "VoidTransactionRequest": {
       "description": "",
       "properties": {
-        "cursor": {"type": "string"},
-        "params": {"$ref": "#/definitions/ListTransequest.Params"}
-      },
-      "type": "object"
-    }},
-    {"ListTransactionsRequest.Params": {
-      "description": "",
-      "properties": {
-        "ordered_time_range": {"$ref": "#/definitions/OrderedTimeRange"},
+        "transaction_id": {"type": "string"},
         "location_id": {"type": "string"}
       },
       "type": "object"
-    }}
-  ],
-  "enums": [
-    {"Currency": {
+    },
+    "RetrieveCustomerRequest": {
+      "description": "",
+      "properties": {"customer_id": {"type": "string"}},
+      "type": "object"
+    },
+    "Address": {
+      "description": "",
+      "properties": {
+        "region": {"type": "string"},
+        "region_2": {"type": "string"},
+        "line_3": {"type": "string"},
+        "postal_code": {"type": "string"},
+        "locality": {"type": "string"},
+        "line_1": {"type": "string"},
+        "sublocality": {"type": "string"},
+        "line_2": {"type": "string"},
+        "sublocality_3": {"type": "string"},
+        "region_3": {"type": "string"},
+        "sublocality_2": {"type": "string"},
+        "country": {"$ref": "#/definitions/Country"}
+      },
+      "type": "object"
+    },
+    "CardDetails.Status": {
       "description": "",
       "enum": [
-        784,
-        971,
-        8,
-        51,
-        532,
-        973,
-        32,
-        36,
-        533,
-        944,
-        977,
-        52,
-        50,
-        975,
-        48,
-        108,
-        60,
-        96,
-        68,
-        984,
-        986,
-        44,
-        64,
-        72,
-        974,
-        84,
-        124,
-        976,
-        947,
-        756,
-        948,
-        990,
-        152,
-        156,
-        170,
-        970,
-        188,
-        931,
-        192,
-        132,
-        203,
-        262,
-        208,
-        214,
-        12,
-        818,
-        232,
-        230,
-        978,
-        242,
-        238,
-        826,
-        981,
-        936,
-        292,
-        270,
-        324,
-        320,
-        328,
-        344,
-        340,
-        191,
-        332,
-        348,
-        360,
-        376,
-        356,
-        368,
-        364,
-        352,
-        388,
-        400,
-        392,
-        404,
-        417,
-        116,
-        174,
-        408,
-        410,
-        414,
-        136,
-        398,
-        418,
-        422,
-        144,
-        430,
-        426,
-        440,
-        428,
-        434,
-        504,
-        498,
-        969,
-        807,
-        104,
-        496,
-        446,
-        478,
-        480,
-        462,
-        454,
-        484,
-        979,
-        458,
-        943,
-        516,
-        566,
-        558,
-        578,
-        524,
-        554,
-        512,
-        590,
-        604,
-        598,
-        608,
-        586,
-        985,
-        600,
-        634,
-        946,
-        941,
-        643,
-        646,
-        682,
-        90,
-        690,
-        938,
-        752,
-        702,
-        654,
-        694,
-        706,
-        968,
-        728,
-        678,
-        222,
-        760,
-        748,
-        764,
-        972,
-        934,
-        788,
-        776,
-        949,
-        780,
-        901,
-        834,
-        980,
-        800,
-        840,
-        997,
-        998,
-        940,
-        858,
-        860,
-        937,
-        704,
-        548,
-        882,
-        950,
-        961,
-        959,
-        955,
-        956,
-        957,
-        958,
-        951,
-        960,
-        952,
-        964,
-        953,
-        962,
-        963,
-        999,
-        886,
-        710,
-        894,
-        967,
-        1001
+        "UNKNOWN",
+        "AUTHORIZED",
+        "CAPTURED",
+        "VOIDED",
+        "FAILED"
       ],
-      "type": "integer"
-    }},
-    {"TenderRefund.Status": {
+      "type": "string"
+    },
+    "UpsertCustomerResponse": {
       "description": "",
-      "enum": [
-        0,
-        1,
-        2,
-        3,
-        4
-      ],
-      "type": "integer"
-    }},
-    {"CardDetails.Status": {
+      "properties": {
+        "errors": {"$ref": "#/definitions/Error"},
+        "customer": {"$ref": "#/definitions/Customer"}
+      },
+      "type": "object"
+    },
+    "CardData": {
       "description": "",
-      "enum": [
-        0,
-        1,
-        2,
-        3,
-        4
-      ],
-      "type": "integer"
-    }},
-    {"Location.Capability": {
+      "properties": {
+        "exp_year": {"type": "integer"},
+        "exp_month": {"type": "integer"},
+        "cvv": {"type": "string"},
+        "number": {"type": "string"}
+      },
+      "type": "object"
+    },
+    "Card": {
       "description": "",
-      "enum": [1],
-      "type": "integer"
-    }},
-    {"Card.Brand": {
-      "description": "",
-      "enum": [
-        0,
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8
-      ],
-      "type": "integer"
-    }},
-    {"Country": {
-      "description": "",
-      "enum": [
-        0,
-        20,
-        784,
-        4,
-        28,
-        660,
-        8,
-        51,
-        24,
-        10,
-        32,
-        16,
-        40,
-        36,
-        533,
-        248,
-        31,
-        70,
-        52,
-        50,
-        56,
-        854,
-        100,
-        48,
-        108,
-        204,
-        652,
-        60,
-        96,
-        68,
-        535,
-        76,
-        44,
-        64,
-        74,
-        72,
-        112,
-        84,
-        124,
-        166,
-        180,
-        140,
-        178,
-        756,
-        384,
-        184,
-        152,
-        120,
-        156,
-        170,
-        188,
-        192,
-        132,
-        531,
-        162,
-        196,
-        203,
-        276,
-        262,
-        208,
-        212,
-        214,
-        12,
-        218,
-        233,
-        818,
-        732,
-        232,
-        724,
-        231,
-        246,
-        242,
-        238,
-        583,
-        234,
-        250,
-        266,
-        826,
-        308,
-        268,
-        254,
-        831,
-        288,
-        292,
-        304,
-        270,
-        324,
-        312,
-        226,
-        300,
-        239,
-        320,
-        316,
-        624,
-        328,
-        344,
-        334,
-        340,
-        191,
-        332,
-        348,
-        360,
-        372,
-        376,
-        833,
-        356,
-        86,
-        368,
-        364,
-        352,
-        380,
-        832,
-        388,
-        400,
-        392,
-        404,
-        417,
-        116,
-        296,
-        174,
-        659,
-        408,
-        410,
-        414,
-        136,
-        398,
-        418,
-        422,
-        662,
-        438,
-        144,
-        430,
-        426,
-        440,
-        442,
-        428,
-        434,
-        504,
-        492,
-        498,
-        499,
-        663,
-        450,
-        584,
-        807,
-        466,
-        104,
-        496,
-        446,
-        580,
-        474,
-        478,
-        500,
-        470,
-        480,
-        462,
-        454,
-        484,
-        458,
-        508,
-        516,
-        540,
-        562,
-        574,
-        566,
-        558,
-        528,
-        578,
-        524,
-        520,
-        570,
-        554,
-        512,
-        591,
-        604,
-        258,
-        598,
-        608,
-        586,
-        616,
-        666,
-        612,
-        630,
-        275,
-        620,
-        585,
-        600,
-        634,
-        638,
-        642,
-        688,
-        643,
-        646,
-        682,
-        90,
-        690,
-        736,
-        752,
-        702,
-        654,
-        705,
-        744,
-        703,
-        694,
-        674,
-        686,
-        706,
-        740,
-        728,
-        678,
-        222,
-        534,
-        760,
-        748,
-        796,
-        148,
-        260,
-        768,
-        764,
-        762,
-        772,
-        626,
-        795,
-        788,
-        776,
-        792,
-        780,
-        798,
-        158,
-        834,
-        804,
-        800,
-        581,
-        840,
-        858,
-        860,
-        336,
-        670,
-        862,
-        92,
-        850,
-        704,
-        548,
-        876,
-        882,
-        887,
-        175,
-        710,
-        894,
-        716
-      ],
-      "type": "integer"
-    }},
-    {"OrderedTimeRange.Sort": {
-      "description": "",
-      "enum": [
-        0,
-        1
-      ],
-      "type": "integer"
-    }},
-    {"Error.Type": {
-      "description": "",
-      "enum": [
-        0,
-        40100,
-        40101,
-        40102,
-        40300,
-        40301,
-        40302,
-        40303,
-        40304,
-        40305,
-        40000,
-        40001,
-        40002,
-        40003,
-        40004,
-        40005,
-        40006,
-        40007,
-        40008,
-        40009,
-        40010,
-        40011,
-        40012,
-        40013,
-        40014,
-        40015,
-        40016,
-        40017,
-        40018,
-        40019,
-        40020,
-        40021,
-        40022,
-        40023,
-        40024,
-        40025,
-        40026,
-        40027,
-        40028,
-        40039,
-        40040,
-        40041,
-        40042,
-        40043,
-        40044,
-        40045,
-        40046,
-        40047,
-        40048,
-        40049,
-        40050,
-        40051,
-        40400,
-        40800,
-        41300,
-        41500,
-        42900,
-        50100,
-        50300
-      ],
-      "type": "integer"
-    }}
-  ]
+      "properties": {
+        "id": {"type": "string"},
+        "exp_year": {"type": "integer"},
+        "exp_month": {"type": "integer"},
+        "card_brand": {"$ref": "#/definitions/Card.Brand"},
+        "last_4": {"type": "string"},
+        "cardholder_name": {"type": "string"},
+        "billing_address": {"$ref": "#/definitions/Address"}
+      },
+      "type": "object"
+    }
+  },
+  "consumes": ["application/json"],
+  "info": {
+    "title": "Square Connect API",
+    "version": "2.0"
+  }
 }
