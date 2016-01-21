@@ -1,29 +1,16 @@
 {
   "paths": {
+    "": {"": {
+      "summary": "CreateCardNonce",
+      "tags": ["Card"],
+      "description": "Make a one time use token (nonce) to return to the seller's site which is\nseparate and distinct from the card PAN. (Nonce is safe to persist, as it\nis not a payment card, although it can only be used one time.)",
+      "parameters": [],
+      "responses": {"200": {
+        "schema": {"$ref": "#/definitions/CreateCardNonceResponse"},
+        "description": "Success"
+      }}
+    }},
     "/v2/locations/{location_id}/transactions": {
-      "": {"get": {
-        "summary": "ListTransactions",
-        "tags": ["Transaction"],
-        "description": "Lists transactions for a particular location.",
-        "parameters": [
-          {
-            "name": "params",
-            "required": false,
-            "type": "ListTransactionsRequest.Params",
-            "in": "query"
-          },
-          {
-            "name": "cursor",
-            "required": false,
-            "type": "string",
-            "in": "query"
-          }
-        ],
-        "responses": {"200": {
-          "schema": {"$ref": "#/definitions/ListTransactionsResponse"},
-          "description": "Success"
-        }}
-      }},
       "post": {
         "summary": "Charge",
         "tags": ["Transaction"],
@@ -45,10 +32,55 @@
           "schema": {"$ref": "#/definitions/ChargeResponse"},
           "description": "Success"
         }}
+      },
+      "get": {
+        "summary": "ListTransactions",
+        "tags": ["Transaction"],
+        "description": "Lists transactions for a particular location.",
+        "parameters": [
+          {
+            "name": "params",
+            "required": false,
+            "type": "ListTransactionsRequest.Params",
+            "in": "query"
+          },
+          {
+            "name": "cursor",
+            "required": false,
+            "type": "string",
+            "in": "query"
+          }
+        ],
+        "responses": {"200": {
+          "schema": {"$ref": "#/definitions/ListTransactionsResponse"},
+          "description": "Success"
+        }}
       }
     },
     "/v2/locations/{location_id}/refunds": {
-      "": {"get": {
+      "post": {
+        "summary": "RefundTender",
+        "tags": ["Refund"],
+        "description": "",
+        "parameters": [
+          {
+            "schema": {"$ref": "#/definitions/RefundTenderRequest"},
+            "name": "body",
+            "in": "body"
+          },
+          {
+            "name": "location_id",
+            "required": true,
+            "type": "string",
+            "in": "path"
+          }
+        ],
+        "responses": {"200": {
+          "schema": {"$ref": "#/definitions/RefundTenderResponse"},
+          "description": "Success"
+        }}
+      },
+      "get": {
         "summary": "ListTenderRefunds",
         "tags": ["Refund"],
         "description": "",
@@ -70,46 +102,9 @@
           "schema": {"$ref": "#/definitions/ListTenderRefundsResponse"},
           "description": "Success"
         }}
-      }},
-      "post": {
-        "summary": "RefundTender",
-        "tags": ["Refund"],
-        "description": "",
-        "parameters": [{
-          "schema": {"$ref": "#/definitions/RefundTenderRequest"},
-          "name": "body",
-          "in": "body"
-        }],
-        "responses": {"200": {
-          "schema": {"$ref": "#/definitions/RefundTenderResponse"},
-          "description": "Success"
-        }}
       }
     },
     "/v2/customers": {
-      "": {"get": {
-        "summary": "ListCustomers",
-        "tags": ["Customer"],
-        "description": "",
-        "parameters": [
-          {
-            "name": "params",
-            "required": false,
-            "type": "ListCustomersRequest.Params",
-            "in": "query"
-          },
-          {
-            "name": "cursor",
-            "required": false,
-            "type": "string",
-            "in": "query"
-          }
-        ],
-        "responses": {"200": {
-          "schema": {"$ref": "#/definitions/ListCustomersResponse"},
-          "description": "Success"
-        }}
-      }},
       "post": {
         "summary": "UpsertCustomer",
         "tags": ["Customer"],
@@ -123,24 +118,24 @@
           "schema": {"$ref": "#/definitions/UpsertCustomerResponse"},
           "description": "Success"
         }}
-      }
-    },
-    "/v2/customers/{customer_id}": {
-      "": {"delete": {
-        "summary": "DeleteCustomer",
+      },
+      "get": {
+        "summary": "ListCustomers",
         "tags": ["Customer"],
         "description": "",
         "parameters": [{
-          "name": "customer_id",
-          "required": true,
+          "name": "cursor",
+          "required": false,
           "type": "string",
           "in": "query"
         }],
         "responses": {"200": {
-          "schema": {"$ref": "#/definitions/DeleteCustomerResponse"},
+          "schema": {"$ref": "#/definitions/ListCustomersResponse"},
           "description": "Success"
         }}
-      }},
+      }
+    },
+    "/v2/customers/{customer_id}": {
       "get": {
         "summary": "RetrieveCustomer",
         "tags": ["Customer"],
@@ -149,10 +144,25 @@
           "name": "customer_id",
           "required": true,
           "type": "string",
-          "in": "query"
+          "in": "path"
         }],
         "responses": {"200": {
           "schema": {"$ref": "#/definitions/RetrieveCustomerResponse"},
+          "description": "Success"
+        }}
+      },
+      "delete": {
+        "summary": "DeleteCustomer",
+        "tags": ["Customer"],
+        "description": "",
+        "parameters": [{
+          "name": "customer_id",
+          "required": true,
+          "type": "string",
+          "in": "path"
+        }],
+        "responses": {"200": {
+          "schema": {"$ref": "#/definitions/DeleteCustomerResponse"},
           "description": "Success"
         }}
       }
@@ -168,7 +178,35 @@
       }}
     }},
     "/v2/locations/{location_id}/transactions/{transaction_id}": {
-      "": {"get": {
+      "post": {
+        "summary": "CaptureTransaction",
+        "tags": ["Transaction"],
+        "description": "For executing delayed capture.",
+        "parameters": [
+          {
+            "schema": {"$ref": "#/definitions/CaptureTransactionRequest"},
+            "name": "body",
+            "in": "body"
+          },
+          {
+            "name": "location_id",
+            "required": true,
+            "type": "string",
+            "in": "path"
+          },
+          {
+            "name": "transaction_id",
+            "required": true,
+            "type": "string",
+            "in": "path"
+          }
+        ],
+        "responses": {"200": {
+          "schema": {"$ref": "#/definitions/CaptureTransactionResponse"},
+          "description": "Success"
+        }}
+      },
+      "get": {
         "summary": "RetrieveTransaction",
         "tags": ["Transaction"],
         "description": "Retrieves details for a single transaction.",
@@ -190,18 +228,27 @@
           "schema": {"$ref": "#/definitions/RetrieveTransactionResponse"},
           "description": "Success"
         }}
-      }},
-      "post": {
-        "summary": "CaptureTransaction",
+      },
+      "delete": {
+        "summary": "VoidTransaction",
         "tags": ["Transaction"],
-        "description": "For executing delayed capture.",
-        "parameters": [{
-          "schema": {"$ref": "#/definitions/CaptureTransactionRequest"},
-          "name": "body",
-          "in": "body"
-        }],
+        "description": "For canceling a delayed capture transaction.",
+        "parameters": [
+          {
+            "name": "location_id",
+            "required": true,
+            "type": "string",
+            "in": "path"
+          },
+          {
+            "name": "transaction_id",
+            "required": true,
+            "type": "string",
+            "in": "path"
+          }
+        ],
         "responses": {"200": {
-          "schema": {"$ref": "#/definitions/CaptureTransactionResponse"},
+          "schema": {"$ref": "#/definitions/VoidTransactionResponse"},
           "description": "Success"
         }}
       }
@@ -215,13 +262,13 @@
           "name": "customer_id",
           "required": true,
           "type": "string",
-          "in": "query"
+          "in": "path"
         },
         {
           "name": "card_id",
           "required": true,
           "type": "string",
-          "in": "query"
+          "in": "path"
         }
       ],
       "responses": {"200": {
@@ -233,11 +280,19 @@
       "summary": "CreateCustomerCard",
       "tags": ["Customer.Card"],
       "description": "",
-      "parameters": [{
-        "schema": {"$ref": "#/definitions/CreateCustomerCardRequest"},
-        "name": "body",
-        "in": "body"
-      }],
+      "parameters": [
+        {
+          "schema": {"$ref": "#/definitions/CreateCustomerCardRequest"},
+          "name": "body",
+          "in": "body"
+        },
+        {
+          "name": "customer_id",
+          "required": true,
+          "type": "string",
+          "in": "path"
+        }
+      ],
       "responses": {"200": {
         "schema": {"$ref": "#/definitions/CreateCustomerCardResponse"},
         "description": "Success"
@@ -552,11 +607,6 @@
       },
       "type": "object"
     },
-    "ListCustomersRequest.Params": {
-      "description": "",
-      "properties": {},
-      "type": "object"
-    },
     "Location.Capability": {
       "description": "",
       "enum": ["CREDIT_CARD_PROCESSING"],
@@ -862,10 +912,7 @@
     },
     "ListCustomersRequest": {
       "description": "",
-      "properties": {
-        "cursor": {"type": "string"},
-        "params": {"$ref": "#/definitions/ListCustomersRequest.Params"}
-      },
+      "properties": {"cursor": {"type": "string"}},
       "type": "object"
     },
     "ListTenderRefundsRequest.Params": {
@@ -1168,16 +1215,16 @@
     "Address": {
       "description": "",
       "properties": {
-        "region": {"type": "string"},
-        "region_2": {"type": "string"},
-        "line_3": {"type": "string"},
+        "administrative_district_level_3": {"type": "string"},
+        "address_line_1": {"type": "string"},
+        "address_line_3": {"type": "string"},
         "postal_code": {"type": "string"},
+        "address_line_2": {"type": "string"},
         "locality": {"type": "string"},
-        "line_1": {"type": "string"},
         "sublocality": {"type": "string"},
-        "line_2": {"type": "string"},
+        "administrative_district_level_1": {"type": "string"},
         "sublocality_3": {"type": "string"},
-        "region_3": {"type": "string"},
+        "administrative_district_level_2": {"type": "string"},
         "sublocality_2": {"type": "string"},
         "country": {"$ref": "#/definitions/Country"}
       },

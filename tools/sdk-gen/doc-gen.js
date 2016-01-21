@@ -112,7 +112,7 @@ handlebars.registerHelper('backslash', function(options) {
 });
 
 // Sort endpoints into buckets by entity
-var endpoints = apiDefinition.endpoints;
+//var endpoints = apiDefinition.endpoints;
 
 /*var navHTML = navTemplate(apiDefinition);
 console.log(navHTML);
@@ -136,10 +136,48 @@ for (var i = 0; i < enums.length; i++) {
   console.log(enumHTML);
 }*/
 
-var docpageHTML = docpageTemplate(apiDefinition);
-console.log(docpageHTML);
+//var docpageHTML = docpageTemplate(apiDefinition);
+//console.log(docpageHTML);
 
 
+
+var endpoints = [];
+var paths = apiDefinition.paths;
+for (var pathName in paths) {
+  if (paths.hasOwnProperty(pathName)) {
+    for (var httpmethod in paths[pathName]) {
+      if (paths[pathName].hasOwnProperty(httpmethod)) {
+        var endpoint = {}
+        endpoint.path = pathName;
+        endpoint.httpmethod = httpmethod;
+        endpoint.details = paths[pathName][httpmethod];
+        endpoints.push(endpoint);
+      }
+    }
+  }
+}
+
+var types = apiDefinition.definitions;
+
+var enums = [];
+var datatypes = [];
+
+for (var typeName in types) {
+  if (types.hasOwnProperty(typeName)) {
+    var definition = types[typeName];
+    var typeWrapper = {};
+    typeWrapper.name = typeName;
+    typeWrapper.details = definition;
+    if (definition.hasOwnProperty('enum')) {
+      enums.push(typeWrapper);
+    } else {
+      datatypes.push(typeWrapper);
+    }
+  }
+}
+
+console.log(enums);
+console.log(datatypes);
 
 /*var bucketedEndpoints = {};
 
@@ -225,6 +263,7 @@ fs.writeFile("/Users/barlow/Development/connect-documentation-website/source/sec
 // Generates an index of all the datatypes and enums on the docpage,
 // along with their IDs. This enables cross-linking.
 function indexTypes(apiDefinition) {
+  return;
   var typeIndex = {};
   var datatypes = apiDefinition.datatypes;
   for (var i = 0; i < datatypes.length; i++) {

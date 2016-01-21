@@ -168,14 +168,13 @@ public class ConnectEndpoint {
   // Builds out endpoint JSON in the format expected by the Swagger 2.0 specification.
   public JSONObject toJson() {
     JSONObject root = new JSONObject();
-    JSONObject swaggerHTTPMethod = new JSONObject();
 
     JSONArray swaggerTags = new JSONArray();
     swaggerTags.put(this.entity);
 
-    swaggerHTTPMethod.put("tags", swaggerTags);
-    swaggerHTTPMethod.put("summary", this.id);
-    swaggerHTTPMethod.put("description", this.description);
+    root.put("tags", swaggerTags);
+    root.put("summary", this.id);
+    root.put("description", this.description);
 
     JSONArray swaggerParameters = new JSONArray();
 
@@ -219,7 +218,7 @@ public class ConnectEndpoint {
       }
     }
 
-    swaggerHTTPMethod.put("parameters", swaggerParameters);
+    root.put("parameters", swaggerParameters);
 
     JSONObject swaggerResponses = new JSONObject();
     JSONObject swaggerSuccessResponse = new JSONObject();
@@ -239,10 +238,7 @@ public class ConnectEndpoint {
     swaggerSuccessResponse.put("schema", swaggerSuccessResponseSchema);
     swaggerResponses.put("200", swaggerSuccessResponse);
 
-    swaggerHTTPMethod.put("responses", swaggerResponses);
-
-    root.put(this.httpmethod.toLowerCase(), swaggerHTTPMethod);
-    //root.put(this.path, swaggerPath);
+    root.put("responses", swaggerResponses);
 
     return root;
   }

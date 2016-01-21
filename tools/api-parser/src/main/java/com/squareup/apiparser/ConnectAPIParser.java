@@ -70,11 +70,11 @@ public class ConnectAPIParser implements APIParser {
 
     JSONObject jsonEndpoints = new JSONObject();
     for (ConnectEndpoint endpoint : this.endpoints) {
-      if (jsonEndpoints.has(endpoint.getPath())) {
-        jsonEndpoints.getJSONObject(endpoint.getPath()).put(endpoint.getAction(), endpoint.toJson());
-      } else {
-        jsonEndpoints.put(endpoint.getPath(), endpoint.toJson());
+
+      if (!jsonEndpoints.has(endpoint.getPath())) {
+        jsonEndpoints.put(endpoint.getPath(), new JSONObject());
       }
+      jsonEndpoints.getJSONObject(endpoint.getPath()).put(endpoint.getHttpmethod().toLowerCase(), endpoint.toJson());
     }
     root.put("paths", jsonEndpoints);
 
