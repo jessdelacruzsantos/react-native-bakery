@@ -8,11 +8,11 @@ var apiDefinition = JSON.parse(fs.readFileSync('api.json', 'utf-8'));
 var typeIndex = indexTypes(apiDefinition);
 
 // Load in HTML templates for doc types
-var docpageTemplate = handlebars.compile(fs.readFileSync('docpage-template.html', 'utf-8'));
-var endpointTemplate = handlebars.compile(fs.readFileSync('endpoint-template.html', 'utf-8'));
-var navTemplate = handlebars.compile(fs.readFileSync('nav-template.html', 'utf-8'));
-var datatypeTemplate = handlebars.compile(fs.readFileSync('datatype-template.html', 'utf-8'));
-var enumTemplate = handlebars.compile(fs.readFileSync('enum-template.html', 'utf-8'));
+var docpageTemplate = handlebars.compile(fs.readFileSync('doc-templates/docpage-template.html', 'utf-8'));
+var endpointTemplate = handlebars.compile(fs.readFileSync('doc-templates/endpoint-template.html', 'utf-8'));
+var navTemplate = handlebars.compile(fs.readFileSync('doc-templates/nav-template.html', 'utf-8'));
+var datatypeTemplate = handlebars.compile(fs.readFileSync('doc-templates/datatype-template.html', 'utf-8'));
+var enumTemplate = handlebars.compile(fs.readFileSync('doc-templates/enum-template.html', 'utf-8'));
 
 handlebars.registerPartial('endpoint', endpointTemplate);
 handlebars.registerPartial('nav', navTemplate);
