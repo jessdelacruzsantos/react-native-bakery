@@ -57,8 +57,8 @@ public class ConnectDatatype {
   public JSONObject toJson() {
 
     JSONObject root = new JSONObject();
-    JSONObject datatypeName = new JSONObject();
-    datatypeName.put("type", "object");
+    //JSONObject datatypeName = new JSONObject();
+    root.put("type", "object");
     JSONObject datatypeProperties = new JSONObject();
 
     for (ConnectField property : this.fields) {
@@ -81,9 +81,9 @@ public class ConnectDatatype {
       datatypeProperties.put(property.getName(), datatypeProperty);
     }
 
-    datatypeName.put("properties", datatypeProperties);
-    datatypeName.put("description", this.description);
-    root.put(this.name, datatypeName);
+    root.put("properties", datatypeProperties);
+    root.put("description", this.description);
+    //root.put(this.name, datatypeName);
     return root;
   }
 

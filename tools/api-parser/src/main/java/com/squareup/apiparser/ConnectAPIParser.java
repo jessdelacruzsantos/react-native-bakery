@@ -45,24 +45,38 @@ public class ConnectAPIParser implements APIParser {
     }
 
     // Transform all the symbols to JSON and write out to file
-    JSONObject root = new JSONObject();
-    JSONArray jsonEnums = new JSONArray();
+    JSONObject root = new JSONObject(
+        "{"
+        + "\"swagger\": \"2.0\","
+        + "\"info\": {"
+        + "  \"version\": \"2.0\","
+        + "  \"title\": \"Square Connect API\""
+        + "},"
+        + "\"host\": \"connect.squareup.com\","
+        + "\"schemes\": [\"https\"],"
+        + "\"consumes\": [\"application/json\"],"
+        + "\"produces\": [\"application/json\"]"
+      + "}");
+
+    JSONObject jsonTypes = new JSONObject();
     for (ConnectEnum enumm : this.enums) {
-      jsonEnums.put(enumm.toJson());
+      jsonTypes.put(enumm.getName(), enumm.toJson());
     }
-    root.put("enums", jsonEnums);
 
-    JSONArray jsonDatatypes = new JSONArray();
     for (ConnectDatatype datatype : this.datatypes) {
-      jsonDatatypes.put(datatype.toJson());
+      jsonTypes.put(datatype.getName(), datatype.toJson());
     }
-    root.put("datatypes", jsonDatatypes);
+    root.put("definitions", jsonTypes);
 
-    JSONArray jsonEndpoints = new JSONArray();
+    JSONObject jsonEndpoints = new JSONObject();
     for (ConnectEndpoint endpoint : this.endpoints) {
-      jsonEndpoints.put(endpoint.toJson());
+      if (jsonEndpoints.has(endpoint.getPath())) {
+        jsonEndpoints.getJSONObject(endpoint.getPath()).put(endpoint.getAction(), endpoint.toJson());
+      } else {
+        jsonEndpoints.put(endpoint.getPath(), endpoint.toJson());
+      }
     }
-    root.put("endpoints", jsonEndpoints);
+    root.put("paths", jsonEndpoints);
 
     try {
       String outputPath = System.getProperty("user.home") + "/Development/connect-sdks/tools/sdk-gen/api.json";
