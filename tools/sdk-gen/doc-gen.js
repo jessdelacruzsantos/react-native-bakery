@@ -152,6 +152,7 @@ for (var pathName in paths) {
         endpoint.httpmethod = httpmethod;
         endpoint.details = paths[pathName][httpmethod];
         endpoints.push(endpoint);
+        console.log(endpointTemplate(endpoint));
       }
     }
   }
@@ -176,8 +177,8 @@ for (var typeName in types) {
   }
 }
 
-console.log(enums);
-console.log(datatypes);
+//console.log(enums);
+//console.log(datatypes);
 
 /*var bucketedEndpoints = {};
 

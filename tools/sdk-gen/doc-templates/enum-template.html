@@ -1,21 +1,19 @@
-<div name="enum-{{#idify}}{{this.name}}{{/idify}}" data-unique="enum-{{#idify}}{{this.name}}{{/idify}}"></div>
-<h3 id="enum-{{#idify}}{{this.name}}{{/idify}}" class="enum"><code>{{this.name}}</code></h3>
-{{#convertMarkdown}}{{{this.description}}}{{/convertMarkdown}}
+<div name="type-{{#idify}}{{this.name}}{{/idify}}" data-unique="type-{{#idify}}{{this.name}}{{/idify}}"></div>
+<h3 id="type-{{#idify}}{{this.name}}{{/idify}}" class="enum"><code>{{this.name}}</code></h3>
+{{#convertMarkdown}}{{{this.details.description}}}{{/convertMarkdown}}
 <h4>Fields</h4>
 <table>
   <thead>
     <tr>
       <th>Name</th>
-      <th>Value</th>
       <th>Description</th>
     </tr>
   </thead>
   <tbody>
-    {{#each this.values}}
+    {{#each this.details.enum}}
     <tr>
-      <td><code>{{this.name}}</code></td>
-      <td><code>{{this.value}}</code></td>
-      <td>{{#convertMarkdown}}{{{this.description}}}{{/convertMarkdown}}</td>
+      <td><code>{{this}}</code></td>
+      <td>Forthcoming.</td>
     </tr>
     {{/each}}
   </tbody>

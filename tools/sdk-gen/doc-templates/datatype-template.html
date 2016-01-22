@@ -1,6 +1,6 @@
-<div name="datatype-{{#idify}}{{this.name}}{{/idify}}" data-unique="datatype-{{#idify}}{{this.name}}{{/idify}}"></div>
-<h3 id="datatype-{{#idify}}{{this.name}}{{/idify}}" class="datatype"><code>{{this.name}}</code></h3>
-{{#convertMarkdown}}{{{this.description}}}{{/convertMarkdown}}
+<div name="type-{{#idify}}{{this.name}}{{/idify}}" data-unique="type-{{#idify}}{{this.name}}{{/idify}}"></div>
+<h3 id="type-{{#idify}}{{this.name}}{{/idify}}" class="datatype"><code>{{this.name}}</code></h3>
+{{#convertMarkdown}}{{{this.details.description}}}{{/convertMarkdown}}
 <h4>Fields</h4>
 <table>
   <thead>
@@ -11,11 +11,11 @@
     </tr>
   </thead>
   <tbody>
-    {{#each this.fields}}
+    {{#each this.details.properties}}
     <tr>
-      <td><code>{{this.name}}</code></td>
-      <td><code>{{#processType}}{{this.type}}{{/processType}}{{#checkArray}}{{this.isarray}}{{/checkArray}}</code></td>
-      <td>{{#convertMarkdown}}{{{this.description}}}{{/convertMarkdown}}</td>
+      <td><code>{{@key}}</code></td>
+      <td><code>{{#if this.type}}{{this.type}}{{else}}{{this.$ref}}{{/if}}</code></td>
+      <td>Forthcoming.</td>
     </tr>
     {{/each}}
   </tbody>
