@@ -64,6 +64,11 @@ public class ConnectDatatype {
     for (ConnectField property : this.fields) {
       JSONObject datatypeProperty = new JSONObject();
 
+      // Don't add include URL path parameters in datatype definitions
+      if (property.getIsPathParam()) {
+        continue;
+      }
+
       // If the field has a proto base type, assign it the corresponding swagger base type
       if (typeMap.containsKey(property.getType())) {
         datatypeProperty.put("type", typeMap.get(property.getType()));

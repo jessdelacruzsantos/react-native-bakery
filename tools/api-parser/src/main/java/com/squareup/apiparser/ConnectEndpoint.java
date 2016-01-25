@@ -26,6 +26,7 @@ public class ConnectEndpoint {
   private List<String> oauthpermissions = new ArrayList<String>();
   private List<ConnectField> responsefields = new ArrayList<ConnectField>();
   private String httpmethod = "";
+  private boolean nogenerate = false;
 
   public String getEntity() {
     return entity;
@@ -91,6 +92,13 @@ public class ConnectEndpoint {
     this.httpmethod = httpmethod;
   }
 
+  public boolean isNogenerate() {
+    return nogenerate;
+  }
+
+  public void setNogenerate(boolean nogenerate) {
+    this.nogenerate = nogenerate;
+  }
 
   public ConnectEndpoint(RpcElement rpc, ProtoIndex index) {
 

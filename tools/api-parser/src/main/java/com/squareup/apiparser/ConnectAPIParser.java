@@ -70,7 +70,9 @@ public class ConnectAPIParser implements APIParser {
 
     JSONObject jsonEndpoints = new JSONObject();
     for (ConnectEndpoint endpoint : this.endpoints) {
-
+      if (endpoint.isNogenerate()) {
+        continue;
+      }
       if (!jsonEndpoints.has(endpoint.getPath())) {
         jsonEndpoints.put(endpoint.getPath(), new JSONObject());
       }
