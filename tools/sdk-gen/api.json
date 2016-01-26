@@ -1,15 +1,5 @@
 {
   "paths": {
-    "": {"": {
-      "summary": "CreateCardNonce",
-      "tags": ["Card"],
-      "description": "Make a one time use token (nonce) to return to the seller's site which is\nseparate and distinct from the card PAN. (Nonce is safe to persist, as it\nis not a payment card, although it can only be used one time.)",
-      "parameters": [],
-      "responses": {"200": {
-        "schema": {"$ref": "#/definitions/CreateCardNonceResponse"},
-        "description": "Success"
-      }}
-    }},
     "/v2/locations/{location_id}/transactions": {
       "post": {
         "summary": "Charge",
@@ -39,9 +29,27 @@
         "description": "Lists transactions for a particular location.",
         "parameters": [
           {
-            "name": "params",
+            "name": "location_id",
+            "required": true,
+            "type": "string",
+            "in": "path"
+          },
+          {
+            "name": "begin_time",
             "required": false,
-            "type": "ListTransactionsRequest.Params",
+            "type": "string",
+            "in": "query"
+          },
+          {
+            "name": "end_time",
+            "required": false,
+            "type": "string",
+            "in": "query"
+          },
+          {
+            "name": "sort",
+            "required": true,
+            "type": "Sort",
             "in": "query"
           },
           {
@@ -57,65 +65,59 @@
         }}
       }
     },
-    "/v2/locations/{location_id}/refunds": {
-      "post": {
-        "summary": "RefundTender",
-        "tags": ["Refund"],
-        "description": "",
-        "parameters": [
-          {
-            "schema": {"$ref": "#/definitions/RefundTenderRequest"},
-            "name": "body",
-            "in": "body"
-          },
-          {
-            "name": "location_id",
-            "required": true,
-            "type": "string",
-            "in": "path"
-          }
-        ],
-        "responses": {"200": {
-          "schema": {"$ref": "#/definitions/RefundTenderResponse"},
-          "description": "Success"
-        }}
-      },
-      "get": {
-        "summary": "ListTenderRefunds",
-        "tags": ["Refund"],
-        "description": "",
-        "parameters": [
-          {
-            "name": "params",
-            "required": false,
-            "type": "ListTenderRefundsRequest.Params",
-            "in": "query"
-          },
-          {
-            "name": "cursor",
-            "required": false,
-            "type": "string",
-            "in": "query"
-          }
-        ],
-        "responses": {"200": {
-          "schema": {"$ref": "#/definitions/ListTenderRefundsResponse"},
-          "description": "Success"
-        }}
-      }
-    },
+    "/v2/locations/{location_id}/refunds": {"get": {
+      "summary": "ListTenderRefunds",
+      "tags": ["Refund"],
+      "description": "",
+      "parameters": [
+        {
+          "name": "location_id",
+          "required": true,
+          "type": "string",
+          "in": "path"
+        },
+        {
+          "name": "begin_time",
+          "required": false,
+          "type": "string",
+          "in": "query"
+        },
+        {
+          "name": "end_time",
+          "required": false,
+          "type": "string",
+          "in": "query"
+        },
+        {
+          "name": "sort",
+          "required": true,
+          "type": "Sort",
+          "in": "query"
+        },
+        {
+          "name": "cursor",
+          "required": false,
+          "type": "string",
+          "in": "query"
+        }
+      ],
+      "responses": {"200": {
+        "schema": {"$ref": "#/definitions/ListTenderRefundsResponse"},
+        "description": "Success"
+      }}
+    }},
     "/v2/customers": {
       "post": {
-        "summary": "UpsertCustomer",
+        "summary": "CreateCustomer",
         "tags": ["Customer"],
         "description": "",
         "parameters": [{
-          "schema": {"$ref": "#/definitions/UpsertCustomerRequest"},
+          "schema": {"$ref": "#/definitions/CreateCustomerRequest"},
           "name": "body",
           "in": "body"
         }],
         "responses": {"200": {
-          "schema": {"$ref": "#/definitions/UpsertCustomerResponse"},
+          "schema": {"$ref": "#/definitions/CreateCustomerResponse"},
           "description": "Success"
         }}
       },
@@ -136,6 +138,28 @@
       }
     },
     "/v2/customers/{customer_id}": {
+      "put": {
+        "summary": "UpdateCustomer",
+        "tags": ["Customer"],
+        "description": "",
+        "parameters": [
+          {
+            "schema": {"$ref": "#/definitions/UpdateCustomerRequest"},
+            "name": "body",
+            "in": "body"
+          },
+          {
+            "name": "customer_id",
+            "required": true,
+            "type": "string",
+            "in": "path"
+          }
+        ],
+        "responses": {"200": {
+          "schema": {"$ref": "#/definitions/UpdateCustomerResponse"},
+          "description": "Success"
+        }}
+      },
       "get": {
         "summary": "RetrieveCustomer",
         "tags": ["Customer"],
@@ -167,6 +191,48 @@
         }}
       }
     },
+    "/v2/locations/{location_id}/transactions/{transaction_id}/void": {"post": {
+      "summary": "VoidTransaction",
+      "tags": ["Transaction"],
+      "description": "For canceling a delayed capture transaction.",
+      "parameters": [
+        {
+          "schema": {"$ref": "#/definitions/VoidTransactionRequest"},
+          "name": "body",
+          "in": "body"
+        },
+        {
+          "name": "location_id",
+          "required": true,
+          "type": "string",
+          "in": "path"
+        },
+        {
+          "name": "transaction_id",
+          "required": true,
+          "type": "string",
+          "in": "path"
+        }
+      ],
+      "responses": {"200": {
+        "schema": {"$ref": "#/definitions/VoidTransactionResponse"},
+        "description": "Success"
+      }}
+    }},
+    "/v2/card/tokenize": {"post": {
+      "summary": "CreateCardNonce",
+      "tags": ["CardNonce"],
+      "description": "Make a one time use token (nonce) to return to the seller's site which is\nseparate and distinct from the card PAN. (Nonce is safe to persist, as it\nis not a payment card, although it can only be used one time.)",
+      "parameters": [{
+        "schema": {"$ref": "#/definitions/CreateCardNonceRequest"},
+        "name": "body",
+        "in": "body"
+      }],
+      "responses": {"200": {
+        "schema": {"$ref": "#/definitions/CreateCardNonceResponse"},
+        "description": "Success"
+      }}
+    }},
     "/v2/locations": {"get": {
       "summary": "ListLocations",
       "tags": ["Location"],
@@ -177,82 +243,29 @@
         "description": "Success"
       }}
     }},
-    "/v2/locations/{location_id}/transactions/{transaction_id}": {
-      "post": {
-        "summary": "CaptureTransaction",
-        "tags": ["Transaction"],
-        "description": "For executing delayed capture.",
-        "parameters": [
-          {
-            "schema": {"$ref": "#/definitions/CaptureTransactionRequest"},
-            "name": "body",
-            "in": "body"
-          },
-          {
-            "name": "location_id",
-            "required": true,
-            "type": "string",
-            "in": "path"
-          },
-          {
-            "name": "transaction_id",
-            "required": true,
-            "type": "string",
-            "in": "path"
-          }
-        ],
-        "responses": {"200": {
-          "schema": {"$ref": "#/definitions/CaptureTransactionResponse"},
-          "description": "Success"
-        }}
-      },
-      "get": {
-        "summary": "RetrieveTransaction",
-        "tags": ["Transaction"],
-        "description": "Retrieves details for a single transaction.",
-        "parameters": [
-          {
-            "name": "location_id",
-            "required": true,
-            "type": "string",
-            "in": "path"
-          },
-          {
-            "name": "transaction_id",
-            "required": true,
-            "type": "string",
-            "in": "path"
-          }
-        ],
-        "responses": {"200": {
-          "schema": {"$ref": "#/definitions/RetrieveTransactionResponse"},
-          "description": "Success"
-        }}
-      },
-      "delete": {
-        "summary": "VoidTransaction",
-        "tags": ["Transaction"],
-        "description": "For canceling a delayed capture transaction.",
-        "parameters": [
-          {
-            "name": "location_id",
-            "required": true,
-            "type": "string",
-            "in": "path"
-          },
-          {
-            "name": "transaction_id",
-            "required": true,
-            "type": "string",
-            "in": "path"
-          }
-        ],
-        "responses": {"200": {
-          "schema": {"$ref": "#/definitions/VoidTransactionResponse"},
-          "description": "Success"
-        }}
-      }
-    },
+    "/v2/locations/{location_id}/transactions/{transaction_id}": {"get": {
+      "summary": "RetrieveTransaction",
+      "tags": ["Transaction"],
+      "description": "Retrieves details for a single transaction.",
+      "parameters": [
+        {
+          "name": "location_id",
+          "required": true,
+          "type": "string",
+          "in": "path"
+        },
+        {
+          "name": "transaction_id",
+          "required": true,
+          "type": "string",
+          "in": "path"
+        }
+      ],
+      "responses": {"200": {
+        "schema": {"$ref": "#/definitions/RetrieveTransactionResponse"},
+        "description": "Success"
+      }}
+    }},
     "/v2/customers/{customer_id}/cards/{card_id}": {"delete": {
       "summary": "DeleteCustomerCard",
       "tags": ["Customer.Card"],
@@ -297,6 +310,62 @@
         "schema": {"$ref": "#/definitions/CreateCustomerCardResponse"},
         "description": "Success"
       }}
+    }},
+    "/v2/locations/{location_id}/transactions/{transaction_id}/refund": {"post": {
+      "summary": "RefundTender",
+      "tags": ["Refund"],
+      "description": "",
+      "parameters": [
+        {
+          "schema": {"$ref": "#/definitions/RefundTenderRequest"},
+          "name": "body",
+          "in": "body"
+        },
+        {
+          "name": "location_id",
+          "required": true,
+          "type": "string",
+          "in": "path"
+        },
+        {
+          "name": "transaction_id",
+          "required": true,
+          "type": "string",
+          "in": "path"
+        }
+      ],
+      "responses": {"200": {
+        "schema": {"$ref": "#/definitions/RefundTenderResponse"},
+        "description": "Success"
+      }}
+    }},
+    "/v2/locations/{location_id}/transactions/{transaction_id}/capture": {"post": {
+      "summary": "CaptureTransaction",
+      "tags": ["Transaction"],
+      "description": "For executing delayed capture.",
+      "parameters": [
+        {
+          "schema": {"$ref": "#/definitions/CaptureTransactionRequest"},
+          "name": "body",
+          "in": "body"
+        },
+        {
+          "name": "location_id",
+          "required": true,
+          "type": "string",
+          "in": "path"
+        },
+        {
+          "name": "transaction_id",
+          "required": true,
+          "type": "string",
+          "in": "path"
+        }
+      ],
+      "responses": {"200": {
+        "schema": {"$ref": "#/definitions/CaptureTransactionResponse"},
+        "description": "Success"
+      }}
     }}
   },
   "host": "connect.squareup.com",
@@ -313,17 +382,14 @@
       },
       "type": "object"
     },
+    "UpdateCustomerRequest": {
+      "description": "",
+      "properties": {"customer": {"$ref": "#/definitions/Customer"}},
+      "type": "object"
+    },
     "VoidTransactionResponse": {
       "description": "",
       "properties": {"errors": {"$ref": "#/definitions/Error"}},
-      "type": "object"
-    },
-    "ListTransactionsRequest.Params": {
-      "description": "",
-      "properties": {
-        "ordered_time_range": {"$ref": "#/definitions/OrderedTimeRange"},
-        "location_id": {"type": "string"}
-      },
       "type": "object"
     },
     "DeleteCustomerResponse": {
@@ -336,8 +402,16 @@
       "properties": {
         "card_nonce": {"type": "string"},
         "cardholder_name": {"type": "string"},
-        "customer_id": {"type": "string"},
         "billing_address": {"$ref": "#/definitions/Address"}
+      },
+      "type": "object"
+    },
+    "ChargeRequest.Instrument": {
+      "description": "",
+      "properties": {
+        "card_nonce_instrument": {"$ref": "#/definitions/CardNonceInstrument"},
+        "customer_card_instrument": {"$ref": "#/definitions/CustomerCardInstrument"},
+        "type": {"$ref": "#/definitions/Instrument.Type"}
       },
       "type": "object"
     },
@@ -346,15 +420,6 @@
       "properties": {
         "errors": {"$ref": "#/definitions/Error"},
         "customer": {"$ref": "#/definitions/Customer"}
-      },
-      "type": "object"
-    },
-    "OrderedTimeRange": {
-      "description": "",
-      "properties": {
-        "sort": {"$ref": "#/definitions/Sort"},
-        "begin_time": {"type": "string"},
-        "end_time": {"type": "string"}
       },
       "type": "object"
     },
@@ -379,10 +444,12 @@
     },
     "DeleteCustomerCardRequest": {
       "description": "",
-      "properties": {
-        "card_id": {"type": "string"},
-        "customer_id": {"type": "string"}
-      },
+      "properties": {},
+      "type": "object"
+    },
+    "Instrument.CardNonceInstrument": {
+      "description": "",
+      "properties": {"card_nonce": {"type": "string"}},
       "type": "object"
     },
     "TenderRefund": {
@@ -586,12 +653,12 @@
       ],
       "type": "string"
     },
-    "ChargeRequest.CustomerCardInstrument": {
+    "CreateCustomerRequest": {
       "description": "",
-      "properties": {"customer_card_id": {"type": "string"}},
+      "properties": {"customer": {"$ref": "#/definitions/Customer"}},
       "type": "object"
     },
-    "OrderedTimeRange.Sort": {
+    "Sort": {
       "description": "",
       "enum": [
         "DESC",
@@ -607,15 +674,18 @@
       },
       "type": "object"
     },
+    "Instrument.Type": {
+      "description": "",
+      "enum": [
+        "CARD_NONCE",
+        "CUSTOMER_CARD"
+      ],
+      "type": "string"
+    },
     "Location.Capability": {
       "description": "",
       "enum": ["CREDIT_CARD_PROCESSING"],
       "type": "string"
-    },
-    "UpsertCustomerRequest": {
-      "description": "",
-      "properties": {"customer": {"$ref": "#/definitions/Customer"}},
-      "type": "object"
     },
     "Country": {
       "description": "",
@@ -873,16 +943,13 @@
       ],
       "type": "string"
     },
-    "ChargeRequest.CardNonceInstrument": {
-      "description": "",
-      "properties": {"card_nonce": {"type": "string"}},
-      "type": "object"
-    },
     "ListTransactionsRequest": {
       "description": "",
       "properties": {
         "cursor": {"type": "string"},
-        "params": {"$ref": "#/definitions/ListTransequest.Params"}
+        "sort": {"$ref": "#/definitions/Sort"},
+        "begin_time": {"type": "string"},
+        "end_time": {"type": "string"}
       },
       "type": "object"
     },
@@ -906,7 +973,7 @@
       "properties": {
         "cursor": {"type": "string"},
         "errors": {"$ref": "#/definitions/Error"},
-        "refund": {"$ref": "#/definitions/TenderRefund"}
+        "refunds": {"$ref": "#/definitions/TenderRefund"}
       },
       "type": "object"
     },
@@ -915,29 +982,19 @@
       "properties": {"cursor": {"type": "string"}},
       "type": "object"
     },
-    "ListTenderRefundsRequest.Params": {
-      "description": "",
-      "properties": {
-        "ordered_time_range": {"$ref": "#/definitions/OrderedTimeRange"},
-        "location_id": {"type": "string"}
-      },
-      "type": "object"
-    },
     "ChargeRequest": {
       "description": "",
       "properties": {
         "shipping_address": {"$ref": "#/definitions/Address"},
         "amount_money": {"$ref": "#/definitions/Money"},
-        "customer_card": {"$ref": "#/definitions/ChargeRequest.CustomerCardInstrument"},
         "reference_id": {"type": "string"},
         "delay_capture": {"type": "boolean"},
         "idempotency_key": {"type": "string"},
-        "card_nonce": {"$ref": "#/definitions/ChargeRequest.CardNonceInstrument"},
+        "instrument": {"$ref": "#/definitions/Instrument"},
         "customer_browser_ip_address": {"type": "string"},
         "customer_id": {"type": "string"},
         "note": {"type": "string"},
-        "billing_address": {"$ref": "#/definitions/Address"},
-        "location_id": {"type": "string"}
+        "billing_address": {"$ref": "#/definitions/Address"}
       },
       "type": "object"
     },
@@ -952,7 +1009,7 @@
     },
     "DeleteCustomerRequest": {
       "description": "",
-      "properties": {"customer_id": {"type": "string"}},
+      "properties": {},
       "type": "object"
     },
     "ListLocationsRequest": {
@@ -1042,16 +1099,15 @@
       "description": "",
       "properties": {
         "cursor": {"type": "string"},
-        "params": {"$ref": "#/definitions/ListTenderRefundsRequest.Params"}
+        "sort": {"$ref": "#/definitions/Sort"},
+        "begin_time": {"type": "string"},
+        "end_time": {"type": "string"}
       },
       "type": "object"
     },
     "CaptureTransactionRequest": {
       "description": "",
-      "properties": {
-        "transaction_id": {"type": "string"},
-        "location_id": {"type": "string"}
-      },
+      "properties": {},
       "type": "object"
     },
     "Tender": {
@@ -1062,6 +1118,7 @@
         "amount_money": {"$ref": "#/definitions/Money"},
         "business_id": {"type": "string"},
         "created_at": {"type": "string"},
+        "type": {"$ref": "#/definitions/Tender.Type"},
         "card_details": {"$ref": "#/definitions/Tender.CardDetails"},
         "customer_id": {"type": "string"},
         "note": {"type": "string"},
@@ -1074,6 +1131,11 @@
       "description": "",
       "properties": {"errors": {"$ref": "#/definitions/Error"}},
       "type": "object"
+    },
+    "Tender.Type": {
+      "description": "",
+      "enum": ["CARD"],
+      "type": "string"
     },
     "TenderRefund.Status": {
       "description": "",
@@ -1155,10 +1217,7 @@
     },
     "RetrieveTransactionRequest": {
       "description": "",
-      "properties": {
-        "transaction_id": {"type": "string"},
-        "location_id": {"type": "string"}
-      },
+      "properties": {},
       "type": "object"
     },
     "Error": {
@@ -1175,10 +1234,8 @@
       "properties": {
         "amount_money": {"$ref": "#/definitions/Money"},
         "reason": {"type": "string"},
-        "source_transaction_id": {"type": "string"},
         "idempotency_key": {"type": "string"},
-        "source_tender_id": {"type": "string"},
-        "location_id": {"type": "string"}
+        "tender_id": {"type": "string"}
       },
       "type": "object"
     },
@@ -1201,15 +1258,12 @@
     },
     "VoidTransactionRequest": {
       "description": "",
-      "properties": {
-        "transaction_id": {"type": "string"},
-        "location_id": {"type": "string"}
-      },
+      "properties": {},
       "type": "object"
     },
     "RetrieveCustomerRequest": {
       "description": "",
-      "properties": {"customer_id": {"type": "string"}},
+      "properties": {},
       "type": "object"
     },
     "Address": {
@@ -1230,6 +1284,11 @@
       },
       "type": "object"
     },
+    "Instrument.CustomerCardInstrument": {
+      "description": "",
+      "properties": {"customer_card_id": {"type": "string"}},
+      "type": "object"
+    },
     "CardDetails.Status": {
       "description": "",
       "enum": [
@@ -1241,7 +1300,7 @@
       ],
       "type": "string"
     },
-    "UpsertCustomerResponse": {
+    "CreateCustomerResponse": {
       "description": "",
       "properties": {
         "errors": {"$ref": "#/definitions/Error"},
@@ -1256,6 +1315,14 @@
         "exp_month": {"type": "integer"},
         "cvv": {"type": "string"},
         "number": {"type": "string"}
+      },
+      "type": "object"
+    },
+    "UpdateCustomerResponse": {
+      "description": "",
+      "properties": {
+        "errors": {"$ref": "#/definitions/Error"},
+        "customer": {"$ref": "#/definitions/Customer"}
       },
       "type": "object"
     },
