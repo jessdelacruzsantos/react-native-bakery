@@ -48,8 +48,12 @@
           },
           {
             "name": "sort",
+            "enum": [
+              "DESC",
+              "ASC"
+            ],
             "required": true,
-            "type": "Sort",
+            "type": "string",
             "in": "query"
           },
           {
@@ -90,8 +94,12 @@
         },
         {
           "name": "sort",
+          "enum": [
+            "DESC",
+            "ASC"
+          ],
           "required": true,
-          "type": "Sort",
+          "type": "string",
           "in": "query"
         },
         {
@@ -409,8 +417,8 @@
     "ChargeRequest.Instrument": {
       "description": "",
       "properties": {
-        "card_nonce_instrument": {"$ref": "#/definitions/CardNonceInstrument"},
-        "customer_card_instrument": {"$ref": "#/definitions/CustomerCardInstrument"},
+        "card_nonce_instrument": {"$ref": "#/definitions/Instrument.CardNonceInstrument"},
+        "customer_card_instrument": {"$ref": "#/definitions/Instrument.CustomerCardInstrument"},
         "type": {"$ref": "#/definitions/Instrument.Type"}
       },
       "type": "object"
@@ -457,7 +465,7 @@
       "properties": {
         "id": {"type": "string"},
         "amount_money": {"$ref": "#/definitions/Money"},
-        "status": {"$ref": "#/definitions/Status"},
+        "status": {"$ref": "#/definitions/TenderRefund.Status"},
         "reason": {"type": "string"},
         "source_transaction_id": {"type": "string"},
         "business_id": {"type": "string"},
@@ -990,7 +998,7 @@
         "reference_id": {"type": "string"},
         "delay_capture": {"type": "boolean"},
         "idempotency_key": {"type": "string"},
-        "instrument": {"$ref": "#/definitions/Instrument"},
+        "instrument": {"$ref": "#/definitions/ChargeRequest.Instrument"},
         "customer_browser_ip_address": {"type": "string"},
         "customer_id": {"type": "string"},
         "note": {"type": "string"},
