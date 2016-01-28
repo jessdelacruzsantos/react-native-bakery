@@ -222,7 +222,7 @@
         "description": "Success"
       }}
     }},
-    "/v2/card/tokenize": {"post": {
+    "/v2/card-nonce": {"post": {
       "summary": "CreateCardNonce",
       "tags": ["CardNonce"],
       "description": "Make a one time use token (nonce) to return to the seller's site which is\nseparate and distinct from the card PAN. (Nonce is safe to persist, as it\nis not a payment card, although it can only be used one time.)",
