@@ -52,7 +52,7 @@
               "DESC",
               "ASC"
             ],
-            "required": true,
+            "required": false,
             "type": "string",
             "in": "query"
           },
@@ -98,7 +98,7 @@
             "DESC",
             "ASC"
           ],
-          "required": true,
+          "required": false,
           "type": "string",
           "in": "query"
         },
@@ -205,11 +205,6 @@
       "description": "For canceling a delayed capture transaction.",
       "parameters": [
         {
-          "schema": {"$ref": "#/definitions/VoidTransactionRequest"},
-          "name": "body",
-          "in": "body"
-        },
-        {
           "name": "location_id",
           "required": true,
           "type": "string",
@@ -227,7 +222,7 @@
         "description": "Success"
       }}
     }},
-    "/v2/card/tokenize": {"post": {
+    "/v2/card-nonce": {"post": {
       "summary": "CreateCardNonce",
       "tags": ["CardNonce"],
       "description": "Make a one time use token (nonce) to return to the seller's site which is\nseparate and distinct from the card PAN. (Nonce is safe to persist, as it\nis not a payment card, although it can only be used one time.)",
@@ -353,11 +348,6 @@
       "description": "For executing delayed capture.",
       "parameters": [
         {
-          "schema": {"$ref": "#/definitions/CaptureTransactionRequest"},
-          "name": "body",
-          "in": "body"
-        },
-        {
           "name": "location_id",
           "required": true,
           "type": "string",
@@ -414,15 +404,6 @@
       },
       "type": "object"
     },
-    "ChargeRequest.Instrument": {
-      "description": "",
-      "properties": {
-        "card_nonce_instrument": {"$ref": "#/definitions/Instrument.CardNonceInstrument"},
-        "customer_card_instrument": {"$ref": "#/definitions/Instrument.CustomerCardInstrument"},
-        "type": {"$ref": "#/definitions/Instrument.Type"}
-      },
-      "type": "object"
-    },
     "RetrieveCustomerResponse": {
       "description": "",
       "properties": {
@@ -448,11 +429,6 @@
         "business_id": {"type": "string"},
         "client_id": {"type": "string"}
       },
-      "type": "object"
-    },
-    "DeleteCustomerCardRequest": {
-      "description": "",
-      "properties": {},
       "type": "object"
     },
     "Instrument.CardNonceInstrument": {
@@ -998,7 +974,9 @@
         "reference_id": {"type": "string"},
         "delay_capture": {"type": "boolean"},
         "idempotency_key": {"type": "string"},
-        "instrument": {"$ref": "#/definitions/ChargeRequest.Instrument"},
+        "instrument_type": {"$ref": "#/definitions/Instrument.Type"},
+        "card_nonce_instrument": {"$ref": "#/definitions/Instrument.CardNonceInstrument"},
+        "customer_card_instrument": {"$ref": "#/definitions/Instrument.CustomerCardInstrument"},
         "customer_browser_ip_address": {"type": "string"},
         "customer_id": {"type": "string"},
         "note": {"type": "string"},
@@ -1013,16 +991,6 @@
         "cursor": {"type": "string"},
         "errors": {"$ref": "#/definitions/Error"}
       },
-      "type": "object"
-    },
-    "DeleteCustomerRequest": {
-      "description": "",
-      "properties": {},
-      "type": "object"
-    },
-    "ListLocationsRequest": {
-      "description": "",
-      "properties": {},
       "type": "object"
     },
     "ChargeResponse": {
@@ -1111,11 +1079,6 @@
         "begin_time": {"type": "string"},
         "end_time": {"type": "string"}
       },
-      "type": "object"
-    },
-    "CaptureTransactionRequest": {
-      "description": "",
-      "properties": {},
       "type": "object"
     },
     "Tender": {
@@ -1223,11 +1186,6 @@
       },
       "type": "object"
     },
-    "RetrieveTransactionRequest": {
-      "description": "",
-      "properties": {},
-      "type": "object"
-    },
     "Error": {
       "description": "",
       "properties": {
@@ -1262,16 +1220,6 @@
         "errors": {"$ref": "#/definitions/Error"},
         "refund": {"$ref": "#/definitions/TenderRefund"}
       },
-      "type": "object"
-    },
-    "VoidTransactionRequest": {
-      "description": "",
-      "properties": {},
-      "type": "object"
-    },
-    "RetrieveCustomerRequest": {
-      "description": "",
-      "properties": {},
       "type": "object"
     },
     "Address": {
