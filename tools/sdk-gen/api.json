@@ -481,7 +481,7 @@
       "operationId": "CaptureTransaction"
     }}
   },
-  "host": "connect.squareupstaging.com",
+  "host": "connect.squareup.com",
   "schemes": ["https"],
   "produces": ["application/json"],
   "swagger": "2.0",
