@@ -13,15 +13,16 @@
             "in": "header"
           },
           {
-            "schema": {"$ref": "#/definitions/ChargeRequest"},
-            "name": "body",
-            "in": "body"
-          },
-          {
             "name": "location_id",
             "required": true,
             "type": "string",
             "in": "path"
+          },
+          {
+            "schema": {"$ref": "#/definitions/ChargeRequest"},
+            "name": "body",
+            "required": true,
+            "in": "body"
           }
         ],
         "responses": {"200": {
@@ -150,6 +151,7 @@
           {
             "schema": {"$ref": "#/definitions/CreateCustomerRequest"},
             "name": "body",
+            "required": true,
             "in": "body"
           }
         ],
@@ -197,15 +199,16 @@
             "in": "header"
           },
           {
-            "schema": {"$ref": "#/definitions/UpdateCustomerRequest"},
-            "name": "body",
-            "in": "body"
-          },
-          {
             "name": "customer_id",
             "required": true,
             "type": "string",
             "in": "path"
+          },
+          {
+            "schema": {"$ref": "#/definitions/UpdateCustomerRequest"},
+            "name": "body",
+            "required": true,
+            "in": "body"
           }
         ],
         "responses": {"200": {
@@ -381,15 +384,16 @@
           "in": "header"
         },
         {
-          "schema": {"$ref": "#/definitions/CreateCustomerCardRequest"},
-          "name": "body",
-          "in": "body"
-        },
-        {
           "name": "customer_id",
           "required": true,
           "type": "string",
           "in": "path"
+        },
+        {
+          "schema": {"$ref": "#/definitions/CreateCustomerCardRequest"},
+          "name": "body",
+          "required": true,
+          "in": "body"
         }
       ],
       "responses": {"200": {
@@ -406,6 +410,7 @@
         {
           "schema": {"$ref": "#/definitions/CreateCardNonceRequest"},
           "name": "body",
+          "required": true,
           "in": "body"
         }
       ],
@@ -427,11 +432,6 @@
           "in": "header"
         },
         {
-          "schema": {"$ref": "#/definitions/RefundTenderRequest"},
-          "name": "body",
-          "in": "body"
-        },
-        {
           "name": "location_id",
           "required": true,
           "type": "string",
@@ -442,6 +442,12 @@
           "required": true,
           "type": "string",
           "in": "path"
+        },
+        {
+          "schema": {"$ref": "#/definitions/RefundTenderRequest"},
+          "name": "body",
+          "required": true,
+          "in": "body"
         }
       ],
       "responses": {"200": {
