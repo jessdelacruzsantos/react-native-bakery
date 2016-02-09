@@ -1,36 +1,36 @@
 <div id="toc" class="tocify">
   <ul class="tocify-header">
     <li class="tocify-item" data-unique="navesection-methods">
-      <a>Methods</a>
+      <a>Endpoints</a>
     </li>
     <ul class="tocify-subheader">
       {{#each this.endpoints}}
-        <li class="tocify-item" data-unique="endpoint-{{#idify}}{{this.id}}{{/idify}}">
-          <a href="#endpoint-{{#idify}}{{this.id}}{{/idify}}">{{this.id}}</a>
+        <li class="tocify-item" data-unique="endpoint-{{#idify}}{{this.details.operationId}}{{/idify}}">
+          <a href="#endpoint-{{#idify}}{{this.details.operationId}}{{/idify}}">{{this.details.operationId}}</a>
         </li>
       {{/each}}
     </ul>
   </ul>
-  <ul>
+  <ul class="tocify-header">
     <li class="tocify-item" data-unique="navsection-datatypes">
       <a>Data Types</a>
     </li>
     <ul class="tocify-subheader">
       {{#each this.datatypes}}
-        <li class="tocify-item" data-unique="datatype-{{#idify}}{{this.id}}{{/idify}}">
-          <a href="#datatype-{{#idify}}{{this.name}}{{/idify}}">{{this.name}}</a>
+        <li class="tocify-item" data-unique="type-{{#idify}}{{this.id}}{{/idify}}">
+          <a href="#type-{{#idify}}{{this.name}}{{/idify}}">{{this.name}}</a>
         </li>
       {{/each}}
     </ul>
   </ul>
-  <ul>
+  <ul class="tocify-header">
     <li class="tocify-item" data-unique="navsection-enums">
       <a>Enums</a>
     </li>
     <ul class="tocify-subheader">
       {{#each this.enums}}
-        <li class="tocify-item" data-unique="enum-{{#idify}}{{this.id}}{{/idify}}">
-          <a href="#enum-{{#idify}}{{this.name}}{{/idify}}">{{this.name}}</a>
+        <li class="tocify-item" data-unique="type-{{#idify}}{{this.id}}{{/idify}}">
+          <a href="#type-{{#idify}}{{this.name}}{{/idify}}">{{this.name}}</a>
         </li>
       {{/each}}
     </ul>

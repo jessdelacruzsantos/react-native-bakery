@@ -1,5 +1,6 @@
-<div name="endpoint-{{#idify}}{{this.details.summary}}{{/idify}}" data-unique="endpoint-{{#idify}}{{this.details.summary}}{{/idify}}"></div>
-<h3 id="endpoint-{{#idify}}{{this.details.summary}}{{/idify}}" class="endpoint"><code>{{this.details.summary}}</code></h3>
+<div name="endpoint-{{#idify}}{{this.details.operationId}}{{/idify}}" data-unique="endpoint-{{#idify}}{{this.details.operationId}}{{/idify}}"></div>
+<h3 id="endpoint-{{#idify}}{{this.details.operationId}}{{/idify}}" class="endpoint">{{this.details.operationId}}</h3>
+<p><code class="restpath">{{#capitalize}}{{this.httpmethod}}{{/capitalize}} {{this.path}}</code></p>
 {{#convertMarkdown}}{{{this.details.description}}}{{/convertMarkdown}}
 <!--<p>Required permissions:
 {{#each this.oauthpermissions}}
@@ -12,6 +13,7 @@
     <tr>
       <th>Name</th>
       <th>Type</th>
+      <th>Provided in</th>
       <th>Description</th>
     </tr>
   </thead>
@@ -19,7 +21,8 @@
     {{#each this.details.parameters}}
     <tr>
       <td><code>{{this.name}}</code>{{#checkRequired}}{{this.required}}{{/checkRequired}}</td>
-      <td><code>{{#if this.type}}{{this.type}}{{else}}{{this.schema.$ref}}{{/if}}</code></td>
+      <td><code>{{#if this.type}}{{this.type}}{{else}}{{#linkToType}}{{this.schema.$ref}}{{/linkToType}}{{/if}}</code></td>
+      <td>{{this.in}}</td>
       <td>{{#convertMarkdown}}{{{this.description}}}{{/convertMarkdown}}</td>
     </tr>
     {{/each}}

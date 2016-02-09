@@ -111,6 +111,17 @@ handlebars.registerHelper('backslash', function(options) {
   return '\\';
 });
 
+handlebars.registerHelper('linkToType', function(options) {
+  var fullTypePath = options.fn(this);
+  var typePathComponents = fullTypePath.split('/');
+  var typeName = typePathComponents[typePathComponents.length - 1];
+  return '<a href="#type-' + typeName.toLowerCase() + '">' + typeName + '</a>';
+});
+
+handlebars.registerHelper('capitalize', function(options) {
+  return options.fn(this).toUpperCase();
+});
+
 // Sort endpoints into buckets by entity
 //var endpoints = apiDefinition.endpoints;
 
@@ -140,7 +151,7 @@ for (var i = 0; i < enums.length; i++) {
 //console.log(docpageHTML);
 
 
-
+var docpage = {};
 var endpoints = [];
 var paths = apiDefinition.paths;
 for (var pathName in paths) {
@@ -152,11 +163,13 @@ for (var pathName in paths) {
         endpoint.httpmethod = httpmethod;
         endpoint.details = paths[pathName][httpmethod];
         endpoints.push(endpoint);
-        console.log(endpointTemplate(endpoint));
+        //console.log(endpointTemplate(endpoint));
       }
     }
   }
 }
+
+docpage.endpoints = endpoints;
 
 var types = apiDefinition.definitions;
 
@@ -176,6 +189,11 @@ for (var typeName in types) {
     }
   }
 }
+
+docpage.enums = enums;
+docpage.datatypes = datatypes;
+
+console.log(docpageTemplate(docpage));
 
 //console.log(enums);
 //console.log(datatypes);
