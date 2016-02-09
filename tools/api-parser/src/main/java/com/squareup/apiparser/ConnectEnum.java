@@ -1,24 +1,19 @@
 package com.squareup.apiparser;
 
-import com.squareup.wire.schema.internal.parser.EnumConstantElement;
 import com.squareup.wire.schema.internal.parser.EnumElement;
-import com.squareup.wire.schema.internal.parser.TypeElement;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-
 public class ConnectEnum extends ConnectType {
-  private List<ConnectField> values;
+  private final List<ConnectField> values;
 
-
-  public ConnectEnum(EnumElement enumm, String packageName, ConnectType parentType) {
+  public ConnectEnum(EnumElement enumm, String packageName, Optional<ConnectType> parentType) {
     super(enumm, packageName, parentType);
-    this.values = new ArrayList<ConnectField>();
-    for (EnumConstantElement field : enumm.constants()) {
-      values.add(new ConnectField(field.name(), "", field.tag(), field.documentation()));
-    }
+    this.values = enumm.constants().stream()
+        .map(f -> new ConnectField(f.name(), "", f.tag(), f.documentation())).collect(Collectors.toList());
     this.parseDocumentationString(enumm.documentation());
   }
 
@@ -27,30 +22,11 @@ public class ConnectEnum extends ConnectType {
   }
 
   public JSONObject toJson() {
-    JSONObject root = new JSONObject();
-    root.put("type", "string");
-
+    final Optional<String> desc = Optional.ofNullable(this.docAnnotations.get("desc"));
     JSONArray enumValues = new JSONArray();
-    for (ConnectField value : this.values) {
-      enumValues.put(value.getName());
-    }
-
-    root.put("enum", enumValues);
-
-    if (this.docAnnotations.containsKey("desc")) {
-      root.put("description", this.docAnnotations.get("desc"));
-    } else {
-      root.put("description", "");
-    }
-
-    return root;
-  }
-
-  public String getDescription() {
-    if (this.docAnnotations.containsKey("desc")) {
-      return this.docAnnotations.get("desc");
-    } else {
-      return "";
-    }
+    this.values.stream().forEach(e -> enumValues.put(e.getName()));
+    return new JSONObject().put("type", "string")
+        .put("enum", enumValues)
+        .put("description", desc.orElse(""));
   }
 }

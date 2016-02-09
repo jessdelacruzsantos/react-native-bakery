@@ -1,0 +1,119 @@
+// Copyright 2015 Square, Inc.
+// All rights reserved.
+
+syntax = "proto2";
+
+option java_package = "com.squareup.protos.connect.v3.resources";
+option java_multiple_files = true;
+
+package squareup.connect.v3.resources;
+
+message Transaction {
+  //--@desc The transaction's unique ID.--
+  optional string id = 1;
+
+  //--@desc The ID of the transaction's associated business.--
+  optional string business_id = 2;
+
+  //--@desc The ID of the transaction's associated location.--
+  optional string location_id = 3;
+
+  //--@desc The time when the transaction was created, in RFC 3339 format.--
+  optional string created_at = 6;
+
+  repeated Tender tenders = 7;
+}
+
+//--@desc Represents a charge against a card taken by a Square merchant.--
+message Tender {
+  //--@desc The tender's unique ID.--
+  optional string id = 1;
+
+  //--@desc The ID of the tender's associated business.--
+  optional string business_id = 2;
+
+  //--@desc The ID of the tender's associated location.--
+  optional string location_id = 3;
+
+  //--@desc The ID of the tender's associated transaction.--
+  optional string transaction_id = 4;
+
+  //--@desc The time when the tender was created, in RFC 3339 format.--
+  optional string created_at = 5;
+
+  optional string note = 6;
+
+  optional string customer_id = 9;
+
+  enum Type {
+    //--@desc card_details must be populated for CARD type.--
+    CARD = 1;
+  }
+
+  required Tender.Type type = 10;
+
+  message CardDetails {
+    enum Status {
+      UNKNOWN = 0;
+      AUTHORIZED = 1;
+      CAPTURED = 2;
+      VOIDED = 3;
+      FAILED = 4;
+    }
+    optional CardDetails.Status status = 1;
+    optional Card card = 2;
+  }
+
+  optional Tender.CardDetails card_details = 11;
+}
+
+message Card {
+  // Only filled in once attached to a customer.
+  //--@desc The card's unique ID.--
+  optional string id = 1;
+
+  enum Brand {
+    OTHER_BRAND = 0;
+
+    VISA = 1;
+    MASTERCARD = 2;
+    AMERICAN_EXPRESS = 3;
+    DISCOVER = 4;
+    DISCOVER_DINERS = 5;
+    JCB = 6;
+    CHINA_UNIONPAY = 7;
+    SQUARE_GIFT_CARD = 8;
+  }
+  optional Card.Brand card_brand = 2;
+
+  // @desc last 4 digits of card number
+  optional string last_4 = 3;
+
+  // @desc The month of the card's expiration date, which must be between 1-12.
+  optional int64 exp_month = 4;
+
+  // @desc The year of the card's expiration date, which must be a 4 digit year.
+  optional int64 exp_year = 5;
+
+  // @desc The cardholder name for the card on file.
+  optional string cardholder_name = 6;
+}
+
+message CardData {
+  // @desc The number on the card.
+  optional string number = 1;
+
+  // @desc The month of the card's expiration date, which must be between 1-12.
+  optional int64 exp_month = 2;
+
+  // @desc The year of the card's expiration date, which must be a 4 digit year.
+  optional int64 exp_year = 3;
+
+  // @desc The card verification value (i.e. security code) printed on the card.
+  optional string cvv = 4;
+
+  // @desc The billing postal code for the card on file.
+  // Postal code in the billing address for US and Canada payments may reduce decline rate.
+  required string billing_postal_code = 5;
+}
+

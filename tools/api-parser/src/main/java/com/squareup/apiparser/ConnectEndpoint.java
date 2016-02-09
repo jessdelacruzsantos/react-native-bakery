@@ -1,74 +1,48 @@
 package com.squareup.apiparser;
 
-import com.squareup.wire.schema.internal.parser.EnumElement;
-import com.squareup.wire.schema.internal.parser.FieldElement;
-import com.squareup.wire.schema.internal.parser.MessageElement;
-import com.squareup.wire.schema.internal.parser.OneOfElement;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import com.squareup.wire.schema.internal.parser.RpcElement;
-import com.squareup.wire.schema.internal.parser.TypeElement;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.json.JSONObject;
+import java.util.stream.Collectors;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * Represents the details of an HTTP endpoint as defined by an rpc in a proto file.
  */
 public class ConnectEndpoint {
-  private String inputType = "";
-  private String outputType = "";
-  private List<ConnectField> params = new ArrayList<ConnectField>();
-  private boolean nogenerate = false;
-  private Map<String, String> docAnnotations;
-  private RpcElement rootRpc;
-  private ProtoIndex index;
+  private final String inputType;
+  private final String outputType;
+  private final List<ConnectField> params;
+  private final Map<String, String> docAnnotations;
+  private final RpcElement rootRpc;
+  private final ProtoIndex index;
 
+  public ConnectEndpoint(RpcElement rpc, ProtoIndex index) {
+    this.docAnnotations = new HashMap<>();
+    this.rootRpc = rpc;
+    this.inputType = rpc.requestType();
+    this.outputType = rpc.responseType();
+    this.index = index;
+    this.parseDocumentationString(rpc.documentation());
+    ConnectType requestType = index.getType(inputType);
+    Preconditions.checkNotNull(requestType);
+    this.params = (((ConnectDatatype) requestType).getFields().stream().collect(Collectors.toList()));
+  }
 
   public String getPath() {
-    if (this.docAnnotations.containsKey("path")) {
-      return this.docAnnotations.get("path");
-    } else {
-      return "";
-    }
+    return this.docAnnotations.getOrDefault("path", "");
   }
 
   public String getHttpmethod() {
-    if (this.docAnnotations.containsKey("httpmethod")) {
-      return this.docAnnotations.get("httpmethod");
-    } else {
-      return "";
-    }
-  }
-
-  public boolean isNogenerate() {
-    return nogenerate;
+    return this.docAnnotations.getOrDefault("httpmethod", "");
   }
 
   public String getName() {
     return this.rootRpc.name();
-  }
-
-  public ConnectEndpoint(RpcElement rpc, ProtoIndex index) {
-    this.docAnnotations = new HashMap<String, String>();
-    this.rootRpc = rpc;
-    this.index = index;
-    this.parseDocumentationString(rpc.documentation());
-    this.generateFields(rpc, index);
-  }
-
-  public void generateFields(RpcElement rpc, ProtoIndex index) {
-    this.inputType = rpc.requestType();
-    this.outputType = rpc.responseType();
-
-    ConnectType requestType = index.getType(this.inputType);
-
-    // Request fields
-    for (ConnectField cf : ((ConnectDatatype)requestType).getFields()) {
-      this.params.add(cf);
-    }
   }
 
   // Builds out endpoint JSON in the format expected by the Swagger 2.0 specification.
@@ -126,8 +100,6 @@ public class ConnectEndpoint {
         swaggerParameter.put("in", "query");
         swaggerParameter.put("required", param.getRequired());
         swaggerParameters.put(swaggerParameter);
-      } else {
-
       }
     }
 
@@ -186,40 +158,7 @@ public class ConnectEndpoint {
   }
 
   private void parseDocumentationString(String docString) {
-
-    String[] components;
-    if (docString.equals("")) {
-      return;
-
-      // Public doc strings can be bounded by two hyphens to support multiline annotations.
-    } else if (docString.contains("--")) {
-      String publicDocString = docString.split("--")[1];
-      components = publicDocString.split("\\s+@");
-      if (components[0].trim().startsWith("@")) {
-        components[0] = components[0].replaceFirst("@", "");
-      }
-
-      // If there is no two-hyphen boundary, it's assumed each annotation is exactly one line.
-    } else {
-      int annotationIndex = 0;
-      int newlineIndex = 0;
-      List<String> componentList = new ArrayList<String>();
-      while (true) {
-        annotationIndex = docString.indexOf("@", annotationIndex);
-        newlineIndex = docString.indexOf("\n", annotationIndex);
-        if (annotationIndex == -1) {
-          break;
-        }
-        if (newlineIndex == -1) {
-          newlineIndex = docString.length();
-        }
-        componentList.add(docString.substring(annotationIndex + 1, newlineIndex));
-        annotationIndex = newlineIndex;
-      }
-      components = new String[componentList.size()];
-      components = componentList.toArray(components);
-    }
-
+    final ImmutableList<String> components = DocString.parse(docString);
     for (String entry : components) {
       String keyword = entry.split(" ")[0];
 

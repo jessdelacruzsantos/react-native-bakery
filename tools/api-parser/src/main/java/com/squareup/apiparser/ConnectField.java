@@ -1,25 +1,31 @@
 package com.squareup.apiparser;
 
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.squareup.wire.schema.Field;
 import com.squareup.wire.schema.internal.parser.FieldElement;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.json.JSONObject;
 
 public class ConnectField {
-  private String name = "";
-  private String type = "";
-  private int value = 0;
-  private Boolean required = false;
-  private Boolean isArray = false;
+  private final String name;
+  private final String type;
+  private final Boolean required;
+  @Nullable private final FieldElement rootField;
+  private final Boolean isArray;
+  private List<String> enumValues;
   private Boolean isPathParam = false;
-  private List<String> enumValues = new ArrayList<>();
-  private Map<String, String> docAnnotations = new HashMap<>();
+  private int value = 0;
+  private final Map<String, String> docAnnotations = new HashMap<>();
   private final Map<String, Object> validations;
-  private FieldElement rootField;
 
   public String getName() {
     return this.name;
@@ -41,10 +47,6 @@ public class ConnectField {
     return required;
   }
 
-  public void setRequired(Boolean required) {
-    this.required = required;
-  }
-
   public boolean isPathParam() {
     return this.docAnnotations.containsKey("pathparam");
   }
@@ -54,7 +56,7 @@ public class ConnectField {
   }
 
   public List<String> getEnumValues() {
-    return enumValues;
+    return enumValues == null ? Collections.emptyList() : enumValues;
   }
 
   public Map<String, Object> getValidations() {
@@ -65,10 +67,9 @@ public class ConnectField {
     this.name = field.name();
     this.rootField = field;
     this.type = this.processType(rootField.type());
+    this.required = field.label() == Field.Label.REQUIRED;
+    this.isArray = field.label() == Field.Label.REPEATED;
     this.parseDocumentationString(field.documentation());
-    if (ProtoOptions.isRequired(field)) {
-      this.setRequired(true);
-    }
     this.validations = ProtoOptions.validations(field.options());
   }
 
@@ -76,19 +77,8 @@ public class ConnectField {
   // that is ALSO an enum. It exists because in swagger, enum request parameters MUST be defined
   // in-line, and cannot refer to a schema.
   public ConnectField(FieldElement field, ConnectEnum enumm) {
-    this.name = field.name();
-    this.rootField = field;
-    this.type = this.processType(rootField.type());
-    this.parseDocumentationString(field.documentation());
-    this.isArray = (field.label() == Field.Label.REPEATED);
-    if (ProtoOptions.isRequired(field)) {
-      this.setRequired(true);
-    }
-    this.validations = ProtoOptions.validations(field.options());
-
-    for (ConnectField enumValue : enumm.getValues()) {
-      this.enumValues.add(enumValue.getName());
-    }
+    this(field);
+    this.enumValues = enumm.getValues().stream().map(ConnectField::getName).collect(Collectors.toList());
   }
 
   // This constructor is called ONLY for fields that represent a value of an enum, such as USD.
@@ -96,51 +86,22 @@ public class ConnectField {
     this.name = name;
     this.type = this.processType(type);
     this.value = value;
+    this.required = false;
+    this.rootField = null;
+    this.isArray = false;
+    this.enumValues = ImmutableList.of();
     this.parseDocumentationString(documentation);
     this.validations = ImmutableMap.of();
   }
 
-  private void parseDocumentationString(String docString) {
-
-    String[] components;
-    if (docString.equals("")) {
-      return;
-
-      // Public doc strings can be bounded by two hyphens to support multiline annotations.
-    } else if (docString.contains("--")) {
-      String publicDocString = docString.split("--")[1];
-      components = publicDocString.split("\\s+@");
-      if (components[0].trim().startsWith("@")) {
-        components[0] = components[0].replaceFirst("@", "");
-      }
-
-      // If there is no two-hyphen boundary, it's assumed each annotation is exactly one line.
-    } else {
-      int annotationIndex = 0;
-      int newlineIndex = 0;
-      List<String> componentList = new ArrayList<String>();
-      while (true) {
-        annotationIndex = docString.indexOf("@", annotationIndex);
-        newlineIndex = docString.indexOf("\n", annotationIndex);
-        if (annotationIndex == -1) {
-          break;
-        }
-        if (newlineIndex == -1) {
-          newlineIndex = docString.length();
-        }
-        componentList.add(docString.substring(annotationIndex + 1, newlineIndex));
-        annotationIndex = newlineIndex;
-      }
-      components = new String[componentList.size()];
-      components = componentList.toArray(components);
-    }
-
+  private void parseDocumentationString(@NotNull String docString) {
+    Preconditions.checkNotNull(docString);
+    List<String> components = DocString.parse(docString);
     for (String entry : components) {
       String keyword = entry.split(" ")[0];
 
       if (this.docAnnotations.containsKey(keyword)) {
-        System.err.println(
-            "ERROR! Multiple doc annotations of same type found for field " + this.getName());
+        System.err.println("ERROR! Multiple doc annotations of same type found for field " + this.getName());
       }
 
       docAnnotations.put(keyword, entry.replaceFirst(keyword, "").trim());
@@ -156,22 +117,15 @@ public class ConnectField {
 
   // NB(alec): why isn't this called?
   public JSONObject toJson() {
-    JSONObject fieldJson = new JSONObject();
-    fieldJson.put("name", this.name);
-    fieldJson.put("type", this.type);
-    if (this.docAnnotations.containsKey("desc")) {
-      fieldJson.put("description", this.docAnnotations.get("desc"));
-    } else {
-      fieldJson.put("description", "");
-    }
-
-    fieldJson.put("required", this.required);
-    fieldJson.put("isarray", this.isArray);
-    fieldJson.put("value", this.value);
-    fieldJson.put("ispathparam", this.isPathParam);
-
-    this.validations.entrySet().forEach(v -> fieldJson.put(v.getKey(), v.getValue()));
-
-    return fieldJson;
+    Optional<String> desc = Optional.ofNullable(this.docAnnotations.get("desc"));
+    JSONObject json = new JSONObject();
+    this.validations.entrySet().forEach(v -> json.put(v.getKey(), v.getValue()));
+    return json.put("name", this.name)
+        .put("type", this.type)
+        .put("required", this.required)
+        .put("isarray", this.isArray)
+        .put("value", this.value)
+        .put("description", desc.orElse(""))
+        .put("ispathparam", this.isPathParam);
   }
 }

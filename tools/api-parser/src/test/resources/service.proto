@@ -1,0 +1,27 @@
+syntax = "proto2";
+
+option java_package = "com.squareup.protos.connect.v3";
+option java_multiple_files = true;
+package squareup.connect.v3;
+
+import "actions.proto";
+
+service SquareConnectV3 {
+  /*--
+    @entity Transaction
+    @path /v2/locations/{location_id}/transactions/{transaction_id}
+    @httpmethod POST
+    @oauthpermissions PAYMENTS_WRITE
+    @desc For executing delayed capture.
+  --*/
+  rpc CaptureTransaction (actions.CaptureTransactionRequest) returns (actions.CaptureTransactionResponse);
+
+  /*--
+    @entity Transaction
+    @path /v2/locations/{location_id}/transactions/{transaction_id}
+    @httpmethod GET
+    @desc Retrieves details for a single transaction.
+    @oauthpermissions PAYMENTS_READ
+  --*/
+  rpc RetrieveTransaction (actions.RetrieveTransactionRequest) returns (actions.RetrieveTransactionResponse);
+}

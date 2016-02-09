@@ -1,0 +1,81 @@
+// Copyright 2015 Square, Inc.
+// All rights reserved.
+
+syntax = "proto2";
+
+option java_package = "com.squareup.protos.connect.v3.actions";
+option java_multiple_files = true;
+
+package squareup.connect.v3.actions;
+
+message RetrieveTransactionRequest {
+  //@pathparam
+  required string location_id = 1;
+
+  //@pathparam
+  required string transaction_id = 2;
+}
+message RetrieveTransactionResponse {
+  repeated resources.Error errors = 1;
+  optional resources.Transaction transaction = 2;
+}
+
+message CaptureTransactionRequest {
+  //@pathparam
+  required string location_id = 1;
+
+  //@pathparam
+  required string transaction_id = 2;
+}
+message CaptureTransactionResponse {
+  repeated resources.Error errors = 1;
+}
+
+// Errors are always a repeated field. This allows clients to easily group
+// errors by code or by field as they please. The contents of the human-readable
+// detail property may be subject to change.
+message Error {
+  // Error types are (http status code * 10000 + increment), except for
+  // internal_server_error, which is the enum default.
+  enum Type {
+    // 500 Internal Server Error
+    INTERNAL_SERVER_ERROR = 5000000;
+
+    UNAUTHORIZED = 4010000;
+    ACCESS_TOKEN_EXPIRED = 4010001;
+    ACCESS_TOKEN_REVOKED = 4010002;
+
+    FORBIDDEN = 4030000;
+    INSUFFICIENT_SCOPES = 4030001;
+    BAD_REQUEST = 4000000;
+    NOT_FOUND = 4040000;
+
+    // 408 Request Timeout
+    REQUEST_TIMEOUT = 4080000;
+
+    // 413 Request Entity Too Large
+    REQUEST_ENTITY_TOO_LARGE = 4130000;
+
+    // 415 Unsupported Media Type
+    UNSUPPORTED_MEDIA_TYPE = 4150000;
+
+    // 429 Rate Limited
+    RATE_LIMITED = 4290000;
+
+    // 501 Not Implemented
+    NOT_IMPLEMENTED = 5010000; // Sandbox support will lag behind API support for a while
+
+    // 503 Service Unavailable
+    SERVICE_UNAVAILABLE = 5030000;
+  }
+
+  // Type is a machine-readable error code.
+  optional Error.Type type = 1;
+
+  // Detail is a human-readable error message.
+  optional string detail = 2;
+
+  // Field is a json path to the applicable field.
+  optional string field = 3;
+}
+

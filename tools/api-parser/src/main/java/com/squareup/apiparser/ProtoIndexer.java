@@ -1,88 +1,73 @@
 package com.squareup.apiparser;
 
-
 import com.squareup.wire.schema.Location;
-import com.squareup.wire.schema.internal.parser.ProtoParser;
 import com.squareup.wire.schema.internal.parser.ProtoFileElement;
+import com.squareup.wire.schema.internal.parser.ProtoParser;
 import com.squareup.wire.schema.internal.parser.ServiceElement;
 import com.squareup.wire.schema.internal.parser.TypeElement;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.regex.Pattern;
+import okio.BufferedSource;
 import okio.Okio;
 
 public class ProtoIndexer {
-
-  private List<ProtoFileElement> protoFiles;
   private List<ConnectType> protoTypes;
   private List<ConnectService> protoServices;
 
-
   public ProtoIndexer() {
-    this.protoFiles = new ArrayList<ProtoFileElement>();
-    this.protoTypes = new ArrayList<ConnectType>();
-    this.protoServices = new ArrayList<ConnectService>();
+    this.protoTypes = new ArrayList<>();
+    this.protoServices = new ArrayList<>();
   }
 
   public ProtoIndex indexProtos(String[] protoPaths) {
-
     ProtoIndex index = new ProtoIndex();
-
     for (String path : protoPaths) {
-      File file = new File(path);
       try {
-        if (file.getCanonicalPath().endsWith(".proto")) {
-          addProtoFile(file, index);
-        } else if (file.isDirectory()) {
-          recursivelyAddProtos(file, index);
-        } else {
-          continue;
-        }
+        Files.walkFileTree(Paths.get(path), new SimpleFileVisitor<Path>() {
+          @Override public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+            if (Pattern.matches(".*\\.proto\\Z", file.toString())) {
+              addProtoFile(file.toFile(), index);
+            }
+            return FileVisitResult.CONTINUE;
+          }
+        });
       } catch (IOException e) {
-
+        e.printStackTrace();
       }
     }
     index.populate(this.protoTypes, this.protoServices);
     return index;
   }
 
-  private void recursivelyAddProtos(File directory, ProtoIndex index) {
-    File[] children = directory.listFiles();
-    for (File child : children) {
-      try {
-        if (child.isDirectory()) {
-          recursivelyAddProtos(child, index);
-        } else if (child.getCanonicalPath().endsWith(".proto")) {
-          addProtoFile(child, index);
-        } else {
-          continue;
-        }
-      } catch (IOException e) {
-
-      }
-    }
-  }
-
   private void addProtoFile(File file, ProtoIndex index) {
-    try {
-      ProtoFileElement protoFile = ProtoParser.parse(Location.get(file.getCanonicalPath()),
-        Okio.buffer(Okio.source(file)).readUtf8());
+    try (BufferedSource buffer = Okio.buffer(Okio.source(file))) {
+      final Location l = Location.get(file.getCanonicalPath());
+      final ProtoFileElement proto = ProtoParser.parse(l, buffer.readUtf8());
 
-      for (TypeElement datatype : protoFile.types()) {
-        addType(datatype, protoFile.packageName(), null);
+      for (TypeElement t : proto.types()) {
+        addType(t, proto.packageName(), null);
       }
 
-      for (ServiceElement service : protoFile.services()) {
-        this.protoServices.add(new ConnectService(service, protoFile.packageName()));
+      for (ServiceElement service : proto.services()) {
+        this.protoServices.add(new ConnectService(service, proto.packageName()));
       }
     } catch (IOException e) {
-
+      e.printStackTrace();
     }
   }
 
   private void addType(TypeElement datatype, String packageName, ConnectType parent) {
-    ConnectType ct = new ConnectType(datatype, packageName, parent);
+    ConnectType ct = new ConnectType(datatype, packageName, Optional.ofNullable(parent));
     this.protoTypes.add(ct);
     for (TypeElement subType : datatype.nestedTypes()) {
       addType(subType, packageName, ct);

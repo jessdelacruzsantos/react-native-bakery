@@ -1,14 +1,13 @@
 package com.squareup.apiparser;
 
-import com.squareup.wire.schema.internal.parser.EnumElement;
+import com.google.common.base.Preconditions;
 import com.squareup.wire.schema.internal.parser.FieldElement;
 import com.squareup.wire.schema.internal.parser.MessageElement;
 import com.squareup.wire.schema.internal.parser.OneOfElement;
-import com.squareup.wire.schema.internal.parser.TypeElement;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -17,10 +16,10 @@ public class ConnectDatatype extends ConnectType {
   private List<ConnectField> fields;
 
 
-  public ConnectDatatype(MessageElement message, String packageName, ConnectType parentType) {
+  public ConnectDatatype(MessageElement message, String packageName, Optional<ConnectType> parentType) {
     super(message, packageName, parentType);
     this.parseDocumentationString(message.documentation());
-    this.fields = new ArrayList<ConnectField>();
+    this.fields = new ArrayList<>();
   }
 
   public List<ConnectField> getFields() {
@@ -117,9 +116,9 @@ public class ConnectDatatype extends ConnectType {
     return root;
   }
 
-  private JSONObject handleProperty(ConnectField property, JSONObject rootObject) {
+  private JSONObject handleProperty(@NotNull ConnectField property, JSONObject rootObject) {
     property.getValidations().entrySet().forEach(v-> rootObject.put(v.getKey(),v.getValue()));
-
+    Preconditions.checkNotNull(property);
     // This field's type is an enum. We need to declare it locally.
     if (!property.getEnumValues().isEmpty()) {
       rootObject.put("type", "string");

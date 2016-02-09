@@ -1,30 +1,34 @@
 package com.squareup.apiparser;
 
+import com.google.common.base.Joiner;
+import com.google.common.base.Preconditions;
+import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.squareup.wire.schema.internal.parser.EnumElement;
 import com.squareup.wire.schema.internal.parser.MessageElement;
 import com.squareup.wire.schema.internal.parser.RpcElement;
-import com.squareup.wire.schema.internal.parser.ServiceElement;
 import com.squareup.wire.schema.internal.parser.TypeElement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import org.jetbrains.annotations.NotNull;
 
 public class ProtoIndex {
-
   private Map<String, ConnectDatatype> dtypes;
   private Map<String, ConnectEnum> enums;
   private List<ConnectEndpoint> endpoints;
 
-
   public ProtoIndex() {
-    this.enums = new HashMap<String, ConnectEnum>();
-    this.dtypes = new HashMap<String, ConnectDatatype>();
-    this.endpoints = new ArrayList<ConnectEndpoint>();
+    this.enums = new HashMap<>();
+    this.dtypes = new HashMap<>();
+    this.endpoints = new ArrayList<>();
   }
 
   public boolean populate(List<ConnectType> types, List<ConnectService> services) {
-
     // This does datatypes + enums, need to do endpoints
     for (ConnectType type : types) {
       TypeElement rootType = type.getRootType();
@@ -44,8 +48,7 @@ public class ProtoIndex {
         this.dtypes.put(type.getName(), cd);
       } else {
         // Shouldn't happen
-        System.out.println("Entity with unknown type encountered!");
-        System.out.println(rootType.name());
+        System.out.println("Entity with unknown type encountered: " + rootType.name());
         return false;
       }
     }
@@ -77,85 +80,20 @@ public class ProtoIndex {
     return this.endpoints;
   }
 
+  public ConnectType getType(@NotNull String typeName) {
+    Preconditions.checkNotNull(typeName);
+    final LinkedList<String> strings = new LinkedList<>(Splitter.on('.').splitToList(typeName));
+    Iterables.removeAll(strings, ImmutableList.of("actions", "resources"));
+    final String type = Joiner.on("").join(strings);
+    final List<String> enumtypes = enums.keySet().stream().filter(e -> e.endsWith(type)).collect(Collectors.toList());
+    final List<String> datatypes = dtypes.keySet().stream().filter(d -> d.endsWith(type)).collect(Collectors.toList());
 
-  public ConnectType getType(String typeName) {
-    typeName = typeName.replaceFirst("actions.", "");
-    typeName = typeName.replaceFirst("resources.", "");
-    typeName = typeName.replaceAll("\\.", "");
-    ConnectType typeToReturn = null;
-    for (String enumName : this.enums.keySet()) {
-      if (enumName.endsWith(typeName)) {
-        if (typeToReturn != null) {
-          System.err.println("Multiple matches found for requested type " + typeName);
-          return null;
-        } else {
-          typeToReturn = this.enums.get(enumName);
-        }
-      }
+    final boolean bothEmpty = enumtypes.isEmpty() && datatypes.isEmpty();
+    if (datatypes.size() > 1 || enumtypes.size() > 1 || bothEmpty) {
+      System.err.println("Either no matches or multiple matches found for requested type " + typeName);
+      return null;
     }
 
-    for (String datatypeName : this.dtypes.keySet()) {
-      if (datatypeName.endsWith(typeName)) {
-        if (typeToReturn != null) {
-          System.err.println("Multiple matches found for requested type " + typeName);
-          return null;
-        } else {
-          typeToReturn = this.dtypes.get(datatypeName);
-        }
-      }
-    }
-    return typeToReturn;
+    return (!enumtypes.isEmpty()) ? enums.get(enumtypes.get(0)) : dtypes.get(datatypes.get(0));
   }
- /*
-  public boolean addDatatype(TypeElement e, String packageName, TypeElement parent) {
-    String qualifiedName;
-    if (parent == null) {
-      qualifiedName = packageName + "." + e.name();
-    } else {
-      qualifiedName = packageName + "." + parent.name() + "." + e.name();
-    }
-    if (!this.datatypes.containsKey(qualifiedName)) {
-      this.datatypes.put(qualifiedName, e);
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  public boolean addService(ServiceElement e, String packageName) {
-    String qualifiedName = packageName + "." + e.name();
-    if (!this.services.containsKey(qualifiedName)) {
-      this.services.put(qualifiedName, e);
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  public TypeElement getDatatype(String name) {
-    for (String qualifiedName : this.datatypes.keySet()) {
-      if (qualifiedName.endsWith(name)) {
-        return this.datatypes.get(qualifiedName);
-      }
-    }
-    return null;
-  }
-
-  public String getQualifiedName(String name) {
-    for (String qualifiedName : this.datatypes.keySet()) {
-      if (qualifiedName.endsWith(name)) {
-        return qualifiedName;
-      }
-    }
-    return null;
-  }
-
-  public Map<String, TypeElement> getDatatypes() {
-    return this.datatypes;
-  }
-
-  public Map<String, ServiceElement> getServices() {
-    return this.services;
-  }       */
-
 }
