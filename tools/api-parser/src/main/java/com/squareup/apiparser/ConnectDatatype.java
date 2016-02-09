@@ -72,12 +72,17 @@ public class ConnectDatatype extends ConnectType {
     JSONObject root = new JSONObject();
     root.put("type", "object");
     JSONObject datatypeProperties = new JSONObject();
+    JSONArray datatypeRequireds = new JSONArray();
 
     for (ConnectField property : this.fields) {
 
       // Don't add include URL path parameters in datatype definitions
       if (property.isPathParam()) {
         continue;
+      }
+
+      if (property.getRequired()) {
+        datatypeRequireds.put(property.getName());
       }
 
       JSONObject datatypeProperty = new JSONObject();
@@ -100,6 +105,7 @@ public class ConnectDatatype extends ConnectType {
     }
 
     root.put("properties", datatypeProperties);
+    root.put("required", datatypeRequireds);
     if (this.docAnnotations.containsKey("desc")) {
       root.put("description", this.docAnnotations.get("desc"));
     } else {
