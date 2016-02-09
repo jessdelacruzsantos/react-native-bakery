@@ -17,32 +17,10 @@ import org.json.JSONObject;
 
 public class ConnectAPIParser implements APIParser {
 
-  private List<ConnectDatatype> datatypes;
-  private List<ConnectEnum> enums;
-  private List<ConnectEndpoint> endpoints;
-
   public ConnectAPIParser() {
-    this.datatypes = new ArrayList<ConnectDatatype>();
-    this.enums = new ArrayList<ConnectEnum>();
-    this.endpoints = new ArrayList<ConnectEndpoint>();
   }
 
   public void parseAPI(ProtoIndex index) {
-
-    Map<String, TypeElement> types = index.getDatatypes();
-
-    /* Generate enums and datatypes */
-    for (String key : types.keySet()) {
-      this.processType(types.get(key), key, null);
-    }
-
-    /* Generate endpoints */
-    Map<String, ServiceElement> services = index.getServices();
-    for (ServiceElement service : services.values()) {
-      for (RpcElement rpc : service.rpcs()) {
-        endpoints.add(new ConnectEndpoint(rpc, index));
-      }
-    }
 
     // Transform all the symbols to JSON and write out to file
     JSONObject root = new JSONObject(
@@ -59,17 +37,19 @@ public class ConnectAPIParser implements APIParser {
       + "}");
 
     JSONObject jsonTypes = new JSONObject();
-    for (ConnectEnum enumm : this.enums) {
+    for (ConnectEnum enumm : index.getEnums().values()) {
       jsonTypes.put(enumm.getName(), enumm.toJson());
     }
 
-    for (ConnectDatatype datatype : this.datatypes) {
-      jsonTypes.put(datatype.getName(), datatype.toJson());
+    for (ConnectDatatype datatype : index.getDatatypes().values()) {
+      if (datatype.hasFields()) {
+        jsonTypes.put(datatype.getName(), datatype.toJson());
+      }
     }
     root.put("definitions", jsonTypes);
 
     JSONObject jsonEndpoints = new JSONObject();
-    for (ConnectEndpoint endpoint : this.endpoints) {
+    for (ConnectEndpoint endpoint : index.getEndpoints()) {
       if (endpoint.isNogenerate()) {
         continue;
       }
@@ -107,7 +87,7 @@ public class ConnectAPIParser implements APIParser {
       // Public doc strings can be bounded by two hyphens to support multiline annotations.
     } else if (docString.contains("--")) {
       String publicDocString = docString.split("--")[1];
-      components = publicDocString.split("\n@");
+      components = publicDocString.split("\\s+@");
       if (components[0].trim().startsWith("@")) {
         components[0] = components[0].replaceFirst("@", "");
       }
@@ -136,34 +116,8 @@ public class ConnectAPIParser implements APIParser {
     }
   }
 
-  private void processType(TypeElement type, String id, TypeElement parent) {
-    if (type instanceof MessageElement) {
-      ConnectDatatype datatype = new ConnectDatatype((MessageElement)type, id);
-
-      // If a type is defined inside another type, include the parent type's name in the child's
-      if (parent != null) {
-        datatype.setName(parent.name() + "." + type.name());
-      }
-      datatypes.add(datatype);
-
-    } else if (type instanceof EnumElement) {
-      ConnectEnum enumm = new ConnectEnum((EnumElement)type, id);
-
-      // If a type is defined inside another type, include the parent type's name in the child's
-      if (parent != null) {
-        enumm.setName(parent.name() + "." + type.name());
-      }
-      enums.add(enumm);
-    }
-
-    for (TypeElement subtype : type.nestedTypes()) {
-      this.processType(subtype, id + "." + subtype.name(), type);
-    }
-  }
-
   public static void main(String argv[]) {
-    ProtoIndex index = ProtoIndexer.indexProtos(argv);
-    APIParser generator = new ConnectAPIParser();
-    generator.parseAPI(index);
+    ProtoIndex index = new ProtoIndexer().indexProtos(argv);
+    new ConnectAPIParser().parseAPI(index);
   }
 }

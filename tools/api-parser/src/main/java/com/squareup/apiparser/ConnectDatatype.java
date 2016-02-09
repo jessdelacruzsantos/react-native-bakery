@@ -1,8 +1,10 @@
 package com.squareup.apiparser;
 
+import com.squareup.wire.schema.internal.parser.EnumElement;
 import com.squareup.wire.schema.internal.parser.FieldElement;
 import com.squareup.wire.schema.internal.parser.MessageElement;
 import com.squareup.wire.schema.internal.parser.OneOfElement;
+import com.squareup.wire.schema.internal.parser.TypeElement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,46 +12,57 @@ import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class ConnectDatatype {
-  private String id = "";
-  private String name = "";
+public class ConnectDatatype extends ConnectType {
   private String description = "";
   private List<ConnectField> fields;
-  private static final Map<String, String> typeMap;
-  static {
-    Map<String, String> aMap = new HashMap<String, String>();
-    aMap.put("int32", "integer");
-    aMap.put("int64", "integer");
-    aMap.put("bool", "boolean");
-    aMap.put("string", "string");
-    typeMap = aMap;
+
+
+  public ConnectDatatype(MessageElement message, String packageName, ConnectType parentType) {
+    super(message, packageName, parentType);
+    this.parseDocumentationString(message.documentation());
+    this.fields = new ArrayList<ConnectField>();
   }
 
-  public ConnectDatatype(MessageElement message, String id) {
-    this.name = message.name();
-    this.fields = new ArrayList<ConnectField>();
-    this.id = id;
-    for(FieldElement field : message.fields()) {
-      this.fields.add(new ConnectField(field));
+  public List<ConnectField> getFields() {
+    return this.fields;
+  }
+
+  // Indicates whether the datatype has any fields that AREN'T just path parameters.
+  public boolean hasFields() {
+    for (ConnectField field : this.fields) {
+      if (!field.isPathParam()) {
+        return true;
+      }
     }
-    for(OneOfElement oneof : message.oneOfs()) {
-      for (FieldElement field : oneof.fields()) {
+    return false;
+  }
+
+  public boolean populateFields(ProtoIndex index) {
+    MessageElement rootMessage = (MessageElement)this.rootType;
+    for (FieldElement fe : rootMessage.fields()) {
+      this.populateField(fe, index);
+    }
+    for(OneOfElement oneof : rootMessage.oneOfs()) {
+      for (FieldElement fe : oneof.fields()) {
+        this.populateField(fe, index);
+      }
+    }
+    return true;
+  }
+
+  private void populateField(FieldElement field, ProtoIndex index) {
+    String typeName = field.type();
+    if (!ConnectType.typeMap.containsKey(typeName)) {
+      ConnectType ct = index.getType(typeName);
+
+      // If the field's type IS an enum...
+      if (ct != null && ct instanceof ConnectEnum) {
+        this.fields.add(new ConnectField(field, (ConnectEnum)ct));
+      } else {
         this.fields.add(new ConnectField(field));
       }
-    }
-
-    String[] comments = {""};
-    if (message.documentation().contains("--")) {
-      String publicDocString = message.documentation().split("--")[1];
-      comments = publicDocString.split("\n@");
-      for (String entry : comments) {
-        String keyword = entry.split(" ")[0];
-        switch (keyword) {
-          case "desc":
-            this.setDescription(entry.replaceFirst("desc", "").trim());
-            break;
-        }
-      }
+    } else {
+      this.fields.add(new ConnectField(field));
     }
   }
 
@@ -57,62 +70,73 @@ public class ConnectDatatype {
   public JSONObject toJson() {
 
     JSONObject root = new JSONObject();
-    //JSONObject datatypeName = new JSONObject();
     root.put("type", "object");
     JSONObject datatypeProperties = new JSONObject();
 
     for (ConnectField property : this.fields) {
-      JSONObject datatypeProperty = new JSONObject();
 
       // Don't add include URL path parameters in datatype definitions
-      if (property.getIsPathParam()) {
+      if (property.isPathParam()) {
         continue;
       }
 
-      // If the field has a proto base type, assign it the corresponding swagger base type
-      if (typeMap.containsKey(property.getType())) {
-        datatypeProperty.put("type", typeMap.get(property.getType()));
+      JSONObject datatypeProperty = new JSONObject();
 
-        // Otherwise, assign it the appropriate custom swagger resource
+      datatypeProperty.put("description", property.getDescription());
+
+      // THE FIELD IS AN ARRAY. DECLARATION CHANGES SOMEWHAT
+      if (property.isArray()) {
+        datatypeProperty.put("type", "array");
+        JSONObject arrayItems = new JSONObject();
+        arrayItems = handleProperty(property, arrayItems);
+        datatypeProperty.put("items", arrayItems);
+        datatypeProperties.put(property.getName(), datatypeProperty);
+
+        // THE FIELD IS NOT AN ARRAY
       } else {
-        String typeName = property.getType();
-
-        // When specifying the name of the resource, get rid of pointless proto prefixes
-        typeName = typeName.replaceFirst("resources.", "");
-        typeName = typeName.replaceFirst("actions.", "");
-
-        datatypeProperty.put("$ref", "#/definitions/" + typeName);
+        datatypeProperty = handleProperty(property, datatypeProperty);
+        datatypeProperties.put(property.getName(), datatypeProperty);
       }
-      datatypeProperties.put(property.getName(), datatypeProperty);
     }
 
     root.put("properties", datatypeProperties);
-    root.put("description", this.description);
-    //root.put(this.name, datatypeName);
+    if (this.docAnnotations.containsKey("desc")) {
+      root.put("description", this.docAnnotations.get("desc"));
+    } else {
+      root.put("description", "");
+    }
+
     return root;
   }
 
-  private JSONArray arrayifyFields(List<ConnectField> fields) {
-    JSONArray array = new JSONArray();
-    for (ConnectField field : fields) {
-      array.put(field.toJson());
+  private JSONObject handleProperty(ConnectField property, JSONObject rootObject) {
+
+    // This field's type is an enum. We need to declare it locally.
+    if (!property.getEnumValues().isEmpty()) {
+      rootObject.put("type", "string");
+      JSONArray enumValues = new JSONArray();
+      for (String enumValue : property.getEnumValues()) {
+        enumValues.put(enumValue);
+      }
+      rootObject.put("enum", enumValues);
+      return rootObject;
     }
-    return array;
-  }
 
-  public String getName() {
-    return name;
-  }
+    // If the field has a proto base type, assign it the corresponding swagger base type
+    if (typeMap.containsKey(property.getType())) {
+      rootObject.put("type", typeMap.get(property.getType()));
+      return rootObject;
 
-  public void setName(String name) {
-    this.name = name;
-  }
+      // Otherwise, assign it the appropriate custom swagger resource
+    } else {
+      String typeName = property.getType();
 
-  public String getDescription() {
-    return description;
-  }
+      // When specifying the name of the resource, get rid of pointless proto prefixes
+      typeName = typeName.replaceFirst("resources.", "");
+      typeName = typeName.replaceFirst("actions.", "");
 
-  public void setDescription(String description) {
-    this.description = description;
+      rootObject.put("$ref", "#/definitions/" + typeName.replace("\\.", ""));
+      return rootObject;
+    }
   }
 }

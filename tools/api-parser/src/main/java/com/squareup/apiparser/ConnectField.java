@@ -1,7 +1,16 @@
 package com.squareup.apiparser;
 
 import com.squareup.wire.schema.Field;
+import com.squareup.wire.schema.internal.parser.EnumConstantElement;
+import com.squareup.wire.schema.internal.parser.EnumElement;
 import com.squareup.wire.schema.internal.parser.FieldElement;
+
+import com.squareup.wire.schema.internal.parser.TypeElement;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import java.util.Map;
 import org.json.JSONObject;
 
 
@@ -9,36 +18,28 @@ public class ConnectField {
   private String name = "";
   private String type = "";
   private int value = 0;
-  private String description = "";
   private Boolean required = false;
   private Boolean isArray = false;
   private Boolean isPathParam = false;
+  private List<String> enumValues = new ArrayList<String>();
+  private Map<String, String> docAnnotations = new HashMap<String, String>();
+  private FieldElement rootField;
 
-
-  private String typeId = "";
 
   public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
+    return this.name;
   }
 
   public String getType() {
-    return type;
-  }
-
-  public void setType(String type) {
-    this.type = type;
+    return this.type;
   }
 
   public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
+    if (this.docAnnotations.containsKey("desc")) {
+      return docAnnotations.get("desc");
+    } else {
+      return "";
+    }
   }
 
   public Boolean getRequired() {
@@ -49,69 +50,118 @@ public class ConnectField {
     this.required = required;
   }
 
-  public String getTypeId() {
-    return typeId;
+  public boolean isPathParam() {
+    return this.docAnnotations.containsKey("pathparam");
   }
 
-  public void setTypeId(String typeId) {
-    this.typeId = typeId;
+  public Boolean isArray() {
+    return (this.rootField.label() == Field.Label.REPEATED);
   }
 
-  public Boolean getIsPathParam() {
-    return isPathParam;
-  }
-
-  public void setIsPathParam(Boolean isPathParam) {
-    this.isPathParam = isPathParam;
-  }
-
-  public int getValue() {
-    return value;
-  }
-
-  public void setValue(int value) {
-    this.value = value;
-  }
-
-  public ConnectField(String name, String type, int value, String documentation) {
-    this.name = name;
-    this.type = type;
-    this.value = value;
-    this.parseDocumentationString(documentation);
+  public List<String> getEnumValues() {
+    return enumValues;
   }
 
   public ConnectField(FieldElement field) {
     this.name = field.name();
-    this.type = field.type().toString();
+    this.rootField = field;
+    this.type = this.processType(rootField.type());
     this.parseDocumentationString(field.documentation());
-    this.isArray = (field.label() == Field.Label.REPEATED);
     if (field.label() == Field.Label.REQUIRED) {
       this.setRequired(true);
     }
   }
 
+  // This constructor is called ONLY for fields that represent a request parameter for an endpoint
+  // that is ALSO an enum. It exists because in swagger, enum request parameters MUST be defined
+  // in-line, and cannot refer to a schema.
+  public ConnectField(FieldElement field, ConnectEnum enumm) {
+    this.name = field.name();
+    this.rootField = field;
+    this.type = this.processType(rootField.type());
+    this.parseDocumentationString(field.documentation());
+    this.isArray = (field.label() == Field.Label.REPEATED);
+    if (field.label() == Field.Label.REQUIRED) {
+      this.setRequired(true);
+    }
+
+    for (ConnectField enumValue : enumm.getValues()) {
+      this.enumValues.add(enumValue.getName());
+    }
+  }
+
+  // This constructor is called ONLY for fields that represent a value of an enum, such as USD.
+  public ConnectField(String name, String type, int value, String documentation) {
+    this.name = name;
+    this.type = this.processType(type);
+    this.value = value;
+    this.parseDocumentationString(documentation);
+  }
+
+
   private void parseDocumentationString(String docString) {
 
-    String[] docComponents = ConnectAPIParser.parseDocString(docString);
-    for (String entry : docComponents) {
-      String keyword = entry.split(" ")[0];
-      switch (keyword) {
-        case "desc":
-          this.setDescription(entry.replaceFirst("desc", "").trim());
-          break;
-        case "pathparam":
-          this.setIsPathParam(true);
-        default:
-          break;
+    String[] components;
+    if (docString.equals("")) {
+      return;
+
+      // Public doc strings can be bounded by two hyphens to support multiline annotations.
+    } else if (docString.contains("--")) {
+      String publicDocString = docString.split("--")[1];
+      components = publicDocString.split("\\s+@");
+      if (components[0].trim().startsWith("@")) {
+        components[0] = components[0].replaceFirst("@", "");
       }
+
+      // If there is no two-hyphen boundary, it's assumed each annotation is exactly one line.
+    } else {
+      int annotationIndex = 0;
+      int newlineIndex = 0;
+      List<String> componentList = new ArrayList<String>();
+      while (true) {
+        annotationIndex = docString.indexOf("@", annotationIndex);
+        newlineIndex = docString.indexOf("\n", annotationIndex);
+        if (annotationIndex == -1) {
+          break;
+        }
+        if (newlineIndex == -1) {
+          newlineIndex = docString.length();
+        }
+        componentList.add(docString.substring(annotationIndex + 1, newlineIndex));
+        annotationIndex = newlineIndex;
+      }
+      components = new String[componentList.size()];
+      components = componentList.toArray(components);
     }
+
+    for (String entry : components) {
+      String keyword = entry.split(" ")[0];
+
+      if (this.docAnnotations.containsKey(keyword)) {
+        System.err.println("ERROR! Multiple doc annotations of same type found for field " + this.getName());
+      }
+
+      docAnnotations.put(keyword, entry.replaceFirst(keyword, "").trim());
+    }
+  }
+
+  private String processType(String type) {
+    type = type.replaceFirst("resources.", "");
+    type = type.replaceFirst("actions.", "");
+    type = type.replaceAll("\\.", "");
+    return type;
   }
 
   public JSONObject toJson() {
     JSONObject fieldJson = new JSONObject();
     fieldJson.put("name", this.name);
     fieldJson.put("type", this.type);
-    fieldJson.put("description", this.description);
+    if (this.docAnnotations.containsKey("desc")) {
+      fieldJson.put("description", this.docAnnotations.get("desc"));
+    } else {
+      fieldJson.put("description", "");
+    }
+
     fieldJson.put("required", this.required);
     fieldJson.put("isarray", this.isArray);
     fieldJson.put("value", this.value);

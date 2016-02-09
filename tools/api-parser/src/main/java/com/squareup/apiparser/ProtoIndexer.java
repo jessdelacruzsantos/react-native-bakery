@@ -15,13 +15,17 @@ import okio.Okio;
 public class ProtoIndexer {
 
   private List<ProtoFileElement> protoFiles;
+  private List<ConnectType> protoTypes;
+  private List<ConnectService> protoServices;
 
 
   public ProtoIndexer() {
-    protoFiles = new ArrayList<ProtoFileElement>();
+    this.protoFiles = new ArrayList<ProtoFileElement>();
+    this.protoTypes = new ArrayList<ConnectType>();
+    this.protoServices = new ArrayList<ConnectService>();
   }
 
-  public static ProtoIndex indexProtos(String[] protoPaths) {
+  public ProtoIndex indexProtos(String[] protoPaths) {
 
     ProtoIndex index = new ProtoIndex();
 
@@ -39,10 +43,11 @@ public class ProtoIndexer {
 
       }
     }
+    index.populate(this.protoTypes, this.protoServices);
     return index;
   }
 
-  private static void recursivelyAddProtos(File directory, ProtoIndex index) {
+  private void recursivelyAddProtos(File directory, ProtoIndex index) {
     File[] children = directory.listFiles();
     for (File child : children) {
       try {
@@ -59,20 +64,28 @@ public class ProtoIndexer {
     }
   }
 
-  private static void addProtoFile(File file, ProtoIndex index) {
+  private void addProtoFile(File file, ProtoIndex index) {
     try {
       ProtoFileElement protoFile = ProtoParser.parse(Location.get(file.getCanonicalPath()),
         Okio.buffer(Okio.source(file)).readUtf8());
 
       for (TypeElement datatype : protoFile.types()) {
-        index.addDatatype(datatype, protoFile.packageName());
+        addType(datatype, protoFile.packageName(), null);
       }
 
       for (ServiceElement service : protoFile.services()) {
-        index.addService(service, protoFile.packageName());
+        this.protoServices.add(new ConnectService(service, protoFile.packageName()));
       }
     } catch (IOException e) {
 
+    }
+  }
+
+  private void addType(TypeElement datatype, String packageName, ConnectType parent) {
+    ConnectType ct = new ConnectType(datatype, packageName, parent);
+    this.protoTypes.add(ct);
+    for (TypeElement subType : datatype.nestedTypes()) {
+      addType(subType, packageName, ct);
     }
   }
 }
