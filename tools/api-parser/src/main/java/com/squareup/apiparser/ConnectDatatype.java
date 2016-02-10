@@ -105,7 +105,9 @@ public class ConnectDatatype extends ConnectType {
     }
 
     root.put("properties", datatypeProperties);
-    root.put("required", datatypeRequireds);
+    if (datatypeRequireds.length() > 0) {
+      root.put("required", datatypeRequireds);
+    }
     if (this.docAnnotations.containsKey("desc")) {
       root.put("description", this.docAnnotations.get("desc"));
     } else {
