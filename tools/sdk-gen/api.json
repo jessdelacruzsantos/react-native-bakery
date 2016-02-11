@@ -1,2071 +1,585 @@
 {
   "paths": {
-    "/v2/locations/{location_id}/transactions": {
-      "post": {
-        "summary": "Charge",
-        "tags": ["Transaction"],
-        "description": "Charges a card represented by a token.",
-        "parameters": [
-          {
-            "description": "The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.",
-            "name": "Authorization",
-            "required": true,
-            "type": "string",
-            "in": "header"
-          },
-          {
-            "description": "The ID of the location to associate the transaction with.",
-            "name": "location_id",
-            "required": true,
-            "type": "string",
-            "in": "path"
-          },
-          {
-            "schema": {"$ref": "#/definitions/ChargeRequest"},
-            "description": "An object containing the fields to POST for the request.\n\nSee the corresponding object definition for field details.",
-            "name": "body",
-            "required": true,
-            "in": "body"
-          }
-        ],
-        "responses": {"200": {
-          "schema": {"$ref": "#/definitions/ChargeResponse"},
-          "description": "Success"
-        }},
-        "operationId": "Charge"
-      },
-      "get": {
-        "summary": "ListTransactions",
-        "tags": ["Transaction"],
-        "description": "Lists transactions for a particular location.\n\nWhen making a request to this endpoint, your request body **must** include either the `cursor` parameter, or it must\ninclude all three of `begin_time`, `end_time`, and `sort`.",
-        "parameters": [
-          {
-            "description": "The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.",
-            "name": "Authorization",
-            "required": true,
-            "type": "string",
-            "in": "header"
-          },
-          {
-            "description": "The ID of the location to list transactions for.",
-            "name": "location_id",
-            "required": true,
-            "type": "string",
-            "in": "path"
-          },
-          {
-            "description": "The beginning of the requested reporting period, in RFC 3339 format.",
-            "name": "begin_time",
-            "required": false,
-            "type": "string",
-            "in": "query"
-          },
-          {
-            "description": "The end of the requested reporting period, in RFC 3339 format.",
-            "name": "end_time",
-            "required": false,
-            "type": "string",
-            "in": "query"
-          },
-          {
-            "description": "The order in which results are listed in the response (`ASC` for\nchronological, `DESC` for reverse-chronological).",
-            "name": "sort",
-            "enum": [
-              "DESC",
-              "ASC"
-            ],
-            "required": false,
-            "type": "string",
-            "in": "query"
-          },
-          {
-            "description": "A pagination cursor to retrieve the next set of results for your\noriginal query to the endpoint.",
-            "name": "cursor",
-            "required": false,
-            "type": "string",
-            "in": "query"
-          }
-        ],
-        "responses": {"200": {
-          "schema": {"$ref": "#/definitions/ListTransactionsResponse"},
-          "description": "Success"
-        }},
-        "operationId": "ListTransactions"
-      }
-    },
-    "/v2/locations/{location_id}/refunds": {"get": {
-      "summary": "ListTenderRefunds",
-      "tags": ["Refund"],
-      "description": "Lists refunds for one of a business's locations.",
-      "parameters": [
-        {
-          "description": "The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.",
-          "name": "Authorization",
-          "required": true,
-          "type": "string",
-          "in": "header"
-        },
-        {
-          "description": "The ID of the location to list refunds for.",
-          "name": "location_id",
-          "required": true,
-          "type": "string",
-          "in": "path"
-        },
-        {
-          "description": "The beginning of the requested reporting period, in RFC 3339 format.",
-          "name": "begin_time",
-          "required": false,
-          "type": "string",
-          "in": "query"
-        },
-        {
-          "description": "The end of the requested reporting period, in RFC 3339 format.",
-          "name": "end_time",
-          "required": false,
-          "type": "string",
-          "in": "query"
-        },
-        {
-          "description": "The order in which results are listed in the response.",
-          "name": "sort",
-          "enum": [
-            "DESC",
-            "ASC"
-          ],
-          "required": false,
-          "type": "string",
-          "in": "query"
-        },
-        {
-          "description": "A pagination cursor to retrieve the next set of results for your\noriginal query to the endpoint.",
-          "name": "cursor",
-          "required": false,
-          "type": "string",
-          "in": "query"
-        }
-      ],
-      "responses": {"200": {
-        "schema": {"$ref": "#/definitions/ListTenderRefundsResponse"},
-        "description": "Success"
-      }},
-      "operationId": "ListTenderRefunds"
-    }},
-    "/v2/customers": {
-      "post": {
-        "summary": "CreateCustomer",
-        "tags": ["Customer"],
-        "description": "Creates a new customer for the business, which can have associated cards on file.",
-        "parameters": [
-          {
-            "description": "The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.",
-            "name": "Authorization",
-            "required": true,
-            "type": "string",
-            "in": "header"
-          },
-          {
-            "schema": {"$ref": "#/definitions/CreateCustomerRequest"},
-            "description": "An object containing the fields to POST for the request.\n\nSee the corresponding object definition for field details.",
-            "name": "body",
-            "required": true,
-            "in": "body"
-          }
-        ],
-        "responses": {"200": {
-          "schema": {"$ref": "#/definitions/CreateCustomerResponse"},
-          "description": "Success"
-        }},
-        "operationId": "CreateCustomer"
-      },
-      "get": {
-        "summary": "ListCustomers",
-        "tags": ["Customer"],
-        "description": "Lists a business's customers.",
-        "parameters": [
-          {
-            "description": "The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.",
-            "name": "Authorization",
-            "required": true,
-            "type": "string",
-            "in": "header"
-          },
-          {
-            "description": "",
-            "name": "cursor",
-            "required": false,
-            "type": "string",
-            "in": "query"
-          }
-        ],
-        "responses": {"200": {
-          "schema": {"$ref": "#/definitions/ListCustomersResponse"},
-          "description": "Success"
-        }},
-        "operationId": "ListCustomers"
-      }
-    },
-    "/v2/customers/{customer_id}": {
-      "put": {
-        "summary": "UpdateCustomer",
-        "tags": ["Customer"],
-        "description": "Updates the details of an existing customer.",
-        "parameters": [
-          {
-            "description": "The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.",
-            "name": "Authorization",
-            "required": true,
-            "type": "string",
-            "in": "header"
-          },
-          {
-            "description": "The customer to udpate.",
-            "name": "customer_id",
-            "required": true,
-            "type": "string",
-            "in": "path"
-          },
-          {
-            "schema": {"$ref": "#/definitions/UpdateCustomerRequest"},
-            "description": "An object containing the fields to POST for the request.\n\nSee the corresponding object definition for field details.",
-            "name": "body",
-            "required": true,
-            "in": "body"
-          }
-        ],
-        "responses": {"200": {
-          "schema": {"$ref": "#/definitions/UpdateCustomerResponse"},
-          "description": "Success"
-        }},
-        "operationId": "UpdateCustomer"
-      },
-      "get": {
-        "summary": "RetrieveCustomer",
-        "tags": ["Customer"],
-        "description": "Returns details for a single customer.",
-        "parameters": [
-          {
-            "description": "The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.",
-            "name": "Authorization",
-            "required": true,
-            "type": "string",
-            "in": "header"
-          },
-          {
-            "description": "",
-            "name": "customer_id",
-            "required": true,
-            "type": "string",
-            "in": "path"
-          }
-        ],
-        "responses": {"200": {
-          "schema": {"$ref": "#/definitions/RetrieveCustomerResponse"},
-          "description": "Success"
-        }},
-        "operationId": "RetrieveCustomer"
-      },
-      "delete": {
-        "summary": "DeleteCustomer",
-        "tags": ["Customer"],
-        "description": "Deletes a customer from a business.",
-        "parameters": [
-          {
-            "description": "The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.",
-            "name": "Authorization",
-            "required": true,
-            "type": "string",
-            "in": "header"
-          },
-          {
-            "description": "",
-            "name": "customer_id",
-            "required": true,
-            "type": "string",
-            "in": "path"
-          }
-        ],
-        "responses": {"200": {
-          "schema": {"$ref": "#/definitions/DeleteCustomerResponse"},
-          "description": "Success"
-        }},
-        "operationId": "DeleteCustomer"
-      }
-    },
-    "/v2/locations/{location_id}/transactions/{transaction_id}/void": {"post": {
-      "summary": "VoidTransaction",
-      "tags": ["Transaction"],
-      "description": "Cancels a transaction that was created with the **Charge**\nendpoint with a `delay_capture` value of `true`.",
-      "parameters": [
-        {
-          "description": "The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.",
-          "name": "Authorization",
-          "required": true,
-          "type": "string",
-          "in": "header"
-        },
-        {
-          "description": "",
-          "name": "location_id",
-          "required": true,
-          "type": "string",
-          "in": "path"
-        },
-        {
-          "description": "",
-          "name": "transaction_id",
-          "required": true,
-          "type": "string",
-          "in": "path"
-        }
-      ],
-      "responses": {"200": {
-        "schema": {"$ref": "#/definitions/VoidTransactionResponse"},
-        "description": "Success"
-      }},
-      "operationId": "VoidTransaction"
-    }},
-    "/v2/locations": {"get": {
-      "summary": "ListLocations",
-      "tags": ["Location"],
-      "description": "Provides summary information for all of a business's locations.",
-      "parameters": [{
-        "description": "The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.",
-        "name": "Authorization",
-        "required": true,
-        "type": "string",
-        "in": "header"
-      }],
-      "responses": {"200": {
-        "schema": {"$ref": "#/definitions/ListLocationsResponse"},
-        "description": "Success"
-      }},
-      "operationId": "ListLocations"
-    }},
-    "/v2/locations/{location_id}/transactions/{transaction_id}": {"get": {
-      "summary": "RetrieveTransaction",
-      "tags": ["Transaction"],
-      "description": "Retrieves details for a single transaction.",
-      "parameters": [
-        {
-          "description": "The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.",
-          "name": "Authorization",
-          "required": true,
-          "type": "string",
-          "in": "header"
-        },
-        {
-          "description": "",
-          "name": "location_id",
-          "required": true,
-          "type": "string",
-          "in": "path"
-        },
-        {
-          "description": "",
-          "name": "transaction_id",
-          "required": true,
-          "type": "string",
-          "in": "path"
-        }
-      ],
-      "responses": {"200": {
-        "schema": {"$ref": "#/definitions/RetrieveTransactionResponse"},
-        "description": "Success"
-      }},
-      "operationId": "RetrieveTransaction"
-    }},
-    "/v2/customers/{customer_id}/cards/{card_id}": {"delete": {
-      "summary": "DeleteCustomerCard",
-      "tags": ["Customer.Card"],
-      "description": "Removes a card on file from a customer.",
-      "parameters": [
-        {
-          "description": "The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.",
-          "name": "Authorization",
-          "required": true,
-          "type": "string",
-          "in": "header"
-        },
-        {
-          "description": "",
-          "name": "customer_id",
-          "required": true,
-          "type": "string",
-          "in": "path"
-        },
-        {
-          "description": "",
-          "name": "card_id",
-          "required": true,
-          "type": "string",
-          "in": "path"
-        }
-      ],
-      "responses": {"200": {
-        "schema": {"$ref": "#/definitions/DeleteCustomerCardResponse"},
-        "description": "Success"
-      }},
-      "operationId": "DeleteCustomerCard"
-    }},
     "/v2/customers/{customer_id}/cards": {"post": {
       "summary": "CreateCustomerCard",
-      "tags": ["Customer.Card"],
-      "description": "Adds a card on file to an existing customer.",
-      "parameters": [
-        {
-          "description": "The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.",
-          "name": "Authorization",
-          "required": true,
-          "type": "string",
-          "in": "header"
-        },
-        {
-          "description": "",
-          "name": "customer_id",
-          "required": true,
-          "type": "string",
-          "in": "path"
-        },
-        {
-          "schema": {"$ref": "#/definitions/CreateCustomerCardRequest"},
-          "description": "An object containing the fields to POST for the request.\n\nSee the corresponding object definition for field details.",
-          "name": "body",
-          "required": true,
-          "in": "body"
-        }
-      ],
+      "operationId": "CreateCustomerCard",
+      "description": "",
       "responses": {"200": {
         "schema": {"$ref": "#/definitions/CreateCustomerCardResponse"},
         "description": "Success"
       }},
-      "operationId": "CreateCustomerCard"
+      "parameters": [
+        {
+          "in": "header",
+          "name": "Authorization",
+          "description": "The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.",
+          "type": "string",
+          "required": true
+        },
+        {
+          "in": "path",
+          "name": "customer_id",
+          "description": "",
+          "type": "string",
+          "required": true
+        },
+        {
+          "schema": {"$ref": "#/definitions/CreateCustomerCardRequest"},
+          "in": "body",
+          "name": "body",
+          "description": "An object containing the fields to POST for the request.\n\nSee the corresponding object definition for field details.",
+          "required": true
+        }
+      ],
+      "tags": ["Customer.Card"]
+    }},
+    "/v2/locations/{location_id}/transactions/{transaction_id}/refund": {"post": {
+      "summary": "CreateRefund",
+      "operationId": "CreateRefund",
+      "description": "",
+      "responses": {"200": {
+        "schema": {"$ref": "#/definitions/CreateRefundResponse"},
+        "description": "Success"
+      }},
+      "parameters": [
+        {
+          "in": "header",
+          "name": "Authorization",
+          "description": "The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.",
+          "type": "string",
+          "required": true
+        },
+        {
+          "in": "path",
+          "name": "location_id",
+          "description": "",
+          "type": "string",
+          "required": true
+        },
+        {
+          "in": "path",
+          "name": "transaction_id",
+          "description": "",
+          "type": "string",
+          "required": true
+        },
+        {
+          "schema": {"$ref": "#/definitions/CreateRefundRequest"},
+          "in": "body",
+          "name": "body",
+          "description": "An object containing the fields to POST for the request.\n\nSee the corresponding object definition for field details.",
+          "required": true
+        }
+      ],
+      "tags": ["Refund"]
+    }},
+    "/v2/locations": {"get": {
+      "summary": "ListLocations",
+      "operationId": "ListLocations",
+      "description": "Provides summary information for all of a business's locations.",
+      "responses": {"200": {
+        "schema": {"$ref": "#/definitions/ListLocationsResponse"},
+        "description": "Success"
+      }},
+      "parameters": [{
+        "in": "header",
+        "name": "Authorization",
+        "description": "The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.",
+        "type": "string",
+        "required": true
+      }],
+      "tags": ["Location"]
     }},
     "/v2/card-nonce": {"post": {
       "summary": "CreateCardNonce",
-      "tags": ["CardNonce"],
+      "operationId": "CreateCardNonce",
       "description": "Make a one time use token (nonce) to return to the seller's site which is\nseparate and distinct from the card PAN. (Nonce is safe to persist, as it\nis not a payment card, although it can only be used one time.)",
-      "parameters": [
-        {
-          "description": "The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.",
-          "name": "Authorization",
-          "required": true,
-          "type": "string",
-          "in": "header"
-        },
-        {
-          "schema": {"$ref": "#/definitions/CreateCardNonceRequest"},
-          "description": "An object containing the fields to POST for the request.\n\nSee the corresponding object definition for field details.",
-          "name": "body",
-          "required": true,
-          "in": "body"
-        }
-      ],
       "responses": {"200": {
         "schema": {"$ref": "#/definitions/CreateCardNonceResponse"},
         "description": "Success"
       }},
-      "operationId": "CreateCardNonce"
-    }},
-    "/v2/locations/{location_id}/transactions/{transaction_id}/refund": {"post": {
-      "summary": "RefundTender",
-      "tags": ["Refund"],
-      "description": "Initiates a refund for a previously charged tender.",
       "parameters": [
         {
-          "description": "The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.",
-          "name": "Authorization",
-          "required": true,
-          "type": "string",
-          "in": "header"
-        },
-        {
-          "description": "The ID of the original transaction's associated location.",
-          "name": "location_id",
-          "required": true,
-          "type": "string",
-          "in": "path"
-        },
-        {
-          "description": "",
-          "name": "transaction_id",
-          "required": true,
-          "type": "string",
-          "in": "path"
-        },
-        {
-          "schema": {"$ref": "#/definitions/RefundTenderRequest"},
-          "description": "An object containing the fields to POST for the request.\n\nSee the corresponding object definition for field details.",
+          "schema": {"$ref": "#/definitions/CreateCardNonceRequest"},
+          "in": "body",
           "name": "body",
-          "required": true,
-          "in": "body"
+          "description": "An object containing the fields to POST for the request.\n\nSee the corresponding object definition for field details.",
+          "required": true
         }
       ],
+      "tags": ["CardNonce"]
+    }},
+    "/v2/customers": {
+      "post": {
+        "summary": "CreateCustomer",
+        "operationId": "CreateCustomer",
+        "description": "",
+        "responses": {"200": {
+          "schema": {"$ref": "#/definitions/CreateCustomerResponse"},
+          "description": "Success"
+        }},
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "schema": {"$ref": "#/definitions/CreateCustomerRequest"},
+            "in": "body",
+            "name": "body",
+            "description": "An object containing the fields to POST for the request.\n\nSee the corresponding object definition for field details.",
+            "required": true
+          }
+        ],
+        "tags": ["Customer"]
+      },
+      "get": {
+        "summary": "ListCustomers",
+        "operationId": "ListCustomers",
+        "description": "",
+        "responses": {"200": {
+          "schema": {"$ref": "#/definitions/ListCustomersResponse"},
+          "description": "Success"
+        }},
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "cursor",
+            "description": "",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "tags": ["Customer"]
+      }
+    },
+    "/v2/locations/{location_id}/transactions/{transaction_id}": {"get": {
+      "summary": "RetrieveTransaction",
+      "operationId": "RetrieveTransaction",
+      "description": "Retrieves details for a single transaction.",
       "responses": {"200": {
-        "schema": {"$ref": "#/definitions/RefundTenderResponse"},
+        "schema": {"$ref": "#/definitions/RetrieveTransactionResponse"},
         "description": "Success"
       }},
-      "operationId": "RefundTender"
+      "parameters": [
+        {
+          "in": "header",
+          "name": "Authorization",
+          "description": "The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.",
+          "type": "string",
+          "required": true
+        },
+        {
+          "in": "path",
+          "name": "location_id",
+          "description": "",
+          "type": "string",
+          "required": true
+        },
+        {
+          "in": "path",
+          "name": "transaction_id",
+          "description": "",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "tags": ["Transaction"]
+    }},
+    "/v2/customers/{customer_id}/cards/{card_id}": {"delete": {
+      "summary": "DeleteCustomerCard",
+      "operationId": "DeleteCustomerCard",
+      "description": "",
+      "responses": {"200": {
+        "schema": {"$ref": "#/definitions/DeleteCustomerCardResponse"},
+        "description": "Success"
+      }},
+      "parameters": [
+        {
+          "in": "header",
+          "name": "Authorization",
+          "description": "The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.",
+          "type": "string",
+          "required": true
+        },
+        {
+          "in": "path",
+          "name": "customer_id",
+          "description": "",
+          "type": "string",
+          "required": true
+        },
+        {
+          "in": "path",
+          "name": "card_id",
+          "description": "",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "tags": ["Customer.Card"]
+    }},
+    "/v2/locations/{location_id}/transactions": {
+      "post": {
+        "summary": "Charge",
+        "operationId": "Charge",
+        "description": "Charges a card represented by a token.",
+        "responses": {"200": {
+          "schema": {"$ref": "#/definitions/ChargeResponse"},
+          "description": "Success"
+        }},
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "location_id",
+            "description": "",
+            "type": "string",
+            "required": true
+          },
+          {
+            "schema": {"$ref": "#/definitions/ChargeRequest"},
+            "in": "body",
+            "name": "body",
+            "description": "An object containing the fields to POST for the request.\n\nSee the corresponding object definition for field details.",
+            "required": true
+          }
+        ],
+        "tags": ["Transaction"]
+      },
+      "get": {
+        "summary": "ListTransactions",
+        "operationId": "ListTransactions",
+        "description": "Lists transactions for a particular location.",
+        "responses": {"200": {
+          "schema": {"$ref": "#/definitions/ListTransactionsResponse"},
+          "description": "Success"
+        }},
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "location_id",
+            "description": "",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "begin_time",
+            "description": "The beginning of the requested reporting period, in RFC 3339 format.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "end_time",
+            "description": "The end of the requested reporting period, in RFC 3339 format.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "sort_order",
+            "description": "The order in which results are listed in the response.",
+            "type": "string",
+            "enum": [
+              "DESC",
+              "ASC"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "cursor",
+            "description": "",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "tags": ["Transaction"]
+      }
+    },
+    "/v2/locations/{location_id}/refunds": {"get": {
+      "summary": "ListRefunds",
+      "operationId": "ListRefunds",
+      "description": "",
+      "responses": {"200": {
+        "schema": {"$ref": "#/definitions/ListRefundsResponse"},
+        "description": "Success"
+      }},
+      "parameters": [
+        {
+          "in": "header",
+          "name": "Authorization",
+          "description": "The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.",
+          "type": "string",
+          "required": true
+        },
+        {
+          "in": "path",
+          "name": "location_id",
+          "description": "",
+          "type": "string",
+          "required": true
+        },
+        {
+          "in": "query",
+          "name": "begin_time",
+          "description": "The beginning of the requested reporting period, in RFC 3339 format.",
+          "type": "string",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "end_time",
+          "description": "The end of the requested reporting period, in RFC 3339 format.",
+          "type": "string",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "sort_order",
+          "description": "The order in which results are listed in the response.",
+          "type": "string",
+          "enum": [
+            "DESC",
+            "ASC"
+          ],
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "cursor",
+          "description": "",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "tags": ["Refund"]
     }},
     "/v2/locations/{location_id}/transactions/{transaction_id}/capture": {"post": {
       "summary": "CaptureTransaction",
-      "tags": ["Transaction"],
-      "description": "Captures a transaction that was created with the **Charge**\nendpoint with a `delay_capture` value of `true`.",
-      "parameters": [
-        {
-          "description": "The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.",
-          "name": "Authorization",
-          "required": true,
-          "type": "string",
-          "in": "header"
-        },
-        {
-          "description": "",
-          "name": "location_id",
-          "required": true,
-          "type": "string",
-          "in": "path"
-        },
-        {
-          "description": "",
-          "name": "transaction_id",
-          "required": true,
-          "type": "string",
-          "in": "path"
-        }
-      ],
+      "operationId": "CaptureTransaction",
+      "description": "For executing delayed capture.",
       "responses": {"200": {
         "schema": {"$ref": "#/definitions/CaptureTransactionResponse"},
         "description": "Success"
       }},
-      "operationId": "CaptureTransaction"
+      "parameters": [
+        {
+          "in": "header",
+          "name": "Authorization",
+          "description": "The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.",
+          "type": "string",
+          "required": true
+        },
+        {
+          "in": "path",
+          "name": "location_id",
+          "description": "",
+          "type": "string",
+          "required": true
+        },
+        {
+          "in": "path",
+          "name": "transaction_id",
+          "description": "",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "tags": ["Transaction"]
+    }},
+    "/v2/customers/{customer_id}": {
+      "get": {
+        "summary": "RetrieveCustomer",
+        "operationId": "RetrieveCustomer",
+        "description": "",
+        "responses": {"200": {
+          "schema": {"$ref": "#/definitions/RetrieveCustomerResponse"},
+          "description": "Success"
+        }},
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "customer_id",
+            "description": "",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "tags": ["Customer"]
+      },
+      "delete": {
+        "summary": "DeleteCustomer",
+        "operationId": "DeleteCustomer",
+        "description": "",
+        "responses": {"200": {
+          "schema": {"$ref": "#/definitions/DeleteCustomerResponse"},
+          "description": "Success"
+        }},
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "customer_id",
+            "description": "",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "tags": ["Customer"]
+      },
+      "put": {
+        "summary": "UpdateCustomer",
+        "operationId": "UpdateCustomer",
+        "description": "",
+        "responses": {"200": {
+          "schema": {"$ref": "#/definitions/UpdateCustomerResponse"},
+          "description": "Success"
+        }},
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "customer_id",
+            "description": "The customer to update.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "schema": {"$ref": "#/definitions/UpdateCustomerRequest"},
+            "in": "body",
+            "name": "body",
+            "description": "An object containing the fields to POST for the request.\n\nSee the corresponding object definition for field details.",
+            "required": true
+          }
+        ],
+        "tags": ["Customer"]
+      }
+    },
+    "/v2/locations/{location_id}/transactions/{transaction_id}/void": {"post": {
+      "summary": "VoidTransaction",
+      "operationId": "VoidTransaction",
+      "description": "For canceling a delayed capture transaction.",
+      "responses": {"200": {
+        "schema": {"$ref": "#/definitions/VoidTransactionResponse"},
+        "description": "Success"
+      }},
+      "parameters": [
+        {
+          "in": "header",
+          "name": "Authorization",
+          "description": "The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.",
+          "type": "string",
+          "required": true
+        },
+        {
+          "in": "path",
+          "name": "location_id",
+          "description": "",
+          "type": "string",
+          "required": true
+        },
+        {
+          "in": "path",
+          "name": "transaction_id",
+          "description": "",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "tags": ["Transaction"]
     }}
   },
   "host": "connect.squareup.com",
-  "schemes": ["https"],
   "produces": ["application/json"],
-  "swagger": "2.0",
+  "schemes": ["https"],
   "definitions": {
-    "CreateCardNonceResponse": {
-      "description": "",
-      "properties": {
-        "errors": {
-          "items": {"$ref": "#/definitions/Error"},
-          "description": "",
-          "type": "array"
-        },
-        "card": {
-          "description": "",
-          "$ref": "#/definitions/Card"
-        },
-        "card_nonce": {
-          "description": "card nonce result. One time use token that represents this card data.",
-          "type": "string"
-        }
-      },
-      "required": [],
-      "type": "object"
-    },
-    "ChargeRequestCardNonceInstrument": {
-      "description": "",
-      "properties": {"card_nonce": {
-        "description": "The card nonce generated by the `SqPaymentForm`.",
-        "type": "string"
-      }},
-      "required": ["card_nonce"],
-      "type": "object"
-    },
-    "ErrorType": {
-      "description": "",
-      "enum": [
-        "INTERNAL_SERVER_ERROR",
-        "UNAUTHORIZED",
-        "ACCESS_TOKEN_EXPIRED",
-        "ACCESS_TOKEN_REVOKED",
-        "FORBIDDEN",
-        "INSUFFICIENT_SCOPES",
-        "APPLICATION_DISABLED",
-        "V1_APPLICATION",
-        "V1_ACCESS_TOKEN",
-        "CARD_PROCESSING_NOT_ENABLED",
-        "BAD_REQUEST",
-        "MISSING_REQUIRED_PARAMETER",
-        "INCORRECT_TYPE",
-        "INVALID_TIME",
-        "INVALID_TIME_RANGE",
-        "INVALID_VALUE",
-        "INVALID_CURSOR",
-        "UNKNOWN_QUERY_PARAMETER",
-        "CONFLICTING_PARAMETERS",
-        "EXPECTED_JSON_BODY",
-        "INVALID_SORT_ORDER",
-        "VALUE_TOO_LONG",
-        "VALUE_TOO_LOW",
-        "EXPECTED_BOOLEAN",
-        "EXPECTED_INTEGER",
-        "EXPECTED_FLOAT",
-        "EXPECTED_STRING",
-        "EXPECTED_OBJECT",
-        "EXPECTED_ARRAY",
-        "INVALID_ARRAY_VALUE",
-        "INVALID_ENUM_VALUE",
-        "INVALID_CONTENT_TYPE",
-        "INVALID_FORM_VALUE",
-        "ONE_INSTRUMENT_EXPECTED",
-        "CARD_DECLINED",
-        "CARD_EXPIRED",
-        "VERIFY_CVV_FAILURE",
-        "VERIFY_AVS_FAILURE",
-        "INVALID_EXPIRATION",
-        "INVALID_EXPIRATION_YEAR",
-        "INVALID_EXPIRATION_DATE",
-        "INVALID_CARD",
-        "DELAYED_TRANSACTION_EXPIRED",
-        "DELAYED_TRANSACTION_CANCELED",
-        "DELAYED_TRANSACTION_CAPTURED",
-        "DELAYED_TRANSACTION_FAILED",
-        "CARD_TOKEN_EXPIRED",
-        "CARD_TOKEN_USED",
-        "AMOUNT_TOO_HIGH",
-        "REFUND_AMOUNT_INVALID",
-        "REFUND_ALREADY_PENDING",
-        "PAYMENT_NOT_REFUNDABLE",
-        "INVALID_CARD_DATA",
-        "NOT_FOUND",
-        "REQUEST_TIMEOUT",
-        "REQUEST_ENTITY_TOO_LARGE",
-        "UNSUPPORTED_MEDIA_TYPE",
-        "RATE_LIMITED",
-        "NOT_IMPLEMENTED",
-        "SERVICE_UNAVAILABLE"
-      ],
-      "type": "string"
-    },
-    "UpdateCustomerRequest": {
-      "description": "",
-      "properties": {"customer": {
-        "description": "Note: changes to Customer.cards are ignored in this request.",
-        "$ref": "#/definitions/Customer"
-      }},
-      "required": ["customer"],
-      "type": "object"
-    },
-    "ChargeRequestCustomerCardInstrument": {
-      "description": "Wraps details related to a returning customer's card on file.",
-      "properties": {"customer_card_id": {
-        "description": "The id of the card on file to charge.",
-        "type": "string"
-      }},
-      "required": [],
-      "type": "object"
-    },
-    "VoidTransactionResponse": {
-      "description": "Defines the fields that are included in the response body of \na request to the **CaptureTransaction** endpoint.",
-      "properties": {"errors": {
-        "items": {"$ref": "#/definitions/Error"},
-        "description": "Any errors that occurred during the request.",
-        "type": "array"
-      }},
-      "required": [],
-      "type": "object"
-    },
-    "DeleteCustomerResponse": {
-      "description": "",
-      "properties": {"errors": {
-        "items": {"$ref": "#/definitions/Error"},
-        "description": "",
-        "type": "array"
-      }},
-      "required": [],
-      "type": "object"
-    },
-    "ChargeResponse": {
-      "description": "Defines the fields that are included in the response body of \na request to the **Charge** endpoint.",
-      "properties": {
-        "errors": {
-          "items": {"$ref": "#/definitions/Error"},
-          "description": "Any errors that occurred during the request.",
-          "type": "array"
-        },
-        "transaction": {
-          "description": "The details of the created transaction.",
-          "$ref": "#/definitions/Transaction"
-        }
-      },
-      "required": [],
-      "type": "object"
-    },
-    "CaptureTransactionResponse": {
-      "description": "Defines the fields that are included in the response body of \na request to the **CaptureTransaction** endpoint.",
-      "properties": {"errors": {
-        "items": {"$ref": "#/definitions/Error"},
-        "description": "Any errors that occurred during the request.",
-        "type": "array"
-      }},
-      "required": [],
-      "type": "object"
-    },
-    "CreateCustomerCardRequest": {
-      "description": "",
-      "properties": {
-        "card_nonce": {
-          "description": "Card nonce. One time use token that represents card data to create an instrument linked to this customer.",
-          "type": "string"
-        },
-        "cardholder_name": {
-          "description": "The cardholder name.",
-          "type": "string"
-        },
-        "billing_address": {
-          "description": "Postal code in the address is required for US and Canada payments.",
-          "$ref": "#/definitions/Address"
-        }
-      },
-      "required": ["card_nonce"],
-      "type": "object"
-    },
-    "LocationCapability": {
-      "description": "",
-      "enum": ["CREDIT_CARD_PROCESSING"],
-      "type": "string"
-    },
-    "RetrieveCustomerResponse": {
-      "description": "",
-      "properties": {
-        "errors": {
-          "items": {"$ref": "#/definitions/Error"},
-          "description": "",
-          "type": "array"
-        },
-        "customer": {
-          "description": "",
-          "$ref": "#/definitions/Customer"
-        }
-      },
-      "required": [],
-      "type": "object"
-    },
-    "CardBrand": {
-      "description": "",
-      "enum": [
-        "OTHER_BRAND",
-        "VISA",
-        "MASTERCARD",
-        "AMERICAN_EXPRESS",
-        "DISCOVER",
-        "DISCOVER_DINERS",
-        "JCB",
-        "CHINA_UNIONPAY",
-        "SQUARE_GIFT_CARD"
-      ],
-      "type": "string"
-    },
-    "TenderCardDetails": {
-      "description": "Represents the details of a credit card tender.",
-      "properties": {
-        "status": {
-          "description": "The credit card payment's current state (such as `CAPTURED`)",
-          "enum": [
-            "UNKNOWN",
-            "AUTHORIZED",
-            "CAPTURED",
-            "VOIDED",
-            "FAILED"
-          ],
-          "type": "string"
-        },
-        "card": {
-          "description": "The credit card's non-confidential details.",
-          "$ref": "#/definitions/Card"
-        }
-      },
-      "required": [],
-      "type": "object"
-    },
-    "ListTenderRefundsRequest": {
-      "description": "Defines the query parameters that can be included in\na request to the **ListTenderRefunds** endpoint.\n\nWhen sending a request to this endpoint, you **must** provide either a value\nfor `cursor`, or a value for all of `begin_time`, `end_time`, and `sort`.",
-      "properties": {
-        "cursor": {
-          "description": "A pagination cursor to retrieve the next set of results for your\noriginal query to the endpoint.",
-          "type": "string"
-        },
-        "sort": {
-          "description": "The order in which results are listed in the response.",
-          "enum": [
-            "DESC",
-            "ASC"
-          ],
-          "type": "string"
-        },
-        "begin_time": {
-          "description": "The beginning of the requested reporting period, in RFC 3339 format.",
-          "type": "string"
-        },
-        "end_time": {
-          "description": "The end of the requested reporting period, in RFC 3339 format.",
-          "type": "string"
-        }
-      },
-      "required": [],
-      "type": "object"
-    },
-    "TenderType": {
-      "description": "",
-      "enum": ["CARD"],
-      "type": "string"
-    },
     "DeleteCustomerCardResponse": {
       "description": "",
+      "type": "object",
       "properties": {"errors": {
-        "items": {"$ref": "#/definitions/Error"},
         "description": "",
-        "type": "array"
-      }},
-      "required": [],
-      "type": "object"
+        "type": "array",
+        "items": {"$ref": "#/definitions/Error"}
+      }}
     },
-    "Tender": {
-      "description": "Represents a form of tender used to pay in a transaction.",
-      "properties": {
-        "id": {
-          "description": "The tender's unique ID.",
-          "type": "string"
-        },
-        "processing_fee_money": {
-          "description": "The amount of any Square processing fees applied to the tender.",
-          "$ref": "#/definitions/Money"
-        },
-        "amount_money": {
-          "description": "The amount of the tender.",
-          "$ref": "#/definitions/Money"
-        },
-        "business_id": {
-          "description": "The ID of the tender's associated business.",
-          "type": "string"
-        },
-        "created_at": {
-          "description": "The time when the tender was created, in RFC 3339 format.",
-          "type": "string"
-        },
-        "type": {
-          "description": "The type of tender.",
-          "enum": ["CARD"],
-          "type": "string"
-        },
-        "card_details": {
-          "description": "The details of the card tender.\n\nThis value is present only if the value of `type` is `CARD`.",
-          "$ref": "#/definitions/TenderCardDetails"
-        },
-        "customer_id": {
-          "description": "If the tender represents a customer's card on file, this is\nthe ID of the associated customer.",
-          "type": "string"
-        },
-        "note": {
-          "description": "An optional note associated with the tender at the time of payment.",
-          "type": "string"
-        },
-        "transaction_id": {
-          "description": "The ID of the tender's associated transaction.",
-          "type": "string"
-        },
-        "location_id": {
-          "description": "The ID of the tender's associated location.",
-          "type": "string"
-        }
-      },
-      "required": ["type"],
-      "type": "object"
-    },
-    "RetrieveTransactionResponse": {
-      "description": "Defines the fields that are included in the response body of \na request to the **RetrieveTransaction** endpoint.",
-      "properties": {
-        "errors": {
-          "items": {"$ref": "#/definitions/Error"},
-          "description": "Any errors that occurred during the request.",
-          "type": "array"
-        },
-        "transaction": {
-          "description": "The details of the requested transaction.",
-          "$ref": "#/definitions/Transaction"
-        }
-      },
-      "required": [],
-      "type": "object"
-    },
-    "CreateCardNonceRequest": {
+    "ListRefundsRequest": {
       "description": "",
-      "properties": {
-        "fingerprint_components_json": {
-          "description": "",
-          "type": "string"
-        },
-        "fingerprint": {
-          "description": "",
-          "type": "string"
-        },
-        "card_data": {
-          "description": "Billing address in the card data is not required for card nonce creation.",
-          "$ref": "#/definitions/CardData"
-        },
-        "business_id": {
-          "description": "",
-          "type": "string"
-        },
-        "client_id": {
-          "description": "",
-          "type": "string"
-        }
-      },
-      "required": [
-        "client_id",
-        "card_data"
-      ],
-      "type": "object"
-    },
-    "CreateCustomerCardResponse": {
-      "description": "",
-      "properties": {
-        "errors": {
-          "items": {"$ref": "#/definitions/Error"},
-          "description": "",
-          "type": "array"
-        },
-        "card": {
-          "description": "",
-          "$ref": "#/definitions/Card"
-        }
-      },
-      "required": [],
-      "type": "object"
-    },
-    "TenderRefund": {
-      "description": "",
-      "properties": {
-        "id": {
-          "description": "The unique ID of the refund.",
-          "type": "string"
-        },
-        "processing_fee_money": {
-          "description": "The amount of processing fee refunded.",
-          "$ref": "#/definitions/Money"
-        },
-        "amount_money": {
-          "description": "The amount of money refunded.",
-          "$ref": "#/definitions/Money"
-        },
-        "status": {
-          "description": "",
-          "enum": [
-            "UNKNOWN",
-            "PENDING",
-            "APPROVED",
-            "REJECTED",
-            "FAILED"
-          ],
-          "type": "string"
-        },
-        "reason": {
-          "description": "The reason for the refund being issued.",
-          "type": "string"
-        },
-        "business_id": {
-          "description": "The ID of the refund's associated business.",
-          "type": "string"
-        },
-        "created_at": {
-          "description": "The time when the refund was created, in RFC 3339 format.",
-          "type": "string"
-        },
-        "tender_id": {
-          "description": "The ID of the tender refunded.",
-          "type": "string"
-        },
-        "transaction_id": {
-          "description": "The ID of the transaction refunded.",
-          "type": "string"
-        },
-        "location_id": {
-          "description": "The ID of the refund's associated location.",
-          "type": "string"
-        }
-      },
-      "required": [
-        "id",
-        "location_id",
-        "transaction_id",
-        "tender_id",
-        "reason",
-        "amount_money",
-        "status"
-      ],
-      "type": "object"
-    },
-    "Currency": {
-      "description": "",
-      "enum": [
-        "AED",
-        "AFN",
-        "ALL",
-        "AMD",
-        "ANG",
-        "AOA",
-        "ARS",
-        "AUD",
-        "AWG",
-        "AZN",
-        "BAM",
-        "BBD",
-        "BDT",
-        "BGN",
-        "BHD",
-        "BIF",
-        "BMD",
-        "BND",
-        "BOB",
-        "BOV",
-        "BRL",
-        "BSD",
-        "BTN",
-        "BWP",
-        "BYR",
-        "BZD",
-        "CAD",
-        "CDF",
-        "CHE",
-        "CHF",
-        "CHW",
-        "CLF",
-        "CLP",
-        "CNY",
-        "COP",
-        "COU",
-        "CRC",
-        "CUC",
-        "CUP",
-        "CVE",
-        "CZK",
-        "DJF",
-        "DKK",
-        "DOP",
-        "DZD",
-        "EGP",
-        "ERN",
-        "ETB",
-        "EUR",
-        "FJD",
-        "FKP",
-        "GBP",
-        "GEL",
-        "GHS",
-        "GIP",
-        "GMD",
-        "GNF",
-        "GTQ",
-        "GYD",
-        "HKD",
-        "HNL",
-        "HRK",
-        "HTG",
-        "HUF",
-        "IDR",
-        "ILS",
-        "INR",
-        "IQD",
-        "IRR",
-        "ISK",
-        "JMD",
-        "JOD",
-        "JPY",
-        "KES",
-        "KGS",
-        "KHR",
-        "KMF",
-        "KPW",
-        "KRW",
-        "KWD",
-        "KYD",
-        "KZT",
-        "LAK",
-        "LBP",
-        "LKR",
-        "LRD",
-        "LSL",
-        "LTL",
-        "LVL",
-        "LYD",
-        "MAD",
-        "MDL",
-        "MGA",
-        "MKD",
-        "MMK",
-        "MNT",
-        "MOP",
-        "MRO",
-        "MUR",
-        "MVR",
-        "MWK",
-        "MXN",
-        "MXV",
-        "MYR",
-        "MZN",
-        "NAD",
-        "NGN",
-        "NIO",
-        "NOK",
-        "NPR",
-        "NZD",
-        "OMR",
-        "PAB",
-        "PEN",
-        "PGK",
-        "PHP",
-        "PKR",
-        "PLN",
-        "PYG",
-        "QAR",
-        "RON",
-        "RSD",
-        "RUB",
-        "RWF",
-        "SAR",
-        "SBD",
-        "SCR",
-        "SDG",
-        "SEK",
-        "SGD",
-        "SHP",
-        "SLL",
-        "SOS",
-        "SRD",
-        "SSP",
-        "STD",
-        "SVC",
-        "SYP",
-        "SZL",
-        "THB",
-        "TJS",
-        "TMT",
-        "TND",
-        "TOP",
-        "TRY",
-        "TTD",
-        "TWD",
-        "TZS",
-        "UAH",
-        "UGX",
-        "USD",
-        "USN",
-        "USS",
-        "UYI",
-        "UYU",
-        "UZS",
-        "VEF",
-        "VND",
-        "VUV",
-        "WST",
-        "XAF",
-        "XAG",
-        "XAU",
-        "XBA",
-        "XBB",
-        "XBC",
-        "XBD",
-        "XCD",
-        "XDR",
-        "XOF",
-        "XPD",
-        "XPF",
-        "XPT",
-        "XTS",
-        "XXX",
-        "YER",
-        "ZAR",
-        "ZMK",
-        "ZMW",
-        "BTC"
-      ],
-      "type": "string"
-    },
-    "CreateCustomerRequest": {
-      "description": "",
-      "properties": {"customer": {
-        "description": "Note: changes to Customer.cards are ignored in this request.",
-        "$ref": "#/definitions/Customer"
-      }},
-      "required": ["customer"],
-      "type": "object"
-    },
-    "ListLocationsResponse": {
-      "description": "Defines the fields that are included in the response body of \na request to the **ListLocations** endpoint.",
-      "properties": {
-        "errors": {
-          "items": {"$ref": "#/definitions/Error"},
-          "description": "Any errors that occurred during the request.",
-          "type": "array"
-        },
-        "locations": {
-          "items": {"$ref": "#/definitions/Location"},
-          "description": "An array of the business's locations.",
-          "type": "array"
-        }
-      },
-      "required": [],
-      "type": "object"
-    },
-    "Customer": {
-      "description": "",
-      "properties": {
-        "id": {
-          "description": "The customer's unique ID.",
-          "type": "string"
-        },
-        "phone_number": {
-          "description": "",
-          "type": "string"
-        },
-        "updated_at": {
-          "description": "The time when the customer was updated, in RFC 3339 format.",
-          "type": "string"
-        },
-        "memo": {
-          "description": "",
-          "type": "string"
-        },
-        "address": {
-          "description": "",
-          "$ref": "#/definitions/Address"
-        },
-        "nickname": {
-          "description": "",
-          "type": "string"
-        },
-        "business_id": {
-          "description": "The ID of the customer's associated business.",
-          "type": "string"
-        },
-        "family_name": {
-          "description": "",
-          "type": "string"
-        },
-        "created_at": {
-          "description": "The time when the customer was created, in RFC 3339 format.",
-          "type": "string"
-        },
-        "given_name": {
-          "description": "",
-          "type": "string"
-        },
-        "cards": {
-          "items": {"$ref": "#/definitions/Card"},
-          "description": "Cards on file for the customer.",
-          "type": "array"
-        },
-        "email_address": {
-          "description": "",
-          "type": "string"
-        }
-      },
-      "required": [],
-      "type": "object"
-    },
-    "Sort": {
-      "description": "",
-      "enum": [
-        "DESC",
-        "ASC"
-      ],
-      "type": "string"
-    },
-    "Transaction": {
-      "description": "Represents a transaction processed with Square, either with the\nConnect API or with Square Register.",
-      "properties": {
-        "id": {
-          "description": "The transaction's unique ID.",
-          "type": "string"
-        },
-        "reference_id": {
-          "description": "If the transaction was created with the **Charge** endpoint, this\nvalue is the same as the value provided as the `reference_id` parameter\nin the request to that endpoint.",
-          "type": "string"
-        },
-        "business_id": {
-          "description": "The ID of the transaction's associated business.",
-          "type": "string"
-        },
-        "created_at": {
-          "description": "The time when the transaction was created, in RFC 3339 format.",
-          "type": "string"
-        },
-        "tenders": {
-          "items": {"$ref": "#/definitions/Tender"},
-          "description": "Descriptions of the tenders used to pay for the transaction.",
-          "type": "array"
-        },
-        "tender_refunds": {
-          "items": {"$ref": "#/definitions/TenderRefund"},
-          "description": "An array of any refunds associated with the transaction.",
-          "type": "array"
-        },
-        "location_id": {
-          "description": "The ID of the transaction's associated location.",
-          "type": "string"
-        }
-      },
-      "required": [],
-      "type": "object"
-    },
-    "Money": {
-      "description": "",
-      "properties": {
-        "amount": {
-          "description": "Amount in the lowest denominated value of this Currency. E.g. in USD\nthese are cents, in JPY they are Yen (which do not have a 'cent' concept).",
-          "type": "integer"
-        },
-        "currency": {
-          "description": "",
-          "enum": [
-            "AED",
-            "AFN",
-            "ALL",
-            "AMD",
-            "ANG",
-            "AOA",
-            "ARS",
-            "AUD",
-            "AWG",
-            "AZN",
-            "BAM",
-            "BBD",
-            "BDT",
-            "BGN",
-            "BHD",
-            "BIF",
-            "BMD",
-            "BND",
-            "BOB",
-            "BOV",
-            "BRL",
-            "BSD",
-            "BTN",
-            "BWP",
-            "BYR",
-            "BZD",
-            "CAD",
-            "CDF",
-            "CHE",
-            "CHF",
-            "CHW",
-            "CLF",
-            "CLP",
-            "CNY",
-            "COP",
-            "COU",
-            "CRC",
-            "CUC",
-            "CUP",
-            "CVE",
-            "CZK",
-            "DJF",
-            "DKK",
-            "DOP",
-            "DZD",
-            "EGP",
-            "ERN",
-            "ETB",
-            "EUR",
-            "FJD",
-            "FKP",
-            "GBP",
-            "GEL",
-            "GHS",
-            "GIP",
-            "GMD",
-            "GNF",
-            "GTQ",
-            "GYD",
-            "HKD",
-            "HNL",
-            "HRK",
-            "HTG",
-            "HUF",
-            "IDR",
-            "ILS",
-            "INR",
-            "IQD",
-            "IRR",
-            "ISK",
-            "JMD",
-            "JOD",
-            "JPY",
-            "KES",
-            "KGS",
-            "KHR",
-            "KMF",
-            "KPW",
-            "KRW",
-            "KWD",
-            "KYD",
-            "KZT",
-            "LAK",
-            "LBP",
-            "LKR",
-            "LRD",
-            "LSL",
-            "LTL",
-            "LVL",
-            "LYD",
-            "MAD",
-            "MDL",
-            "MGA",
-            "MKD",
-            "MMK",
-            "MNT",
-            "MOP",
-            "MRO",
-            "MUR",
-            "MVR",
-            "MWK",
-            "MXN",
-            "MXV",
-            "MYR",
-            "MZN",
-            "NAD",
-            "NGN",
-            "NIO",
-            "NOK",
-            "NPR",
-            "NZD",
-            "OMR",
-            "PAB",
-            "PEN",
-            "PGK",
-            "PHP",
-            "PKR",
-            "PLN",
-            "PYG",
-            "QAR",
-            "RON",
-            "RSD",
-            "RUB",
-            "RWF",
-            "SAR",
-            "SBD",
-            "SCR",
-            "SDG",
-            "SEK",
-            "SGD",
-            "SHP",
-            "SLL",
-            "SOS",
-            "SRD",
-            "SSP",
-            "STD",
-            "SVC",
-            "SYP",
-            "SZL",
-            "THB",
-            "TJS",
-            "TMT",
-            "TND",
-            "TOP",
-            "TRY",
-            "TTD",
-            "TWD",
-            "TZS",
-            "UAH",
-            "UGX",
-            "USD",
-            "USN",
-            "USS",
-            "UYI",
-            "UYU",
-            "UZS",
-            "VEF",
-            "VND",
-            "VUV",
-            "WST",
-            "XAF",
-            "XAG",
-            "XAU",
-            "XBA",
-            "XBB",
-            "XBC",
-            "XBD",
-            "XCD",
-            "XDR",
-            "XOF",
-            "XPD",
-            "XPF",
-            "XPT",
-            "XTS",
-            "XXX",
-            "YER",
-            "ZAR",
-            "ZMK",
-            "ZMW",
-            "BTC"
-          ],
-          "type": "string"
-        }
-      },
-      "required": [],
-      "type": "object"
-    },
-    "Location": {
-      "description": "Represents one of a business's locations.",
-      "properties": {
-        "id": {
-          "description": "The location's unique ID.",
-          "type": "string"
-        },
-        "timezone": {
-          "description": "The IANA Timezone Database identifier for the location's timezone.",
-          "type": "string"
-        },
-        "address": {
-          "description": "The address of this location.",
-          "$ref": "#/definitions/Address"
-        },
-        "name": {
-          "description": "The name given to the location.",
-          "type": "string"
-        },
-        "business_id": {
-          "description": "The ID of the location's associated business.",
-          "type": "string"
-        },
-        "capabilities": {
-          "items": {
-            "enum": ["CREDIT_CARD_PROCESSING"],
-            "type": "string"
-          },
-          "description": "Indicates which Square features are enabled for the location.\n\nCurrently, there is only one value that might be present in this array:\n`CREDIT_CARD_PROCESSING`.",
-          "type": "array"
-        }
-      },
-      "required": [],
-      "type": "object"
-    },
-    "TenderCardDetailsStatus": {
-      "description": "",
-      "enum": [
-        "UNKNOWN",
-        "AUTHORIZED",
-        "CAPTURED",
-        "VOIDED",
-        "FAILED"
-      ],
-      "type": "string"
-    },
-    "Country": {
-      "description": "",
-      "enum": [
-        "ZZ",
-        "AD",
-        "AE",
-        "AF",
-        "AG",
-        "AI",
-        "AL",
-        "AM",
-        "AO",
-        "AQ",
-        "AR",
-        "AS",
-        "AT",
-        "AU",
-        "AW",
-        "AX",
-        "AZ",
-        "BA",
-        "BB",
-        "BD",
-        "BE",
-        "BF",
-        "BG",
-        "BH",
-        "BI",
-        "BJ",
-        "BL",
-        "BM",
-        "BN",
-        "BO",
-        "BQ",
-        "BR",
-        "BS",
-        "BT",
-        "BV",
-        "BW",
-        "BY",
-        "BZ",
-        "CA",
-        "CC",
-        "CD",
-        "CF",
-        "CG",
-        "CH",
-        "CI",
-        "CK",
-        "CL",
-        "CM",
-        "CN",
-        "CO",
-        "CR",
-        "CU",
-        "CV",
-        "CW",
-        "CX",
-        "CY",
-        "CZ",
-        "DE",
-        "DJ",
-        "DK",
-        "DM",
-        "DO",
-        "DZ",
-        "EC",
-        "EE",
-        "EG",
-        "EH",
-        "ER",
-        "ES",
-        "ET",
-        "FI",
-        "FJ",
-        "FK",
-        "FM",
-        "FO",
-        "FR",
-        "GA",
-        "GB",
-        "GD",
-        "GE",
-        "GF",
-        "GG",
-        "GH",
-        "GI",
-        "GL",
-        "GM",
-        "GN",
-        "GP",
-        "GQ",
-        "GR",
-        "GS",
-        "GT",
-        "GU",
-        "GW",
-        "GY",
-        "HK",
-        "HM",
-        "HN",
-        "HR",
-        "HT",
-        "HU",
-        "ID",
-        "IE",
-        "IL",
-        "IM",
-        "IN",
-        "IO",
-        "IQ",
-        "IR",
-        "IS",
-        "IT",
-        "JE",
-        "JM",
-        "JO",
-        "JP",
-        "KE",
-        "KG",
-        "KH",
-        "KI",
-        "KM",
-        "KN",
-        "KP",
-        "KR",
-        "KW",
-        "KY",
-        "KZ",
-        "LA",
-        "LB",
-        "LC",
-        "LI",
-        "LK",
-        "LR",
-        "LS",
-        "LT",
-        "LU",
-        "LV",
-        "LY",
-        "MA",
-        "MC",
-        "MD",
-        "ME",
-        "MF",
-        "MG",
-        "MH",
-        "MK",
-        "ML",
-        "MM",
-        "MN",
-        "MO",
-        "MP",
-        "MQ",
-        "MR",
-        "MS",
-        "MT",
-        "MU",
-        "MV",
-        "MW",
-        "MX",
-        "MY",
-        "MZ",
-        "NA",
-        "NC",
-        "NE",
-        "NF",
-        "NG",
-        "NI",
-        "NL",
-        "NO",
-        "NP",
-        "NR",
-        "NU",
-        "NZ",
-        "OM",
-        "PA",
-        "PE",
-        "PF",
-        "PG",
-        "PH",
-        "PK",
-        "PL",
-        "PM",
-        "PN",
-        "PR",
-        "PS",
-        "PT",
-        "PW",
-        "PY",
-        "QA",
-        "RE",
-        "RO",
-        "RS",
-        "RU",
-        "RW",
-        "SA",
-        "SB",
-        "SC",
-        "SD",
-        "SE",
-        "SG",
-        "SH",
-        "SI",
-        "SJ",
-        "SK",
-        "SL",
-        "SM",
-        "SN",
-        "SO",
-        "SR",
-        "SS",
-        "ST",
-        "SV",
-        "SX",
-        "SY",
-        "SZ",
-        "TC",
-        "TD",
-        "TF",
-        "TG",
-        "TH",
-        "TJ",
-        "TK",
-        "TL",
-        "TM",
-        "TN",
-        "TO",
-        "TR",
-        "TT",
-        "TV",
-        "TW",
-        "TZ",
-        "UA",
-        "UG",
-        "UM",
-        "US",
-        "UY",
-        "UZ",
-        "VA",
-        "VC",
-        "VE",
-        "VG",
-        "VI",
-        "VN",
-        "VU",
-        "WF",
-        "WS",
-        "YE",
-        "YT",
-        "ZA",
-        "ZM",
-        "ZW"
-      ],
-      "type": "string"
-    },
-    "Error": {
-      "description": "",
-      "properties": {
-        "field": {
-          "description": "",
-          "type": "string"
-        },
-        "detail": {
-          "description": "",
-          "type": "string"
-        },
-        "type": {
-          "description": "",
-          "enum": [
-            "INTERNAL_SERVER_ERROR",
-            "UNAUTHORIZED",
-            "ACCESS_TOKEN_EXPIRED",
-            "ACCESS_TOKEN_REVOKED",
-            "FORBIDDEN",
-            "INSUFFICIENT_SCOPES",
-            "APPLICATION_DISABLED",
-            "V1_APPLICATION",
-            "V1_ACCESS_TOKEN",
-            "CARD_PROCESSING_NOT_ENABLED",
-            "BAD_REQUEST",
-            "MISSING_REQUIRED_PARAMETER",
-            "INCORRECT_TYPE",
-            "INVALID_TIME",
-            "INVALID_TIME_RANGE",
-            "INVALID_VALUE",
-            "INVALID_CURSOR",
-            "UNKNOWN_QUERY_PARAMETER",
-            "CONFLICTING_PARAMETERS",
-            "EXPECTED_JSON_BODY",
-            "INVALID_SORT_ORDER",
-            "VALUE_TOO_LONG",
-            "VALUE_TOO_LOW",
-            "EXPECTED_BOOLEAN",
-            "EXPECTED_INTEGER",
-            "EXPECTED_FLOAT",
-            "EXPECTED_STRING",
-            "EXPECTED_OBJECT",
-            "EXPECTED_ARRAY",
-            "INVALID_ARRAY_VALUE",
-            "INVALID_ENUM_VALUE",
-            "INVALID_CONTENT_TYPE",
-            "INVALID_FORM_VALUE",
-            "ONE_INSTRUMENT_EXPECTED",
-            "CARD_DECLINED",
-            "CARD_EXPIRED",
-            "VERIFY_CVV_FAILURE",
-            "VERIFY_AVS_FAILURE",
-            "INVALID_EXPIRATION",
-            "INVALID_EXPIRATION_YEAR",
-            "INVALID_EXPIRATION_DATE",
-            "INVALID_CARD",
-            "DELAYED_TRANSACTION_EXPIRED",
-            "DELAYED_TRANSACTION_CANCELED",
-            "DELAYED_TRANSACTION_CAPTURED",
-            "DELAYED_TRANSACTION_FAILED",
-            "CARD_TOKEN_EXPIRED",
-            "CARD_TOKEN_USED",
-            "AMOUNT_TOO_HIGH",
-            "REFUND_AMOUNT_INVALID",
-            "REFUND_ALREADY_PENDING",
-            "PAYMENT_NOT_REFUNDABLE",
-            "INVALID_CARD_DATA",
-            "NOT_FOUND",
-            "REQUEST_TIMEOUT",
-            "REQUEST_ENTITY_TOO_LARGE",
-            "UNSUPPORTED_MEDIA_TYPE",
-            "RATE_LIMITED",
-            "NOT_IMPLEMENTED",
-            "SERVICE_UNAVAILABLE"
-          ],
-          "type": "string"
-        }
-      },
-      "required": [],
-      "type": "object"
-    },
-    "RefundTenderRequest": {
-      "description": "Defines the body parameters that can be included in\na request to the **RefundTender** endpoint.",
-      "properties": {
-        "amount_money": {
-          "description": "The amount of money to refund.",
-          "$ref": "#/definitions/Money"
-        },
-        "reason": {
-          "description": "A description of the reason for the refund.",
-          "type": "string"
-        },
-        "idempotency_key": {
-          "description": "A value you specify that uniquely identifies this \nrefund among refunds you've created for the tender.\n\nIf you're unsure whether a particular refund succeeded,\nyou can reattempt it with the same idempotency key without\nworrying about duplicating the refund.",
-          "type": "string"
-        },
-        "tender_id": {
-          "description": "The ID of the tender to refund.",
-          "type": "string"
-        }
-      },
-      "required": [
-        "idempotency_key",
-        "tender_id",
-        "reason",
-        "amount_money"
-      ],
-      "type": "object"
-    },
-    "RefundTenderResponse": {
-      "description": "Defines the fields that are included in the response body of \na request to the **RefundTender** endpoint.",
-      "properties": {
-        "errors": {
-          "items": {"$ref": "#/definitions/Error"},
-          "description": "Any errors that occurred during the request.",
-          "type": "array"
-        },
-        "refund": {
-          "description": "The details of the created refund.",
-          "$ref": "#/definitions/TenderRefund"
-        }
-      },
-      "required": [],
-      "type": "object"
-    },
-    "ListCustomersResponse": {
-      "description": "",
+      "type": "object",
       "properties": {
         "cursor": {
           "description": "",
           "type": "string"
         },
-        "errors": {
-          "items": {"$ref": "#/definitions/Error"},
-          "description": "",
-          "type": "array"
-        },
-        "customers": {
-          "items": {"$ref": "#/definitions/Customer"},
-          "description": "",
-          "type": "array"
-        }
-      },
-      "required": [],
-      "type": "object"
-    },
-    "TenderRefundStatus": {
-      "description": "",
-      "enum": [
-        "UNKNOWN",
-        "PENDING",
-        "APPROVED",
-        "REJECTED",
-        "FAILED"
-      ],
-      "type": "string"
-    },
-    "ListTransactionsRequest": {
-      "description": "Defines the query parameters that can be included in\na request to the **ListTransactions** endpoint.\n\nWhen sending a request to this endpoint, you **must** provide either a value\nfor `cursor`, or a value for all of `begin_time`, `end_time`, and `sort`.",
-      "properties": {
-        "cursor": {
-          "description": "A pagination cursor to retrieve the next set of results for your\noriginal query to the endpoint.",
-          "type": "string"
-        },
-        "sort": {
-          "description": "The order in which results are listed in the response (`ASC` for\nchronological, `DESC` for reverse-chronological).",
-          "enum": [
-            "DESC",
-            "ASC"
-          ],
+        "end_time": {
+          "description": "The end of the requested reporting period, in RFC 3339 format.",
           "type": "string"
         },
         "begin_time": {
           "description": "The beginning of the requested reporting period, in RFC 3339 format.",
           "type": "string"
         },
-        "end_time": {
-          "description": "The end of the requested reporting period, in RFC 3339 format.",
-          "type": "string"
+        "sort_order": {
+          "description": "The order in which results are listed in the response.",
+          "type": "string",
+          "enum": [
+            "DESC",
+            "ASC"
+          ]
         }
-      },
-      "required": [],
-      "type": "object"
-    },
-    "ListTenderRefundsResponse": {
-      "description": "Defines the fields that are included in the response body of \na request to the **ListTenderRefunds** endpoint.",
-      "properties": {
-        "cursor": {
-          "description": "A pagination cursor for retrieving the next set of results,\nif any remain.\n\nProvide this value as the `cursor` parameter in a subsequent request\nto the **ListTenderRefunds** endpoint.",
-          "type": "string"
-        },
-        "errors": {
-          "items": {"$ref": "#/definitions/Error"},
-          "description": "Any errors that occurred during the request.",
-          "type": "array"
-        },
-        "refunds": {
-          "items": {"$ref": "#/definitions/TenderRefund"},
-          "description": "An array of transactions that match your query.",
-          "type": "array"
-        }
-      },
-      "required": [],
-      "type": "object"
+      }
     },
     "Address": {
       "description": "",
+      "type": "object",
       "properties": {
-        "administrative_district_level_3": {
-          "description": "",
-          "type": "string"
-        },
-        "address_line_1": {
-          "description": "",
-          "type": "string"
-        },
-        "address_line_3": {
-          "description": "",
-          "type": "string"
-        },
-        "postal_code": {
-          "description": "",
-          "type": "string"
-        },
-        "address_line_2": {
-          "description": "",
-          "type": "string"
-        },
-        "locality": {
-          "description": "",
-          "type": "string"
-        },
-        "sublocality": {
-          "description": "",
-          "type": "string"
-        },
-        "administrative_district_level_1": {
-          "description": "",
-          "type": "string"
-        },
-        "sublocality_3": {
-          "description": "",
-          "type": "string"
-        },
-        "administrative_district_level_2": {
-          "description": "",
-          "type": "string"
-        },
-        "sublocality_2": {
-          "description": "",
-          "type": "string"
-        },
         "country": {
           "description": "",
+          "type": "string",
           "enum": [
             "ZZ",
             "AD",
@@ -2317,152 +831,1027 @@
             "ZA",
             "ZM",
             "ZW"
-          ],
-          "type": "string"
-        }
-      },
-      "required": [],
-      "type": "object"
-    },
-    "CreateCustomerResponse": {
-      "description": "",
-      "properties": {
-        "errors": {
-          "items": {"$ref": "#/definitions/Error"},
+          ]
+        },
+        "administrative_district_level_3": {
           "description": "",
-          "type": "array"
-        },
-        "customer": {
-          "description": "",
-          "$ref": "#/definitions/Customer"
-        }
-      },
-      "required": [],
-      "type": "object"
-    },
-    "CardData": {
-      "description": "",
-      "properties": {
-        "exp_year": {
-          "description": "The year of the card's expiration date, which must be a 4 digit year.",
-          "type": "integer"
-        },
-        "exp_month": {
-          "description": "The month of the card's expiration date, which must be between 1-12.",
-          "type": "integer"
-        },
-        "billing_postal_code": {
-          "description": "The billing postal code for the card on file.",
           "type": "string"
         },
-        "cvv": {
-          "description": "The card verification value (i.e. security code) printed on the card.",
+        "address_line_1": {
+          "description": "",
           "type": "string"
         },
-        "number": {
-          "description": "The number on the card.",
+        "locality": {
+          "description": "",
+          "type": "string"
+        },
+        "sublocality": {
+          "description": "",
+          "type": "string"
+        },
+        "address_line_3": {
+          "description": "",
+          "type": "string"
+        },
+        "administrative_district_level_2": {
+          "description": "",
+          "type": "string"
+        },
+        "address_line_2": {
+          "description": "",
+          "type": "string"
+        },
+        "administrative_district_level_1": {
+          "description": "",
+          "type": "string"
+        },
+        "sublocality_3": {
+          "description": "",
+          "type": "string"
+        },
+        "postal_code": {
+          "description": "",
+          "type": "string"
+        },
+        "sublocality_2": {
+          "description": "",
           "type": "string"
         }
-      },
-      "required": ["billing_postal_code"],
-      "type": "object"
+      }
     },
-    "UpdateCustomerResponse": {
+    "Customer": {
       "description": "",
+      "type": "object",
       "properties": {
-        "errors": {
-          "items": {"$ref": "#/definitions/Error"},
+        "note": {
           "description": "",
-          "type": "array"
+          "type": "string"
         },
-        "customer": {
+        "cards": {
+          "description": "Cards on file for the customer.",
+          "type": "array",
+          "items": {"$ref": "#/definitions/Card"}
+        },
+        "email_address": {
           "description": "",
-          "$ref": "#/definitions/Customer"
-        }
-      },
-      "required": [],
-      "type": "object"
-    },
-    "ListCustomersRequest": {
-      "description": "",
-      "properties": {"cursor": {
-        "description": "",
-        "type": "string"
-      }},
-      "required": [],
-      "type": "object"
-    },
-    "ChargeRequest": {
-      "description": "Defines the parameters that can be included in the body of \na request to the **Charge** endpoint.",
-      "properties": {
-        "shipping_address": {
+          "type": "string"
+        },
+        "address": {
           "description": "",
           "$ref": "#/definitions/Address"
         },
-        "amount_money": {
-          "description": "The amount of money to collect in the transaction.",
-          "$ref": "#/definitions/Money"
-        },
-        "card_nonce_instrument": {
-          "description": "The details of the card nonce to use for the transaction.\n\nProvide this value only if the value of `instrument_type` is\n`CARD_NONCE`.",
-          "$ref": "#/definitions/ChargeRequestCardNonceInstrument"
+        "updated_at": {
+          "description": "The time when the customer was updated, in RFC 3339 format.",
+          "type": "string"
         },
         "reference_id": {
-          "description": "An optional ID you can associate with the transaction for your own\npurposes (such as to associate the transaction with an entity ID in your\nown database).",
+          "description": "",
           "type": "string"
         },
-        "delay_capture": {
-          "description": "If `true`, the request will only perform an Auth on the provided\npayment instrument. You can then later perform either a Capture (with the\n*CaptureTransaction** endpoint) or a Void (with the **VoidTransation** \nendpoint.",
-          "type": "boolean"
+        "nickname": {
+          "description": "",
+          "type": "string"
         },
-        "customer_card_instrument": {
-          "description": "The details of the card on file to use for the transaction.\n\nProvide this value only if the value of `instrument_type` is `CUSTOMER_CARD`.",
-          "$ref": "#/definitions/ChargeRequestCustomerCardInstrument"
+        "created_at": {
+          "description": "The time when the customer was created, in RFC 3339 format.",
+          "type": "string"
+        },
+        "phone_number": {
+          "description": "",
+          "type": "string"
+        },
+        "id": {
+          "description": "The customer's unique ID.",
+          "type": "string"
+        },
+        "given_name": {
+          "description": "",
+          "type": "string"
+        },
+        "family_name": {
+          "description": "",
+          "type": "string"
+        }
+      }
+    },
+    "CreateCustomerCardResponse": {
+      "description": "",
+      "type": "object",
+      "properties": {
+        "errors": {
+          "description": "",
+          "type": "array",
+          "items": {"$ref": "#/definitions/Error"}
+        },
+        "card": {
+          "description": "",
+          "$ref": "#/definitions/Card"
+        }
+      }
+    },
+    "RetrieveTransactionResponse": {
+      "description": "",
+      "type": "object",
+      "properties": {
+        "errors": {
+          "description": "",
+          "type": "array",
+          "items": {"$ref": "#/definitions/Error"}
+        },
+        "transaction": {
+          "description": "",
+          "$ref": "#/definitions/Transaction"
+        }
+      }
+    },
+    "CardBrand": {
+      "description": "",
+      "type": "string",
+      "enum": [
+        "OTHER_BRAND",
+        "VISA",
+        "MASTERCARD",
+        "AMERICAN_EXPRESS",
+        "DISCOVER",
+        "DISCOVER_DINERS",
+        "JCB",
+        "CHINA_UNIONPAY",
+        "SQUARE_GIFT_CARD"
+      ]
+    },
+    "VoidTransactionResponse": {
+      "description": "",
+      "type": "object",
+      "properties": {"errors": {
+        "description": "",
+        "type": "array",
+        "items": {"$ref": "#/definitions/Error"}
+      }}
+    },
+    "CreateCustomerCardRequest": {
+      "description": "",
+      "type": "object",
+      "properties": {
+        "card_nonce": {
+          "description": "Card nonce. One time use token that represents card data to create an instrument linked to this customer.",
+          "type": "string"
+        },
+        "billing_address": {
+          "description": "Postal code in the address is required for US and Canada payments.",
+          "$ref": "#/definitions/Address"
+        },
+        "cardholder_name": {
+          "description": "The cardholder name.",
+          "type": "string"
+        }
+      },
+      "required": ["card_nonce"]
+    },
+    "CaptureTransactionResponse": {
+      "description": "",
+      "type": "object",
+      "properties": {"errors": {
+        "description": "",
+        "type": "array",
+        "items": {"$ref": "#/definitions/Error"}
+      }}
+    },
+    "TenderCardDetails": {
+      "description": "",
+      "type": "object",
+      "properties": {
+        "card": {
+          "description": "",
+          "$ref": "#/definitions/Card"
+        },
+        "status": {
+          "description": "",
+          "type": "string",
+          "enum": [
+            "AUTHORIZED",
+            "CAPTURED",
+            "VOIDED",
+            "FAILED"
+          ]
+        }
+      }
+    },
+    "UpdateCustomerResponse": {
+      "description": "",
+      "type": "object",
+      "properties": {
+        "errors": {
+          "description": "",
+          "type": "array",
+          "items": {"$ref": "#/definitions/Error"}
+        },
+        "customer": {
+          "description": "",
+          "$ref": "#/definitions/Customer"
+        }
+      }
+    },
+    "Money": {
+      "description": "",
+      "type": "object",
+      "properties": {
+        "amount": {
+          "description": "Amount in the lowest denominated value of this Currency. E.g. in USD\nthese are cents, in JPY they are Yen (which do not have a 'cent' concept).",
+          "type": "integer"
+        },
+        "currency": {
+          "description": "",
+          "type": "string",
+          "enum": [
+            "AED",
+            "AFN",
+            "ALL",
+            "AMD",
+            "ANG",
+            "AOA",
+            "ARS",
+            "AUD",
+            "AWG",
+            "AZN",
+            "BAM",
+            "BBD",
+            "BDT",
+            "BGN",
+            "BHD",
+            "BIF",
+            "BMD",
+            "BND",
+            "BOB",
+            "BOV",
+            "BRL",
+            "BSD",
+            "BTN",
+            "BWP",
+            "BYR",
+            "BZD",
+            "CAD",
+            "CDF",
+            "CHE",
+            "CHF",
+            "CHW",
+            "CLF",
+            "CLP",
+            "CNY",
+            "COP",
+            "COU",
+            "CRC",
+            "CUC",
+            "CUP",
+            "CVE",
+            "CZK",
+            "DJF",
+            "DKK",
+            "DOP",
+            "DZD",
+            "EGP",
+            "ERN",
+            "ETB",
+            "EUR",
+            "FJD",
+            "FKP",
+            "GBP",
+            "GEL",
+            "GHS",
+            "GIP",
+            "GMD",
+            "GNF",
+            "GTQ",
+            "GYD",
+            "HKD",
+            "HNL",
+            "HRK",
+            "HTG",
+            "HUF",
+            "IDR",
+            "ILS",
+            "INR",
+            "IQD",
+            "IRR",
+            "ISK",
+            "JMD",
+            "JOD",
+            "JPY",
+            "KES",
+            "KGS",
+            "KHR",
+            "KMF",
+            "KPW",
+            "KRW",
+            "KWD",
+            "KYD",
+            "KZT",
+            "LAK",
+            "LBP",
+            "LKR",
+            "LRD",
+            "LSL",
+            "LTL",
+            "LVL",
+            "LYD",
+            "MAD",
+            "MDL",
+            "MGA",
+            "MKD",
+            "MMK",
+            "MNT",
+            "MOP",
+            "MRO",
+            "MUR",
+            "MVR",
+            "MWK",
+            "MXN",
+            "MXV",
+            "MYR",
+            "MZN",
+            "NAD",
+            "NGN",
+            "NIO",
+            "NOK",
+            "NPR",
+            "NZD",
+            "OMR",
+            "PAB",
+            "PEN",
+            "PGK",
+            "PHP",
+            "PKR",
+            "PLN",
+            "PYG",
+            "QAR",
+            "RON",
+            "RSD",
+            "RUB",
+            "RWF",
+            "SAR",
+            "SBD",
+            "SCR",
+            "SDG",
+            "SEK",
+            "SGD",
+            "SHP",
+            "SLL",
+            "SOS",
+            "SRD",
+            "SSP",
+            "STD",
+            "SVC",
+            "SYP",
+            "SZL",
+            "THB",
+            "TJS",
+            "TMT",
+            "TND",
+            "TOP",
+            "TRY",
+            "TTD",
+            "TWD",
+            "TZS",
+            "UAH",
+            "UGX",
+            "USD",
+            "USN",
+            "USS",
+            "UYI",
+            "UYU",
+            "UZS",
+            "VEF",
+            "VND",
+            "VUV",
+            "WST",
+            "XAF",
+            "XAG",
+            "XAU",
+            "XBA",
+            "XBB",
+            "XBC",
+            "XBD",
+            "XCD",
+            "XDR",
+            "XOF",
+            "XPD",
+            "XPF",
+            "XPT",
+            "XTS",
+            "XXX",
+            "YER",
+            "ZAR",
+            "ZMK",
+            "ZMW",
+            "BTC"
+          ]
+        }
+      }
+    },
+    "CreateCardNonceResponse": {
+      "description": "",
+      "type": "object",
+      "properties": {
+        "card_nonce": {
+          "description": "card nonce result. One time use token that represents this card data.",
+          "type": "string"
+        },
+        "errors": {
+          "description": "",
+          "type": "array",
+          "items": {"$ref": "#/definitions/Error"}
+        },
+        "card": {
+          "description": "",
+          "$ref": "#/definitions/Card"
+        }
+      }
+    },
+    "TenderCardDetailsStatus": {
+      "description": "",
+      "type": "string",
+      "enum": [
+        "AUTHORIZED",
+        "CAPTURED",
+        "VOIDED",
+        "FAILED"
+      ]
+    },
+    "ListTransactionsRequest": {
+      "description": "",
+      "type": "object",
+      "properties": {
+        "cursor": {
+          "description": "",
+          "type": "string"
+        },
+        "end_time": {
+          "description": "The end of the requested reporting period, in RFC 3339 format.",
+          "type": "string"
+        },
+        "begin_time": {
+          "description": "The beginning of the requested reporting period, in RFC 3339 format.",
+          "type": "string"
+        },
+        "sort_order": {
+          "description": "The order in which results are listed in the response.",
+          "type": "string",
+          "enum": [
+            "DESC",
+            "ASC"
+          ]
+        }
+      }
+    },
+    "Currency": {
+      "description": "",
+      "type": "string",
+      "enum": [
+        "AED",
+        "AFN",
+        "ALL",
+        "AMD",
+        "ANG",
+        "AOA",
+        "ARS",
+        "AUD",
+        "AWG",
+        "AZN",
+        "BAM",
+        "BBD",
+        "BDT",
+        "BGN",
+        "BHD",
+        "BIF",
+        "BMD",
+        "BND",
+        "BOB",
+        "BOV",
+        "BRL",
+        "BSD",
+        "BTN",
+        "BWP",
+        "BYR",
+        "BZD",
+        "CAD",
+        "CDF",
+        "CHE",
+        "CHF",
+        "CHW",
+        "CLF",
+        "CLP",
+        "CNY",
+        "COP",
+        "COU",
+        "CRC",
+        "CUC",
+        "CUP",
+        "CVE",
+        "CZK",
+        "DJF",
+        "DKK",
+        "DOP",
+        "DZD",
+        "EGP",
+        "ERN",
+        "ETB",
+        "EUR",
+        "FJD",
+        "FKP",
+        "GBP",
+        "GEL",
+        "GHS",
+        "GIP",
+        "GMD",
+        "GNF",
+        "GTQ",
+        "GYD",
+        "HKD",
+        "HNL",
+        "HRK",
+        "HTG",
+        "HUF",
+        "IDR",
+        "ILS",
+        "INR",
+        "IQD",
+        "IRR",
+        "ISK",
+        "JMD",
+        "JOD",
+        "JPY",
+        "KES",
+        "KGS",
+        "KHR",
+        "KMF",
+        "KPW",
+        "KRW",
+        "KWD",
+        "KYD",
+        "KZT",
+        "LAK",
+        "LBP",
+        "LKR",
+        "LRD",
+        "LSL",
+        "LTL",
+        "LVL",
+        "LYD",
+        "MAD",
+        "MDL",
+        "MGA",
+        "MKD",
+        "MMK",
+        "MNT",
+        "MOP",
+        "MRO",
+        "MUR",
+        "MVR",
+        "MWK",
+        "MXN",
+        "MXV",
+        "MYR",
+        "MZN",
+        "NAD",
+        "NGN",
+        "NIO",
+        "NOK",
+        "NPR",
+        "NZD",
+        "OMR",
+        "PAB",
+        "PEN",
+        "PGK",
+        "PHP",
+        "PKR",
+        "PLN",
+        "PYG",
+        "QAR",
+        "RON",
+        "RSD",
+        "RUB",
+        "RWF",
+        "SAR",
+        "SBD",
+        "SCR",
+        "SDG",
+        "SEK",
+        "SGD",
+        "SHP",
+        "SLL",
+        "SOS",
+        "SRD",
+        "SSP",
+        "STD",
+        "SVC",
+        "SYP",
+        "SZL",
+        "THB",
+        "TJS",
+        "TMT",
+        "TND",
+        "TOP",
+        "TRY",
+        "TTD",
+        "TWD",
+        "TZS",
+        "UAH",
+        "UGX",
+        "USD",
+        "USN",
+        "USS",
+        "UYI",
+        "UYU",
+        "UZS",
+        "VEF",
+        "VND",
+        "VUV",
+        "WST",
+        "XAF",
+        "XAG",
+        "XAU",
+        "XBA",
+        "XBB",
+        "XBC",
+        "XBD",
+        "XCD",
+        "XDR",
+        "XOF",
+        "XPD",
+        "XPF",
+        "XPT",
+        "XTS",
+        "XXX",
+        "YER",
+        "ZAR",
+        "ZMK",
+        "ZMW",
+        "BTC"
+      ]
+    },
+    "ListCustomersResponse": {
+      "description": "",
+      "type": "object",
+      "properties": {
+        "cursor": {
+          "description": "",
+          "type": "string"
+        },
+        "customers": {
+          "description": "",
+          "type": "array",
+          "items": {"$ref": "#/definitions/Customer"}
+        },
+        "errors": {
+          "description": "",
+          "type": "array",
+          "items": {"$ref": "#/definitions/Error"}
+        }
+      }
+    },
+    "CreateCardNonceRequest": {
+      "description": "",
+      "type": "object",
+      "properties": {
+        "fingerprint_components_json": {
+          "description": "",
+          "type": "string"
+        },
+        "card_data": {
+          "description": "Billing address in the card data is not required for card nonce creation.",
+          "$ref": "#/definitions/CardData"
+        },
+        "fingerprint": {
+          "description": "",
+          "type": "string"
+        },
+        "business_id": {
+          "description": "",
+          "type": "string"
+        },
+        "client_id": {
+          "description": "",
+          "type": "string"
+        }
+      },
+      "required": [
+        "client_id",
+        "card_data"
+      ]
+    },
+    "CreateRefundRequest": {
+      "description": "",
+      "type": "object",
+      "properties": {
+        "reason": {
+          "description": "",
+          "type": "string"
         },
         "idempotency_key": {
-          "description": "A value you specify that uniquely identifies this \ntransaction among transactions you've created.\n\nIf you're unsure whether a particular transaction succeeded,\nyou can reattempt it with the same idempotency key without\nworrying about double-charging the buyer.",
+          "description": "",
           "type": "string"
         },
-        "customer_browser_ip_address": {
-          "description": "Customer IP address from which this charge request was created if it was originated from web.",
+        "tender_id": {
+          "description": "",
           "type": "string"
         },
-        "customer_id": {
-          "description": "The ID of the customer to use a card on file for when creating the\ntransaction.\n\nProvide this value only if the value of `instrument_type` is \n`CUSTOMER_CARD`.",
-          "type": "string"
+        "amount_money": {
+          "description": "",
+          "$ref": "#/definitions/Money"
+        }
+      },
+      "required": [
+        "idempotency_key",
+        "tender_id",
+        "amount_money"
+      ]
+    },
+    "TenderType": {
+      "description": "",
+      "type": "string",
+      "enum": ["CARD"]
+    },
+    "CreateRefundResponse": {
+      "description": "",
+      "type": "object",
+      "properties": {
+        "errors": {
+          "description": "",
+          "type": "array",
+          "items": {"$ref": "#/definitions/Error"}
+        },
+        "refund": {
+          "description": "",
+          "$ref": "#/definitions/Refund"
+        }
+      }
+    },
+    "ChargeRequest": {
+      "description": "",
+      "type": "object",
+      "properties": {
+        "delay_capture": {
+          "description": "Request that the created payment only execute Auth and require a separate call for capture.",
+          "type": "boolean"
         },
         "note": {
-          "description": "An optional note to associate with the transaction.",
+          "description": "",
           "type": "string"
+        },
+        "reference_id": {
+          "description": "",
+          "type": "string"
+        },
+        "customer_card_id": {
+          "description": "A card-on-file for a customer.",
+          "type": "string"
+        },
+        "card_nonce": {
+          "description": "Tokenized card nonce",
+          "type": "string"
+        },
+        "idempotency_key": {
+          "description": "",
+          "type": "string"
+        },
+        "amount_money": {
+          "description": "",
+          "$ref": "#/definitions/Money"
         },
         "billing_address": {
           "description": "If available, Postal code in the billing address for US and Canada payments may reduce decline rate.",
           "$ref": "#/definitions/Address"
+        },
+        "shipping_address": {
+          "description": "",
+          "$ref": "#/definitions/Address"
+        },
+        "customer_id": {
+          "description": "Required for customer card instrument.",
+          "type": "string"
         }
       },
       "required": [
         "idempotency_key",
         "amount_money"
-      ],
-      "type": "object"
+      ]
     },
-    "Card": {
-      "description": "Represents a credit card.",
+    "ListLocationsResponse": {
+      "description": "",
+      "type": "object",
       "properties": {
-        "id": {
-          "description": "The card's unique ID, if any.",
+        "locations": {
+          "description": "",
+          "type": "array",
+          "items": {"$ref": "#/definitions/Location"}
+        },
+        "errors": {
+          "description": "",
+          "type": "array",
+          "items": {"$ref": "#/definitions/Error"}
+        }
+      }
+    },
+    "RefundStatus": {
+      "description": "",
+      "type": "string",
+      "enum": [
+        "PENDING",
+        "APPROVED",
+        "REJECTED",
+        "FAILED"
+      ]
+    },
+    "SortOrder": {
+      "description": "",
+      "type": "string",
+      "enum": [
+        "DESC",
+        "ASC"
+      ]
+    },
+    "Error": {
+      "description": "",
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "",
+          "type": "string",
+          "enum": [
+            "INTERNAL_SERVER_ERROR",
+            "UNAUTHORIZED",
+            "ACCESS_TOKEN_EXPIRED",
+            "ACCESS_TOKEN_REVOKED",
+            "FORBIDDEN",
+            "INSUFFICIENT_SCOPES",
+            "APPLICATION_DISABLED",
+            "V1_APPLICATION",
+            "V1_ACCESS_TOKEN",
+            "CARD_PROCESSING_NOT_ENABLED",
+            "BAD_REQUEST",
+            "MISSING_REQUIRED_PARAMETER",
+            "INCORRECT_TYPE",
+            "INVALID_TIME",
+            "INVALID_TIME_RANGE",
+            "INVALID_VALUE",
+            "INVALID_CURSOR",
+            "UNKNOWN_QUERY_PARAMETER",
+            "CONFLICTING_PARAMETERS",
+            "EXPECTED_JSON_BODY",
+            "INVALID_SORT_ORDER",
+            "VALUE_TOO_LONG",
+            "VALUE_TOO_LOW",
+            "EXPECTED_BOOLEAN",
+            "EXPECTED_INTEGER",
+            "EXPECTED_FLOAT",
+            "EXPECTED_STRING",
+            "EXPECTED_OBJECT",
+            "EXPECTED_ARRAY",
+            "INVALID_ARRAY_VALUE",
+            "INVALID_ENUM_VALUE",
+            "INVALID_CONTENT_TYPE",
+            "INVALID_FORM_VALUE",
+            "ONE_INSTRUMENT_EXPECTED",
+            "NO_FIELDS_SET",
+            "CARD_DECLINED",
+            "CARD_EXPIRED",
+            "VERIFY_CVV_FAILURE",
+            "VERIFY_AVS_FAILURE",
+            "INVALID_EXPIRATION",
+            "INVALID_EXPIRATION_YEAR",
+            "INVALID_EXPIRATION_DATE",
+            "INVALID_CARD",
+            "DELAYED_TRANSACTION_EXPIRED",
+            "DELAYED_TRANSACTION_CANCELED",
+            "DELAYED_TRANSACTION_CAPTURED",
+            "DELAYED_TRANSACTION_FAILED",
+            "CARD_TOKEN_EXPIRED",
+            "CARD_TOKEN_USED",
+            "AMOUNT_TOO_HIGH",
+            "REFUND_AMOUNT_INVALID",
+            "REFUND_ALREADY_PENDING",
+            "PAYMENT_NOT_REFUNDABLE",
+            "INVALID_CARD_DATA",
+            "NOT_FOUND",
+            "REQUEST_TIMEOUT",
+            "REQUEST_ENTITY_TOO_LARGE",
+            "UNSUPPORTED_MEDIA_TYPE",
+            "RATE_LIMITED",
+            "NOT_IMPLEMENTED",
+            "SERVICE_UNAVAILABLE"
+          ]
+        },
+        "field": {
+          "description": "",
           "type": "string"
         },
-        "exp_year": {
-          "description": "The year of the card's expiration date, which must be a 4-digit year.",
-          "type": "integer"
+        "detail": {
+          "description": "",
+          "type": "string"
+        }
+      }
+    },
+    "LocationCapability": {
+      "description": "",
+      "type": "string",
+      "enum": ["CREDIT_CARD_PROCESSING"]
+    },
+    "CreateCustomerRequest": {
+      "description": "",
+      "type": "object",
+      "properties": {
+        "note": {
+          "description": "",
+          "type": "string"
         },
-        "exp_month": {
-          "description": "The month of the card's expiration date, which must be between 1-12.",
-          "type": "integer"
+        "email_address": {
+          "description": "",
+          "type": "string"
+        },
+        "address": {
+          "description": "",
+          "$ref": "#/definitions/Address"
+        },
+        "reference_id": {
+          "description": "",
+          "type": "string"
+        },
+        "nickname": {
+          "description": "",
+          "type": "string"
+        },
+        "phone_number": {
+          "description": "",
+          "type": "string"
+        },
+        "given_name": {
+          "description": "",
+          "type": "string"
+        },
+        "family_name": {
+          "description": "",
+          "type": "string"
+        }
+      }
+    },
+    "Tender": {
+      "description": "Represents a charge against a card taken by a Square merchant.",
+      "type": "object",
+      "properties": {
+        "transaction_id": {
+          "description": "The ID of the tender's associated transaction.",
+          "type": "string"
+        },
+        "card_details": {
+          "description": "",
+          "$ref": "#/definitions/TenderCardDetails"
+        },
+        "note": {
+          "description": "",
+          "type": "string"
+        },
+        "created_at": {
+          "description": "The time when the tender was created, in RFC 3339 format.",
+          "type": "string"
+        },
+        "amount_money": {
+          "description": "",
+          "$ref": "#/definitions/Money"
+        },
+        "id": {
+          "description": "The tender's unique ID.",
+          "type": "string"
+        },
+        "customer_id": {
+          "description": "",
+          "type": "string"
+        },
+        "type": {
+          "description": "",
+          "type": "string",
+          "enum": ["CARD"]
+        },
+        "processing_fee_money": {
+          "description": "",
+          "$ref": "#/definitions/Money"
+        },
+        "location_id": {
+          "description": "The ID of the tender's associated location.",
+          "type": "string"
+        }
+      },
+      "required": ["type"]
+    },
+    "Card": {
+      "description": "",
+      "type": "object",
+      "properties": {
+        "last_4": {
+          "description": "last 4 digits of card number",
+          "type": "string"
         },
         "card_brand": {
-          "description": "The card's brand (such as `VISA`).",
+          "description": "",
+          "type": "string",
           "enum": [
             "OTHER_BRAND",
             "VISA",
@@ -2473,50 +1862,655 @@
             "JCB",
             "CHINA_UNIONPAY",
             "SQUARE_GIFT_CARD"
-          ],
-          "type": "string"
+          ]
         },
-        "last_4": {
-          "description": "The last 4 digits of the card's number.",
-          "type": "string"
-        },
-        "cardholder_name": {
-          "description": "The cardholder name for the card on file, if any.",
-          "type": "string"
+        "exp_month": {
+          "description": "The month of the card's expiration date, which must be between 1-12.",
+          "type": "integer"
         },
         "billing_address": {
-          "description": "The billing address for the card on file, if any.",
+          "description": "The billing address for the card on file.",
           "$ref": "#/definitions/Address"
+        },
+        "id": {
+          "description": "The card's unique ID.",
+          "type": "string"
+        },
+        "exp_year": {
+          "description": "The year of the card's expiration date, which must be a 4 digit year.",
+          "type": "integer"
+        },
+        "cardholder_name": {
+          "description": "The cardholder name for the card on file.",
+          "type": "string"
         }
-      },
-      "required": [],
-      "type": "object"
+      }
+    },
+    "CardData": {
+      "description": "",
+      "type": "object",
+      "properties": {
+        "number": {
+          "description": "The number on the card.",
+          "type": "string"
+        },
+        "cvv": {
+          "description": "The card verification value (i.e. security code) printed on the card.",
+          "type": "string"
+        },
+        "billing_postal_code": {
+          "description": "The billing postal code for the card on file.",
+          "type": "string"
+        },
+        "exp_month": {
+          "description": "The month of the card's expiration date, which must be between 1-12.",
+          "type": "integer"
+        },
+        "exp_year": {
+          "description": "The year of the card's expiration date, which must be a 4 digit year.",
+          "type": "integer"
+        }
+      }
+    },
+    "ErrorCategory": {
+      "description": "",
+      "type": "string",
+      "enum": [
+        "API_ERROR",
+        "AUTHENTICATION_ERROR",
+        "INVALID_REQUEST_ERROR",
+        "RATE_LIMIT_ERROR",
+        "PAYMENT_METHOD_ERROR",
+        "REFUND_ERROR"
+      ]
+    },
+    "ListCustomersRequest": {
+      "description": "",
+      "type": "object",
+      "properties": {"cursor": {
+        "description": "",
+        "type": "string"
+      }}
     },
     "ListTransactionsResponse": {
-      "description": "Defines the fields that are included in the response body of \na request to the **ListTransactions** endpoint.",
+      "description": "",
+      "type": "object",
       "properties": {
-        "transactions": {
-          "items": {"$ref": "#/definitions/Transaction"},
-          "description": "An array of transactions that match your query.",
-          "type": "array"
-        },
         "cursor": {
-          "description": "A pagination cursor for retrieving the next set of results,\nif any remain.\n\nProvide this value as the `cursor` parameter in a subsequent request\nto the **ListTransactions** endpoint.",
+          "description": "",
+          "type": "string"
+        },
+        "transactions": {
+          "description": "",
+          "type": "array",
+          "items": {"$ref": "#/definitions/Transaction"}
+        },
+        "errors": {
+          "description": "",
+          "type": "array",
+          "items": {"$ref": "#/definitions/Error"}
+        }
+      }
+    },
+    "Refund": {
+      "description": "",
+      "type": "object",
+      "properties": {
+        "transaction_id": {
+          "description": "The ID of the transaction refunded.",
+          "type": "string"
+        },
+        "reason": {
+          "description": "The reason for the refund being issued.",
+          "type": "string"
+        },
+        "tender_id": {
+          "description": "The ID of the tender refunded.",
+          "type": "string"
+        },
+        "created_at": {
+          "description": "The time when the refund was created, in RFC 3339 format.",
+          "type": "string"
+        },
+        "amount_money": {
+          "description": "The amount of money refunded.",
+          "$ref": "#/definitions/Money"
+        },
+        "id": {
+          "description": "The unique ID of the refund.",
+          "type": "string"
+        },
+        "processing_fee_money": {
+          "description": "The amount of processing fee refunded.",
+          "$ref": "#/definitions/Money"
+        },
+        "location_id": {
+          "description": "The ID of the refund's associated location.",
+          "type": "string"
+        },
+        "status": {
+          "description": "",
+          "type": "string",
+          "enum": [
+            "PENDING",
+            "APPROVED",
+            "REJECTED",
+            "FAILED"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "location_id",
+        "transaction_id",
+        "tender_id",
+        "reason",
+        "amount_money",
+        "status"
+      ]
+    },
+    "Transaction": {
+      "description": "",
+      "type": "object",
+      "properties": {
+        "reference_id": {
+          "description": "",
+          "type": "string"
+        },
+        "tenders": {
+          "description": "",
+          "type": "array",
+          "items": {"$ref": "#/definitions/Tender"}
+        },
+        "created_at": {
+          "description": "The time when the transaction was created, in RFC 3339 format.",
+          "type": "string"
+        },
+        "id": {
+          "description": "The transaction's unique ID.",
+          "type": "string"
+        },
+        "location_id": {
+          "description": "The ID of the transaction's associated location.",
+          "type": "string"
+        },
+        "refunds": {
+          "description": "",
+          "type": "array",
+          "items": {"$ref": "#/definitions/Refund"}
+        }
+      }
+    },
+    "DeleteCustomerResponse": {
+      "description": "",
+      "type": "object",
+      "properties": {"errors": {
+        "description": "",
+        "type": "array",
+        "items": {"$ref": "#/definitions/Error"}
+      }}
+    },
+    "RetrieveCustomerResponse": {
+      "description": "",
+      "type": "object",
+      "properties": {
+        "errors": {
+          "description": "",
+          "type": "array",
+          "items": {"$ref": "#/definitions/Error"}
+        },
+        "customer": {
+          "description": "",
+          "$ref": "#/definitions/Customer"
+        }
+      }
+    },
+    "Country": {
+      "description": "",
+      "type": "string",
+      "enum": [
+        "ZZ",
+        "AD",
+        "AE",
+        "AF",
+        "AG",
+        "AI",
+        "AL",
+        "AM",
+        "AO",
+        "AQ",
+        "AR",
+        "AS",
+        "AT",
+        "AU",
+        "AW",
+        "AX",
+        "AZ",
+        "BA",
+        "BB",
+        "BD",
+        "BE",
+        "BF",
+        "BG",
+        "BH",
+        "BI",
+        "BJ",
+        "BL",
+        "BM",
+        "BN",
+        "BO",
+        "BQ",
+        "BR",
+        "BS",
+        "BT",
+        "BV",
+        "BW",
+        "BY",
+        "BZ",
+        "CA",
+        "CC",
+        "CD",
+        "CF",
+        "CG",
+        "CH",
+        "CI",
+        "CK",
+        "CL",
+        "CM",
+        "CN",
+        "CO",
+        "CR",
+        "CU",
+        "CV",
+        "CW",
+        "CX",
+        "CY",
+        "CZ",
+        "DE",
+        "DJ",
+        "DK",
+        "DM",
+        "DO",
+        "DZ",
+        "EC",
+        "EE",
+        "EG",
+        "EH",
+        "ER",
+        "ES",
+        "ET",
+        "FI",
+        "FJ",
+        "FK",
+        "FM",
+        "FO",
+        "FR",
+        "GA",
+        "GB",
+        "GD",
+        "GE",
+        "GF",
+        "GG",
+        "GH",
+        "GI",
+        "GL",
+        "GM",
+        "GN",
+        "GP",
+        "GQ",
+        "GR",
+        "GS",
+        "GT",
+        "GU",
+        "GW",
+        "GY",
+        "HK",
+        "HM",
+        "HN",
+        "HR",
+        "HT",
+        "HU",
+        "ID",
+        "IE",
+        "IL",
+        "IM",
+        "IN",
+        "IO",
+        "IQ",
+        "IR",
+        "IS",
+        "IT",
+        "JE",
+        "JM",
+        "JO",
+        "JP",
+        "KE",
+        "KG",
+        "KH",
+        "KI",
+        "KM",
+        "KN",
+        "KP",
+        "KR",
+        "KW",
+        "KY",
+        "KZ",
+        "LA",
+        "LB",
+        "LC",
+        "LI",
+        "LK",
+        "LR",
+        "LS",
+        "LT",
+        "LU",
+        "LV",
+        "LY",
+        "MA",
+        "MC",
+        "MD",
+        "ME",
+        "MF",
+        "MG",
+        "MH",
+        "MK",
+        "ML",
+        "MM",
+        "MN",
+        "MO",
+        "MP",
+        "MQ",
+        "MR",
+        "MS",
+        "MT",
+        "MU",
+        "MV",
+        "MW",
+        "MX",
+        "MY",
+        "MZ",
+        "NA",
+        "NC",
+        "NE",
+        "NF",
+        "NG",
+        "NI",
+        "NL",
+        "NO",
+        "NP",
+        "NR",
+        "NU",
+        "NZ",
+        "OM",
+        "PA",
+        "PE",
+        "PF",
+        "PG",
+        "PH",
+        "PK",
+        "PL",
+        "PM",
+        "PN",
+        "PR",
+        "PS",
+        "PT",
+        "PW",
+        "PY",
+        "QA",
+        "RE",
+        "RO",
+        "RS",
+        "RU",
+        "RW",
+        "SA",
+        "SB",
+        "SC",
+        "SD",
+        "SE",
+        "SG",
+        "SH",
+        "SI",
+        "SJ",
+        "SK",
+        "SL",
+        "SM",
+        "SN",
+        "SO",
+        "SR",
+        "SS",
+        "ST",
+        "SV",
+        "SX",
+        "SY",
+        "SZ",
+        "TC",
+        "TD",
+        "TF",
+        "TG",
+        "TH",
+        "TJ",
+        "TK",
+        "TL",
+        "TM",
+        "TN",
+        "TO",
+        "TR",
+        "TT",
+        "TV",
+        "TW",
+        "TZ",
+        "UA",
+        "UG",
+        "UM",
+        "US",
+        "UY",
+        "UZ",
+        "VA",
+        "VC",
+        "VE",
+        "VG",
+        "VI",
+        "VN",
+        "VU",
+        "WF",
+        "WS",
+        "YE",
+        "YT",
+        "ZA",
+        "ZM",
+        "ZW"
+      ]
+    },
+    "UpdateCustomerRequest": {
+      "description": "",
+      "type": "object",
+      "properties": {
+        "note": {
+          "description": "",
+          "type": "string"
+        },
+        "email_address": {
+          "description": "",
+          "type": "string"
+        },
+        "address": {
+          "description": "",
+          "$ref": "#/definitions/Address"
+        },
+        "reference_id": {
+          "description": "",
+          "type": "string"
+        },
+        "nickname": {
+          "description": "",
+          "type": "string"
+        },
+        "phone_number": {
+          "description": "",
+          "type": "string"
+        },
+        "given_name": {
+          "description": "",
+          "type": "string"
+        },
+        "family_name": {
+          "description": "",
+          "type": "string"
+        }
+      }
+    },
+    "ListRefundsResponse": {
+      "description": "",
+      "type": "object",
+      "properties": {
+        "cursor": {
+          "description": "",
           "type": "string"
         },
         "errors": {
-          "items": {"$ref": "#/definitions/Error"},
-          "description": "Any errors that occurred during the request.",
-          "type": "array"
+          "description": "",
+          "type": "array",
+          "items": {"$ref": "#/definitions/Error"}
+        },
+        "refunds": {
+          "description": "",
+          "type": "array",
+          "items": {"$ref": "#/definitions/Refund"}
         }
-      },
-      "required": [],
-      "type": "object"
+      }
+    },
+    "ErrorCode": {
+      "description": "",
+      "type": "string",
+      "enum": [
+        "INTERNAL_SERVER_ERROR",
+        "UNAUTHORIZED",
+        "ACCESS_TOKEN_EXPIRED",
+        "ACCESS_TOKEN_REVOKED",
+        "FORBIDDEN",
+        "INSUFFICIENT_SCOPES",
+        "APPLICATION_DISABLED",
+        "V1_APPLICATION",
+        "V1_ACCESS_TOKEN",
+        "CARD_PROCESSING_NOT_ENABLED",
+        "BAD_REQUEST",
+        "MISSING_REQUIRED_PARAMETER",
+        "INCORRECT_TYPE",
+        "INVALID_TIME",
+        "INVALID_TIME_RANGE",
+        "INVALID_VALUE",
+        "INVALID_CURSOR",
+        "UNKNOWN_QUERY_PARAMETER",
+        "CONFLICTING_PARAMETERS",
+        "EXPECTED_JSON_BODY",
+        "INVALID_SORT_ORDER",
+        "VALUE_TOO_LONG",
+        "VALUE_TOO_LOW",
+        "EXPECTED_BOOLEAN",
+        "EXPECTED_INTEGER",
+        "EXPECTED_FLOAT",
+        "EXPECTED_STRING",
+        "EXPECTED_OBJECT",
+        "EXPECTED_ARRAY",
+        "INVALID_ARRAY_VALUE",
+        "INVALID_ENUM_VALUE",
+        "INVALID_CONTENT_TYPE",
+        "INVALID_FORM_VALUE",
+        "ONE_INSTRUMENT_EXPECTED",
+        "NO_FIELDS_SET",
+        "CARD_DECLINED",
+        "CARD_EXPIRED",
+        "VERIFY_CVV_FAILURE",
+        "VERIFY_AVS_FAILURE",
+        "INVALID_EXPIRATION",
+        "INVALID_EXPIRATION_YEAR",
+        "INVALID_EXPIRATION_DATE",
+        "INVALID_CARD",
+        "DELAYED_TRANSACTION_EXPIRED",
+        "DELAYED_TRANSACTION_CANCELED",
+        "DELAYED_TRANSACTION_CAPTURED",
+        "DELAYED_TRANSACTION_FAILED",
+        "CARD_TOKEN_EXPIRED",
+        "CARD_TOKEN_USED",
+        "AMOUNT_TOO_HIGH",
+        "REFUND_AMOUNT_INVALID",
+        "REFUND_ALREADY_PENDING",
+        "PAYMENT_NOT_REFUNDABLE",
+        "INVALID_CARD_DATA",
+        "NOT_FOUND",
+        "REQUEST_TIMEOUT",
+        "REQUEST_ENTITY_TOO_LARGE",
+        "UNSUPPORTED_MEDIA_TYPE",
+        "RATE_LIMITED",
+        "NOT_IMPLEMENTED",
+        "SERVICE_UNAVAILABLE"
+      ]
+    },
+    "ChargeResponse": {
+      "description": "",
+      "type": "object",
+      "properties": {
+        "errors": {
+          "description": "",
+          "type": "array",
+          "items": {"$ref": "#/definitions/Error"}
+        },
+        "transaction": {
+          "description": "",
+          "$ref": "#/definitions/Transaction"
+        }
+      }
+    },
+    "CreateCustomerResponse": {
+      "description": "",
+      "type": "object",
+      "properties": {
+        "errors": {
+          "description": "",
+          "type": "array",
+          "items": {"$ref": "#/definitions/Error"}
+        },
+        "customer": {
+          "description": "",
+          "$ref": "#/definitions/Customer"
+        }
+      }
+    },
+    "Location": {
+      "description": "",
+      "type": "object",
+      "properties": {
+        "address": {
+          "description": "The address of this location.",
+          "$ref": "#/definitions/Address"
+        },
+        "capabilities": {
+          "description": "",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["CREDIT_CARD_PROCESSING"]
+          }
+        },
+        "timezone": {
+          "description": "The IANA Timezone Database identifier for the location's timezone.",
+          "type": "string"
+        },
+        "name": {
+          "description": "The name given to the location.",
+          "type": "string"
+        },
+        "id": {
+          "description": "The location's unique ID.",
+          "type": "string"
+        }
+      }
     }
   },
-  "consumes": ["application/json"],
+  "swagger": "2.0",
   "info": {
     "title": "Square Connect API",
     "version": "2.0"
-  }
+  },
+  "consumes": ["application/json"]
 }
