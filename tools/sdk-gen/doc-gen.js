@@ -179,6 +179,13 @@ var datatypes = [];
 for (var typeName in types) {
   if (types.hasOwnProperty(typeName)) {
     var definition = types[typeName];
+    if (definition.hasOwnProperty('required')) {
+      for (var propertyName in definition.properties) {
+        if (definition.required.indexOf(propertyName) > -1) {
+          definition.properties[propertyName].required = true;
+        }
+      }
+    }
     var typeWrapper = {};
     typeWrapper.name = typeName;
     typeWrapper.details = definition;

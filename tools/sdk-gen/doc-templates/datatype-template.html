@@ -13,7 +13,7 @@
   <tbody>
     {{#each this.details.properties}}
     <tr>
-      <td><code>{{@key}}</code></td>
+      <td><code>{{@key}}</code> {{#if this.required}}<strong>(Required)</strong>{{/if}}</td>
       <td><code>{{#if this.type}}{{this.type}}{{else}}{{#linkToType}}{{this.$ref}}{{/linkToType}}{{/if}}</code></td>
       <td>{{#convertMarkdown}}{{{this.description}}}{{/convertMarkdown}}</td>
     </tr>
