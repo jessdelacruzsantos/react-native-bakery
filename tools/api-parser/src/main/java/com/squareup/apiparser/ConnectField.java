@@ -1,18 +1,13 @@
 package com.squareup.apiparser;
 
+import com.google.common.collect.ImmutableMap;
 import com.squareup.wire.schema.Field;
-import com.squareup.wire.schema.internal.parser.EnumConstantElement;
-import com.squareup.wire.schema.internal.parser.EnumElement;
 import com.squareup.wire.schema.internal.parser.FieldElement;
-
-import com.squareup.wire.schema.internal.parser.TypeElement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import java.util.Map;
 import org.json.JSONObject;
-
 
 public class ConnectField {
   private String name = "";
@@ -21,10 +16,10 @@ public class ConnectField {
   private Boolean required = false;
   private Boolean isArray = false;
   private Boolean isPathParam = false;
-  private List<String> enumValues = new ArrayList<String>();
-  private Map<String, String> docAnnotations = new HashMap<String, String>();
+  private List<String> enumValues = new ArrayList<>();
+  private Map<String, String> docAnnotations = new HashMap<>();
+  private final Map<String, Object> validations;
   private FieldElement rootField;
-
 
   public String getName() {
     return this.name;
@@ -62,14 +57,19 @@ public class ConnectField {
     return enumValues;
   }
 
+  public Map<String, Object> getValidations() {
+    return validations;
+  }
+
   public ConnectField(FieldElement field) {
     this.name = field.name();
     this.rootField = field;
     this.type = this.processType(rootField.type());
     this.parseDocumentationString(field.documentation());
-    if (field.label() == Field.Label.REQUIRED) {
+    if (ProtoOptions.isRequired(field)) {
       this.setRequired(true);
     }
+    this.validations = ProtoOptions.validations(field.options());
   }
 
   // This constructor is called ONLY for fields that represent a request parameter for an endpoint
@@ -81,9 +81,10 @@ public class ConnectField {
     this.type = this.processType(rootField.type());
     this.parseDocumentationString(field.documentation());
     this.isArray = (field.label() == Field.Label.REPEATED);
-    if (field.label() == Field.Label.REQUIRED) {
+    if (ProtoOptions.isRequired(field)) {
       this.setRequired(true);
     }
+    this.validations = ProtoOptions.validations(field.options());
 
     for (ConnectField enumValue : enumm.getValues()) {
       this.enumValues.add(enumValue.getName());
@@ -96,8 +97,8 @@ public class ConnectField {
     this.type = this.processType(type);
     this.value = value;
     this.parseDocumentationString(documentation);
+    this.validations = ImmutableMap.of();
   }
-
 
   private void parseDocumentationString(String docString) {
 
@@ -138,7 +139,8 @@ public class ConnectField {
       String keyword = entry.split(" ")[0];
 
       if (this.docAnnotations.containsKey(keyword)) {
-        System.err.println("ERROR! Multiple doc annotations of same type found for field " + this.getName());
+        System.err.println(
+            "ERROR! Multiple doc annotations of same type found for field " + this.getName());
       }
 
       docAnnotations.put(keyword, entry.replaceFirst(keyword, "").trim());
@@ -152,6 +154,7 @@ public class ConnectField {
     return type;
   }
 
+  // NB(alec): why isn't this called?
   public JSONObject toJson() {
     JSONObject fieldJson = new JSONObject();
     fieldJson.put("name", this.name);
@@ -166,6 +169,9 @@ public class ConnectField {
     fieldJson.put("isarray", this.isArray);
     fieldJson.put("value", this.value);
     fieldJson.put("ispathparam", this.isPathParam);
+
+    this.validations.entrySet().forEach(v -> fieldJson.put(v.getKey(), v.getValue()));
+
     return fieldJson;
   }
 }

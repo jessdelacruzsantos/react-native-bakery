@@ -118,6 +118,7 @@ public class ConnectDatatype extends ConnectType {
   }
 
   private JSONObject handleProperty(ConnectField property, JSONObject rootObject) {
+    property.getValidations().entrySet().forEach(v-> rootObject.put(v.getKey(),v.getValue()));
 
     // This field's type is an enum. We need to declare it locally.
     if (!property.getEnumValues().isEmpty()) {
