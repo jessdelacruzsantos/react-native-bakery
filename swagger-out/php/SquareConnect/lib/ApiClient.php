@@ -144,7 +144,7 @@ class ApiClient
 
         foreach ($headerParams as $key => $val) {
             if (strcasecmp($key, "Authorization") == 0 ) {
-              if (stripos($val, "Bearer") != 0) {
+              if (strrpos($val, "Bearer", -strlen($val)) === false) {
                 $headers[] = "$key: Bearer $val";
                 continue;
               }
