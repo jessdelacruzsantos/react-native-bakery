@@ -17,7 +17,7 @@ public class ProtoIndexerTest {
     final Path path = Paths.get(url.getFile());
     final ProtoIndex index = indexer.indexProtos(new String[]{String.valueOf(path.getParent())});
     assertThat(index.getEndpoints().size(), equalTo(2));
-    assertThat(index.getDatatypes().size(), equalTo(8));
-    assertThat(index.getEnums().size(), equalTo(3));
+    assertThat(index.getDatatypes().size(), equalTo(10));
+    assertThat(index.getEnums().size(), equalTo(4));
   }
 }

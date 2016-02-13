@@ -15,41 +15,31 @@ import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.regex.Pattern;
 import okio.BufferedSource;
 import okio.Okio;
 
 public class ProtoIndexer {
-  private List<ConnectType> protoTypes;
-  private List<ConnectService> protoServices;
+  private final List<ConnectType> protoTypes = new ArrayList<>();
+  private final List<ConnectService> protoServices = new ArrayList<>();
 
-  public ProtoIndexer() {
-    this.protoTypes = new ArrayList<>();
-    this.protoServices = new ArrayList<>();
-  }
-
-  public ProtoIndex indexProtos(String[] protoPaths) {
+  public ProtoIndex indexProtos(String[] protoPaths) throws IOException, AnnotationException {
     ProtoIndex index = new ProtoIndex();
     for (String path : protoPaths) {
-      try {
-        Files.walkFileTree(Paths.get(path), new SimpleFileVisitor<Path>() {
-          @Override public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-            if (Pattern.matches(".*\\.proto\\Z", file.toString())) {
-              addProtoFile(file.toFile(), index);
-            }
-            return FileVisitResult.CONTINUE;
+      Files.walkFileTree(Paths.get(path), new SimpleFileVisitor<Path>() {
+        @Override public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+          if (Pattern.matches(".*\\.proto\\Z", file.toString())) {
+            addProtoFile(file.toFile());
           }
-        });
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
+          return FileVisitResult.CONTINUE;
+        }
+      });
     }
     index.populate(this.protoTypes, this.protoServices);
     return index;
   }
 
-  private void addProtoFile(File file, ProtoIndex index) {
+  private void addProtoFile(File file) {
     try (BufferedSource buffer = Okio.buffer(Okio.source(file))) {
       final Location l = Location.get(file.getCanonicalPath());
       final ProtoFileElement proto = ProtoParser.parse(l, buffer.readUtf8());
@@ -67,7 +57,7 @@ public class ProtoIndexer {
   }
 
   private void addType(TypeElement datatype, String packageName, ConnectType parent) {
-    ConnectType ct = new ConnectType(datatype, packageName, Optional.ofNullable(parent));
+    ConnectType ct = new ConnectType(datatype, packageName, parent);
     this.protoTypes.add(ct);
     for (TypeElement subType : datatype.nestedTypes()) {
       addType(subType, packageName, ct);

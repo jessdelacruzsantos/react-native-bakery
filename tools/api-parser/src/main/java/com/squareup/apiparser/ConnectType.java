@@ -1,8 +1,7 @@
 package com.squareup.apiparser;
 
+import com.google.common.collect.ImmutableMap;
 import com.squareup.wire.schema.internal.parser.TypeElement;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -16,21 +15,18 @@ public class ConnectType {
   protected final Map<String, String> docAnnotations;
   private final String name;
 
-  public static final Map<String, String> typeMap;
-  static {
-    Map<String, String> aMap = new HashMap<String, String>();
-    aMap.put("int32", "integer");
-    aMap.put("int64", "integer");
-    aMap.put("bool", "boolean");
-    aMap.put("string", "string");
-    typeMap = aMap;
-  }
+  public static final Map<String, String> TYPE_MAP = ImmutableMap.<String, String>builder()
+      .put("int32", "integer")
+      .put("int64", "integer")
+      .put("bool", "boolean")
+      .put("string", "string")
+      .build();
 
-  public ConnectType(TypeElement rootType, String packageName, Optional<ConnectType> parentType) {
+  protected ConnectType(TypeElement rootType, String packageName, ConnectType parentType) {
     this.rootType = rootType;
     this.packageName = packageName;
-    this.parentType = parentType;
-    this.docAnnotations = new HashMap<>();
+    this.parentType = Optional.ofNullable(parentType);
+    this.docAnnotations = DocString.parse(rootType.documentation());
     this.name = this.generateName();
   }
 
@@ -50,24 +46,7 @@ public class ConnectType {
     return this.name;
   }
 
-  protected void parseDocumentationString(String docString) {
-    List<String> components = DocString.parse(docString);
-    for (String entry : components) {
-      String keyword = entry.split(" ")[0];
-
-      if (this.docAnnotations.containsKey(keyword)) {
-        System.err.println("ERROR! Multiple doc annotations of same type found for type " + this.generateName());
-      }
-
-      docAnnotations.put(keyword, entry.replaceFirst(keyword, "").trim());
-    }
-  }
-
   public String generateName() {
-    final Optional<ConnectType> parent = getParentType();
-    if (parent.isPresent()) {
-      return parent.get().generateName() + this.rootType.name();
-    }
-    return this.rootType.name();
+    return getParentType().map(ConnectType::generateName).orElse("") + getRootType().name();
   }
 }

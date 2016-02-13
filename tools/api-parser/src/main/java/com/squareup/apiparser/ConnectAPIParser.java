@@ -27,7 +27,7 @@ public class ConnectAPIParser implements APIParser {
     }
 
     for (ConnectDatatype datatype : index.getDatatypes().values()) {
-      if (datatype.hasFields()) {
+      if (datatype.hasBodyParameters()) {
         jsonTypes.put(datatype.getName(), datatype.toJson());
       }
     }
@@ -45,10 +45,9 @@ public class ConnectAPIParser implements APIParser {
   }
 
   public static void main(String argv[]) {
-    ProtoIndex index = new ProtoIndexer().indexProtos(argv);
-    JSONObject root = new ConnectAPIParser().parseAPI(index);
-
     try {
+      ProtoIndex index = new ProtoIndexer().indexProtos(argv);
+      JSONObject root = new ConnectAPIParser().parseAPI(index);
       String outputPath = System.getProperty("user.home") + "/Development/connect-sdks/tools/sdk-gen/api.json";
       PrintWriter writer = new PrintWriter(outputPath, "UTF-8");
       writer.println(root.toString(2));

@@ -1,11 +1,9 @@
 package com.squareup.apiparser;
 
-import org.hamcrest.CoreMatchers;
-import org.json.JSONObject;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 public class ConnectFieldTest {
 

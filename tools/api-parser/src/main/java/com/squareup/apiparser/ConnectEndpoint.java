@@ -1,14 +1,16 @@
 package com.squareup.apiparser;
 
-import com.google.common.base.Preconditions;
+import com.google.common.base.Verify;
 import com.google.common.collect.ImmutableList;
 import com.squareup.wire.schema.internal.parser.RpcElement;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Optional;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toList;
 
 /**
  * Represents the details of an HTTP endpoint as defined by an rpc in a proto file.
@@ -22,15 +24,14 @@ public class ConnectEndpoint {
   private final ProtoIndex index;
 
   public ConnectEndpoint(RpcElement rpc, ProtoIndex index) {
-    this.docAnnotations = new HashMap<>();
     this.rootRpc = rpc;
     this.inputType = rpc.requestType();
     this.outputType = rpc.responseType();
     this.index = index;
-    this.parseDocumentationString(rpc.documentation());
-    ConnectType requestType = index.getType(inputType);
-    Preconditions.checkNotNull(requestType);
-    this.params = (((ConnectDatatype) requestType).getFields().stream().collect(Collectors.toList()));
+    this.docAnnotations = DocString.parse(rpc.documentation());
+    Optional<ConnectDatatype> requestType = index.getDataType(inputType);
+    Verify.verify(requestType.isPresent());
+    this.params = requestType.get().getFields().stream().collect(collectingAndThen(toList(), ImmutableList::copyOf));
   }
 
   public String getPath() {
@@ -57,12 +58,7 @@ public class ConnectEndpoint {
 
     root.put("summary", this.getName());
     root.put("operationId", this.getName());
-
-    if (this.docAnnotations.containsKey("desc"))  {
-      root.put("description", this.docAnnotations.get("desc"));
-    } else {
-      root.put("description", "");
-    }
+    root.put("description", docAnnotations.getOrDefault("desc", ""));
 
     JSONArray swaggerParameters = new JSONArray();
 
@@ -98,7 +94,7 @@ public class ConnectEndpoint {
         swaggerParameters.put(swaggerParameter);
       } else if (this.getHttpmethod().equals("GET") || this.getHttpmethod().equals("DELETE")) {
         swaggerParameter.put("in", "query");
-        swaggerParameter.put("required", param.getRequired());
+        swaggerParameter.put("required", param.isRequired());
         swaggerParameters.put(swaggerParameter);
       }
     }
@@ -106,30 +102,15 @@ public class ConnectEndpoint {
     // POST and PUT requests list a single "body" parameter in Swagger, regardless
     // of how many fields that body parameter includes.
     if (this.getHttpmethod().equals("POST") || this.getHttpmethod().equals("PUT")) {
-      String typeName = this.inputType;
-      ConnectType type = this.index.getType(typeName);
-      if (!(type instanceof ConnectDatatype)) {
-        System.err.println("ERROR: Endpoint request type is not a datatype");
-        return null;
-      }
-      ConnectDatatype requestDatatype = (ConnectDatatype)type;
-      if (requestDatatype.hasFields()) {
-        JSONObject swaggerBodyParameter = new JSONObject();
-        swaggerBodyParameter.put("name", "body");
-        swaggerBodyParameter.put("in", "body");
-        swaggerBodyParameter.put("required", true);
-        swaggerBodyParameter.put("description", "An object containing the fields to POST for the request.\n\n"
-            + "See the corresponding object definition for field details.");
-
-        // When specifying the name of the resource, get rid of pointless proto prefixes
-        typeName = typeName.replaceFirst("resources.", "");
-        typeName = typeName.replaceFirst("actions.", "");
-
-        JSONObject swaggerBodyParameterSchema = new JSONObject();
-        swaggerBodyParameterSchema.put("$ref", "#/definitions/" + typeName);
-
-        swaggerBodyParameter.put("schema", swaggerBodyParameterSchema);
-        swaggerParameters.put(swaggerBodyParameter);
+      Optional<ConnectDatatype> requestDataType = this.index.getDataType(this.inputType);
+      if (requestDataType.map(ConnectDatatype::hasBodyParameters).orElse(false)) {
+        swaggerParameters.put(new JSONObject()
+            .put("name", "body")
+            .put("in", "body")
+            .put("required", true)
+            .put("description", "An object containing the fields to POST for the request.\n\n"
+                + "See the corresponding object definition for field details.")
+            .put("schema", new JSONObject().put("$ref", "#/definitions/" + this.inputType)));
       }
     }
 
@@ -155,26 +136,5 @@ public class ConnectEndpoint {
     root.put("responses", swaggerResponses);
 
     return root;
-  }
-
-  private void parseDocumentationString(String docString) {
-    final ImmutableList<String> components = DocString.parse(docString);
-    for (String entry : components) {
-      String keyword = entry.split(" ")[0];
-
-      if (this.docAnnotations.containsKey(keyword)) {
-        System.err.println("ERROR! Multiple doc annotations of same type found for endpoint " + this.getName());
-      }
-
-      docAnnotations.put(keyword, entry.replaceFirst(keyword, "").trim());
-    }
-  }
-
-  private JSONArray arrayifyFields(List<ConnectField> fields) {
-    JSONArray array = new JSONArray();
-    for (ConnectField field : fields) {
-      array.put(field.toJson());
-    }
-    return array;
   }
 }

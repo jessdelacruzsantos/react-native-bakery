@@ -2,27 +2,26 @@ package com.squareup.apiparser;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import java.util.Collections;
 import java.util.List;
-import org.jetbrains.annotations.NotNull;
 
 public class DocString {
-  private final @NotNull String docString;
-  private List<String> components;
+  private final String docString;
+  private ImmutableMap<String, String> annotations;
 
   private DocString(String docString) {
     Preconditions.checkNotNull(docString);
     this.docString = docString;
-    this.components = Collections.emptyList();
+    this.annotations = ImmutableMap.copyOf(Collections.emptyMap());
   }
 
-  public static ImmutableList<String> parse(String docString) {
-    return new DocString(docString).parse().getComponents();
+  public static ImmutableMap<String, String> parse(String docString) {
+    return new DocString(docString).parse().getAnnotations();
   }
 
-  public ImmutableList<String> getComponents() {
-    return ImmutableList.copyOf(components);
+  public ImmutableMap<String, String> getAnnotations() {
+    return annotations;
   }
 
   public DocString parse() {
@@ -30,7 +29,13 @@ public class DocString {
       return this;
 
     String parseableDocString = (isMultiline()) ? getMultiline() : getSingleline();
-    components = Splitter.on("@").trimResults().splitToList(parseableDocString);
+    final List<String> splits = Splitter.on("@").trimResults().splitToList(parseableDocString);
+    ImmutableMap.Builder<String, String> b = ImmutableMap.<String, String>builder();
+    splits.forEach(s -> {
+      String k = s.split(" ")[0];
+      b.put(k, s.replaceFirst(k, "").trim());
+    });
+    this.annotations = b.build();
     return this;
   }
 

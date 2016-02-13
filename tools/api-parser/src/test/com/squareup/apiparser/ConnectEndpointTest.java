@@ -8,13 +8,10 @@ import java.nio.file.Paths;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Test;
-import org.mockito.Matchers;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.*;
-import static org.mockito.Matchers.notNull;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
