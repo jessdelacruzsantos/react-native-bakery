@@ -266,7 +266,7 @@
       "get": {
         "summary": "ListTransactions",
         "operationId": "ListTransactions",
-        "description": "Lists transactions for a particular location.\n\nWhen making a request to this endpoint, your request body **must** include either the `cursor` parameter, or it must\ninclude all three of `begin_time`, `end_time`, and `sort`.",
+        "description": "Lists transactions for a particular location.\n\nWhen making a request to this endpoint, your request body **must** include either the `cursor` parameter, or it must\ninclude both `begin_time` and `end_time` with an optional `sort_order`.",
         "responses": {"200": {
           "schema": {"$ref": "#/definitions/ListTransactionsResponse"},
           "description": "Success"
@@ -1764,7 +1764,11 @@
             "REFUND_ERROR"
           ]
         }
-      }
+      },
+      "required": [
+        "category",
+        "code"
+      ]
     },
     "LocationCapability": {
       "description": "",
@@ -1935,7 +1939,8 @@
         "number",
         "exp_month",
         "exp_year",
-        "cvv"
+        "cvv",
+        "billing_postal_code"
       ]
     },
     "ErrorCategory": {
