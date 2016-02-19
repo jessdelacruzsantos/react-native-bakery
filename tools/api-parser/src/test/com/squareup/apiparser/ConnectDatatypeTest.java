@@ -17,9 +17,7 @@ import static org.mockito.Mockito.when;
 public class ConnectDatatypeTest {
   @Test
   public void testToJson() throws Exception {
-    MessageElement e = mock(MessageElement.class);
-    when(e.name()).thenReturn("Name");
-    when(e.documentation()).thenReturn("@desc a mock");
+    MessageElement e = stubMessage("@desc a mock");
     ConnectDatatype datatype = new ConnectDatatype(e, "packageName", null);
     assertThat(datatype.toJson().getString("description"), equalTo("a mock"));
     assertThat(datatype.toJson().getString("type"), equalTo("object"));
@@ -38,13 +36,9 @@ public class ConnectDatatypeTest {
 
   @Test
   public void testHasBodyParameters_OneField() throws Exception {
-    MessageElement me = mock(MessageElement.class);
-    when(me.name()).thenReturn("Name");
-    when(me.documentation()).thenReturn("");
-    when(me.oneOfs()).thenReturn(ImmutableList.of());
-    FieldElement fe = mock(FieldElement.class);
-    when(fe.documentation()).thenReturn(" //@pathparam\n");
-    when(fe.type()).thenReturn("string");
+    final String value = "";
+    MessageElement me = stubMessage(value);
+    FieldElement fe = stubField(" //@pathparam\n");
     when(me.fields()).thenReturn(ImmutableList.of(fe));
     when(me.fields()).thenReturn(ImmutableList.of(fe));
 
@@ -55,21 +49,31 @@ public class ConnectDatatypeTest {
 
   @Test
   public void testHasBodyParameters_TwoFields() throws Exception {
-    MessageElement me = mock(MessageElement.class);
-    when(me.name()).thenReturn("Name");
-    when(me.documentation()).thenReturn("");
-    when(me.oneOfs()).thenReturn(ImmutableList.of());
-    FieldElement fe1 = mock(FieldElement.class);
-    FieldElement fe2 = mock(FieldElement.class);
-    when(fe1.documentation()).thenReturn(" //@pathparam\n");
-    when(fe1.type()).thenReturn("string");
-    when(fe2.documentation()).thenReturn(" //@required\n");
-    when(fe2.type()).thenReturn("string");
+    MessageElement me = stubMessage("");
+    FieldElement fe1 = stubField(" //@pathparam\n");
+    FieldElement fe2 = stubField(" //@required\n");
     when(me.fields()).thenReturn(ImmutableList.of(fe1, fe2));
 
     ConnectDatatype dataType = new ConnectDatatype(me, "packageName", null);
     dataType.populateFields(new ProtoIndex());
     assertTrue(dataType.hasBodyParameters());
   }
+
+  private FieldElement stubField(String documentation) {
+    FieldElement fe1 = mock(FieldElement.class);
+    when(fe1.documentation()).thenReturn(documentation);
+    when(fe1.type()).thenReturn("string");
+    when(fe1.options()).thenReturn(ImmutableList.of());
+    return fe1;
+  }
+
+  private MessageElement stubMessage(String value) {
+    MessageElement me = mock(MessageElement.class);
+    when(me.name()).thenReturn("Name");
+    when(me.documentation()).thenReturn(value);
+    when(me.oneOfs()).thenReturn(ImmutableList.of());
+    return me;
+  }
+
 }
 

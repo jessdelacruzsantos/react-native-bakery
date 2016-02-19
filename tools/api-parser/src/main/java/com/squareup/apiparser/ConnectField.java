@@ -21,6 +21,7 @@ public class ConnectField {
   private final List<String> enumValues;
   private final int value;
   private final Map<String, String> docAnnotations;
+
   private final Map<String, Object> validations;
 
   public ConnectField(FieldElement field, Optional<ConnectEnum> enumm) {
@@ -57,6 +58,10 @@ public class ConnectField {
 
   public String getDescription() {
     return docAnnotations.getOrDefault("desc", "");
+  }
+
+  public Map<String, Object> getValidations() {
+    return validations;
   }
 
   public Boolean isRequired() {
