@@ -1,4 +1,8 @@
 target/
 *.gem
 vendor/
+tools/api-parser/.idea/*
+tools/api-parser/apiparser.iml
 sdk-test/
+**/.idea
+**/*.iml

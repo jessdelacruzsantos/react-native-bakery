@@ -1,25 +1,52 @@
 package com.squareup.apiparser;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.squareup.wire.schema.Field;
 import com.squareup.wire.schema.internal.parser.FieldElement;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import org.json.JSONObject;
 
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toList;
+
 public class ConnectField {
-  private String name = "";
-  private String type = "";
-  private int value = 0;
-  private Boolean required = false;
-  private Boolean isArray = false;
-  private Boolean isPathParam = false;
-  private List<String> enumValues = new ArrayList<>();
-  private Map<String, String> docAnnotations = new HashMap<>();
+  private final boolean required;
+  private final boolean isArray;
+  private final int value;
+  private final String name;
+  private final String type;
+  private final List<String> enumValues;
+  private final Map<String, String> docAnnotations;
+
   private final Map<String, Object> validations;
-  private FieldElement rootField;
+
+  public ConnectField(FieldElement field, Optional<ConnectEnum> enumm) {
+    this.name = field.name();
+    this.type = Protos.cleanName(field.type());
+    this.required = field.label() == Field.Label.REQUIRED;
+    this.isArray = field.label() == Field.Label.REPEATED;
+    this.docAnnotations = new DocString(field.documentation()).getAnnotations();
+    this.value = 0;
+    final List<ConnectField> values = enumm.map(ConnectEnum::getValues).orElse(Collections.emptyList());
+    this.enumValues = values.stream().map(ConnectField::getName).collect(collectingAndThen(toList(), ImmutableList::copyOf));
+    this.validations = ProtoOptions.validations(field.options());
+  }
+
+  // This constructor is called ONLY for fields that represent a value of an enum, such as USD.
+  public ConnectField(String name, String type, int value, String documentation) {
+    this.name = name;
+    this.type = Protos.cleanName(type);
+    this.value = value;
+    this.required = false;
+    this.isArray = isArray();
+    this.enumValues = ImmutableList.of();
+    this.validations = ImmutableMap.of();
+    this.docAnnotations = new DocString(documentation).getAnnotations();
+  }
 
   public String getName() {
     return this.name;
@@ -30,19 +57,15 @@ public class ConnectField {
   }
 
   public String getDescription() {
-    if (this.docAnnotations.containsKey("desc")) {
-      return docAnnotations.get("desc");
-    } else {
-      return "";
-    }
+    return docAnnotations.getOrDefault("desc", "");
   }
 
-  public Boolean getRequired() {
+  public Map<String, Object> getValidations() {
+    return validations;
+  }
+
+  public Boolean isRequired() {
     return required;
-  }
-
-  public void setRequired(Boolean required) {
-    this.required = required;
   }
 
   public boolean isPathParam() {
@@ -50,128 +73,24 @@ public class ConnectField {
   }
 
   public Boolean isArray() {
-    return (this.rootField.label() == Field.Label.REPEATED);
+    return this.isArray;
   }
 
   public List<String> getEnumValues() {
-    return enumValues;
-  }
-
-  public Map<String, Object> getValidations() {
-    return validations;
-  }
-
-  public ConnectField(FieldElement field) {
-    this.name = field.name();
-    this.rootField = field;
-    this.type = this.processType(rootField.type());
-    this.parseDocumentationString(field.documentation());
-    if (ProtoOptions.isRequired(field)) {
-      this.setRequired(true);
-    }
-    this.validations = ProtoOptions.validations(field.options());
-  }
-
-  // This constructor is called ONLY for fields that represent a request parameter for an endpoint
-  // that is ALSO an enum. It exists because in swagger, enum request parameters MUST be defined
-  // in-line, and cannot refer to a schema.
-  public ConnectField(FieldElement field, ConnectEnum enumm) {
-    this.name = field.name();
-    this.rootField = field;
-    this.type = this.processType(rootField.type());
-    this.parseDocumentationString(field.documentation());
-    this.isArray = (field.label() == Field.Label.REPEATED);
-    if (ProtoOptions.isRequired(field)) {
-      this.setRequired(true);
-    }
-    this.validations = ProtoOptions.validations(field.options());
-
-    for (ConnectField enumValue : enumm.getValues()) {
-      this.enumValues.add(enumValue.getName());
-    }
-  }
-
-  // This constructor is called ONLY for fields that represent a value of an enum, such as USD.
-  public ConnectField(String name, String type, int value, String documentation) {
-    this.name = name;
-    this.type = this.processType(type);
-    this.value = value;
-    this.parseDocumentationString(documentation);
-    this.validations = ImmutableMap.of();
-  }
-
-  private void parseDocumentationString(String docString) {
-
-    String[] components;
-    if (docString.equals("")) {
-      return;
-
-      // Public doc strings can be bounded by two hyphens to support multiline annotations.
-    } else if (docString.contains("--")) {
-      String publicDocString = docString.split("--")[1];
-      components = publicDocString.split("\\s+@");
-      if (components[0].trim().startsWith("@")) {
-        components[0] = components[0].replaceFirst("@", "");
-      }
-
-      // If there is no two-hyphen boundary, it's assumed each annotation is exactly one line.
-    } else {
-      int annotationIndex = 0;
-      int newlineIndex = 0;
-      List<String> componentList = new ArrayList<String>();
-      while (true) {
-        annotationIndex = docString.indexOf("@", annotationIndex);
-        newlineIndex = docString.indexOf("\n", annotationIndex);
-        if (annotationIndex == -1) {
-          break;
-        }
-        if (newlineIndex == -1) {
-          newlineIndex = docString.length();
-        }
-        componentList.add(docString.substring(annotationIndex + 1, newlineIndex));
-        annotationIndex = newlineIndex;
-      }
-      components = new String[componentList.size()];
-      components = componentList.toArray(components);
-    }
-
-    for (String entry : components) {
-      String keyword = entry.split(" ")[0];
-
-      if (this.docAnnotations.containsKey(keyword)) {
-        System.err.println(
-            "ERROR! Multiple doc annotations of same type found for field " + this.getName());
-      }
-
-      docAnnotations.put(keyword, entry.replaceFirst(keyword, "").trim());
-    }
-  }
-
-  private String processType(String type) {
-    type = type.replaceFirst("resources.", "");
-    type = type.replaceFirst("actions.", "");
-    type = type.replaceAll("\\.", "");
-    return type;
+    return enumValues == null ? Collections.emptyList() : enumValues;
   }
 
   // NB(alec): why isn't this called?
   public JSONObject toJson() {
-    JSONObject fieldJson = new JSONObject();
-    fieldJson.put("name", this.name);
-    fieldJson.put("type", this.type);
-    if (this.docAnnotations.containsKey("desc")) {
-      fieldJson.put("description", this.docAnnotations.get("desc"));
-    } else {
-      fieldJson.put("description", "");
-    }
-
-    fieldJson.put("required", this.required);
-    fieldJson.put("isarray", this.isArray);
-    fieldJson.put("value", this.value);
-    fieldJson.put("ispathparam", this.isPathParam);
-
-    this.validations.entrySet().forEach(v -> fieldJson.put(v.getKey(), v.getValue()));
-
-    return fieldJson;
+    Optional<String> desc = Optional.ofNullable(this.docAnnotations.get("desc"));
+    JSONObject json = new JSONObject();
+    this.validations.entrySet().forEach(v -> json.put(v.getKey(), v.getValue()));
+    return json.put("name", name)
+        .put("type", type)
+        .put("required", required)
+        .put("isarray", isArray)
+        .put("value", value)
+        .put("description", desc.orElse(""))
+        .put("ispathparam", isPathParam());
   }
 }

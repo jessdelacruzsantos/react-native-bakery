@@ -1,68 +1,44 @@
 package com.squareup.apiparser;
 
+import com.google.common.base.Preconditions;
 import com.squareup.wire.schema.internal.parser.EnumElement;
 import com.squareup.wire.schema.internal.parser.MessageElement;
-import com.squareup.wire.schema.internal.parser.RpcElement;
-import com.squareup.wire.schema.internal.parser.ServiceElement;
 import com.squareup.wire.schema.internal.parser.TypeElement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class ProtoIndex {
+  private final Map<String, ConnectDatatype> dtypes = new HashMap<>();
+  private final Map<String, ConnectEnum> enums = new HashMap<>();
+  private final List<ConnectEndpoint> endpoints = new ArrayList<>();
 
-  private Map<String, ConnectDatatype> dtypes;
-  private Map<String, ConnectEnum> enums;
-  private List<ConnectEndpoint> endpoints;
-
-
-  public ProtoIndex() {
-    this.enums = new HashMap<String, ConnectEnum>();
-    this.dtypes = new HashMap<String, ConnectDatatype>();
-    this.endpoints = new ArrayList<ConnectEndpoint>();
-  }
-
-  public boolean populate(List<ConnectType> types, List<ConnectService> services) {
-
+  public void populate(List<ConnectType> types, List<ConnectService> services)
+      throws IllegalArgumentException, AnnotationException {
     // This does datatypes + enums, need to do endpoints
     for (ConnectType type : types) {
       TypeElement rootType = type.getRootType();
       if (rootType instanceof EnumElement) {
-        ConnectEnum ce = new ConnectEnum((EnumElement)rootType, type.getPackageName(), type.getParentType());
-        if (this.enums.containsKey(ce.getName())) {
-          System.err.println("ERROR: Identical enum name detected: " + type.getName());
-          return false;
-        }
+        ConnectEnum ce = new ConnectEnum((EnumElement)rootType, type.getPackageName(), type.getParentType().orElse(null));
+        Preconditions.checkArgument(!enums.containsKey(ce.getName()));
         this.enums.put(type.getName(), ce);
       } else if (rootType instanceof MessageElement) {
-        ConnectDatatype cd = new ConnectDatatype((MessageElement)rootType, type.getPackageName(), type.getParentType());
-        if (this.dtypes.containsKey(cd.getName())) {
-          System.err.println("ERROR: Identical datatype name detected");
-          return false;
-        }
+        ConnectDatatype cd = new ConnectDatatype(rootType, type.getPackageName(), type.getParentType().orElse(null));
+        Preconditions.checkArgument(!dtypes.containsKey(cd.getName()));
         this.dtypes.put(type.getName(), cd);
       } else {
-        // Shouldn't happen
-        System.out.println("Entity with unknown type encountered!");
-        System.out.println(rootType.name());
-        return false;
+        throw new IllegalArgumentException("Encountered a malformed proto");
       }
     }
 
     // After done creating entities for every symbol, populate datatypes
-    for (ConnectDatatype datatype : this.dtypes.values()) {
-      datatype.populateFields(this);
+    dtypes.values().stream().forEach(d -> d.populateFields(this));
+    for (final ConnectService service : services) {
+      endpoints.addAll(service.getRootService().rpcs().stream().map(rpc -> new ConnectEndpoint(rpc, this)).collect(Collectors.toList()));
     }
-
-    for (ConnectService service : services) {
-      // Index those endpoints yo
-      for (RpcElement rpc : service.getRootService().rpcs()) {
-        this.endpoints.add(new ConnectEndpoint(rpc, this));
-      }
-    }
-
-    return true;
   }
 
   public Map<String, ConnectDatatype> getDatatypes() {
@@ -77,85 +53,15 @@ public class ProtoIndex {
     return this.endpoints;
   }
 
-
-  public ConnectType getType(String typeName) {
-    typeName = typeName.replaceFirst("actions.", "");
-    typeName = typeName.replaceFirst("resources.", "");
-    typeName = typeName.replaceAll("\\.", "");
-    ConnectType typeToReturn = null;
-    for (String enumName : this.enums.keySet()) {
-      if (enumName.endsWith(typeName)) {
-        if (typeToReturn != null) {
-          System.err.println("Multiple matches found for requested type " + typeName);
-          return null;
-        } else {
-          typeToReturn = this.enums.get(enumName);
-        }
-      }
-    }
-
-    for (String datatypeName : this.dtypes.keySet()) {
-      if (datatypeName.endsWith(typeName)) {
-        if (typeToReturn != null) {
-          System.err.println("Multiple matches found for requested type " + typeName);
-          return null;
-        } else {
-          typeToReturn = this.dtypes.get(datatypeName);
-        }
-      }
-    }
-    return typeToReturn;
-  }
- /*
-  public boolean addDatatype(TypeElement e, String packageName, TypeElement parent) {
-    String qualifiedName;
-    if (parent == null) {
-      qualifiedName = packageName + "." + e.name();
-    } else {
-      qualifiedName = packageName + "." + parent.name() + "." + e.name();
-    }
-    if (!this.datatypes.containsKey(qualifiedName)) {
-      this.datatypes.put(qualifiedName, e);
-      return true;
-    } else {
-      return false;
-    }
+  public Optional<ConnectEnum> getEnumType(String typeName) {
+    final String type = Protos.cleanName(typeName);
+    final Optional<String> enumType = enums.keySet().stream().filter(e -> e.endsWith(type)).findFirst();
+    return enumType.map(enums::get);
   }
 
-  public boolean addService(ServiceElement e, String packageName) {
-    String qualifiedName = packageName + "." + e.name();
-    if (!this.services.containsKey(qualifiedName)) {
-      this.services.put(qualifiedName, e);
-      return true;
-    } else {
-      return false;
-    }
+  public Optional<ConnectDatatype> getDataType(String typeName) {
+    final String type = Protos.cleanName(typeName);
+    final Optional<String> dataType = dtypes.keySet().stream().filter(d -> d.endsWith(type)).findFirst();
+    return dataType.map(dtypes::get);
   }
-
-  public TypeElement getDatatype(String name) {
-    for (String qualifiedName : this.datatypes.keySet()) {
-      if (qualifiedName.endsWith(name)) {
-        return this.datatypes.get(qualifiedName);
-      }
-    }
-    return null;
-  }
-
-  public String getQualifiedName(String name) {
-    for (String qualifiedName : this.datatypes.keySet()) {
-      if (qualifiedName.endsWith(name)) {
-        return qualifiedName;
-      }
-    }
-    return null;
-  }
-
-  public Map<String, TypeElement> getDatatypes() {
-    return this.datatypes;
-  }
-
-  public Map<String, ServiceElement> getServices() {
-    return this.services;
-  }       */
-
 }
