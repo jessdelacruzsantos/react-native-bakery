@@ -28,7 +28,7 @@ public class ConnectEndpoint {
     this.inputType = rpc.requestType();
     this.outputType = rpc.responseType();
     this.index = index;
-    this.docAnnotations = DocString.parse(rpc.documentation());
+    this.docAnnotations = new DocString(rpc.documentation()).parse().getAnnotations();
     Optional<ConnectDatatype> requestType = index.getDataType(inputType);
     Verify.verify(requestType.isPresent());
     this.params = requestType.get().getFields().stream().collect(collectingAndThen(toList(), ImmutableList::copyOf));

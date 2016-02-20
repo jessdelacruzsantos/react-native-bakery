@@ -24,7 +24,7 @@ public class ProtoIndexer {
   private final List<ConnectService> protoServices = new ArrayList<>();
 
   public ProtoIndex indexProtos(String[] protoPaths) throws IOException, AnnotationException {
-    ProtoIndex index = new ProtoIndex();
+    final ProtoIndex index = new ProtoIndex();
     for (String path : protoPaths) {
       Files.walkFileTree(Paths.get(path), new SimpleFileVisitor<Path>() {
         @Override public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
@@ -39,7 +39,7 @@ public class ProtoIndexer {
     return index;
   }
 
-  private void addProtoFile(File file) {
+  private void addProtoFile(File file) throws IOException {
     try (BufferedSource buffer = Okio.buffer(Okio.source(file))) {
       final Location l = Location.get(file.getCanonicalPath());
       final ProtoFileElement proto = ProtoParser.parse(l, buffer.readUtf8());
@@ -52,7 +52,7 @@ public class ProtoIndexer {
         this.protoServices.add(new ConnectService(service, proto.packageName()));
       }
     } catch (IOException e) {
-      e.printStackTrace();
+      throw e;
     }
   }
 

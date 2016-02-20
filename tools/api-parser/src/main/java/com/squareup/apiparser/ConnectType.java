@@ -26,7 +26,7 @@ public class ConnectType {
     this.rootType = rootType;
     this.packageName = packageName;
     this.parentType = Optional.ofNullable(parentType);
-    this.docAnnotations = DocString.parse(rootType.documentation());
+    this.docAnnotations = new DocString(rootType.documentation()).parse().getAnnotations();
     this.name = this.generateName();
   }
 

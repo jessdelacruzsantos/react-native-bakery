@@ -12,7 +12,7 @@ public class DocStringTest {
   @Test
   public void testParseNoComments() throws Exception {
     final String doc = "";
-    final ImmutableMap<String, String> actual = DocString.parse(doc);
+    final ImmutableMap<String, String> actual = new DocString(doc).getAnnotations();
     final Map<String, String> expected = Collections.emptyMap();
     assertThat(actual, equalTo(expected));
   }
@@ -20,7 +20,7 @@ public class DocStringTest {
   @Test
   public void testParsePathParam() throws Exception {
     final String doc = "  //@pathparam\n";
-    final ImmutableMap<String, String> actual = DocString.parse(doc);
+    final ImmutableMap<String, String> actual = new DocString(doc).parse().getAnnotations();
     final ImmutableMap<String, String> expected = ImmutableMap.of("//", "", "pathparam", "");
     assertThat(actual, equalTo(expected));
   }
@@ -34,12 +34,12 @@ public class DocStringTest {
         + "    @oauthpermissions PAYMENTS_WRITE\n"
         + "    @desc Description here.\n"
         + "  --*/";
-    final ImmutableMap<String, String> actual = DocString.parse(doc);
+    final ImmutableMap<String, String> actual = new DocString(doc).parse().getAnnotations();
     final Map<String, String> expected = ImmutableMap.<String, String>builder().put("", "")
         .put("entity", "Transaction")
         .put("path", "/v2/locations")
         .put("httpmethod", "POST")
-        .put( "oauthpermissions", "PAYMENTS_WRITE")
+        .put("oauthpermissions", "PAYMENTS_WRITE")
         .put("desc", "Description here.")
         .build();
     assertThat(actual, equalTo(expected));
@@ -48,7 +48,7 @@ public class DocStringTest {
   @Test
   public void testParseSingleLine() throws Exception {
     final String doc = "  //@entity Transaction @path /v2/locations \n";
-    final ImmutableMap<String, String> actual = DocString.parse(doc);
+    final ImmutableMap<String, String> actual = new DocString(doc).parse().getAnnotations();
     final Map<String, String> expected = ImmutableMap.of("//", "", "entity", "Transaction", "path", "/v2/locations");
     assertThat(actual, equalTo(expected));
   }

@@ -3,29 +3,28 @@ package com.squareup.apiparser;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableMap;
-import java.util.Collections;
 import java.util.List;
 
 public class DocString {
   private final String docString;
+  private boolean hasParsed;
   private ImmutableMap<String, String> annotations;
 
-  private DocString(String docString) {
+  public DocString(String docString) {
     Preconditions.checkNotNull(docString);
     this.docString = docString;
-    this.annotations = ImmutableMap.copyOf(Collections.emptyMap());
-  }
-
-  public static ImmutableMap<String, String> parse(String docString) {
-    return new DocString(docString).parse().getAnnotations();
+    this.annotations = ImmutableMap.of();
   }
 
   public ImmutableMap<String, String> getAnnotations() {
+    if (!hasParsed)
+      parse();
+
     return annotations;
   }
 
   public DocString parse() {
-    if (!hasAnnotations())
+    if (!hasAnnotations() || hasParsed)
       return this;
 
     String parseableDocString = (isMultiline()) ? getMultiline() : getSingleline();
@@ -36,6 +35,7 @@ public class DocString {
       b.put(k, s.replaceFirst(k, "").trim());
     });
     this.annotations = b.build();
+    this.hasParsed = true;
     return this;
   }
 

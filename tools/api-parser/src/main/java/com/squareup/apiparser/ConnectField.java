@@ -14,12 +14,12 @@ import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
 
 public class ConnectField {
+  private final boolean required;
+  private final boolean isArray;
+  private final int value;
   private final String name;
   private final String type;
-  private final Boolean required;
-  private final Boolean isArray;
   private final List<String> enumValues;
-  private final int value;
   private final Map<String, String> docAnnotations;
 
   private final Map<String, Object> validations;
@@ -29,7 +29,7 @@ public class ConnectField {
     this.type = Protos.cleanName(field.type());
     this.required = field.label() == Field.Label.REQUIRED;
     this.isArray = field.label() == Field.Label.REPEATED;
-    this.docAnnotations = DocString.parse(field.documentation());
+    this.docAnnotations = new DocString(field.documentation()).getAnnotations();
     this.value = 0;
     final List<ConnectField> values = enumm.map(ConnectEnum::getValues).orElse(Collections.emptyList());
     this.enumValues = values.stream().map(ConnectField::getName).collect(collectingAndThen(toList(), ImmutableList::copyOf));
@@ -45,7 +45,7 @@ public class ConnectField {
     this.isArray = isArray();
     this.enumValues = ImmutableList.of();
     this.validations = ImmutableMap.of();
-    this.docAnnotations = DocString.parse(documentation);
+    this.docAnnotations = new DocString(documentation).getAnnotations();
   }
 
   public String getName() {
