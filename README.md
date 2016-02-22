@@ -58,8 +58,6 @@ classes, and the core classes.
 ## TODOs
 
 ### Testing
-* Write unit/integration tests
-* Automate testing of SDKs upon updating any classes
 * Test SDKs across multiple versions of associated languages
 
 ## First-wave languages
