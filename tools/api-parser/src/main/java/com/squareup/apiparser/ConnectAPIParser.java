@@ -48,13 +48,14 @@ public class ConnectAPIParser implements APIParser {
     try {
       ProtoIndex index = new ProtoIndexer().indexProtos(argv);
       JSONObject root = new ConnectAPIParser().parseAPI(index);
-      String outputPath = System.getProperty("user.home") + "/Development/connect-sdks/tools/sdk-gen/api.json";
+      String outputPath = System.getProperty("user.dir") + "/api.json";
       PrintWriter writer = new PrintWriter(outputPath, "UTF-8");
       writer.println(root.toString(2));
       writer.close();
       System.out.println("Wrote api.json to " + outputPath);
     } catch (Exception e) {
-      System.out.println("Failed to write api.json! Exception occurred during write.");
+      System.out.println("Failed to write api.json!");
+      e.printStackTrace();
       System.exit(1);
     }
   }
