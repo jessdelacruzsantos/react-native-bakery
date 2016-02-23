@@ -24,7 +24,7 @@
           "required": true
         },
         {
-          "schema": {"$ref": "#/definitions/CreateCustomerCardRequest"},
+          "schema": {"$ref": "#/definitions/actions.CreateCustomerCardRequest"},
           "in": "body",
           "name": "body",
           "description": "An object containing the fields to POST for the request.\n\nSee the corresponding object definition for field details.",
@@ -64,7 +64,7 @@
           "required": true
         },
         {
-          "schema": {"$ref": "#/definitions/CreateRefundRequest"},
+          "schema": {"$ref": "#/definitions/actions.CreateRefundRequest"},
           "in": "body",
           "name": "body",
           "description": "An object containing the fields to POST for the request.\n\nSee the corresponding object definition for field details.",
@@ -100,7 +100,14 @@
       }},
       "parameters": [
         {
-          "schema": {"$ref": "#/definitions/CreateCardNonceRequest"},
+          "in": "header",
+          "name": "Authorization",
+          "description": "The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.",
+          "type": "string",
+          "required": true
+        },
+        {
+          "schema": {"$ref": "#/definitions/actions.CreateCardNonceRequest"},
           "in": "body",
           "name": "body",
           "description": "An object containing the fields to POST for the request.\n\nSee the corresponding object definition for field details.",
@@ -127,7 +134,7 @@
             "required": true
           },
           {
-            "schema": {"$ref": "#/definitions/CreateCustomerRequest"},
+            "schema": {"$ref": "#/definitions/actions.CreateCustomerRequest"},
             "in": "body",
             "name": "body",
             "description": "An object containing the fields to POST for the request.\n\nSee the corresponding object definition for field details.",
@@ -254,7 +261,7 @@
             "required": true
           },
           {
-            "schema": {"$ref": "#/definitions/ChargeRequest"},
+            "schema": {"$ref": "#/definitions/actions.ChargeRequest"},
             "in": "body",
             "name": "body",
             "description": "An object containing the fields to POST for the request.\n\nSee the corresponding object definition for field details.",
@@ -266,7 +273,7 @@
       "get": {
         "summary": "ListTransactions",
         "operationId": "ListTransactions",
-        "description": "Lists transactions for a particular location.\n\nWhen making a request to this endpoint, your request body **must** include either the `cursor` parameter, or it must\ninclude both `begin_time` and `end_time` with an optional `sort_order`.",
+        "description": "Lists transactions for a particular location.\n\nWhen making a request to this endpoint, your request body **must** include either the `cursor` parameter, or it must\ninclude all three of `begin_time`, `end_time`, and `sort`.",
         "responses": {"200": {
           "schema": {"$ref": "#/definitions/ListTransactionsResponse"},
           "description": "Success"
@@ -490,7 +497,7 @@
             "required": true
           },
           {
-            "schema": {"$ref": "#/definitions/UpdateCustomerRequest"},
+            "schema": {"$ref": "#/definitions/actions.UpdateCustomerRequest"},
             "in": "body",
             "name": "body",
             "description": "An object containing the fields to POST for the request.\n\nSee the corresponding object definition for field details.",
@@ -892,36 +899,28 @@
           "type": "array",
           "items": {"$ref": "#/definitions/Card"}
         },
-        "address": {
-          "description": "",
-          "$ref": "#/definitions/Address"
-        },
-        "reference_id": {
-          "description": "",
-          "type": "string"
-        },
-        "created_at": {
-          "description": "The time when the customer was created, in RFC 3339 format.",
-          "type": "string"
-        },
-        "given_name": {
-          "description": "",
-          "type": "string"
-        },
         "email_address": {
           "description": "",
           "type": "string"
+        },
+        "address": {
+          "description": "",
+          "$ref": "#/definitions/Address"
         },
         "updated_at": {
           "description": "The time when the customer was updated, in RFC 3339 format.",
           "type": "string"
         },
-        "company_name": {
+        "reference_id": {
           "description": "",
           "type": "string"
         },
         "nickname": {
           "description": "",
+          "type": "string"
+        },
+        "created_at": {
+          "description": "The time when the customer was created, in RFC 3339 format.",
           "type": "string"
         },
         "phone_number": {
@@ -930,6 +929,10 @@
         },
         "id": {
           "description": "The customer's unique ID.",
+          "type": "string"
+        },
+        "given_name": {
+          "description": "",
           "type": "string"
         },
         "family_name": {
@@ -1008,8 +1011,7 @@
           "description": "The cardholder name.",
           "type": "string"
         }
-      },
-      "required": ["card_nonce"]
+      }
     },
     "CaptureTransactionResponse": {
       "description": "Defines the fields that are included in the response body of\na request to the **CaptureTransaction** endpoint.",
@@ -1515,6 +1517,10 @@
     "CreateCardNonceRequest": {
       "description": "",
       "type": "object",
+      "required": [
+        "client_id",
+        "card_data"
+      ],
       "properties": {
         "fingerprint_components_json": {
           "description": "",
@@ -1536,15 +1542,16 @@
           "description": "",
           "type": "string"
         }
-      },
-      "required": [
-        "client_id",
-        "card_data"
-      ]
+      }
     },
     "CreateRefundRequest": {
       "description": "Defines the body parameters that can be included in\na request to the **CreateRefund** endpoint.",
       "type": "object",
+      "required": [
+        "idempotency_key",
+        "tender_id",
+        "amount_money"
+      ],
       "properties": {
         "reason": {
           "description": "A description of the reason for the refund.",
@@ -1562,12 +1569,7 @@
           "description": "The amount of money to refund.",
           "$ref": "#/definitions/Money"
         }
-      },
-      "required": [
-        "idempotency_key",
-        "tender_id",
-        "amount_money"
-      ]
+      }
     },
     "TenderType": {
       "description": "",
@@ -1592,6 +1594,10 @@
     "ChargeRequest": {
       "description": "Defines the parameters that can be included in the body of\na request to the **Charge** endpoint.",
       "type": "object",
+      "required": [
+        "idempotency_key",
+        "amount_money"
+      ],
       "properties": {
         "delay_capture": {
           "description": "If `true`, the request will only perform an Auth on the provided\ncard. You can then later perform either a Capture (with the\n*CaptureTransaction** endpoint) or a Void (with the **VoidTransation**\nendpoint.",
@@ -1633,11 +1639,7 @@
           "description": "The ID of the customer to associate this transaction with. This field\nis required if you provide a value for `customer_card_id`, and optional\notherwise.",
           "type": "string"
         }
-      },
-      "required": [
-        "idempotency_key",
-        "amount_money"
-      ]
+      }
     },
     "ListLocationsResponse": {
       "description": "Defines the fields that are included in the response body of \na request to the **ListLocations** endpoint.\n\nOne of `errors` or `locations` is present in a given response (never both).",
@@ -1751,24 +1753,8 @@
         "detail": {
           "description": "",
           "type": "string"
-        },
-        "category": {
-          "description": "",
-          "type": "string",
-          "enum": [
-            "API_ERROR",
-            "AUTHENTICATION_ERROR",
-            "INVALID_REQUEST_ERROR",
-            "RATE_LIMIT_ERROR",
-            "PAYMENT_METHOD_ERROR",
-            "REFUND_ERROR"
-          ]
         }
-      },
-      "required": [
-        "category",
-        "code"
-      ]
+      }
     },
     "LocationCapability": {
       "description": "",
@@ -1795,10 +1781,6 @@
           "description": "",
           "type": "string"
         },
-        "company_name": {
-          "description": "",
-          "type": "string"
-        },
         "nickname": {
           "description": "",
           "type": "string"
@@ -1820,6 +1802,7 @@
     "Tender": {
       "description": "Represents a form of tender used to pay in a transaction.",
       "type": "object",
+      "required": ["type"],
       "properties": {
         "transaction_id": {
           "description": "The ID of the tender's associated transaction.",
@@ -1862,8 +1845,7 @@
           "description": "The ID of the tender's associated location.",
           "type": "string"
         }
-      },
-      "required": ["type"]
+      }
     },
     "Card": {
       "description": "Represents a credit card.",
@@ -1913,6 +1895,12 @@
     "CardData": {
       "description": "",
       "type": "object",
+      "required": [
+        "number",
+        "exp_month",
+        "exp_year",
+        "cvv"
+      ],
       "properties": {
         "number": {
           "description": "The number on the card.",
@@ -1923,7 +1911,7 @@
           "type": "string"
         },
         "billing_postal_code": {
-          "description": "The billing postal code for the card on file.",
+          "description": "The billing postal code for the card on file.\nPostal code in the billing address for US and Canada payments may reduce decline rate.",
           "type": "string"
         },
         "exp_month": {
@@ -1934,14 +1922,7 @@
           "description": "The year of the card's expiration date, which must be a 4 digit year.",
           "type": "integer"
         }
-      },
-      "required": [
-        "number",
-        "exp_month",
-        "exp_year",
-        "cvv",
-        "billing_postal_code"
-      ]
+      }
     },
     "ErrorCategory": {
       "description": "",
@@ -1986,6 +1967,15 @@
     "Refund": {
       "description": "",
       "type": "object",
+      "required": [
+        "id",
+        "location_id",
+        "transaction_id",
+        "tender_id",
+        "reason",
+        "amount_money",
+        "status"
+      ],
       "properties": {
         "transaction_id": {
           "description": "The ID of the transaction refunded.",
@@ -2029,16 +2019,7 @@
             "FAILED"
           ]
         }
-      },
-      "required": [
-        "id",
-        "location_id",
-        "transaction_id",
-        "tender_id",
-        "reason",
-        "amount_money",
-        "status"
-      ]
+      }
     },
     "Transaction": {
       "description": "Represents a transaction processed with Square, either with the\nConnect API or with Square Register.",
@@ -2369,10 +2350,6 @@
           "$ref": "#/definitions/Address"
         },
         "reference_id": {
-          "description": "",
-          "type": "string"
-        },
-        "company_name": {
           "description": "",
           "type": "string"
         },

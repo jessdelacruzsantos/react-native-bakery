@@ -21,14 +21,13 @@ public class ConnectField {
   private final String type;
   private final List<String> enumValues;
   private final Map<String, String> docAnnotations;
-
   private final Map<String, Object> validations;
 
   public ConnectField(FieldElement field, Optional<ConnectEnum> enumm) {
     this.name = field.name();
     this.type = Protos.cleanName(field.type());
-    this.required = field.label() == Field.Label.REQUIRED;
     this.isArray = field.label() == Field.Label.REPEATED;
+    this.required = field.label() == Field.Label.REQUIRED || ProtoOptions.isRequired(field);
     this.docAnnotations = new DocString(field.documentation()).getAnnotations();
     this.value = 0;
     final List<ConnectField> values = enumm.map(ConnectEnum::getValues).orElse(Collections.emptyList());
@@ -78,19 +77,5 @@ public class ConnectField {
 
   public List<String> getEnumValues() {
     return enumValues == null ? Collections.emptyList() : enumValues;
-  }
-
-  // NB(alec): why isn't this called?
-  public JSONObject toJson() {
-    Optional<String> desc = Optional.ofNullable(this.docAnnotations.get("desc"));
-    JSONObject json = new JSONObject();
-    this.validations.entrySet().forEach(v -> json.put(v.getKey(), v.getValue()));
-    return json.put("name", name)
-        .put("type", type)
-        .put("required", required)
-        .put("isarray", isArray)
-        .put("value", value)
-        .put("description", desc.orElse(""))
-        .put("ispathparam", isPathParam());
   }
 }

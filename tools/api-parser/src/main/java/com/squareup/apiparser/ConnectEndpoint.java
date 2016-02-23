@@ -110,7 +110,7 @@ public class ConnectEndpoint {
             .put("required", true)
             .put("description", "An object containing the fields to POST for the request.\n\n"
                 + "See the corresponding object definition for field details.")
-            .put("schema", new JSONObject().put("$ref", "#/definitions/" + this.inputType)));
+            .put("schema", new JSONObject().put("$ref", "#/definitions/" + Protos.cleanName(this.inputType))));
       }
     }
 

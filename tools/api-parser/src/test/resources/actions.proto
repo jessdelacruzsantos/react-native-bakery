@@ -26,6 +26,8 @@ message CaptureTransactionRequest {
 
   //@pathparam
   required string transaction_id = 2;
+
+  required string body_param = 3 [(squareup.validations.required) = true];
 }
 message CaptureTransactionResponse {
   repeated resources.Error errors = 1;
