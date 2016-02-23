@@ -88,6 +88,19 @@ public class ConnectDatatypeTest {
     assertTrue(dataType.hasBodyParameters());
   }
 
+  @Test
+  public void testOneOfInProtosFailsGeneration() throws Exception {
+    MessageElement m = stubMessage("I have a oneOf");
+    final OneOfElement oe = mock(OneOfElement.class);
+    when(m.oneOfs()).thenReturn(ImmutableList.of(oe));
+
+    try {
+      new ConnectDatatype(m, "packageName", null);
+    } catch (IllegalUseOfOneOfError e) {
+      assertTrue("Expected an error, but none was thrown", false);
+    }
+  }
+
   private FieldElement stubField(String documentation) {
     FieldElement fe1 = mock(FieldElement.class);
     when(fe1.documentation()).thenReturn(documentation);

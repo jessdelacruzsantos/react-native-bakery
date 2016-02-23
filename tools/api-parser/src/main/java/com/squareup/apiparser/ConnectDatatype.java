@@ -3,7 +3,6 @@ package com.squareup.apiparser;
 import com.google.common.base.Preconditions;
 import com.squareup.wire.schema.internal.parser.FieldElement;
 import com.squareup.wire.schema.internal.parser.MessageElement;
-import com.squareup.wire.schema.internal.parser.OneOfElement;
 import com.squareup.wire.schema.internal.parser.TypeElement;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,13 +26,13 @@ public class ConnectDatatype extends ConnectType {
     return fields.stream().anyMatch(f -> !f.isPathParam());
   }
 
-  public void populateFields(ProtoIndex index) {
+  public void populateFields(ProtoIndex index) throws IllegalUseOfOneOfError {
     MessageElement rootMessage = (MessageElement)this.rootType;
     final Consumer<FieldElement> addField = f -> fields.add(new ConnectField(f, index.getEnumType(f.type())));
     rootMessage.fields().stream().forEach(addField);
 
-    for(OneOfElement oneof : rootMessage.oneOfs()) {
-      oneof.fields().stream().forEach(addField);
+    if (!rootMessage.oneOfs().isEmpty()) {
+      throw new IllegalUseOfOneOfError(rootMessage);
     }
   }
 
