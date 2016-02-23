@@ -52,6 +52,7 @@ public class ConnectDatatypeTest {
     final JSONArray required = datatype.toJson().getJSONArray("required");
     assertThat(required.get(0), equalTo("FakeField"));
   }
+
   @Test
   public void testHasBodyParameters_NoFields() throws Exception {
     MessageElement e = mock(MessageElement.class);

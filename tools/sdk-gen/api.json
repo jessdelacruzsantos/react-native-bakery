@@ -24,7 +24,7 @@
           "required": true
         },
         {
-          "schema": {"$ref": "#/definitions/actions.CreateCustomerCardRequest"},
+          "schema": {"$ref": "#/definitions/CreateCustomerCardRequest"},
           "in": "body",
           "name": "body",
           "description": "An object containing the fields to POST for the request.\n\nSee the corresponding object definition for field details.",
@@ -64,7 +64,7 @@
           "required": true
         },
         {
-          "schema": {"$ref": "#/definitions/actions.CreateRefundRequest"},
+          "schema": {"$ref": "#/definitions/CreateRefundRequest"},
           "in": "body",
           "name": "body",
           "description": "An object containing the fields to POST for the request.\n\nSee the corresponding object definition for field details.",
@@ -100,14 +100,7 @@
       }},
       "parameters": [
         {
-          "in": "header",
-          "name": "Authorization",
-          "description": "The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.",
-          "type": "string",
-          "required": true
-        },
-        {
-          "schema": {"$ref": "#/definitions/actions.CreateCardNonceRequest"},
+          "schema": {"$ref": "#/definitions/CreateCardNonceRequest"},
           "in": "body",
           "name": "body",
           "description": "An object containing the fields to POST for the request.\n\nSee the corresponding object definition for field details.",
@@ -134,7 +127,7 @@
             "required": true
           },
           {
-            "schema": {"$ref": "#/definitions/actions.CreateCustomerRequest"},
+            "schema": {"$ref": "#/definitions/CreateCustomerRequest"},
             "in": "body",
             "name": "body",
             "description": "An object containing the fields to POST for the request.\n\nSee the corresponding object definition for field details.",
@@ -261,7 +254,7 @@
             "required": true
           },
           {
-            "schema": {"$ref": "#/definitions/actions.ChargeRequest"},
+            "schema": {"$ref": "#/definitions/ChargeRequest"},
             "in": "body",
             "name": "body",
             "description": "An object containing the fields to POST for the request.\n\nSee the corresponding object definition for field details.",
@@ -497,7 +490,7 @@
             "required": true
           },
           {
-            "schema": {"$ref": "#/definitions/actions.UpdateCustomerRequest"},
+            "schema": {"$ref": "#/definitions/UpdateCustomerRequest"},
             "in": "body",
             "name": "body",
             "description": "An object containing the fields to POST for the request.\n\nSee the corresponding object definition for field details.",
