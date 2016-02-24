@@ -11,6 +11,7 @@ import okio.BufferedSource;
 import okio.ByteString;
 import okio.Okio;
 import org.json.JSONObject;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.not;
@@ -19,6 +20,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
 public class ConnectAPIParserTest {
+  @Ignore
   @Test
   public void testParseAPI() throws Exception {
     final ProtoIndexer indexer = new ProtoIndexer();
