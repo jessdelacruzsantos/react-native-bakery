@@ -2,12 +2,13 @@ package com.squareup.apiparser;
 
 import com.google.common.io.Resources;
 import com.squareup.wire.schema.internal.parser.RpcElement;
-import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Test;
+
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
@@ -31,7 +32,7 @@ public class ConnectEndpointTest {
     when(rpc.requestType()).thenReturn("actions.CaptureTransactionRequest");
     when(rpc.responseType()).thenReturn("actions.CaptureTransactionResponse");
     final ProtoIndexer indexer = new ProtoIndexer();
-    final URL url = Resources.getResource("resources/actions.proto");
+    final URL url = Resources.getResource("actions.proto");
     final Path path = Paths.get(url.getFile());
     final ProtoIndex index = indexer.indexProtos(new String[]{String.valueOf(path.getParent())});
     final ConnectEndpoint endpoint = new ConnectEndpoint(rpc, index);

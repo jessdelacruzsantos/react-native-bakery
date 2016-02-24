@@ -1,6 +1,7 @@
 package com.squareup.apiparser;
 
 import com.google.common.collect.ImmutableList;
+import com.squareup.wire.schema.Location;
 import com.squareup.wire.schema.internal.parser.FieldElement;
 import com.squareup.wire.schema.internal.parser.MessageElement;
 import com.squareup.wire.schema.internal.parser.OneOfElement;
@@ -13,7 +14,9 @@ import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.isA;
-import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -69,7 +72,6 @@ public class ConnectDatatypeTest {
     MessageElement me = stubMessage(value);
     FieldElement fe = stubField(" //@pathparam\n");
     when(me.fields()).thenReturn(ImmutableList.of(fe));
-    when(me.fields()).thenReturn(ImmutableList.of(fe));
 
     ConnectDatatype dataType = new ConnectDatatype(me, "packageName", null);
     dataType.populateFields(new ProtoIndex());
@@ -88,17 +90,17 @@ public class ConnectDatatypeTest {
     assertTrue(dataType.hasBodyParameters());
   }
 
-  @Test
+  @Test(expected = IllegalUseOfOneOfException.class)
   public void testOneOfInProtosFailsGeneration() throws Exception {
     MessageElement m = stubMessage("I have a oneOf");
+    when(m.fields()).thenReturn(ImmutableList.of());
+    when(m.name()).thenReturn("Name");
+    when(m.location()).thenReturn(mock(Location.class));
     final OneOfElement oe = mock(OneOfElement.class);
     when(m.oneOfs()).thenReturn(ImmutableList.of(oe));
 
-    try {
-      new ConnectDatatype(m, "packageName", null);
-    } catch (IllegalUseOfOneOfError e) {
-      assertTrue("Expected an error, but none was thrown", false);
-    }
+    final ConnectDatatype datatype = new ConnectDatatype(m, "packageName", null);
+    datatype.populateFields(new ProtoIndex());
   }
 
   private FieldElement stubField(String documentation) {

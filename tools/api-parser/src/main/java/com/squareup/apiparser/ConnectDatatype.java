@@ -4,12 +4,13 @@ import com.google.common.base.Preconditions;
 import com.squareup.wire.schema.internal.parser.FieldElement;
 import com.squareup.wire.schema.internal.parser.MessageElement;
 import com.squareup.wire.schema.internal.parser.TypeElement;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 public class ConnectDatatype extends ConnectType {
   private final List<ConnectField> fields = new ArrayList<>();
@@ -26,13 +27,13 @@ public class ConnectDatatype extends ConnectType {
     return fields.stream().anyMatch(f -> !f.isPathParam());
   }
 
-  public void populateFields(ProtoIndex index) throws IllegalUseOfOneOfError {
+  public void populateFields(ProtoIndex index) throws IllegalUseOfOneOfException {
     MessageElement rootMessage = (MessageElement)this.rootType;
     final Consumer<FieldElement> addField = f -> fields.add(new ConnectField(f, index.getEnumType(f.type())));
     rootMessage.fields().stream().forEach(addField);
 
     if (!rootMessage.oneOfs().isEmpty()) {
-      throw new IllegalUseOfOneOfError(rootMessage);
+      throw new IllegalUseOfOneOfException(rootMessage);
     }
   }
 
