@@ -18,7 +18,7 @@ public class ConnectEnum extends ConnectType {
     super(enumm, packageName, parentType);
     this.values = enumm.constants()
         .stream()
-        .map(f -> new ConnectField(f.name(), "", f.tag(), f.documentation()))
+        .map(f -> new ConnectField(f.name(), "", f.documentation()))
         .collect(collectingAndThen(toList(), ImmutableList::copyOf));
   }
 

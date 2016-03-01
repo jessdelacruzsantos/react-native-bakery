@@ -5,6 +5,9 @@ import com.squareup.wire.schema.internal.parser.ProtoFileElement;
 import com.squareup.wire.schema.internal.parser.ProtoParser;
 import com.squareup.wire.schema.internal.parser.ServiceElement;
 import com.squareup.wire.schema.internal.parser.TypeElement;
+import okio.BufferedSource;
+import okio.Okio;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
@@ -17,8 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
-import okio.BufferedSource;
-import okio.Okio;
 
 public class ProtoIndexer {
   private final List<ConnectType> protoTypes = new ArrayList<>();
@@ -46,9 +47,7 @@ public class ProtoIndexer {
       final Location l = Location.get(file.getCanonicalPath());
       final ProtoFileElement proto = ProtoParser.parse(l, buffer.readUtf8());
 
-      for (TypeElement t : proto.types()) {
-        addType(t, proto.packageName(), Optional.empty());
-      }
+      proto.types().stream().forEach(t -> addType(t, proto.packageName(), Optional.empty()));
 
       for (ServiceElement service : proto.services()) {
         this.protoServices.add(new ConnectService(service));

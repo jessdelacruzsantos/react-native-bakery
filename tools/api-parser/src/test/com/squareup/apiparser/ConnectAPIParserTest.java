@@ -3,16 +3,17 @@ package com.squareup.apiparser;
 import com.google.common.collect.ImmutableList;
 import com.google.common.io.Resources;
 import com.google.gson.JsonObject;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import okio.BufferedSink;
 import okio.BufferedSource;
 import okio.ByteString;
 import okio.Okio;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
@@ -24,9 +25,9 @@ public class ConnectAPIParserTest {
   @Test
   public void testParseAPI() throws Exception {
     final ProtoIndexer indexer = new ProtoIndexer();
-    final URL url = Resources.getResource("resources/actions.proto");
+    final URL url = Resources.getResource("actions.proto");
     final Path path = Paths.get(url.getFile());
-    final ProtoIndex index = indexer.indexProtos(new String[]{String.valueOf(path.getParent())});
+    final ProtoIndex index = indexer.indexProtos(ImmutableList.of(path.getParent().toString()));
 
     final JsonObject json = new ConnectAPIParser().parseAPI(index);
     final JsonObject paths = json.getAsJsonObject("paths");

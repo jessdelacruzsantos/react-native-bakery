@@ -1,16 +1,18 @@
 package com.squareup.apiparser;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.io.Resources;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.squareup.wire.schema.internal.parser.RpcElement;
+import org.junit.Test;
+
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
-import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
@@ -19,7 +21,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class ConnectEndpointTest {
-
   @Test
   public void testToJson() throws Exception {
     final String doc = "  /*--\n"
@@ -34,9 +35,9 @@ public class ConnectEndpointTest {
     when(rpc.requestType()).thenReturn("actions.CaptureTransactionRequest");
     when(rpc.responseType()).thenReturn("actions.CaptureTransactionResponse");
     final ProtoIndexer indexer = new ProtoIndexer();
-    final URL url = Resources.getResource("actions.proto");
+    final URL url = Resources.getResource("resources/actions.proto");
     final Path path = Paths.get(url.getFile());
-    final ProtoIndex index = indexer.indexProtos(new String[] {String.valueOf(path.getParent())});
+    final ProtoIndex index = indexer.indexProtos(ImmutableList.of(path.getParent().toString()));
     final ConnectEndpoint endpoint = new ConnectEndpoint(rpc, index);
     final JsonObject json = endpoint.toJson();
     final JsonObject responses = json.get("responses").getAsJsonObject();

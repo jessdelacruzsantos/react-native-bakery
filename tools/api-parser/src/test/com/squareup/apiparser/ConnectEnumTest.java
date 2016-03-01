@@ -5,6 +5,8 @@ import com.squareup.wire.schema.internal.parser.EnumConstantElement;
 import com.squareup.wire.schema.internal.parser.EnumElement;
 import org.junit.Test;
 
+import java.util.Optional;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
@@ -18,7 +20,8 @@ public class ConnectEnumTest {
     when(element.name()).thenReturn("Name");
     when(element.constants()).thenReturn(ImmutableList.<EnumConstantElement>of());
     when(element.documentation()).thenReturn("");
-    ConnectEnum connectEnum = new ConnectEnum(element, "packageName", null);
+    when(element.options()).thenReturn(ImmutableList.of());
+    ConnectEnum connectEnum = new ConnectEnum(element, "packageName", Optional.empty());
     assertThat(connectEnum.toJson().get("type").getAsString(), equalTo("string"));
   }
 }
