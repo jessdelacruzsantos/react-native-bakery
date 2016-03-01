@@ -27,7 +27,7 @@ public class ConnectEndpoint {
   private final RpcElement rootRpc;
   private final ProtoIndex index;
 
-  private static final Set<String> NoAuthRequired = ImmutableSet.of("CreateCardNonce");
+  private static final Set<String> NO_AUTH_REQUIRED = ImmutableSet.of("CreateCardNonce");
 
   public ConnectEndpoint(RpcElement rpc, ProtoIndex index) {
     this.rootRpc = checkNotNull(rpc);
@@ -71,9 +71,7 @@ public class ConnectEndpoint {
 
     JsonArray swaggerParameters = new JsonArray();
 
-    // Every API endpoint requires an Authorization header for the request's access token
-
-    if (!NoAuthRequired.contains(inputType)) {
+    if (!NO_AUTH_REQUIRED.contains(this.getName())) {
       JsonObject authorizationParameter = new JsonObject();
       authorizationParameter.addProperty("name", "Authorization");
       authorizationParameter.addProperty("in", "header");
