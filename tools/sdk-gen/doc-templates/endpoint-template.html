@@ -1,36 +1,94 @@
 <div name="endpoint-{{#idify}}{{this.details.operationId}}{{/idify}}" data-unique="endpoint-{{#idify}}{{this.details.operationId}}{{/idify}}"></div>
 <h3 id="endpoint-{{#idify}}{{this.details.operationId}}{{/idify}}" class="endpoint">{{this.details.operationId}}</h3>
-<p><code class="restpath">{{#capitalize}}{{this.httpmethod}}{{/capitalize}} {{this.path}}</code></p>
+<div class-"full-view">
+  <blockquote class="example">
+    <h4>Example Request</h4>
+  </blockquote>
+  <pre class="example">
+    <code class="no-highlight">
+    </code>
+  </pre>
+  <blockquote class="example">
+    <h4>Example Response Body</h4>
+  </blockquote>
+  <pre class="example">
+    <code class="no-highlight">
+    </code>
+  </pre>
+</div>
+<pre><code class="restpath no-highlight">{{#capitalize}}{{this.httpmethod}}{{/capitalize}} {{this.path}}</code></pre>
 {{#convertMarkdown}}{{{this.details.description}}}{{/convertMarkdown}}
 <!--<p>Required permissions:
 {{#each this.oauthpermissions}}
   <code>{{this}}</code>
 {{/each}}</p>-->
-{{#if this.details.parameters}}
-<h4>Parameters</h4>
+
+{{#if this.haspathparams}}
+<h4>Path Parameters</h4>
 <table>
   <thead>
     <tr>
       <th>Name</th>
       <th>Type</th>
-      <th>Provided in</th>
       <th>Description</th>
     </tr>
   </thead>
   <tbody>
-    {{#each this.details.parameters}}
+    {{#each this.pathparams}}
     <tr>
       <td><code>{{this.name}}</code>{{#checkRequired}}{{this.required}}{{/checkRequired}}</td>
       <td><code>{{#if this.type}}{{this.type}}{{else}}{{#linkToType}}{{this.schema.$ref}}{{/linkToType}}{{/if}}</code></td>
-      <td>{{this.in}}</td>
       <td>{{#convertMarkdown}}{{{this.description}}}{{/convertMarkdown}}</td>
     </tr>
     {{/each}}
   </tbody>
 </table>
-{{else}}
-(No parameters)
 {{/if}}
+
+{{#if this.hasqueryparams}}
+<h4>Query Parameters</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each this.queryparams}}
+    <tr>
+      <td><code>{{this.name}}</code>{{#checkRequired}}{{this.required}}{{/checkRequired}}</td>
+      <td><code>{{#if this.type}}{{this.type}}{{else}}{{#linkToType}}{{this.schema.$ref}}{{/linkToType}}{{/if}}</code></td>
+      <td>{{#convertMarkdown}}{{{this.description}}}{{/convertMarkdown}}</td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+{{/if}}
+
+{{#if this.hasbodyparams}}
+<h4>Body Parameters</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each this.bodyparams}}
+    <tr>
+      <td><code>{{this.name}}</code></td>
+      <td><code>{{#if this.details.type}}{{this.details.type}}{{else}}{{#linkToType}}{{this.details.$ref}}{{/linkToType}}{{/if}}</code></td>
+      <td>{{#convertMarkdown}}{{{this.details.description}}}{{/convertMarkdown}}</td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+{{/if}}
+
 {{#if this.responsefields}}
 <h4>Response fields</h4>
 <table>

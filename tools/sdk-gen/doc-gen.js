@@ -5,7 +5,6 @@ var fs = require('fs');
 
 // Load in the API definitions and index them
 var apiDefinition = JSON.parse(fs.readFileSync('api.json', 'utf-8'));
-var typeIndex = indexTypes(apiDefinition);
 
 // Load in HTML templates for doc types
 var docpageTemplate = handlebars.compile(fs.readFileSync('doc-templates/docpage-template.html', 'utf-8'));
@@ -152,25 +151,8 @@ for (var i = 0; i < enums.length; i++) {
 
 
 var docpage = {};
-var endpoints = [];
-var paths = apiDefinition.paths;
-for (var pathName in paths) {
-  if (paths.hasOwnProperty(pathName)) {
-    for (var httpmethod in paths[pathName]) {
-      if (paths[pathName].hasOwnProperty(httpmethod)) {
-        var endpoint = {}
-        endpoint.path = pathName;
-        endpoint.httpmethod = httpmethod;
-        endpoint.details = paths[pathName][httpmethod];
-        endpoints.push(endpoint);
-        //console.log(endpointTemplate(endpoint));
-      }
-    }
-  }
-}
 
-docpage.endpoints = endpoints;
-
+// Do datatypes and enums first so endpoints can look up their request and response types
 var types = apiDefinition.definitions;
 
 var enums = [];
@@ -194,119 +176,99 @@ for (var typeName in types) {
     } else {
       datatypes.push(typeWrapper);
     }
+
+    // Sort the datatypes and enums alphabetically
+    enums.sort(function(a, b){
+      return a.name.localeCompare(b.name);
+    });
+    datatypes.sort(function(a, b){
+      return a.name.localeCompare(b.name);
+    })
+
   }
 }
 
 docpage.enums = enums;
 docpage.datatypes = datatypes;
 
+
+var endpoints = [];
+var endpointEntities = {};
+var paths = apiDefinition.paths;
+for (var pathName in paths) {
+  if (paths.hasOwnProperty(pathName)) {
+    for (var httpmethod in paths[pathName]) {
+      if (paths[pathName].hasOwnProperty(httpmethod)) {
+        var endpoint = {}
+        endpoint.path = pathName;
+        endpoint.httpmethod = httpmethod;
+        endpoint.details = paths[pathName][httpmethod];
+
+        // Filter endpoint parameters out into different arrays by type for easier template generation
+        endpoint.headerparams = [];
+        endpoint.pathparams   = [];
+        endpoint.queryparams  = [];
+        endpoint.bodyparams   = [];
+
+        for(var param in endpoint.details.parameters) {
+          if (endpoint.details.parameters[param].in == 'header') {
+            endpoint.headerparams.push(endpoint.details.parameters[param]);
+            endpoint.hasheaderparams = true;
+          } else if (endpoint.details.parameters[param].in == 'path') {
+            endpoint.pathparams.push(endpoint.details.parameters[param]);
+            endpoint.haspathparams = true;
+          } else if (endpoint.details.parameters[param].in == 'query') {
+            endpoint.queryparams.push(endpoint.details.parameters[param]);
+            endpoint.hasqueryparams = true;
+          } else if (endpoint.details.parameters[param].in == 'body') {
+            var requestTypePath = endpoint.details.parameters[param].schema['$ref'];
+            var requestTypePathComponents = requestTypePath.split('/');
+            var requestTypeName = requestTypePathComponents[requestTypePathComponents.length - 1];
+            var requestType = getTypeWithName(requestTypeName, datatypes);
+
+            if (requestType != null) {
+              var bodyParamObj = requestType.details.properties;
+              for (var paramName in bodyParamObj) {
+                if (bodyParamObj.hasOwnProperty(paramName)){
+                  endpoint.hasbodyparams = true;
+                  var bodyParam = {};
+                  bodyParam.name = paramName;
+                  bodyParam.details = bodyParamObj[paramName];
+                  endpoint.bodyparams.push(bodyParam);
+                }
+              }
+            }
+          }
+        }
+
+        var endpointEntity = endpoint.details.tags[0];
+        if (!endpointEntities.hasOwnProperty(endpointEntity)) {
+          endpointEntities[endpointEntity] = [];
+        }
+        endpointEntities[endpointEntity].push(endpoint);
+
+        endpoints.push(endpoint);
+      }
+    }
+  }
+}
+
+
+docpage.endpoints = endpoints;
+docpage.endpointEntities = endpointEntities;
+
 console.log(docpageTemplate(docpage));
 
-//console.log(enums);
-//console.log(datatypes);
 
-/*var bucketedEndpoints = {};
-
-for (var i = 0; i < endpoints.length; i++) {
-  var endpoint = endpoints[i];
-  validateEndpoint(endpoint);
-  if (!bucketedEndpoints.hasOwnProperty(endpoint['entity'])) {
-    bucketedEndpoints[endpoint['entity']] = {
-      "entity": endpoint['entity'],
-      "actions": []
-    };
-  }
-  bucketedEndpoints[endpoint['entity']].actions.push(endpoint);
-}
-
-for (var endpointEntity in bucketedEndpoints) {
-  bucketedEndpoints[endpointEntity].actions.sort(function(a, b) {
-    if (a.action < b.action) {
-      return -1;
-    } else if (a.action > b.action) {
-      return 1;
-    } else {
-      return 0;
+function getTypeWithName(typeName, typeList) {
+  for (var i = 0; i < typeList.length; i++) {
+    if (typeList[i].name == typeName) {
+      return typeList[i];
     }
-  });
+  }
+  return null;
 }
 
-// Now add datatypes
-var objectTypes = {}
-var datatypes = apiDefinition.datatypes;
-datatypes.sort(function(a, b) {
-  if (a.name < b.name) {
-  	return -1;
-  } else if (a.name > b.name) {
-  	return 1;
-  } else {
-  	return 0;
-  }
-});
-validateDatatypes(datatypes);
-
-for (var i = 0; i < datatypes.length; i++) {
-  objectTypes[datatypes[i].id] = datatypes[i];
-}
-
-// And add enums
-var enums = apiDefinition.enums;
-enums.sort(function(a, b) {
-  if (a.name < b.name) {
-  	return -1;
-  } else if (a.name > b.name) {
-  	return 1;
-  } else {
-  	return 0;
-  }
-});
-validateEnums(enums);
-
-for (var i = 0; i < enums.length; i++) {
-  objectTypes[enums[i].id] = enums[i];
-}*/
-
-
-
-//var homeDirectory = process.env['HOME'];
-
-
-
-// Log warnings encountered during processing.
-/*console.log("WARNINGS:");
-for (var i = 0; i < warnings.length; i++) {
-  console.log(warnings[i]);
-}*/
-
-/*// Write the docpage out.
-fs.writeFile("/Users/barlow/Development/connect-documentation-website/source/sections/_connect_v2_docpage.html", docpageHTML, function(err){
-  if(err) {
-  	return console.log(err);
-  }
-  console.log('Docpage saved successfully');
-})*/
-
-// Generates an index of all the datatypes and enums on the docpage,
-// along with their IDs. This enables cross-linking.
-function indexTypes(apiDefinition) {
-  return;
-  var typeIndex = {};
-  var datatypes = apiDefinition.datatypes;
-  for (var i = 0; i < datatypes.length; i++) {
-    typeIndex[datatypes[i].id] = {
-      'target': 'datatype-' + datatypes[i].name.toLowerCase().replace(/ /g,'').replace(/\./g, ''),
-      'name': datatypes[i].name
-    };
-  }
-  var enums = apiDefinition.enums;
-  for (var i = 0; i < enums.length; i++) {
-    typeIndex[enums[i].id] = {
-      'target': 'enum-' + enums[i].name.toLowerCase().replace(/ /g,'').replace(/\./g, ''),
-      'name': enums[i].name
-  	};
-  }
-  return typeIndex;
-}
 
 function validateEndpoint(endpoint) {
   if (endpoint.httpmethod == undefined || endpoint.httpmethod == '') {

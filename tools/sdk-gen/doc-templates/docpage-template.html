@@ -1,4 +1,4 @@
-<style>
+<!--<style>
 body {
   font-family: "Helvetica Neue", sans-serif;
   padding: 20px;
@@ -58,21 +58,32 @@ thead th {
   border-color: #CCC;
 }
 
-</style>
+</style>-->
 
-<h1>Connect API v2 Documentation</h1>
+<div class="tocify-wrapper">
+<div class="logo-wrapper"></div>
 {{> nav}}
-<div id="main-view">
-<h2>Methods</h2>
-{{#each endpoints}}
-  {{> endpoint}}
-{{/each}}
-<h2>Data Types</h2>
-{{#each datatypes}}
-  {{> datatype}}
-{{/each}}
-<h2>Enums</h2>
-{{#each enums}}
-  {{> enum}}
-{{/each}}
+</div>
+<div class="page-wrapper">
+  <div class="content">
+    <div name="navsection-endpoints" data-unique="navsection-endpoints"></div>
+    <h1>API Endpoints</h1>
+    {{#each endpointEntities}}
+    <div name="navsection-{{#idify}}{{@key}}{{/idify}}" data-unique="navsection-{{#idify}}{{@key}}{{/idify}}"></div>
+    <h2>{{@key}}</h2>
+      {{#each this}}
+        {{> endpoint}}
+      {{/each}}
+    {{/each}}
+    <div name="navsection-datatypes" data-unique="navsection-datatypes"></div>
+    <h1>API Data Types</h1>
+    {{#each datatypes}}
+      {{> datatype}}
+    {{/each}}
+    <div name="navsection-enums" data-unique="navsection-enums"></div>
+    <h1>API Enums</h1>
+    {{#each enums}}
+      {{> enum}}
+    {{/each}}
+  </div>
 </div>
