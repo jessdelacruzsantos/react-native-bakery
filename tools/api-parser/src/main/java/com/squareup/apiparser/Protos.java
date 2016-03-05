@@ -11,7 +11,7 @@ public class Protos {
   public static String cleanName(String name) {
     Preconditions.checkNotNull(name);
     final Iterable<String> strings = new LinkedList<>(Splitter.on('.').splitToList(name));
-    Iterables.removeAll(strings, ImmutableList.of("actions", "resources"));
+    Iterables.removeAll(strings, ImmutableList.of("actions", "resources", "resources_internal"));
     return Joiner.on("").join(strings);
   }
 }
