@@ -952,6 +952,50 @@
         }
       }
     },
+    "ResponseCardData": {
+      "description": "Represents a credit card in the card nonce creation response.",
+      "type": "object",
+      "required": [
+        "card_brand",
+        "last_4",
+        "exp_month",
+        "exp_year",
+        "billing_postal_code"
+      ],
+      "properties": {
+        "billing_postal_code": {
+          "description": "The original billing postal code specified in the card nonce creation request.",
+          "type": "string"
+        },
+        "last_4": {
+          "description": "The last 4 digits of the card's number.",
+          "type": "string"
+        },
+        "card_brand": {
+          "description": "The card's brand (such as `VISA`).",
+          "type": "string",
+          "enum": [
+            "OTHER_BRAND",
+            "VISA",
+            "MASTERCARD",
+            "AMERICAN_EXPRESS",
+            "DISCOVER",
+            "DISCOVER_DINERS",
+            "JCB",
+            "CHINA_UNIONPAY",
+            "SQUARE_GIFT_CARD"
+          ]
+        },
+        "exp_month": {
+          "description": "The month of the card's expiration date, which must be between 1-12.",
+          "type": "integer"
+        },
+        "exp_year": {
+          "description": "The year of the card's expiration date, which must be a 4-digit year.",
+          "type": "integer"
+        }
+      }
+    },
     "TenderCardDetailsEntryMethod": {
       "description": "The method used to read the card",
       "type": "string",
@@ -1229,8 +1273,8 @@
           "type": "string"
         },
         "card_data": {
-          "description": "Billing address in the card data is not required for card nonce creation.",
-          "$ref": "#/definitions/CardData"
+          "description": "",
+          "$ref": "#/definitions/RequestCardData"
         },
         "website_url": {
           "description": "",
@@ -1330,7 +1374,7 @@
       ]
     },
     "TransactionProduct": {
-      "description": "The name of the product that you used to accept payment for this transaction",
+      "description": "The name of the product used to accept payment for this transaction",
       "type": "string",
       "enum": [
         "REGISTER",
@@ -1385,39 +1429,6 @@
         "cardholder_name": {
           "description": "The cardholder name for the card on file.",
           "type": "string"
-        }
-      }
-    },
-    "CardData": {
-      "description": "",
-      "type": "object",
-      "required": [
-        "number",
-        "exp_month",
-        "exp_year",
-        "cvv",
-        "billing_postal_code"
-      ],
-      "properties": {
-        "number": {
-          "description": "The number on the card.",
-          "type": "string"
-        },
-        "cvv": {
-          "description": "The card verification value (i.e. security code) printed on the card.",
-          "type": "string"
-        },
-        "billing_postal_code": {
-          "description": "The billing postal code for the card on file.\nPostal code in the billing address for US and Canada payments may reduce decline rate.",
-          "type": "string"
-        },
-        "exp_month": {
-          "description": "The month of the card's expiration date, which must be between 1-12.",
-          "type": "integer"
-        },
-        "exp_year": {
-          "description": "The year of the card's expiration date, which must be a 4 digit year.",
-          "type": "integer"
         }
       }
     },
@@ -1549,6 +1560,39 @@
           "description": "An array of any refunds associated with the transaction.",
           "type": "array",
           "items": {"$ref": "#/definitions/Refund"}
+        }
+      }
+    },
+    "RequestCardData": {
+      "description": "Represents a credit card in the card nonce creation request.",
+      "type": "object",
+      "required": [
+        "number",
+        "exp_month",
+        "exp_year",
+        "cvv",
+        "billing_postal_code"
+      ],
+      "properties": {
+        "number": {
+          "description": "The number on the card.",
+          "type": "string"
+        },
+        "cvv": {
+          "description": "The card verification value (i.e. security code) printed on the card.",
+          "type": "string"
+        },
+        "billing_postal_code": {
+          "description": "The billing postal code for the card.\nPostal code for US and Canada payments may reduce decline rate.",
+          "type": "string"
+        },
+        "exp_month": {
+          "description": "The month of the card's expiration date, which must be between 1-12.",
+          "type": "integer"
+        },
+        "exp_year": {
+          "description": "The year of the card's expiration date, which must be a 4 digit year.",
+          "type": "integer"
         }
       }
     },
@@ -2110,7 +2154,7 @@
         },
         "card": {
           "description": "",
-          "$ref": "#/definitions/Card"
+          "$ref": "#/definitions/ResponseCardData"
         }
       }
     },
