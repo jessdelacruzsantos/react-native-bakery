@@ -1,21 +1,22 @@
 package com.squareup.apiparser;
 
-import com.google.common.base.Preconditions;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.squareup.wire.schema.internal.parser.FieldElement;
 import com.squareup.wire.schema.internal.parser.MessageElement;
 import com.squareup.wire.schema.internal.parser.TypeElement;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.squareup.apiparser.Json.GSON;
 
 public class ConnectDatatype extends ConnectType {
   private final List<ConnectField> fields = new ArrayList<>();
 
-  protected ConnectDatatype(TypeElement rootType, String packageName, ConnectType parentType) {
+  protected ConnectDatatype(TypeElement rootType, String packageName, Optional<ConnectType> parentType) {
     super(rootType, packageName, parentType);
   }
 
@@ -28,8 +29,9 @@ public class ConnectDatatype extends ConnectType {
   }
 
   public void populateFields(ProtoIndex index) throws IllegalUseOfOneOfException {
-    MessageElement rootMessage = (MessageElement)this.rootType;
-    final Consumer<FieldElement> addField = f -> fields.add(new ConnectField(f, index.getEnumType(f.type())));
+    MessageElement rootMessage = (MessageElement) this.rootType;
+    final Consumer<FieldElement> addField =
+        f -> fields.add(new ConnectField(f, index.getEnumType(f.type())));
     rootMessage.fields().stream().forEach(addField);
 
     if (!rootMessage.oneOfs().isEmpty()) {
@@ -38,46 +40,61 @@ public class ConnectDatatype extends ConnectType {
   }
 
   // Converts the Datatype to a format that conforms to the Swagger 2.0 specification
-  public JSONObject toJson() {
-    JSONObject root = new JSONObject();
-    root.put("type", "object");
-    JSONObject properties = new JSONObject();
+  public JsonObject toJson() {
+    JsonObject root = new JsonObject();
+    root.addProperty("type", "object");
+    JsonObject properties = new JsonObject();
 
-    fields.stream().filter(f -> !f.isPathParam()).forEach(f -> {
-      JSONObject property = f.isArray() ? handleArray(f) : handleProperty(f);
-      property.put("description", f.getDescription());
-      properties.put(f.getName(), property);
-    });
+    fields.stream()
+        .filter(f -> !f.isPathParam())
+        .forEach(f -> {
+          JsonObject property = f.isArray()
+              ? handleArray(f)
+              : handleProperty(f);
+          property.addProperty("description", f.getDescription());
+          properties.add(f.getName(), property);
+        });
 
-    final List<String> requiredNames = fields.stream()
+    JsonArray requiredNames = new JsonArray();
+    fields.stream()
         .filter(f -> !f.isPathParam() && f.isRequired())
-        .map(ConnectField::getName).collect(Collectors.toList());
+        .map(ConnectField::getName)
+        .forEach(requiredNames::add);
 
-    if (!requiredNames.isEmpty()) {
-      root.put("required", new JSONArray(requiredNames));
+    if (requiredNames.size() > 0) {
+      root.add("required", requiredNames);
     }
-    return root.put("properties", properties)
-        .put("description", docAnnotations.getOrDefault("desc", ""));
+
+    root.add("properties", properties);
+    root.addProperty("description", docAnnotations.getOrDefault("desc", ""));
+
+    return root;
   }
 
-  private JSONObject handleArray(ConnectField field) {
-    return new JSONObject().put("type", "array").put("items", handleProperty(field));
+  private JsonObject handleArray(ConnectField field) {
+    checkNotNull(field);
+
+    JsonObject json = new JsonObject();
+    json.addProperty("type", "array");
+    json.add("items", handleProperty(field));
+    return json;
   }
 
-  private JSONObject handleProperty(ConnectField field) {
-    Preconditions.checkNotNull(field);
-    JSONObject json = new JSONObject();
-    field.getValidations().entrySet().forEach(v-> json.put(v.getKey(),v.getValue()));
+  private JsonObject handleProperty(ConnectField field) {
+    checkNotNull(field);
+    JsonObject json = GSON.toJsonTree(field.getValidations()).getAsJsonObject();
 
     // We need to declare enums locally to work around swagger-codegen
     if (!field.getEnumValues().isEmpty()) {
-      return json.put("type", "string")
-          .put("enum", new JSONArray(field.getEnumValues().toArray()));
+      json.addProperty("type", "string");
+      json.add("enum", GSON.toJsonTree(field.getEnumValues()));
+      return json;
     }
 
     final String type = field.getType();
     final String value = TYPE_MAP.getOrDefault(type, "#/definitions/" + type);
     final String key = (TYPE_MAP.containsKey(type)) ? "type" : "$ref";
-    return json.put(key, value);
+    json.addProperty(key, value);
+    return json;
   }
 }

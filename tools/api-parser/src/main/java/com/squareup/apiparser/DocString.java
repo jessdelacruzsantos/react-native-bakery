@@ -1,9 +1,10 @@
 package com.squareup.apiparser;
 
-import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableMap;
 import java.util.List;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public class DocString {
   private final String docString;
@@ -11,21 +12,19 @@ public class DocString {
   private ImmutableMap<String, String> annotations;
 
   public DocString(String docString) {
-    Preconditions.checkNotNull(docString);
-    this.docString = docString;
+    this.docString = checkNotNull(docString);
+    ;
     this.annotations = ImmutableMap.of();
   }
 
   public ImmutableMap<String, String> getAnnotations() {
-    if (!hasParsed)
-      parse();
+    if (!hasParsed) { parse(); }
 
     return annotations;
   }
 
   public DocString parse() {
-    if (!hasAnnotations() || hasParsed)
-      return this;
+    if (!hasAnnotations() || hasParsed) { return this; }
 
     String parseableDocString = (isMultiline()) ? getMultiline() : getSingleline();
     final List<String> splits = Splitter.on("@").trimResults().splitToList(parseableDocString);

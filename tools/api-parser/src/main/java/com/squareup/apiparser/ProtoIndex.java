@@ -5,15 +5,16 @@ import com.squareup.wire.schema.internal.parser.EnumElement;
 import com.squareup.wire.schema.internal.parser.MessageElement;
 import com.squareup.wire.schema.internal.parser.TypeElement;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 public class ProtoIndex {
-  private final Map<String, ConnectDatatype> dtypes = new HashMap<>();
-  private final Map<String, ConnectEnum> enums = new HashMap<>();
+  private final Map<String, ConnectDatatype> dtypes = new TreeMap<>();
+  private final Map<String, ConnectEnum> enums = new TreeMap<>();
   private final List<ConnectEndpoint> endpoints = new ArrayList<>();
 
   public void populate(List<ConnectType> types, List<ConnectService> services)
@@ -22,12 +23,15 @@ public class ProtoIndex {
     for (ConnectType type : types) {
       TypeElement rootType = type.getRootType();
       if (rootType instanceof EnumElement) {
-        ConnectEnum ce = new ConnectEnum((EnumElement)rootType, type.getPackageName(), type.getParentType().orElse(null));
+        ConnectEnum ce = new ConnectEnum((EnumElement) rootType, type.getPackageName(),
+            type.getParentType());
         Preconditions.checkArgument(!enums.containsKey(ce.getName()));
         this.enums.put(type.getName(), ce);
       } else if (rootType instanceof MessageElement) {
-        ConnectDatatype cd = new ConnectDatatype(rootType, type.getPackageName(), type.getParentType().orElse(null));
-        Preconditions.checkArgument(!dtypes.containsKey(cd.getName()));
+        ConnectDatatype cd =
+            new ConnectDatatype(rootType, type.getPackageName(), type.getParentType());
+        Preconditions.checkArgument(!dtypes.containsKey(cd.getName()), "Already seen %s",
+            cd.getName());
         this.dtypes.put(type.getName(), cd);
       } else {
         throw new IllegalArgumentException("Encountered a malformed proto");
@@ -37,7 +41,11 @@ public class ProtoIndex {
     // After done creating entities for every symbol, populate datatypes
     dtypes.values().stream().forEach(d -> d.populateFields(this));
     for (final ConnectService service : services) {
-      endpoints.addAll(service.getRootService().rpcs().stream().map(rpc -> new ConnectEndpoint(rpc, this)).collect(Collectors.toList()));
+      endpoints.addAll(service.getRootService()
+          .rpcs()
+          .stream()
+          .map(rpc -> new ConnectEndpoint(rpc, this))
+          .collect(Collectors.toList()));
     }
   }
 
@@ -55,13 +63,15 @@ public class ProtoIndex {
 
   public Optional<ConnectEnum> getEnumType(String typeName) {
     final String type = Protos.cleanName(typeName);
-    final Optional<String> enumType = enums.keySet().stream().filter(e -> e.endsWith(type)).findFirst();
+    final Optional<String> enumType =
+        enums.keySet().stream().filter(e -> e.endsWith(type)).findFirst();
     return enumType.map(enums::get);
   }
 
   public Optional<ConnectDatatype> getDataType(String typeName) {
     final String type = Protos.cleanName(typeName);
-    final Optional<String> dataType = dtypes.keySet().stream().filter(d -> d.endsWith(type)).findFirst();
+    final Optional<String> dataType =
+        dtypes.keySet().stream().filter(d -> d.endsWith(type)).findFirst();
     return dataType.map(dtypes::get);
   }
 }

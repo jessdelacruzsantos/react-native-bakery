@@ -1,14 +1,16 @@
 package com.squareup.apiparser;
 
 import com.google.common.io.Resources;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.squareup.wire.schema.internal.parser.RpcElement;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.junit.Test;
-
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Optional;
+import java.util.stream.StreamSupport;
+import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
@@ -34,19 +36,20 @@ public class ConnectEndpointTest {
     final ProtoIndexer indexer = new ProtoIndexer();
     final URL url = Resources.getResource("actions.proto");
     final Path path = Paths.get(url.getFile());
-    final ProtoIndex index = indexer.indexProtos(new String[]{String.valueOf(path.getParent())});
+    final ProtoIndex index = indexer.indexProtos(new String[] {String.valueOf(path.getParent())});
     final ConnectEndpoint endpoint = new ConnectEndpoint(rpc, index);
-    final JSONObject json = endpoint.toJson();
-    final JSONObject responses = json.getJSONObject("responses");
-    assertThat(responses.getJSONObject("200"), notNullValue());
-    final JSONArray params = json.getJSONArray("parameters");
-    JSONObject authHeader = null;
-    for (int i = 0; i < params.length(); i++) {
-      authHeader = params.getJSONObject(i);
-      if (authHeader.getString("name") == "Authorization")
-        break;
-    }
-    assertThat(authHeader, notNullValue());
-    assertTrue(authHeader.getBoolean("required"));
+    final JsonObject json = endpoint.toJson();
+    final JsonObject responses = json.get("responses").getAsJsonObject();
+    assertThat(responses.get("200"), notNullValue());
+    final JsonArray params = json.get("parameters").getAsJsonArray();
+
+    Optional<JsonObject> authHeader =
+        StreamSupport.stream(params.getAsJsonArray().<JsonElement>spliterator(), false)
+            .map(JsonElement::getAsJsonObject)
+            .filter(o -> "Authorization".equals(o.get("name").getAsString()))
+            .findFirst();
+
+    assertTrue(authHeader.isPresent());
+    assertTrue(authHeader.get().get("required").getAsBoolean());
   }
 }

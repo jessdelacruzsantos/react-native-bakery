@@ -5,6 +5,8 @@ import com.squareup.wire.schema.internal.parser.TypeElement;
 import java.util.Map;
 import java.util.Optional;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Created by barlow on 2/2/16.
  */
@@ -22,10 +24,11 @@ public class ConnectType {
       .put("string", "string")
       .build();
 
-  protected ConnectType(TypeElement rootType, String packageName, ConnectType parentType) {
-    this.rootType = rootType;
-    this.packageName = packageName;
-    this.parentType = Optional.ofNullable(parentType);
+  protected ConnectType(TypeElement rootType, String packageName,
+      Optional<ConnectType> parentType) {
+    this.rootType = checkNotNull(rootType);
+    this.packageName = checkNotNull(packageName);
+    this.parentType = checkNotNull(parentType);
     this.docAnnotations = new DocString(rootType.documentation()).parse().getAnnotations();
     this.name = this.generateName();
   }

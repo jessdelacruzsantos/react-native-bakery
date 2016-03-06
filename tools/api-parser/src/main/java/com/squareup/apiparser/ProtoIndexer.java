@@ -15,6 +15,7 @@ import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Pattern;
 import okio.BufferedSource;
 import okio.Okio;
@@ -27,7 +28,8 @@ public class ProtoIndexer {
     final ProtoIndex index = new ProtoIndex();
     for (String path : protoPaths) {
       Files.walkFileTree(Paths.get(path), new SimpleFileVisitor<Path>() {
-        @Override public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+        @Override public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
+            throws IOException {
           if (Pattern.matches(".*\\.proto\\Z", file.toString())) {
             addProtoFile(file.toFile());
           }
@@ -45,22 +47,22 @@ public class ProtoIndexer {
       final ProtoFileElement proto = ProtoParser.parse(l, buffer.readUtf8());
 
       for (TypeElement t : proto.types()) {
-        addType(t, proto.packageName(), null);
+        addType(t, proto.packageName(), Optional.empty());
       }
 
       for (ServiceElement service : proto.services()) {
-        this.protoServices.add(new ConnectService(service, proto.packageName()));
+        this.protoServices.add(new ConnectService(service));
       }
     } catch (IOException e) {
       throw e;
     }
   }
 
-  private void addType(TypeElement datatype, String packageName, ConnectType parent) {
+  private void addType(TypeElement datatype, String packageName, Optional<ConnectType> parent) {
     ConnectType ct = new ConnectType(datatype, packageName, parent);
     this.protoTypes.add(ct);
     for (TypeElement subType : datatype.nestedTypes()) {
-      addType(subType, packageName, ct);
+      addType(subType, packageName, Optional.of(ct));
     }
   }
 }

@@ -1,14 +1,15 @@
 package com.squareup.apiparser;
 
-import com.google.common.base.Verify;
 import com.google.common.collect.ImmutableList;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.squareup.wire.schema.internal.parser.RpcElement;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
 
@@ -24,14 +25,17 @@ public class ConnectEndpoint {
   private final ProtoIndex index;
 
   public ConnectEndpoint(RpcElement rpc, ProtoIndex index) {
-    this.rootRpc = rpc;
+    this.rootRpc = checkNotNull(rpc);
     this.inputType = rpc.requestType();
     this.outputType = rpc.responseType();
-    this.index = index;
+    this.index = checkNotNull(index);
     this.docAnnotations = new DocString(rpc.documentation()).parse().getAnnotations();
     Optional<ConnectDatatype> requestType = index.getDataType(inputType);
-    Verify.verify(requestType.isPresent());
-    this.params = requestType.get().getFields().stream().collect(collectingAndThen(toList(), ImmutableList::copyOf));
+    checkState(requestType.isPresent());
+    this.params = requestType.get()
+        .getFields()
+        .stream()
+        .collect(collectingAndThen(toList(), ImmutableList::copyOf));
   }
 
   public String getPath() {
@@ -47,55 +51,53 @@ public class ConnectEndpoint {
   }
 
   // Builds out endpoint JSON in the format expected by the Swagger 2.0 specification.
-  public JSONObject toJson() {
-    JSONObject root = new JSONObject();
+  public JsonObject toJson() {
+    JsonObject root = new JsonObject();
 
     if (this.docAnnotations.containsKey("entity")) {
-      JSONArray swaggerTags = new JSONArray();
-      swaggerTags.put(this.docAnnotations.get("entity"));
-      root.put("tags", swaggerTags);
+      JsonArray swaggerTags = new JsonArray();
+      swaggerTags.add(this.docAnnotations.get("entity"));
+      root.add("tags", swaggerTags);
     }
 
-    root.put("summary", this.getName());
-    root.put("operationId", this.getName());
-    root.put("description", docAnnotations.getOrDefault("desc", ""));
+    root.addProperty("summary", this.getName());
+    root.addProperty("operationId", this.getName());
+    root.addProperty("description", docAnnotations.getOrDefault("desc", ""));
 
-    JSONArray swaggerParameters = new JSONArray();
+    JsonArray swaggerParameters = new JsonArray();
 
     // Every API endpoint requires an Authorization header for the request's access token
-    JSONObject authorizationParameter = new JSONObject();
-    authorizationParameter.put("name", "Authorization");
-    authorizationParameter.put("in", "header");
-    authorizationParameter.put("type", "string");
-    authorizationParameter.put("required", true);
-    authorizationParameter.put("description", "The value to provide in the Authorization header of\n"
+    JsonObject authorizationParameter = new JsonObject();
+    authorizationParameter.addProperty("name", "Authorization");
+    authorizationParameter.addProperty("in", "header");
+    authorizationParameter.addProperty("type", "string");
+    authorizationParameter.addProperty("required", true);
+    authorizationParameter.addProperty("description",
+        "The value to provide in the Authorization header of\n"
             + "your request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.");
 
-    swaggerParameters.put(authorizationParameter);
+    swaggerParameters.add(authorizationParameter);
 
     for (ConnectField param : this.params) {
-      JSONObject swaggerParameter = new JSONObject();
-      swaggerParameter.put("name", param.getName());
-      swaggerParameter.put("description", param.getDescription());
+      JsonObject swaggerParameter = new JsonObject();
+      swaggerParameter.addProperty("name", param.getName());
+      swaggerParameter.addProperty("description", param.getDescription());
       if (!param.getEnumValues().isEmpty()) {
-        JSONArray enumArray = new JSONArray();
-        List<String> enumValues = param.getEnumValues();
-        for (String enumValue : enumValues) {
-          enumArray.put(enumValue);
-        }
-        swaggerParameter.put("enum", enumArray);
-        swaggerParameter.put("type", "string");
+        JsonArray enumArray = new JsonArray();
+        param.getEnumValues().forEach(enumArray::add);
+        swaggerParameter.add("enum", enumArray);
+        swaggerParameter.addProperty("type", "string");
       } else {
-        swaggerParameter.put("type", param.getType());
+        swaggerParameter.addProperty("type", param.getType());
       }
       if (param.isPathParam()) {
-        swaggerParameter.put("in", "path");
-        swaggerParameter.put("required", true);
-        swaggerParameters.put(swaggerParameter);
+        swaggerParameter.addProperty("in", "path");
+        swaggerParameter.addProperty("required", true);
+        swaggerParameters.add(swaggerParameter);
       } else if (this.getHttpmethod().equals("GET") || this.getHttpmethod().equals("DELETE")) {
-        swaggerParameter.put("in", "query");
-        swaggerParameter.put("required", param.isRequired());
-        swaggerParameters.put(swaggerParameter);
+        swaggerParameter.addProperty("in", "query");
+        swaggerParameter.addProperty("required", param.isRequired());
+        swaggerParameters.add(swaggerParameter);
       }
     }
 
@@ -104,22 +106,26 @@ public class ConnectEndpoint {
     if (this.getHttpmethod().equals("POST") || this.getHttpmethod().equals("PUT")) {
       Optional<ConnectDatatype> requestDataType = this.index.getDataType(this.inputType);
       if (requestDataType.map(ConnectDatatype::hasBodyParameters).orElse(false)) {
-        swaggerParameters.put(new JSONObject()
-            .put("name", "body")
-            .put("in", "body")
-            .put("required", true)
-            .put("description", "An object containing the fields to POST for the request.\n\n"
-                + "See the corresponding object definition for field details.")
-            .put("schema", new JSONObject().put("$ref", "#/definitions/" + Protos.cleanName(this.inputType))));
+        JsonObject paramJson = new JsonObject();
+
+        paramJson.addProperty("name", "body");
+        paramJson.addProperty("in", "body");
+        paramJson.addProperty("required", true);
+        paramJson.addProperty("description",
+            "An object containing the fields to POST for the request.\n\n"
+                + "See the corresponding object definition for field details.");
+
+        JsonObject schemaRef = new JsonObject();
+        schemaRef.addProperty("$ref", "#/definitions/" + Protos.cleanName(this.inputType));
+        paramJson.add("schema", schemaRef);
+        swaggerParameters.add(paramJson);
       }
     }
 
-    root.put("parameters", swaggerParameters);
+    root.add("parameters", swaggerParameters);
 
-    JSONObject swaggerResponses = new JSONObject();
-    JSONObject swaggerSuccessResponse = new JSONObject();
-
-    swaggerSuccessResponse.put("description", "Success");
+    JsonObject swaggerSuccessResponse = new JsonObject();
+    swaggerSuccessResponse.addProperty("description", "Success");
 
     String typeName = this.outputType;
 
@@ -127,13 +133,15 @@ public class ConnectEndpoint {
     typeName = typeName.replaceFirst("resources.", "");
     typeName = typeName.replaceFirst("actions.", "");
 
-    JSONObject swaggerSuccessResponseSchema = new JSONObject();
-    swaggerSuccessResponseSchema.put("$ref", "#/definitions/" + typeName);
+    JsonObject swaggerSuccessResponseSchema = new JsonObject();
+    swaggerSuccessResponseSchema.addProperty("$ref", "#/definitions/" + typeName);
 
-    swaggerSuccessResponse.put("schema", swaggerSuccessResponseSchema);
-    swaggerResponses.put("200", swaggerSuccessResponse);
+    swaggerSuccessResponse.add("schema", swaggerSuccessResponseSchema);
 
-    root.put("responses", swaggerResponses);
+    JsonObject swaggerResponses = new JsonObject();
+    swaggerResponses.add("200", swaggerSuccessResponse);
+
+    root.add("responses", swaggerResponses);
 
     return root;
   }
