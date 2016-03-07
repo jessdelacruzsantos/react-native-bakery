@@ -1,10 +1,10 @@
 package com.squareup.apiparser;
 
-import org.json.JSONObject;
+import com.google.gson.JsonObject;
 
 /**
  * Created by barlow on 8/31/15.
  */
 public interface APIParser {
-  JSONObject parseAPI(ProtoIndex index);
+  JsonObject parseAPI(ProtoIndex index);
 }

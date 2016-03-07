@@ -19,9 +19,9 @@ message Transaction {
   optional string location_id = 3;
 
   //--@desc The time when the transaction was created, in RFC 3339 format.--
-  optional string created_at = 6;
+  optional string created_at = 7;
 
-  repeated Tender tenders = 7;
+  repeated Tender tenders = 6;
 }
 
 //--@desc Represents a charge against a card taken by a Square merchant.--

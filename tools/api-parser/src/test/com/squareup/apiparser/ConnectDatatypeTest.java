@@ -1,16 +1,15 @@
 package com.squareup.apiparser;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.squareup.wire.schema.Location;
 import com.squareup.wire.schema.internal.parser.FieldElement;
 import com.squareup.wire.schema.internal.parser.MessageElement;
 import com.squareup.wire.schema.internal.parser.OneOfElement;
 import com.squareup.wire.schema.internal.parser.OptionElement;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.junit.Test;
-
 import java.util.Optional;
+import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.isA;
@@ -25,9 +24,9 @@ public class ConnectDatatypeTest {
   public void testToJson() throws Exception {
     MessageElement e = stubMessage("@desc a mock");
     ConnectDatatype datatype = new ConnectDatatype(e, "packageName", null);
-    assertThat(datatype.toJson().getString("description"), equalTo("a mock"));
-    assertThat(datatype.toJson().getString("type"), equalTo("object"));
-    assertThat(datatype.toJson().getJSONObject("properties"), isA(JSONObject.class));
+    assertThat(datatype.toJson().get("description").getAsString(), equalTo("a mock"));
+    assertThat(datatype.toJson().get("type").getAsString(), equalTo("object"));
+    assertThat(datatype.toJson().get("properties"), isA(JsonElement.class));
   }
 
   @Test
@@ -49,11 +48,11 @@ public class ConnectDatatypeTest {
     final ProtoIndex index = mock(ProtoIndex.class);
     when(index.getEnumType("string")).thenReturn(Optional.empty());
     datatype.populateFields(index);
-    assertThat(datatype.toJson().getString("description"), equalTo("a mock"));
-    assertThat(datatype.toJson().getString("type"), equalTo("object"));
-    assertThat(datatype.toJson().getJSONObject("properties"), isA(JSONObject.class));
-    final JSONArray required = datatype.toJson().getJSONArray("required");
-    assertThat(required.get(0), equalTo("FakeField"));
+    assertThat(datatype.toJson().get("description").getAsString(), equalTo("a mock"));
+    assertThat(datatype.toJson().get("type").getAsString(), equalTo("object"));
+    assertThat(datatype.toJson().get("properties"), isA(JsonElement.class));
+    final JsonArray required = datatype.toJson().get("required").getAsJsonArray();
+    assertThat(required.get(0).getAsString(), equalTo("FakeField"));
   }
 
   @Test
