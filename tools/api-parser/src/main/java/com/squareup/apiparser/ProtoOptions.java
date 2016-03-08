@@ -27,6 +27,14 @@ public class ProtoOptions {
       // required is a special case; see isRequired method
       "squareup.validation.required", option -> Optional.empty());
 
+  public static Optional<String> exampleFilename(Collection<OptionElement> options) {
+    return options.stream()
+        // Wire OptionElements may not have fully qualified names
+        .filter(o -> o.name().endsWith("common.json_example_path"))
+        .map(o -> (String) o.value())
+        .findFirst();
+  }
+
   public static Map<String, Object> validations(Collection<OptionElement> options) {
     ImmutableMap.Builder<String, Object> validations = ImmutableMap.builder();
     options.stream()
@@ -100,5 +108,8 @@ public class ProtoOptions {
 
   private static Optional<Pair<String, Object>> matchesPattern(OptionElement option) {
     return Optional.of(Pair.of("pattern", option.value()));
+  }
+
+  private ProtoOptions() {
   }
 }

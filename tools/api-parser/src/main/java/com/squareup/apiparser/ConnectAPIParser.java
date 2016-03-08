@@ -51,7 +51,7 @@ public class ConnectAPIParser implements APIParser {
 
   public static void main(String argv[]) {
     try {
-      ProtoIndex index = new ProtoIndexer().indexProtos(argv);
+      ProtoIndex index = new ProtoIndexer().indexProtos(ImmutableList.copyOf(argv));
       JsonObject root = new ConnectAPIParser().parseAPI(index);
       String outputPath = System.getProperty("user.dir") + "/api.json";
 

@@ -14,4 +14,7 @@ public class Protos {
     Iterables.removeAll(strings, ImmutableList.of("actions", "resources", "resources_internal"));
     return Joiner.on("").join(strings);
   }
+
+  private Protos() {
+  }
 }

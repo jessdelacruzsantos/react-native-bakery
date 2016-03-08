@@ -5,17 +5,23 @@ import com.squareup.wire.schema.internal.parser.EnumElement;
 import com.squareup.wire.schema.internal.parser.MessageElement;
 import com.squareup.wire.schema.internal.parser.TypeElement;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 public class ProtoIndex {
+  private final ExampleResolver exampleResolver;
   private final Map<String, ConnectDatatype> dtypes = new TreeMap<>();
   private final Map<String, ConnectEnum> enums = new TreeMap<>();
   private final List<ConnectEndpoint> endpoints = new ArrayList<>();
+
+  public ProtoIndex(ExampleResolver exampleResolver) {
+    this.exampleResolver = checkNotNull(exampleResolver);
+  }
 
   public void populate(List<ConnectType> types, List<ConnectService> services)
       throws IllegalArgumentException, AnnotationException {
@@ -28,8 +34,8 @@ public class ProtoIndex {
         Preconditions.checkArgument(!enums.containsKey(ce.getName()));
         this.enums.put(type.getName(), ce);
       } else if (rootType instanceof MessageElement) {
-        ConnectDatatype cd =
-            new ConnectDatatype(rootType, type.getPackageName(), type.getParentType());
+        ConnectDatatype cd = new ConnectDatatype(
+            rootType, type.getPackageName(), type.getParentType(), exampleResolver);
         Preconditions.checkArgument(!dtypes.containsKey(cd.getName()), "Already seen %s",
             cd.getName());
         this.dtypes.put(type.getName(), cd);
