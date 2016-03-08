@@ -1,6 +1,8 @@
 var handlebars = require('handlebars');
 var markdown = require('markdown').markdown;
 var fs = require('fs');
+var marked = require('marked');
+var cheerio = require('cheerio');
 
 
 // Load in the API definitions and index them
@@ -125,32 +127,63 @@ handlebars.registerHelper('capitalize', function(options) {
 //var endpoints = apiDefinition.endpoints;
 
 /*var navHTML = navTemplate(apiDefinition);
-console.log(navHTML);
 
 for (var i = 0; i < endpoints.length; i++) {
   var endpointHTML = endpointTemplate(endpoints[i]);
-  console.log(endpointHTML);
 }
 
 var datatypes = apiDefinition.datatypes;
 
 for (var i = 0; i < datatypes.length; i++) {
   var datatypeHTML = datatypeTemplate(datatypes[i]);
-  console.log(datatypeHTML);
 }
 
 var enums = apiDefinition.enums;
 
 for (var i = 0; i < enums.length; i++) {
   var enumHTML = enumTemplate(enums[i]);
-  console.log(enumHTML);
 }*/
 
 //var docpageHTML = docpageTemplate(apiDefinition);
-//console.log(docpageHTML);
 
 
 var docpage = {};
+
+docpage.apiconventions = marked(fs.readFileSync('api-conventions.md', 'utf-8'));
+var $ = cheerio.load(docpage.apiconventions);
+
+var h1s = [];
+
+$('h1, h2, h3').each(function(i, elem) {
+  if ($(this).is('h1')) {
+    var h1 = {};
+    h1.name = $(this).contents().text();
+    h1.id = $(this).attr('id').replace(/-/g, '');
+    $(this).attr('id', h1.id);
+    $(this).before('<div name="' + h1.id + '" data-unique="' + h1.id + '"></div>');
+    h1.subheaders = [];
+    h1s.push(h1);
+  } else if ($(this).is('h2')) {
+    var h2 = {};
+    h2.name = $(this).contents().text();
+    h2.id = $(this).attr('id').replace(/-/g, '');
+    $(this).attr('id', h2.id);
+    $(this).before('<div name="' + h2.id + '" data-unique="' + h2.id + '"></div>');
+    h2.subheaders = [];
+    h1s[h1s.length - 1].subheaders.push(h2);
+  } else if ($(this).is('h3')) {
+    var h3 = {};
+    h3.name = $(this).contents().text();
+    h3.id = $(this).attr('id').replace(/-/g, '');
+    $(this).attr('id', h3.id);
+    $(this).before('<div name="' + h3.id + '" data-unique="' + h3.id + '"></div>');
+    var subheaderArrayLength = h1s[h1s.length - 1].subheaders.length;
+    h1s[h1s.length - 1].subheaders[subheaderArrayLength - 1].subheaders.push(h3);
+  }
+});
+
+docpage.headers = h1s;
+docpage.apiconventions = $.html();
 
 // Do datatypes and enums first so endpoints can look up their request and response types
 var types = apiDefinition.definitions;

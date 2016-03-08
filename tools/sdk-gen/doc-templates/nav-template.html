@@ -1,4 +1,25 @@
 <div id="toc" class="tocify">
+
+  <!-- Conventions -->
+  {{#each this.headers}}
+    <ul class="tocify-header">
+      <li class="tocify-item" data-unique="{{this.id}}">
+        <a>{{this.name}}</a>
+      </li>
+      <ul class="tocify-subheader">
+        {{#each this.subheaders}}
+          <li class="tocify-item" data-unique="{{this.id}}">
+            <a>{{this.name}}</a>
+          </li>
+          <ul class="tocify-subheader">
+            {{#each this.subheaders}}
+              <li class="tocify-item" data-unique="{{this.id}}"><a>{{this.name}}</a></li>
+            {{/each}}
+          </ul>
+        {{/each}}
+      </ul>
+  {{/each}}
+
   <ul class="tocify-header">
     <li class="tocify-item" data-unique="navsection-endpoints">
       <a>Endpoints</a>
