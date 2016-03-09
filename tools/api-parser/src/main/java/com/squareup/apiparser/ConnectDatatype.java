@@ -15,9 +15,14 @@ import static com.squareup.apiparser.Json.GSON;
 
 public class ConnectDatatype extends ConnectType {
   private final List<ConnectField> fields = new ArrayList<>();
+  private final Optional<JsonObject> example;
 
-  protected ConnectDatatype(TypeElement rootType, String packageName, Optional<ConnectType> parentType) {
+  ConnectDatatype(TypeElement rootType, String packageName, Optional<ConnectType> parentType,
+      ExampleResolver exampleResolver) {
     super(rootType, packageName, parentType);
+
+    this.example = ProtoOptions.exampleFilename(rootType.options())
+        .map(exampleResolver::loadExample);
   }
 
   public List<ConnectField> getFields() {
@@ -67,6 +72,8 @@ public class ConnectDatatype extends ConnectType {
 
     root.add("properties", properties);
     root.addProperty("description", docAnnotations.getOrDefault("desc", ""));
+
+    this.example.ifPresent(e -> root.add("example", e));
 
     return root;
   }
