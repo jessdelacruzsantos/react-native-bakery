@@ -1,5 +1,6 @@
 package com.squareup.apiparser;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.io.Resources;
 import org.junit.Test;
 
@@ -14,9 +15,9 @@ public class ProtoIndexerTest {
   @Test
   public void testProtoLoading() throws Exception {
     final ProtoIndexer indexer = new ProtoIndexer();
-    final URL url = Resources.getResource("actions.proto");
+    final URL url = Resources.getResource("resources/actions.proto");
     final Path path = Paths.get(url.getFile());
-    final ProtoIndex index = indexer.indexProtos(new String[]{String.valueOf(path.getParent())});
+    final ProtoIndex index = indexer.indexProtos(ImmutableList.of(path.getParent().toString()));
     assertThat(index.getEndpoints().size(), equalTo(2));
     assertThat(index.getDatatypes().size(), equalTo(10));
     assertThat(index.getEnums().size(), equalTo(4));

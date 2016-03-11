@@ -8,8 +8,9 @@ import com.squareup.wire.schema.internal.parser.FieldElement;
 import com.squareup.wire.schema.internal.parser.MessageElement;
 import com.squareup.wire.schema.internal.parser.OneOfElement;
 import com.squareup.wire.schema.internal.parser.OptionElement;
-import java.util.Optional;
 import org.junit.Test;
+
+import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.isA;
@@ -20,10 +21,13 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class ConnectDatatypeTest {
+  private final ExampleResolver resolver = new ExampleResolver(ImmutableList.of());
+
   @Test
   public void testToJson() throws Exception {
     MessageElement e = stubMessage("@desc a mock");
-    ConnectDatatype datatype = new ConnectDatatype(e, "packageName", null);
+    when(e.options()).thenReturn(ImmutableList.of());
+    ConnectDatatype datatype = new ConnectDatatype(e, "packageName", Optional.empty(), resolver);
     assertThat(datatype.toJson().get("description").getAsString(), equalTo("a mock"));
     assertThat(datatype.toJson().get("type").getAsString(), equalTo("object"));
     assertThat(datatype.toJson().get("properties"), isA(JsonElement.class));
@@ -43,8 +47,9 @@ public class ConnectDatatypeTest {
     when(fe1.type()).thenReturn("string");
     when(fe1.options()).thenReturn(ImmutableList.of(o));
     when(e.fields()).thenReturn(ImmutableList.of(fe1));
+    when(e.options()).thenReturn(ImmutableList.of());
 
-    final ConnectDatatype datatype = new ConnectDatatype(e, "packageName", null);
+    final ConnectDatatype datatype = new ConnectDatatype(e, "packageName", Optional.empty(), resolver);
     final ProtoIndex index = mock(ProtoIndex.class);
     when(index.getEnumType("string")).thenReturn(Optional.empty());
     datatype.populateFields(index);
@@ -60,8 +65,9 @@ public class ConnectDatatypeTest {
     MessageElement e = mock(MessageElement.class);
     when(e.name()).thenReturn("Name");
     when(e.documentation()).thenReturn("");
+    when(e.options()).thenReturn(ImmutableList.of());
 
-    ConnectDatatype dataType = new ConnectDatatype(e, "packageName", null);
+    ConnectDatatype dataType = new ConnectDatatype(e, "packageName", Optional.empty(), resolver);
     assertFalse(dataType.hasBodyParameters());
   }
 
@@ -71,9 +77,10 @@ public class ConnectDatatypeTest {
     MessageElement me = stubMessage(value);
     FieldElement fe = stubField(" //@pathparam\n");
     when(me.fields()).thenReturn(ImmutableList.of(fe));
+    when(me.options()).thenReturn(ImmutableList.of());
 
-    ConnectDatatype dataType = new ConnectDatatype(me, "packageName", null);
-    dataType.populateFields(new ProtoIndex());
+    ConnectDatatype dataType = new ConnectDatatype(me, "packageName", Optional.empty(), resolver);
+    dataType.populateFields(new ProtoIndex(resolver));
     assertFalse(dataType.hasBodyParameters());
   }
 
@@ -83,9 +90,10 @@ public class ConnectDatatypeTest {
     FieldElement fe1 = stubField(" //@pathparam\n");
     FieldElement fe2 = stubField(" //@required\n");
     when(me.fields()).thenReturn(ImmutableList.of(fe1, fe2));
+    when(me.options()).thenReturn(ImmutableList.of());
 
-    ConnectDatatype dataType = new ConnectDatatype(me, "packageName", null);
-    dataType.populateFields(new ProtoIndex());
+    ConnectDatatype dataType = new ConnectDatatype(me, "packageName", Optional.empty(), resolver);
+    dataType.populateFields(new ProtoIndex(resolver));
     assertTrue(dataType.hasBodyParameters());
   }
 
@@ -93,13 +101,14 @@ public class ConnectDatatypeTest {
   public void testOneOfInProtosFailsGeneration() throws Exception {
     MessageElement m = stubMessage("I have a oneOf");
     when(m.fields()).thenReturn(ImmutableList.of());
+    when(m.options()).thenReturn(ImmutableList.of());
     when(m.name()).thenReturn("Name");
     when(m.location()).thenReturn(mock(Location.class));
     final OneOfElement oe = mock(OneOfElement.class);
     when(m.oneOfs()).thenReturn(ImmutableList.of(oe));
 
-    final ConnectDatatype datatype = new ConnectDatatype(m, "packageName", null);
-    datatype.populateFields(new ProtoIndex());
+    final ConnectDatatype datatype = new ConnectDatatype(m, "packageName", Optional.empty(), resolver);
+    datatype.populateFields(new ProtoIndex(resolver));
   }
 
   private FieldElement stubField(String documentation) {

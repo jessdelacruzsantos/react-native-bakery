@@ -16,7 +16,6 @@ import static java.util.stream.Collectors.toList;
 public class ConnectField {
   private final boolean required;
   private final boolean isArray;
-  private final int value;
   private final String name;
   private final String type;
   private final List<String> enumValues;
@@ -31,7 +30,6 @@ public class ConnectField {
     this.isArray = field.label() == Field.Label.REPEATED;
     this.required = field.label() == Field.Label.REQUIRED || ProtoOptions.isRequired(field);
     this.docAnnotations = new DocString(field.documentation()).getAnnotations();
-    this.value = 0;
     final List<ConnectField> values =
         enumm.map(ConnectEnum::getValues).orElse(Collections.emptyList());
     this.enumValues = values.stream()
@@ -41,10 +39,9 @@ public class ConnectField {
   }
 
   // This constructor is called ONLY for fields that represent a value of an enum, such as USD.
-  public ConnectField(String name, String type, int value, String documentation) {
+  public ConnectField(String name, String type, String documentation) {
     this.name = checkNotNull(name);
     this.type = Protos.cleanName(checkNotNull(type));
-    this.value = value;
     this.required = false;
     this.isArray = isArray();
     this.enumValues = ImmutableList.of();

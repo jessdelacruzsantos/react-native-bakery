@@ -1,12 +1,15 @@
 package com.squareup.apiparser;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.squareup.wire.schema.internal.parser.RpcElement;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
@@ -23,6 +26,8 @@ public class ConnectEndpoint {
   private final Map<String, String> docAnnotations;
   private final RpcElement rootRpc;
   private final ProtoIndex index;
+
+  private static final Set<String> NO_AUTH_REQUIRED = ImmutableSet.of("CreateCardNonce");
 
   public ConnectEndpoint(RpcElement rpc, ProtoIndex index) {
     this.rootRpc = checkNotNull(rpc);
@@ -66,17 +71,18 @@ public class ConnectEndpoint {
 
     JsonArray swaggerParameters = new JsonArray();
 
-    // Every API endpoint requires an Authorization header for the request's access token
-    JsonObject authorizationParameter = new JsonObject();
-    authorizationParameter.addProperty("name", "Authorization");
-    authorizationParameter.addProperty("in", "header");
-    authorizationParameter.addProperty("type", "string");
-    authorizationParameter.addProperty("required", true);
-    authorizationParameter.addProperty("description",
-        "The value to provide in the Authorization header of\n"
-            + "your request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.");
+    if (!NO_AUTH_REQUIRED.contains(this.getName())) {
+      JsonObject authorizationParameter = new JsonObject();
+      authorizationParameter.addProperty("name", "Authorization");
+      authorizationParameter.addProperty("in", "header");
+      authorizationParameter.addProperty("type", "string");
+      authorizationParameter.addProperty("required", true);
+      authorizationParameter.addProperty("description",
+          "The value to provide in the Authorization header of\n"
+              + "your request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.");
 
-    swaggerParameters.add(authorizationParameter);
+      swaggerParameters.add(authorizationParameter);
+    }
 
     for (ConnectField param : this.params) {
       JsonObject swaggerParameter = new JsonObject();

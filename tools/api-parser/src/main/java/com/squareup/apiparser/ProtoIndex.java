@@ -1,9 +1,9 @@
 package com.squareup.apiparser;
 
-import com.google.common.base.Preconditions;
 import com.squareup.wire.schema.internal.parser.EnumElement;
 import com.squareup.wire.schema.internal.parser.MessageElement;
 import com.squareup.wire.schema.internal.parser.TypeElement;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +11,7 @@ import java.util.Optional;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class ProtoIndex {
@@ -31,13 +32,12 @@ public class ProtoIndex {
       if (rootType instanceof EnumElement) {
         ConnectEnum ce = new ConnectEnum((EnumElement) rootType, type.getPackageName(),
             type.getParentType());
-        Preconditions.checkArgument(!enums.containsKey(ce.getName()));
+        checkArgument(!enums.containsKey(ce.getName()), "Already seen %s", ce.getName());
         this.enums.put(type.getName(), ce);
       } else if (rootType instanceof MessageElement) {
         ConnectDatatype cd = new ConnectDatatype(
             rootType, type.getPackageName(), type.getParentType(), exampleResolver);
-        Preconditions.checkArgument(!dtypes.containsKey(cd.getName()), "Already seen %s",
-            cd.getName());
+        checkArgument(!dtypes.containsKey(cd.getName()), "Already seen %s", cd.getName());
         this.dtypes.put(type.getName(), cd);
       } else {
         throw new IllegalArgumentException("Encountered a malformed proto");
