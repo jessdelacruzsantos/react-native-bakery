@@ -13,8 +13,22 @@
   <tbody>
     {{#each this.details.properties}}
     <tr>
-      <td><code>{{@key}}</code> {{#if this.required}}<strong>(Required)</strong>{{/if}}</td>
-      <td><code>{{#if this.type}}{{this.type}}{{else}}{{#linkToType}}{{this.$ref}}{{/linkToType}}{{/if}}</code></td>
+      <td><code>{{@key}}</code></td>
+      <td>
+        <code>
+          {{#if this.isobjectarray}}
+            {{#linkToType}}{{~this.items.$ref~}}{{/linkToType}}[]
+          {{else if this.isbasearray}}
+            {{~this.items.type~}}[]
+          {{else if this.type}}
+            {{~this.type~}}
+          {{else}}
+            {{#linkToType}}
+              {{~this.$ref~}}
+            {{/linkToType}}
+          {{/if}}
+        </code>
+      </td>
       <td>{{#convertMarkdown}}{{{this.description}}}{{/convertMarkdown}}</td>
     </tr>
     {{/each}}

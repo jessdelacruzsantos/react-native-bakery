@@ -1,22 +1,44 @@
 # Connect API v2 Conventions
 
+## Swagger specification
+Version 2 of the Connect API is defined with the
+[Swagger specification](http://swagger.io/getting-started/). The definition is
+available on [Github](https://github.com/square/connect-api-specification). You
+can use the definition to generate your own Connect client library with the
+[Swagger Code Generator](https://github.com/swagger-api/swagger-codegen).
+
+Note that v1 and OAuth endpoints are not currently defined with Swagger.
+
 ## Endpoint paths
 
-Connect API endpoints are hosted from the base URL `https://connect.squareup.com`. For example, the **ListTransactions** endpoint's full path is `https://connect.squareup.com/v2/locations/{location_id}/transactions`.
+Connect API endpoints are hosted from the base URL `https://connect.squareup.com`.
+For example, the [ListTransactions](#endpoint-listtransactions) endpoint's full
+path is:
 
-Most endpoint paths include a `location_id` parameter that indicates which of a business's locations your application is acting on behalf of. You can get a business's location IDs with the **ListLocations** endpoint.
+    https://connect.squareup.com/v2/locations/{location_id}/transactions
+
+Most endpoint paths include a `location_id` parameter that indicates which of a
+business's locations your application is acting on behalf of. You can get a
+business's location IDs with the [ListLocations](#endpoint-listlocations) endpoint.
 
 ## API versions
 
-An endpoint's API version is included in its path. Bug fixes and minor feature additions might be made to an endpoint's behavior without advancing its version number. This can include adding optional parameters or response fields. To prevent future compatibility issues, your application should be prepared to receive response fields beyond those currently returned by a given endpoint.
+An endpoint's API version is included in its path. Bug fixes and minor feature
+additions might be made to an endpoint's behavior without advancing its version
+number. This can include adding optional parameters or response fields. To
+prevent future compatibility issues, your application should be prepared to
+receive response fields beyond those currently returned by a given endpoint.
 
-Functionality is never *removed* from a particular version of an endpoint, nor do field names or types change.
+Functionality is never *removed* from a particular version of an endpoint, nor
+do field names or types change.
 
-The most recent version of the the Connect API is `v2`. Connect API applications can communicate with endpoints from all available versions.
+The most recent version of the the Connect API is `v2`. Connect API applications
+can communicate with endpoints from all available versions.
 
 ## Endpoint names and return values
 
-An endpoint's name indicates the type of data it handles and the action it performs on that data. The most common actions are:
+An endpoint's name indicates the type of data it handles and the action it
+performs on that data. The most common actions are:
 
 |Action  |HTTP Method|Description|
 |--------|-----------|-----------|
@@ -26,7 +48,9 @@ An endpoint's name indicates the type of data it handles and the action it perfo
 |Update  |`PUT`      |Modifies the existing entity that matches the identifier you provide.|
 |Delete  |`DELETE`   |Deletes the existing entity that matches the identifier you provide. **Deleted entities cannot be retrieved or undeleted.**|
 
-For example, the **ListTransactions** endpoint returns an array of processed payments, and the **CreateCustomer** endpoint creates and persists a customer.
+For example, the [ListTransactions](#endpoint-listtransactions) endpoint returns
+an array of processed payments, and the [CreateCustomer](#endpoint-createcustomer)
+endpoint creates and persists a customer.
 
 ## Request and response headers
 
@@ -34,7 +58,7 @@ Requests to Connect API endpoints must include the following HTTP headers:
 
     Authorization: Bearer YOUR_ACCESS_TOKEN
     Accept: application/json
-    
+
 In the place of `YOUR_ACCESS_TOKEN`, provide either your application's personal access token (available from the application dashboard) or an access token you generated with the OAuth API.
 
 `POST` and `PUT` requests must include one additional header:
@@ -49,11 +73,14 @@ The way you provide parameters to a Connect API request depends on the HTTP meth
 
 ### `GET` and `DELETE` requests
 
-For `GET` and `DELETE` requests, you provide parameters in a query string you append to your request's URL. For example, you provide the `sort_order` parameter to the **ListTransactions** endpoint like so:
+For `GET` and `DELETE` requests, you provide parameters in a query string you
+append to your request's URL. For example, you provide the `sort_order` parameter
+to the [ListTransactions](#endpoint-listtransactions) endpoint like so:
 
     https://connect.squareup.com/v2/locations/LOCATION_ID/transactions?sort_order=ASC
-    
-Values for query parameters must be URL-escaped. For example, to provide the value `2016-01-15T00:00:00+02:00` as the `begin_time` parameter of the **ListTransactions** endpoint, you specify the following:
+
+Values for query parameters must be URL-escaped. For example, to provide the value `2016-01-15T00:00:00+02:00` as the `begin_time` parameter of the
+[ListTransactions](#endpoint-listtransactions) endpoint, you specify the following:
 
     https://connect.squareup.com/v2/locations/LOCATION_ID/transactions?begin_time=2016-01-15T00%3A00%3A00%2B02%3A00
 
@@ -62,13 +89,14 @@ Values for query parameters must be URL-escaped. For example, to provide the val
 
 For `POST` and `PUT` requests, you instead provide parameters as JSON in the body of your request.
 
-For example, the body of a request to the **CreateCustomer** endpoint looks like this:
+For example, the body of a request to the [CreateCustomer](#endpoint-createcustomer)
+endpoint looks like this:
 
     {
       "given_name": "Amelia",
       "family_name": "Earhart"
     }
-    
+
 ## Working with monetary amounts
 
 All monetary amounts in the Connect API are represented by the `Money` object, which has the following structure:
@@ -77,9 +105,9 @@ All monetary amounts in the Connect API are represented by the `Money` object, w
       "amount": 400,
       "currency_code": "USD"
     }
-    
+
 **Important:** Unlike version 1 of the Connect API, **all monetary amounts returned by v2 endpoints are positive.** (In v1, monetary amounts are negative if they represent money being paid _by_ a merchant, instead of money being paid _to_ a merchant.)
-    
+
 The `amount` field is always in the **smallest denomination** of the currency indicated by `currency_code`. When `currency_code` is `USD` (US dollars), `amount` is in cents. The object shown above represents $4.00.
 
 The `currency_code` field is in **ISO 4217** format.
@@ -94,23 +122,53 @@ You can provide date strings that are either UTC (for example, `2016-01-15T00:00
 
 ### Date ranges
 
-**List** endpoints such as **ListTransactions** often accept an optional date range with the `begin_time` and 
-`end_time` parameters. They also accept an optional `sort_order` parameter, which indicates whether results are returned in chronological order (oldest first) or reverse-chronological order (newest first).
+**List** endpoints such as [ListTransactions](#endpoint-listtransactions) often
+accept an optional date range with the `begin_time` and `end_time` parameters.
+They also accept an optional `sort_order` parameter, which indicates whether results are returned in chronological order (oldest first) or reverse-chronological order (newest first).
 
 Regardless of `sort_order`, `begin_time` is the earlier date and `end_time` is the later date.
 
-* When `sort_order` is `DESC` (newest-first), `begin_time` is **exclusive** and `end_time` is **inclusive**.
-* When `sort_order` is `ASC` (oldest-first), `begin_time` is **inclusive** and `end_time` is **exclusive**.
+* When `sort_order` is `DESC` (newest-first), `begin_time` is **exclusive** and
+`end_time` is **inclusive**.
+* When `sort_order` is `ASC` (oldest-first), `begin_time` is **inclusive** and
+`end_time` is **exclusive**.
+
+
+## Idempotency keys
+
+Certain Connect API endpoints (currently [Charge](#endpoint-charge) and
+[CreateRefund](#endpoint-createrefund)) require an `idempotency_key` string
+parameter. Any time you want to initiate a new card transaction or refund,
+you should provide a new, unique value for this parameter.
+
+Virtually all popular programming languages provide a function for generating
+unique strings. For example:
+
+|Language|Function|
+|--------|--------|
+|Ruby    |[`SecureRandom.uuid`](http://ruby-doc.org/stdlib-1.9.3/libdoc/securerandom/rdoc/SecureRandom.html#uuid-method)|
+|PHP     |[`uniqid`](http://php.net/manual/en/function.uniqid.php)|
+|Java    |[`UUID.randomUUID`](http://docs.oracle.com/javase/7/docs/api/java/util/UUID.html)|
+|Python  |[`uuid`](https://docs.python.org/2/library/uuid.html)|
+
+Idempotency keys must be unique per _business_, not per application. They cannot
+exceed 128 characters.
+
+If you're unsure whether a particular transaction succeeded (for example, if you
+don't receive a response from an endpoint for some reason), you can reattempt it
+with the same idempotency key without worrying about creating a duplicate transaction.
 
 
 ## Paginating results
 
-**List** endpoints might paginate the results they return. This means that instead of returning all results 
-in a single response, these endpoints might return *some* of the results, along with a `cursor` in the response
-body that links ot the next set of results.
+**List** endpoints such as [ListTransactions](#endpoint-listtransactions) might
+paginate the results they return. This means that instead of returning all results
+in a single response, these endpoints might return *some* of the results, along
+with a `cursor` in the response body that links to the next set of results.
 
-Send a followup request to the same endpoint, providing the `cursor` value returned in the previous response, 
-to fetch the next set of results. Repeat this process until you receive a response without a `cursor`.
+Send a followup request to the same endpoint, providing the `cursor` value
+returned in the previous response as a query parameter, to fetch the next set of
+results. Repeat this process until you receive a response without a `cursor`.
 
 
 ## Handling duplicate results
@@ -159,9 +217,12 @@ All Connect v2 endpoints include an `errors` array in their response body if any
         }
       ]
     }
-    
+
 Each error in the array has the following fields:
 
-* `category` indicates which high-level category the error falls into. This value never changes for a particular error.
-* `code` indicates the exact type of error that occurred. This value never changes for a particular error.
+* `category` indicates which high-level category the error falls into.
+This value never changes for a particular error. See [ErrorCategory](#type-errorcategory)
+for possible values.
+* `code` indicates the exact type of error that occurred. This value never
+changes for a particular error. See [ErrorCode](#type-errorcode) for possible values.
 * `detail` is a human-readable string that will help you diagnose the error. This value **can** change for a particular error.

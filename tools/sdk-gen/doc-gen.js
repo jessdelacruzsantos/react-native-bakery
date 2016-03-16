@@ -7,18 +7,22 @@ var cheerio = require('cheerio');
 
 // Load in the API definitions and index them
 var apiDefinition = JSON.parse(fs.readFileSync('api.json', 'utf-8'));
+var enumValueDescriptions = JSON.parse(fs.readFileSync('enum_mapping.json', 'utf-8'));
+var apiChangelog = JSON.parse(fs.readFileSync('changelog.json', 'utf-8'));
 
 // Load in HTML templates for doc types
-var docpageTemplate = handlebars.compile(fs.readFileSync('doc-templates/docpage-template.html', 'utf-8'));
+var docpageTemplate = handlebars.compile(fs.readFileSync('doc-templates/docpage-template.html', 'utf-8'),{preventIndent: true});
 var endpointTemplate = handlebars.compile(fs.readFileSync('doc-templates/endpoint-template.html', 'utf-8'));
 var navTemplate = handlebars.compile(fs.readFileSync('doc-templates/nav-template.html', 'utf-8'));
 var datatypeTemplate = handlebars.compile(fs.readFileSync('doc-templates/datatype-template.html', 'utf-8'));
 var enumTemplate = handlebars.compile(fs.readFileSync('doc-templates/enum-template.html', 'utf-8'));
+var changelogTemplate = handlebars.compile(fs.readFileSync('doc-templates/changelog-template.html', 'utf-8'));
 
 handlebars.registerPartial('endpoint', endpointTemplate);
 handlebars.registerPartial('nav', navTemplate);
 handlebars.registerPartial('datatype', datatypeTemplate);
 handlebars.registerPartial('enum', enumTemplate);
+handlebars.registerPartial('changelog', changelogTemplate);
 
 var warnings = [];
 
@@ -123,35 +127,14 @@ handlebars.registerHelper('capitalize', function(options) {
   return options.fn(this).toUpperCase();
 });
 
-// Sort endpoints into buckets by entity
-//var endpoints = apiDefinition.endpoints;
-
-/*var navHTML = navTemplate(apiDefinition);
-
-for (var i = 0; i < endpoints.length; i++) {
-  var endpointHTML = endpointTemplate(endpoints[i]);
-}
-
-var datatypes = apiDefinition.datatypes;
-
-for (var i = 0; i < datatypes.length; i++) {
-  var datatypeHTML = datatypeTemplate(datatypes[i]);
-}
-
-var enums = apiDefinition.enums;
-
-for (var i = 0; i < enums.length; i++) {
-  var enumHTML = enumTemplate(enums[i]);
-}*/
-
-//var docpageHTML = docpageTemplate(apiDefinition);
-
 
 var docpage = {};
 
+// Convert the API Conventions article from Markdown to HTML
 docpage.apiconventions = marked(fs.readFileSync('api-conventions.md', 'utf-8'));
 var $ = cheerio.load(docpage.apiconventions);
 
+// Scan the headers of the API Conventions article to add them to the left nav
 var h1s = [];
 
 $('h1, h2, h3').each(function(i, elem) {
@@ -184,6 +167,7 @@ $('h1, h2, h3').each(function(i, elem) {
 
 docpage.headers = h1s;
 docpage.apiconventions = $.html();
+docpage.changelog = apiChangelog;
 
 // Do datatypes and enums first so endpoints can look up their request and response types
 var types = apiDefinition.definitions;
@@ -205,8 +189,34 @@ for (var typeName in types) {
     typeWrapper.name = typeName;
     typeWrapper.details = definition;
     if (definition.hasOwnProperty('enum')) {
+      var valueDescriptions = [];
+      typeWrapper.values = [];
+      for (var enumValue in enumValueDescriptions) {
+        if (enumValueDescriptions.hasOwnProperty(enumValue)) {
+          if (enumValue.indexOf(typeWrapper.name + ".") == 0) {
+            valueDescriptions.push(enumValueDescriptions[enumValue]);
+          }
+        }
+      }
+      for (var i = 0; i < typeWrapper.details.enum.length; i++) {
+        var enumInfo = {};
+        enumInfo.name = typeWrapper.details.enum[i];
+        enumInfo.description = valueDescriptions[i];
+        typeWrapper.values.push(enumInfo);
+      }
       enums.push(typeWrapper);
     } else {
+      for (var propertyName in typeWrapper.details.properties) {
+        if (typeWrapper.details.properties.hasOwnProperty(propertyName)) {
+          if (typeWrapper.details.properties[propertyName].type == 'array') {
+            if(typeWrapper.details.properties[propertyName].items.hasOwnProperty('type')) {
+              typeWrapper.details.properties[propertyName].isbasearray = true;
+            } else {
+              typeWrapper.details.properties[propertyName].isobjectarray = true;
+            }
+          }
+        }
+      }
       datatypes.push(typeWrapper);
     }
 
@@ -224,7 +234,7 @@ for (var typeName in types) {
 docpage.enums = enums;
 docpage.datatypes = datatypes;
 
-
+// Now do endpoints
 var endpoints = [];
 var endpointEntities = {};
 var paths = apiDefinition.paths;
@@ -238,10 +248,37 @@ for (var pathName in paths) {
         endpoint.details = paths[pathName][httpmethod];
 
         // Filter endpoint parameters out into different arrays by type for easier template generation
-        endpoint.headerparams = [];
-        endpoint.pathparams   = [];
-        endpoint.queryparams  = [];
-        endpoint.bodyparams   = [];
+        endpoint.headerparams   = [];
+        endpoint.pathparams     = [];
+        endpoint.queryparams    = [];
+        endpoint.bodyparams     = [];
+
+        var endpointName = endpoint.details.operationId;
+        var endpointRequestObjectName = endpointName + 'Request';
+        var endpointResponseObjectName = endpointName + 'Response';
+
+        // Extract the endpoint's request and response types and remove them from the type list
+        // (So they don't end up documented as data types)
+        var endpointRequestObject = getTypeWithName(endpointRequestObjectName, datatypes, true);
+        var endpointResponseObject = getTypeWithName(endpointResponseObjectName, datatypes, true);
+
+        if (endpointRequestObject != undefined) {
+          if (endpointRequestObject.details.hasOwnProperty('example')) {
+            if (endpoint.httpmethod == 'get' || endpoint.httpmethod == 'delete') {
+              endpoint.requestExample = endpointRequestObject.details.example.url;
+              endpoint.hasNoRequestBody = true;
+            } else {
+              endpoint.requestExample = JSON.stringify(endpointRequestObject.details.example, null, 2);
+            }
+          }
+        }
+
+        if (endpointResponseObject != undefined) {
+          if (endpointResponseObject.details.hasOwnProperty('example')) {
+            endpoint.responseExample = JSON.stringify(endpointResponseObject.details.example, null, 2);
+          }
+          endpoint.responsetype = endpointResponseObject;
+        }
 
         for(var param in endpoint.details.parameters) {
           if (endpoint.details.parameters[param].in == 'header') {
@@ -254,19 +291,22 @@ for (var pathName in paths) {
             endpoint.queryparams.push(endpoint.details.parameters[param]);
             endpoint.hasqueryparams = true;
           } else if (endpoint.details.parameters[param].in == 'body') {
-            var requestTypePath = endpoint.details.parameters[param].schema['$ref'];
-            var requestTypePathComponents = requestTypePath.split('/');
-            var requestTypeName = requestTypePathComponents[requestTypePathComponents.length - 1];
-            var requestType = getTypeWithName(requestTypeName, datatypes);
+            var requestType = endpointRequestObject;
 
             if (requestType != null) {
               var bodyParamObj = requestType.details.properties;
+              var bodyParamRequireds = requestType.details.required;
               for (var paramName in bodyParamObj) {
                 if (bodyParamObj.hasOwnProperty(paramName)){
                   endpoint.hasbodyparams = true;
                   var bodyParam = {};
                   bodyParam.name = paramName;
                   bodyParam.details = bodyParamObj[paramName];
+                  if (bodyParamRequireds != undefined && bodyParamRequireds.indexOf(paramName) >= 0) {
+                    bodyParam.required = true;
+                  } else {
+                    bodyParam.required = false;
+                  }
                   endpoint.bodyparams.push(bodyParam);
                 }
               }
@@ -274,7 +314,7 @@ for (var pathName in paths) {
           }
         }
 
-        var endpointEntity = endpoint.details.tags[0];
+        var endpointEntity = endpoint.details.tags[0].replace(/\./g, '');
         if (!endpointEntities.hasOwnProperty(endpointEntity)) {
           endpointEntities[endpointEntity] = [];
         }
@@ -293,10 +333,14 @@ docpage.endpointEntities = endpointEntities;
 console.log(docpageTemplate(docpage));
 
 
-function getTypeWithName(typeName, typeList) {
+function getTypeWithName(typeName, typeList, removeFromList) {
   for (var i = 0; i < typeList.length; i++) {
     if (typeList[i].name == typeName) {
-      return typeList[i];
+      var type = typeList[i];
+      if (removeFromList) {
+        typeList.splice(i, 1);
+      }
+      return type;
     }
   }
   return null;

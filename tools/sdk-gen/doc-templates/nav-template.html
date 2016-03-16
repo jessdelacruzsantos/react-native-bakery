@@ -32,7 +32,7 @@
         <ul class="tocify-subheader">
           {{#each this}}
             <li class="tocify-item" data-unique="endpoint-{{#idify}}{{this.details.operationId}}{{/idify}}"><a>{{this.details.operationId}}</a></li>
-          {{/each}} 
+          {{/each}}
         </ul>
       {{/each}}
     </ul>
@@ -60,5 +60,10 @@
         </li>
       {{/each}}
     </ul>
+  </ul>
+  <ul class="tocify-header">
+    <li class="tocify-item" data-unique="changelog">
+      <a>API Changelog</a>
+    </li>
   </ul>
 </div>

@@ -1,0 +1,19 @@
+<div name="changelog" data-unique="changelog"></div>
+<h2 id="changelog">Connect API v2 Changelog</h2>
+<p>Additions and changes to version 2 of the Connect API are described here.</p>
+<table>
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each this}}
+    <tr>
+      <td><strong>{{this.date}}</strong></td>
+      <td>{{#convertMarkdown}}{{{this.description}}}{{/convertMarkdown}}</td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>

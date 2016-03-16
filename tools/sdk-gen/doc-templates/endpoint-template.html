@@ -1,21 +1,7 @@
+<div class="section-wrapper">
+<div class="section-content">
 <div name="endpoint-{{#idify}}{{this.details.operationId}}{{/idify}}" data-unique="endpoint-{{#idify}}{{this.details.operationId}}{{/idify}}"></div>
 <h3 id="endpoint-{{#idify}}{{this.details.operationId}}{{/idify}}" class="endpoint">{{this.details.operationId}}</h3>
-<div class-"full-view">
-  <blockquote class="example">
-    <h4>Example Request</h4>
-  </blockquote>
-  <pre class="example">
-    <code class="no-highlight">
-    </code>
-  </pre>
-  <blockquote class="example">
-    <h4>Example Response Body</h4>
-  </blockquote>
-  <pre class="example">
-    <code class="no-highlight">
-    </code>
-  </pre>
-</div>
 <pre><code class="restpath no-highlight">{{#capitalize}}{{this.httpmethod}}{{/capitalize}} {{this.path}}</code></pre>
 {{#convertMarkdown}}{{{this.details.description}}}{{/convertMarkdown}}
 <!--<p>Required permissions:
@@ -80,8 +66,22 @@
   <tbody>
     {{#each this.bodyparams}}
     <tr>
-      <td><code>{{this.name}}</code></td>
-      <td><code>{{#if this.details.type}}{{this.details.type}}{{else}}{{#linkToType}}{{this.details.$ref}}{{/linkToType}}{{/if}}</code></td>
+      <td><code>{{this.name}}</code>{{#checkRequired}}{{this.required}}{{/checkRequired}}</td>
+      <td>
+        <code>
+          {{#if this.details.isobjectarray}}
+            {{#linkToType}}{{~this.details.items.$ref~}}{{/linkToType}}[]
+          {{else if this.details.isbasearray}}
+            {{~this.details.items.type~}}[]
+          {{else if this.details.type}}
+            {{~this.details.type~}}
+          {{else}}
+            {{#linkToType}}
+              {{~this.details.$ref~}}
+            {{/linkToType}}
+          {{/if}}
+        </code>
+      </td>
       <td>{{#convertMarkdown}}{{{this.details.description}}}{{/convertMarkdown}}</td>
     </tr>
     {{/each}}
@@ -89,7 +89,7 @@
 </table>
 {{/if}}
 
-{{#if this.responsefields}}
+{{#if this.responsetype}}
 <h4>Response fields</h4>
 <table>
     <thead>
@@ -100,13 +100,42 @@
       </tr>
     </thead>
     <tbody>
-      {{#each responsefields}}
+      {{#each this.responsetype.details.properties}}
       <tr>
-        <td><code>{{this.name}}</code></td>
-        <td><code>{{#processType}}{{this.type}}{{/processType}}{{#checkArray}}{{this.isarray}}{{/checkArray}}</code></td>
+        <td><code>{{@key}}</code></td>
+        <td>
+          <code>
+            {{#if this.isobjectarray}}
+              {{#linkToType}}{{~this.items.$ref~}}{{/linkToType}}[]
+            {{else if this.isbasearray}}
+              {{~this.items.type~}}[]
+            {{else if this.type}}
+              {{~this.type~}}
+            {{else}}
+              {{#linkToType}}
+                {{~this.$ref~}}
+              {{/linkToType}}
+            {{/if}}
+          </code></td>
         <td>{{#convertMarkdown}}{{{this.description}}}{{/convertMarkdown}}</td>
       </tr>
       {{/each}}
     </tbody>
 </table>
 {{/if}}
+</div>
+<div class="full-view">
+  {{#if this.requestExample}}
+  <blockquote class="example">
+    <h4>Example Request</h4>
+  </blockquote>
+<pre class="example"><code {{#if this.hasNoRequestBody}}class="no-highlight"{{/if}}>{{~this.requestExample~}}</code></pre>
+  {{/if}}
+  {{#if this.responseExample}}
+  <blockquote class="example">
+    <h4>Example Response Body</h4>
+  </blockquote>
+<pre class="example"><code>{{~this.responseExample~}}</code></pre>
+  {{/if}}
+</div>
+</div>

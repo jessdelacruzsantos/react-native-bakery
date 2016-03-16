@@ -10,10 +10,10 @@
     </tr>
   </thead>
   <tbody>
-    {{#each this.details.enum}}
+    {{#each this.values}}
     <tr>
-      <td><code>{{this}}</code></td>
-      <td>Forthcoming.</td>
+      <td><code>{{this.name}}</code></td>
+      <td>{{#convertMarkdown}}{{{this.description}}}{{/convertMarkdown}}</td>
     </tr>
     {{/each}}
   </tbody>
