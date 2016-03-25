@@ -1,6 +1,6 @@
 <?php
 /**
- * CardData
+ * TenderCashDetails
  *
  * PHP version 5
  *
@@ -35,27 +35,24 @@ namespace SquareConnect\Model;
 
 use \ArrayAccess;
 /**
- * CardData Class Doc Comment
+ * TenderCashDetails Class Doc Comment
  *
  * @category    Class
- * @description 
+ * @description Represents the details of a tender with `type` `CASH`.
  * @package     SquareConnect
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
  * @link        https://github.com/swagger-api/swagger-codegen
  */
-class CardData implements ArrayAccess
+class TenderCashDetails implements ArrayAccess
 {
     /**
       * Array of property to type mappings. Used for (de)serialization 
       * @var string[]
       */
     static $swaggerTypes = array(
-        'exp_year' => 'int',
-        'exp_month' => 'int',
-        'billing_postal_code' => 'string',
-        'cvv' => 'string',
-        'number' => 'string'
+        'buyer_tendered_money' => '\SquareConnect\Model\Money',
+        'change_back_money' => '\SquareConnect\Model\Money'
     );
   
     /** 
@@ -63,11 +60,8 @@ class CardData implements ArrayAccess
       * @var string[] 
       */
     static $attributeMap = array(
-        'exp_year' => 'exp_year',
-        'exp_month' => 'exp_month',
-        'billing_postal_code' => 'billing_postal_code',
-        'cvv' => 'cvv',
-        'number' => 'number'
+        'buyer_tendered_money' => 'buyer_tendered_money',
+        'change_back_money' => 'change_back_money'
     );
   
     /**
@@ -75,11 +69,8 @@ class CardData implements ArrayAccess
       * @var string[]
       */
     static $setters = array(
-        'exp_year' => 'setExpYear',
-        'exp_month' => 'setExpMonth',
-        'billing_postal_code' => 'setBillingPostalCode',
-        'cvv' => 'setCvv',
-        'number' => 'setNumber'
+        'buyer_tendered_money' => 'setBuyerTenderedMoney',
+        'change_back_money' => 'setChangeBackMoney'
     );
   
     /**
@@ -87,43 +78,22 @@ class CardData implements ArrayAccess
       * @var string[]
       */
     static $getters = array(
-        'exp_year' => 'getExpYear',
-        'exp_month' => 'getExpMonth',
-        'billing_postal_code' => 'getBillingPostalCode',
-        'cvv' => 'getCvv',
-        'number' => 'getNumber'
+        'buyer_tendered_money' => 'getBuyerTenderedMoney',
+        'change_back_money' => 'getChangeBackMoney'
     );
   
     
     /**
-      * $exp_year The year of the card's expiration date, which must be a 4 digit year.
-      * @var int
+      * $buyer_tendered_money The total amount of cash provided by the buyer, before change is given.
+      * @var \SquareConnect\Model\Money
       */
-    protected $exp_year;
+    protected $buyer_tendered_money;
     
     /**
-      * $exp_month The month of the card's expiration date, which must be between 1-12.
-      * @var int
+      * $change_back_money The amount of change returned to the buyer.
+      * @var \SquareConnect\Model\Money
       */
-    protected $exp_month;
-    
-    /**
-      * $billing_postal_code The billing postal code for the card on file.
-      * @var string
-      */
-    protected $billing_postal_code;
-    
-    /**
-      * $cvv The card verification value (i.e. security code) printed on the card.
-      * @var string
-      */
-    protected $cvv;
-    
-    /**
-      * $number The number on the card.
-      * @var string
-      */
-    protected $number;
+    protected $change_back_money;
     
 
     /**
@@ -133,116 +103,50 @@ class CardData implements ArrayAccess
     public function __construct(array $data = null)
     {
         if ($data != null) {
-            $this->exp_year = $data["exp_year"];
-            $this->exp_month = $data["exp_month"];
-            $this->billing_postal_code = $data["billing_postal_code"];
-            $this->cvv = $data["cvv"];
-            $this->number = $data["number"];
+            $this->buyer_tendered_money = $data["buyer_tendered_money"];
+            $this->change_back_money = $data["change_back_money"];
         }
     }
     
     /**
-     * Gets exp_year
-     * @return int
+     * Gets buyer_tendered_money
+     * @return \SquareConnect\Model\Money
      */
-    public function getExpYear()
+    public function getBuyerTenderedMoney()
     {
-        return $this->exp_year;
+        return $this->buyer_tendered_money;
     }
   
     /**
-     * Sets exp_year
-     * @param int $exp_year The year of the card's expiration date, which must be a 4 digit year.
+     * Sets buyer_tendered_money
+     * @param \SquareConnect\Model\Money $buyer_tendered_money The total amount of cash provided by the buyer, before change is given.
      * @return $this
      */
-    public function setExpYear($exp_year)
+    public function setBuyerTenderedMoney($buyer_tendered_money)
     {
         
-        $this->exp_year = $exp_year;
+        $this->buyer_tendered_money = $buyer_tendered_money;
         return $this;
     }
     
     /**
-     * Gets exp_month
-     * @return int
+     * Gets change_back_money
+     * @return \SquareConnect\Model\Money
      */
-    public function getExpMonth()
+    public function getChangeBackMoney()
     {
-        return $this->exp_month;
+        return $this->change_back_money;
     }
   
     /**
-     * Sets exp_month
-     * @param int $exp_month The month of the card's expiration date, which must be between 1-12.
+     * Sets change_back_money
+     * @param \SquareConnect\Model\Money $change_back_money The amount of change returned to the buyer.
      * @return $this
      */
-    public function setExpMonth($exp_month)
+    public function setChangeBackMoney($change_back_money)
     {
         
-        $this->exp_month = $exp_month;
-        return $this;
-    }
-    
-    /**
-     * Gets billing_postal_code
-     * @return string
-     */
-    public function getBillingPostalCode()
-    {
-        return $this->billing_postal_code;
-    }
-  
-    /**
-     * Sets billing_postal_code
-     * @param string $billing_postal_code The billing postal code for the card on file.
-     * @return $this
-     */
-    public function setBillingPostalCode($billing_postal_code)
-    {
-        
-        $this->billing_postal_code = $billing_postal_code;
-        return $this;
-    }
-    
-    /**
-     * Gets cvv
-     * @return string
-     */
-    public function getCvv()
-    {
-        return $this->cvv;
-    }
-  
-    /**
-     * Sets cvv
-     * @param string $cvv The card verification value (i.e. security code) printed on the card.
-     * @return $this
-     */
-    public function setCvv($cvv)
-    {
-        
-        $this->cvv = $cvv;
-        return $this;
-    }
-    
-    /**
-     * Gets number
-     * @return string
-     */
-    public function getNumber()
-    {
-        return $this->number;
-    }
-  
-    /**
-     * Sets number
-     * @param string $number The number on the card.
-     * @return $this
-     */
-    public function setNumber($number)
-    {
-        
-        $this->number = $number;
+        $this->change_back_money = $change_back_money;
         return $this;
     }
     

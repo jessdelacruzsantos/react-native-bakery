@@ -37,7 +37,7 @@ namespace SquareConnect\Model;
  * AddressTest Class Doc Comment
  *
  * @category    Class
- * @description 
+ * @description Represents a physical address.
  * @package     SquareConnect
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2

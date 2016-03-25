@@ -37,7 +37,7 @@ namespace SquareConnect\Model;
  * RefundStatusTest Class Doc Comment
  *
  * @category    Class
- * @description 
+ * @description Indicates a refund&#39;s current status.
  * @package     SquareConnect
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2

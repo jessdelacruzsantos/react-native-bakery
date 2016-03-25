@@ -38,7 +38,7 @@ use \ArrayAccess;
  * DeleteCustomerResponse Class Doc Comment
  *
  * @category    Class
- * @description Defines the fields that are included in the response body of \na request to the **DeleteCustomer** endpoint.
+ * @description Defines the fields that are included in the response body of\na request to the [DeleteCustomer](#endpoint-deletecustomer) endpoint.
  * @package     SquareConnect
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
@@ -80,7 +80,7 @@ class DeleteCustomerResponse implements ArrayAccess
   
     
     /**
-      * $errors 
+      * $errors Any errors that occurred during the request.
       * @var \SquareConnect\Model\Error[]
       */
     protected $errors;
@@ -108,7 +108,7 @@ class DeleteCustomerResponse implements ArrayAccess
   
     /**
      * Sets errors
-     * @param \SquareConnect\Model\Error[] $errors 
+     * @param \SquareConnect\Model\Error[] $errors Any errors that occurred during the request.
      * @return $this
      */
     public function setErrors($errors)

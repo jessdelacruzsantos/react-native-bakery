@@ -38,7 +38,7 @@ use \ArrayAccess;
  * ListLocationsResponse Class Doc Comment
  *
  * @category    Class
- * @description Defines the fields that are included in the response body of \na request to the **ListLocations** endpoint.\n\nOne of `errors` or `locations` is present in a given response (never both).
+ * @description Defines the fields that are included in the response body of\na request to the [ListLocations](#endpoint-listlocations) endpoint.\n\nOne of `errors` or `locations` is present in a given response (never both).
  * @package     SquareConnect
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
@@ -90,7 +90,7 @@ class ListLocationsResponse implements ArrayAccess
     protected $errors;
     
     /**
-      * $locations An array of the business's locations.
+      * $locations The business's locations.
       * @var \SquareConnect\Model\Location[]
       */
     protected $locations;
@@ -140,7 +140,7 @@ class ListLocationsResponse implements ArrayAccess
   
     /**
      * Sets locations
-     * @param \SquareConnect\Model\Location[] $locations An array of the business's locations.
+     * @param \SquareConnect\Model\Location[] $locations The business's locations.
      * @return $this
      */
     public function setLocations($locations)

@@ -38,7 +38,7 @@ use \ArrayAccess;
  * Error Class Doc Comment
  *
  * @category    Class
- * @description 
+ * @description Represents an error encountered during a request to the Connect API.
  * @package     SquareConnect
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
@@ -51,9 +51,10 @@ class Error implements ArrayAccess
       * @var string[]
       */
     static $swaggerTypes = array(
-        'field' => 'string',
+        'category' => 'string',
+        'code' => 'string',
         'detail' => 'string',
-        'code' => 'string'
+        'field' => 'string'
     );
   
     /** 
@@ -61,9 +62,10 @@ class Error implements ArrayAccess
       * @var string[] 
       */
     static $attributeMap = array(
-        'field' => 'field',
+        'category' => 'category',
+        'code' => 'code',
         'detail' => 'detail',
-        'code' => 'code'
+        'field' => 'field'
     );
   
     /**
@@ -71,9 +73,10 @@ class Error implements ArrayAccess
       * @var string[]
       */
     static $setters = array(
-        'field' => 'setField',
+        'category' => 'setCategory',
+        'code' => 'setCode',
         'detail' => 'setDetail',
-        'code' => 'setCode'
+        'field' => 'setField'
     );
   
     /**
@@ -81,29 +84,36 @@ class Error implements ArrayAccess
       * @var string[]
       */
     static $getters = array(
-        'field' => 'getField',
+        'category' => 'getCategory',
+        'code' => 'getCode',
         'detail' => 'getDetail',
-        'code' => 'getCode'
+        'field' => 'getField'
     );
   
     
     /**
-      * $field 
+      * $category The error's high-level category. See [ErrorCategory](#type-errorcategory)\nfor possible values.
       * @var string
       */
-    protected $field;
+    protected $category;
     
     /**
-      * $detail 
+      * $code The error's specific code. See [ErrorCode](#type-errorcode) for possible\nvalues
+      * @var string
+      */
+    protected $code;
+    
+    /**
+      * $detail A human-readable description of the error for debugging purposes.
       * @var string
       */
     protected $detail;
     
     /**
-      * $code 
+      * $field The name of the field provided in the original request that the error\npertains to, if any.
       * @var string
       */
-    protected $code;
+    protected $field;
     
 
     /**
@@ -113,51 +123,34 @@ class Error implements ArrayAccess
     public function __construct(array $data = null)
     {
         if ($data != null) {
-            $this->field = $data["field"];
-            $this->detail = $data["detail"];
+            $this->category = $data["category"];
             $this->code = $data["code"];
+            $this->detail = $data["detail"];
+            $this->field = $data["field"];
         }
     }
     
     /**
-     * Gets field
+     * Gets category
      * @return string
      */
-    public function getField()
+    public function getCategory()
     {
-        return $this->field;
+        return $this->category;
     }
   
     /**
-     * Sets field
-     * @param string $field 
+     * Sets category
+     * @param string $category The error's high-level category. See [ErrorCategory](#type-errorcategory)\nfor possible values.
      * @return $this
      */
-    public function setField($field)
+    public function setCategory($category)
     {
-        
-        $this->field = $field;
-        return $this;
-    }
-    
-    /**
-     * Gets detail
-     * @return string
-     */
-    public function getDetail()
-    {
-        return $this->detail;
-    }
-  
-    /**
-     * Sets detail
-     * @param string $detail 
-     * @return $this
-     */
-    public function setDetail($detail)
-    {
-        
-        $this->detail = $detail;
+        $allowed_values = array("API_ERROR", "AUTHENTICATION_ERROR", "INVALID_REQUEST_ERROR", "RATE_LIMIT_ERROR", "PAYMENT_METHOD_ERROR", "REFUND_ERROR");
+        if (!in_array($category, $allowed_values)) {
+            throw new \InvalidArgumentException("Invalid value for 'category', must be one of 'API_ERROR', 'AUTHENTICATION_ERROR', 'INVALID_REQUEST_ERROR', 'RATE_LIMIT_ERROR', 'PAYMENT_METHOD_ERROR', 'REFUND_ERROR'");
+        }
+        $this->category = $category;
         return $this;
     }
     
@@ -172,16 +165,58 @@ class Error implements ArrayAccess
   
     /**
      * Sets code
-     * @param string $code 
+     * @param string $code The error's specific code. See [ErrorCode](#type-errorcode) for possible\nvalues
      * @return $this
      */
     public function setCode($code)
     {
-        $allowed_values = array("INTERNAL_SERVER_ERROR", "UNAUTHORIZED", "ACCESS_TOKEN_EXPIRED", "ACCESS_TOKEN_REVOKED", "FORBIDDEN", "INSUFFICIENT_SCOPES", "APPLICATION_DISABLED", "V1_APPLICATION", "V1_ACCESS_TOKEN", "CARD_PROCESSING_NOT_ENABLED", "BAD_REQUEST", "MISSING_REQUIRED_PARAMETER", "INCORRECT_TYPE", "INVALID_TIME", "INVALID_TIME_RANGE", "INVALID_VALUE", "INVALID_CURSOR", "UNKNOWN_QUERY_PARAMETER", "CONFLICTING_PARAMETERS", "EXPECTED_JSON_BODY", "INVALID_SORT_ORDER", "VALUE_TOO_LONG", "VALUE_TOO_LOW", "EXPECTED_BOOLEAN", "EXPECTED_INTEGER", "EXPECTED_FLOAT", "EXPECTED_STRING", "EXPECTED_OBJECT", "EXPECTED_ARRAY", "INVALID_ARRAY_VALUE", "INVALID_ENUM_VALUE", "INVALID_CONTENT_TYPE", "INVALID_FORM_VALUE", "ONE_INSTRUMENT_EXPECTED", "NO_FIELDS_SET", "CARD_DECLINED", "CARD_EXPIRED", "VERIFY_CVV_FAILURE", "VERIFY_AVS_FAILURE", "INVALID_EXPIRATION", "INVALID_EXPIRATION_YEAR", "INVALID_EXPIRATION_DATE", "INVALID_CARD", "DELAYED_TRANSACTION_EXPIRED", "DELAYED_TRANSACTION_CANCELED", "DELAYED_TRANSACTION_CAPTURED", "DELAYED_TRANSACTION_FAILED", "CARD_TOKEN_EXPIRED", "CARD_TOKEN_USED", "AMOUNT_TOO_HIGH", "REFUND_AMOUNT_INVALID", "REFUND_ALREADY_PENDING", "PAYMENT_NOT_REFUNDABLE", "INVALID_CARD_DATA", "NOT_FOUND", "REQUEST_TIMEOUT", "REQUEST_ENTITY_TOO_LARGE", "UNSUPPORTED_MEDIA_TYPE", "RATE_LIMITED", "NOT_IMPLEMENTED", "SERVICE_UNAVAILABLE");
+        $allowed_values = array("INTERNAL_SERVER_ERROR", "UNAUTHORIZED", "ACCESS_TOKEN_EXPIRED", "ACCESS_TOKEN_REVOKED", "FORBIDDEN", "INSUFFICIENT_SCOPES", "APPLICATION_DISABLED", "V1_APPLICATION", "V1_ACCESS_TOKEN", "CARD_PROCESSING_NOT_ENABLED", "BAD_REQUEST", "MISSING_REQUIRED_PARAMETER", "INCORRECT_TYPE", "INVALID_TIME", "INVALID_TIME_RANGE", "INVALID_VALUE", "INVALID_CURSOR", "UNKNOWN_QUERY_PARAMETER", "CONFLICTING_PARAMETERS", "EXPECTED_JSON_BODY", "INVALID_SORT_ORDER", "VALUE_TOO_LONG", "VALUE_TOO_LOW", "EXPECTED_BOOLEAN", "EXPECTED_INTEGER", "EXPECTED_FLOAT", "EXPECTED_STRING", "EXPECTED_OBJECT", "EXPECTED_ARRAY", "INVALID_ARRAY_VALUE", "INVALID_ENUM_VALUE", "INVALID_CONTENT_TYPE", "INVALID_FORM_VALUE", "ONE_INSTRUMENT_EXPECTED", "NO_FIELDS_SET", "CARD_DECLINED", "CARD_EXPIRED", "VERIFY_CVV_FAILURE", "VERIFY_AVS_FAILURE", "INVALID_EXPIRATION", "INVALID_EXPIRATION_YEAR", "INVALID_EXPIRATION_DATE", "INVALID_CARD", "DELAYED_TRANSACTION_EXPIRED", "DELAYED_TRANSACTION_CANCELED", "DELAYED_TRANSACTION_CAPTURED", "DELAYED_TRANSACTION_FAILED", "CARD_TOKEN_EXPIRED", "CARD_TOKEN_USED", "AMOUNT_TOO_HIGH", "UNSUPPORTED_INSTRUMENT_TYPE", "REFUND_AMOUNT_INVALID", "REFUND_ALREADY_PENDING", "PAYMENT_NOT_REFUNDABLE", "INVALID_CARD_DATA", "NOT_FOUND", "REQUEST_TIMEOUT", "REQUEST_ENTITY_TOO_LARGE", "UNSUPPORTED_MEDIA_TYPE", "RATE_LIMITED", "NOT_IMPLEMENTED", "SERVICE_UNAVAILABLE");
         if (!in_array($code, $allowed_values)) {
-            throw new \InvalidArgumentException("Invalid value for 'code', must be one of 'INTERNAL_SERVER_ERROR', 'UNAUTHORIZED', 'ACCESS_TOKEN_EXPIRED', 'ACCESS_TOKEN_REVOKED', 'FORBIDDEN', 'INSUFFICIENT_SCOPES', 'APPLICATION_DISABLED', 'V1_APPLICATION', 'V1_ACCESS_TOKEN', 'CARD_PROCESSING_NOT_ENABLED', 'BAD_REQUEST', 'MISSING_REQUIRED_PARAMETER', 'INCORRECT_TYPE', 'INVALID_TIME', 'INVALID_TIME_RANGE', 'INVALID_VALUE', 'INVALID_CURSOR', 'UNKNOWN_QUERY_PARAMETER', 'CONFLICTING_PARAMETERS', 'EXPECTED_JSON_BODY', 'INVALID_SORT_ORDER', 'VALUE_TOO_LONG', 'VALUE_TOO_LOW', 'EXPECTED_BOOLEAN', 'EXPECTED_INTEGER', 'EXPECTED_FLOAT', 'EXPECTED_STRING', 'EXPECTED_OBJECT', 'EXPECTED_ARRAY', 'INVALID_ARRAY_VALUE', 'INVALID_ENUM_VALUE', 'INVALID_CONTENT_TYPE', 'INVALID_FORM_VALUE', 'ONE_INSTRUMENT_EXPECTED', 'NO_FIELDS_SET', 'CARD_DECLINED', 'CARD_EXPIRED', 'VERIFY_CVV_FAILURE', 'VERIFY_AVS_FAILURE', 'INVALID_EXPIRATION', 'INVALID_EXPIRATION_YEAR', 'INVALID_EXPIRATION_DATE', 'INVALID_CARD', 'DELAYED_TRANSACTION_EXPIRED', 'DELAYED_TRANSACTION_CANCELED', 'DELAYED_TRANSACTION_CAPTURED', 'DELAYED_TRANSACTION_FAILED', 'CARD_TOKEN_EXPIRED', 'CARD_TOKEN_USED', 'AMOUNT_TOO_HIGH', 'REFUND_AMOUNT_INVALID', 'REFUND_ALREADY_PENDING', 'PAYMENT_NOT_REFUNDABLE', 'INVALID_CARD_DATA', 'NOT_FOUND', 'REQUEST_TIMEOUT', 'REQUEST_ENTITY_TOO_LARGE', 'UNSUPPORTED_MEDIA_TYPE', 'RATE_LIMITED', 'NOT_IMPLEMENTED', 'SERVICE_UNAVAILABLE'");
+            throw new \InvalidArgumentException("Invalid value for 'code', must be one of 'INTERNAL_SERVER_ERROR', 'UNAUTHORIZED', 'ACCESS_TOKEN_EXPIRED', 'ACCESS_TOKEN_REVOKED', 'FORBIDDEN', 'INSUFFICIENT_SCOPES', 'APPLICATION_DISABLED', 'V1_APPLICATION', 'V1_ACCESS_TOKEN', 'CARD_PROCESSING_NOT_ENABLED', 'BAD_REQUEST', 'MISSING_REQUIRED_PARAMETER', 'INCORRECT_TYPE', 'INVALID_TIME', 'INVALID_TIME_RANGE', 'INVALID_VALUE', 'INVALID_CURSOR', 'UNKNOWN_QUERY_PARAMETER', 'CONFLICTING_PARAMETERS', 'EXPECTED_JSON_BODY', 'INVALID_SORT_ORDER', 'VALUE_TOO_LONG', 'VALUE_TOO_LOW', 'EXPECTED_BOOLEAN', 'EXPECTED_INTEGER', 'EXPECTED_FLOAT', 'EXPECTED_STRING', 'EXPECTED_OBJECT', 'EXPECTED_ARRAY', 'INVALID_ARRAY_VALUE', 'INVALID_ENUM_VALUE', 'INVALID_CONTENT_TYPE', 'INVALID_FORM_VALUE', 'ONE_INSTRUMENT_EXPECTED', 'NO_FIELDS_SET', 'CARD_DECLINED', 'CARD_EXPIRED', 'VERIFY_CVV_FAILURE', 'VERIFY_AVS_FAILURE', 'INVALID_EXPIRATION', 'INVALID_EXPIRATION_YEAR', 'INVALID_EXPIRATION_DATE', 'INVALID_CARD', 'DELAYED_TRANSACTION_EXPIRED', 'DELAYED_TRANSACTION_CANCELED', 'DELAYED_TRANSACTION_CAPTURED', 'DELAYED_TRANSACTION_FAILED', 'CARD_TOKEN_EXPIRED', 'CARD_TOKEN_USED', 'AMOUNT_TOO_HIGH', 'UNSUPPORTED_INSTRUMENT_TYPE', 'REFUND_AMOUNT_INVALID', 'REFUND_ALREADY_PENDING', 'PAYMENT_NOT_REFUNDABLE', 'INVALID_CARD_DATA', 'NOT_FOUND', 'REQUEST_TIMEOUT', 'REQUEST_ENTITY_TOO_LARGE', 'UNSUPPORTED_MEDIA_TYPE', 'RATE_LIMITED', 'NOT_IMPLEMENTED', 'SERVICE_UNAVAILABLE'");
         }
         $this->code = $code;
+        return $this;
+    }
+    
+    /**
+     * Gets detail
+     * @return string
+     */
+    public function getDetail()
+    {
+        return $this->detail;
+    }
+  
+    /**
+     * Sets detail
+     * @param string $detail A human-readable description of the error for debugging purposes.
+     * @return $this
+     */
+    public function setDetail($detail)
+    {
+        
+        $this->detail = $detail;
+        return $this;
+    }
+    
+    /**
+     * Gets field
+     * @return string
+     */
+    public function getField()
+    {
+        return $this->field;
+    }
+  
+    /**
+     * Sets field
+     * @param string $field The name of the field provided in the original request that the error\npertains to, if any.
+     * @return $this
+     */
+    public function setField($field)
+    {
+        
+        $this->field = $field;
         return $this;
     }
     

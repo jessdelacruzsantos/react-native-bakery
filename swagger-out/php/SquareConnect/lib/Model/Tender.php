@@ -38,7 +38,7 @@ use \ArrayAccess;
  * Tender Class Doc Comment
  *
  * @category    Class
- * @description Represents a form of tender used to pay in a transaction.
+ * @description Represents a tender (i.e., a method of payment) used in a Square transaction.
  * @package     SquareConnect
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
@@ -52,15 +52,16 @@ class Tender implements ArrayAccess
       */
     static $swaggerTypes = array(
         'id' => 'string',
-        'processing_fee_money' => '\SquareConnect\Model\Money',
-        'amount_money' => '\SquareConnect\Model\Money',
+        'location_id' => 'string',
+        'transaction_id' => 'string',
         'created_at' => 'string',
+        'note' => 'string',
+        'amount_money' => '\SquareConnect\Model\Money',
+        'processing_fee_money' => '\SquareConnect\Model\Money',
+        'customer_id' => 'string',
         'type' => 'string',
         'card_details' => '\SquareConnect\Model\TenderCardDetails',
-        'customer_id' => 'string',
-        'note' => 'string',
-        'transaction_id' => 'string',
-        'location_id' => 'string'
+        'cash_details' => '\SquareConnect\Model\TenderCashDetails'
     );
   
     /** 
@@ -69,15 +70,16 @@ class Tender implements ArrayAccess
       */
     static $attributeMap = array(
         'id' => 'id',
-        'processing_fee_money' => 'processing_fee_money',
-        'amount_money' => 'amount_money',
+        'location_id' => 'location_id',
+        'transaction_id' => 'transaction_id',
         'created_at' => 'created_at',
+        'note' => 'note',
+        'amount_money' => 'amount_money',
+        'processing_fee_money' => 'processing_fee_money',
+        'customer_id' => 'customer_id',
         'type' => 'type',
         'card_details' => 'card_details',
-        'customer_id' => 'customer_id',
-        'note' => 'note',
-        'transaction_id' => 'transaction_id',
-        'location_id' => 'location_id'
+        'cash_details' => 'cash_details'
     );
   
     /**
@@ -86,15 +88,16 @@ class Tender implements ArrayAccess
       */
     static $setters = array(
         'id' => 'setId',
-        'processing_fee_money' => 'setProcessingFeeMoney',
-        'amount_money' => 'setAmountMoney',
+        'location_id' => 'setLocationId',
+        'transaction_id' => 'setTransactionId',
         'created_at' => 'setCreatedAt',
+        'note' => 'setNote',
+        'amount_money' => 'setAmountMoney',
+        'processing_fee_money' => 'setProcessingFeeMoney',
+        'customer_id' => 'setCustomerId',
         'type' => 'setType',
         'card_details' => 'setCardDetails',
-        'customer_id' => 'setCustomerId',
-        'note' => 'setNote',
-        'transaction_id' => 'setTransactionId',
-        'location_id' => 'setLocationId'
+        'cash_details' => 'setCashDetails'
     );
   
     /**
@@ -103,15 +106,16 @@ class Tender implements ArrayAccess
       */
     static $getters = array(
         'id' => 'getId',
-        'processing_fee_money' => 'getProcessingFeeMoney',
-        'amount_money' => 'getAmountMoney',
+        'location_id' => 'getLocationId',
+        'transaction_id' => 'getTransactionId',
         'created_at' => 'getCreatedAt',
+        'note' => 'getNote',
+        'amount_money' => 'getAmountMoney',
+        'processing_fee_money' => 'getProcessingFeeMoney',
+        'customer_id' => 'getCustomerId',
         'type' => 'getType',
         'card_details' => 'getCardDetails',
-        'customer_id' => 'getCustomerId',
-        'note' => 'getNote',
-        'transaction_id' => 'getTransactionId',
-        'location_id' => 'getLocationId'
+        'cash_details' => 'getCashDetails'
     );
   
     
@@ -122,16 +126,16 @@ class Tender implements ArrayAccess
     protected $id;
     
     /**
-      * $processing_fee_money The amount of any Square processing fees applied to the tender.
-      * @var \SquareConnect\Model\Money
+      * $location_id The ID of the transaction's associated location.
+      * @var string
       */
-    protected $processing_fee_money;
+    protected $location_id;
     
     /**
-      * $amount_money The amount of the tender.
-      * @var \SquareConnect\Model\Money
+      * $transaction_id The ID of the tender's associated transaction.
+      * @var string
       */
-    protected $amount_money;
+    protected $transaction_id;
     
     /**
       * $created_at The time when the tender was created, in RFC 3339 format.
@@ -140,7 +144,31 @@ class Tender implements ArrayAccess
     protected $created_at;
     
     /**
-      * $type The type of tender.
+      * $note An optional note associated with the tender at the time of payment.
+      * @var string
+      */
+    protected $note;
+    
+    /**
+      * $amount_money The amount of the tender.
+      * @var \SquareConnect\Model\Money
+      */
+    protected $amount_money;
+    
+    /**
+      * $processing_fee_money The amount of any Square processing fees applied to the tender.
+      * @var \SquareConnect\Model\Money
+      */
+    protected $processing_fee_money;
+    
+    /**
+      * $customer_id If the tender represents a customer's card on file, this is\nthe ID of the associated customer.
+      * @var string
+      */
+    protected $customer_id;
+    
+    /**
+      * $type The type of tender, such as `CARD` or `CASH`.
       * @var string
       */
     protected $type;
@@ -152,28 +180,10 @@ class Tender implements ArrayAccess
     protected $card_details;
     
     /**
-      * $customer_id If the tender represents a customer's card on file, this is\nthe ID of the associated customer.
-      * @var string
+      * $cash_details The details of the cash tender.\n\nThis value is present only if the value of `type` is `CASH`.
+      * @var \SquareConnect\Model\TenderCashDetails
       */
-    protected $customer_id;
-    
-    /**
-      * $note An optional note associated with the tender at the time of payment.
-      * @var string
-      */
-    protected $note;
-    
-    /**
-      * $transaction_id The ID of the tender's associated transaction.
-      * @var string
-      */
-    protected $transaction_id;
-    
-    /**
-      * $location_id The ID of the tender's associated location.
-      * @var string
-      */
-    protected $location_id;
+    protected $cash_details;
     
 
     /**
@@ -184,15 +194,16 @@ class Tender implements ArrayAccess
     {
         if ($data != null) {
             $this->id = $data["id"];
-            $this->processing_fee_money = $data["processing_fee_money"];
-            $this->amount_money = $data["amount_money"];
+            $this->location_id = $data["location_id"];
+            $this->transaction_id = $data["transaction_id"];
             $this->created_at = $data["created_at"];
+            $this->note = $data["note"];
+            $this->amount_money = $data["amount_money"];
+            $this->processing_fee_money = $data["processing_fee_money"];
+            $this->customer_id = $data["customer_id"];
             $this->type = $data["type"];
             $this->card_details = $data["card_details"];
-            $this->customer_id = $data["customer_id"];
-            $this->note = $data["note"];
-            $this->transaction_id = $data["transaction_id"];
-            $this->location_id = $data["location_id"];
+            $this->cash_details = $data["cash_details"];
         }
     }
     
@@ -218,44 +229,44 @@ class Tender implements ArrayAccess
     }
     
     /**
-     * Gets processing_fee_money
-     * @return \SquareConnect\Model\Money
+     * Gets location_id
+     * @return string
      */
-    public function getProcessingFeeMoney()
+    public function getLocationId()
     {
-        return $this->processing_fee_money;
+        return $this->location_id;
     }
   
     /**
-     * Sets processing_fee_money
-     * @param \SquareConnect\Model\Money $processing_fee_money The amount of any Square processing fees applied to the tender.
+     * Sets location_id
+     * @param string $location_id The ID of the transaction's associated location.
      * @return $this
      */
-    public function setProcessingFeeMoney($processing_fee_money)
+    public function setLocationId($location_id)
     {
         
-        $this->processing_fee_money = $processing_fee_money;
+        $this->location_id = $location_id;
         return $this;
     }
     
     /**
-     * Gets amount_money
-     * @return \SquareConnect\Model\Money
+     * Gets transaction_id
+     * @return string
      */
-    public function getAmountMoney()
+    public function getTransactionId()
     {
-        return $this->amount_money;
+        return $this->transaction_id;
     }
   
     /**
-     * Sets amount_money
-     * @param \SquareConnect\Model\Money $amount_money The amount of the tender.
+     * Sets transaction_id
+     * @param string $transaction_id The ID of the tender's associated transaction.
      * @return $this
      */
-    public function setAmountMoney($amount_money)
+    public function setTransactionId($transaction_id)
     {
         
-        $this->amount_money = $amount_money;
+        $this->transaction_id = $transaction_id;
         return $this;
     }
     
@@ -281,6 +292,90 @@ class Tender implements ArrayAccess
     }
     
     /**
+     * Gets note
+     * @return string
+     */
+    public function getNote()
+    {
+        return $this->note;
+    }
+  
+    /**
+     * Sets note
+     * @param string $note An optional note associated with the tender at the time of payment.
+     * @return $this
+     */
+    public function setNote($note)
+    {
+        
+        $this->note = $note;
+        return $this;
+    }
+    
+    /**
+     * Gets amount_money
+     * @return \SquareConnect\Model\Money
+     */
+    public function getAmountMoney()
+    {
+        return $this->amount_money;
+    }
+  
+    /**
+     * Sets amount_money
+     * @param \SquareConnect\Model\Money $amount_money The amount of the tender.
+     * @return $this
+     */
+    public function setAmountMoney($amount_money)
+    {
+        
+        $this->amount_money = $amount_money;
+        return $this;
+    }
+    
+    /**
+     * Gets processing_fee_money
+     * @return \SquareConnect\Model\Money
+     */
+    public function getProcessingFeeMoney()
+    {
+        return $this->processing_fee_money;
+    }
+  
+    /**
+     * Sets processing_fee_money
+     * @param \SquareConnect\Model\Money $processing_fee_money The amount of any Square processing fees applied to the tender.
+     * @return $this
+     */
+    public function setProcessingFeeMoney($processing_fee_money)
+    {
+        
+        $this->processing_fee_money = $processing_fee_money;
+        return $this;
+    }
+    
+    /**
+     * Gets customer_id
+     * @return string
+     */
+    public function getCustomerId()
+    {
+        return $this->customer_id;
+    }
+  
+    /**
+     * Sets customer_id
+     * @param string $customer_id If the tender represents a customer's card on file, this is\nthe ID of the associated customer.
+     * @return $this
+     */
+    public function setCustomerId($customer_id)
+    {
+        
+        $this->customer_id = $customer_id;
+        return $this;
+    }
+    
+    /**
      * Gets type
      * @return string
      */
@@ -291,14 +386,14 @@ class Tender implements ArrayAccess
   
     /**
      * Sets type
-     * @param string $type The type of tender.
+     * @param string $type The type of tender, such as `CARD` or `CASH`.
      * @return $this
      */
     public function setType($type)
     {
-        $allowed_values = array("CARD");
+        $allowed_values = array("OTHER", "CARD", "CASH", "THIRD_PARTY_CARD", "SQUARE_GIFT_CARD", "NO_SALE");
         if (!in_array($type, $allowed_values)) {
-            throw new \InvalidArgumentException("Invalid value for 'type', must be one of 'CARD'");
+            throw new \InvalidArgumentException("Invalid value for 'type', must be one of 'OTHER', 'CARD', 'CASH', 'THIRD_PARTY_CARD', 'SQUARE_GIFT_CARD', 'NO_SALE'");
         }
         $this->type = $type;
         return $this;
@@ -326,86 +421,23 @@ class Tender implements ArrayAccess
     }
     
     /**
-     * Gets customer_id
-     * @return string
+     * Gets cash_details
+     * @return \SquareConnect\Model\TenderCashDetails
      */
-    public function getCustomerId()
+    public function getCashDetails()
     {
-        return $this->customer_id;
+        return $this->cash_details;
     }
   
     /**
-     * Sets customer_id
-     * @param string $customer_id If the tender represents a customer's card on file, this is\nthe ID of the associated customer.
+     * Sets cash_details
+     * @param \SquareConnect\Model\TenderCashDetails $cash_details The details of the cash tender.\n\nThis value is present only if the value of `type` is `CASH`.
      * @return $this
      */
-    public function setCustomerId($customer_id)
+    public function setCashDetails($cash_details)
     {
         
-        $this->customer_id = $customer_id;
-        return $this;
-    }
-    
-    /**
-     * Gets note
-     * @return string
-     */
-    public function getNote()
-    {
-        return $this->note;
-    }
-  
-    /**
-     * Sets note
-     * @param string $note An optional note associated with the tender at the time of payment.
-     * @return $this
-     */
-    public function setNote($note)
-    {
-        
-        $this->note = $note;
-        return $this;
-    }
-    
-    /**
-     * Gets transaction_id
-     * @return string
-     */
-    public function getTransactionId()
-    {
-        return $this->transaction_id;
-    }
-  
-    /**
-     * Sets transaction_id
-     * @param string $transaction_id The ID of the tender's associated transaction.
-     * @return $this
-     */
-    public function setTransactionId($transaction_id)
-    {
-        
-        $this->transaction_id = $transaction_id;
-        return $this;
-    }
-    
-    /**
-     * Gets location_id
-     * @return string
-     */
-    public function getLocationId()
-    {
-        return $this->location_id;
-    }
-  
-    /**
-     * Sets location_id
-     * @param string $location_id The ID of the tender's associated location.
-     * @return $this
-     */
-    public function setLocationId($location_id)
-    {
-        
-        $this->location_id = $location_id;
+        $this->cash_details = $cash_details;
         return $this;
     }
     

@@ -37,7 +37,7 @@ namespace SquareConnect\Model;
  * CreateCustomerCardRequestTest Class Doc Comment
  *
  * @category    Class
- * @description 
+ * @description Defines the fields that are included in the request body of a request\nto the [CreateCustomerCard](#endpoint-createcustomercard) endpoint.
  * @package     SquareConnect
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2

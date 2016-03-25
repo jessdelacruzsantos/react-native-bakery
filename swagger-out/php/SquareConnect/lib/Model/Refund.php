@@ -38,7 +38,7 @@ use \ArrayAccess;
  * Refund Class Doc Comment
  *
  * @category    Class
- * @description 
+ * @description Represents a refund processed for a Square transaction.
  * @package     SquareConnect
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
@@ -52,14 +52,14 @@ class Refund implements ArrayAccess
       */
     static $swaggerTypes = array(
         'id' => 'string',
-        'processing_fee_money' => '\SquareConnect\Model\Money',
+        'location_id' => 'string',
+        'transaction_id' => 'string',
+        'tender_id' => 'string',
+        'created_at' => 'string',
+        'reason' => 'string',
         'amount_money' => '\SquareConnect\Model\Money',
         'status' => 'string',
-        'reason' => 'string',
-        'created_at' => 'string',
-        'tender_id' => 'string',
-        'transaction_id' => 'string',
-        'location_id' => 'string'
+        'processing_fee_money' => '\SquareConnect\Model\Money'
     );
   
     /** 
@@ -68,14 +68,14 @@ class Refund implements ArrayAccess
       */
     static $attributeMap = array(
         'id' => 'id',
-        'processing_fee_money' => 'processing_fee_money',
+        'location_id' => 'location_id',
+        'transaction_id' => 'transaction_id',
+        'tender_id' => 'tender_id',
+        'created_at' => 'created_at',
+        'reason' => 'reason',
         'amount_money' => 'amount_money',
         'status' => 'status',
-        'reason' => 'reason',
-        'created_at' => 'created_at',
-        'tender_id' => 'tender_id',
-        'transaction_id' => 'transaction_id',
-        'location_id' => 'location_id'
+        'processing_fee_money' => 'processing_fee_money'
     );
   
     /**
@@ -84,14 +84,14 @@ class Refund implements ArrayAccess
       */
     static $setters = array(
         'id' => 'setId',
-        'processing_fee_money' => 'setProcessingFeeMoney',
+        'location_id' => 'setLocationId',
+        'transaction_id' => 'setTransactionId',
+        'tender_id' => 'setTenderId',
+        'created_at' => 'setCreatedAt',
+        'reason' => 'setReason',
         'amount_money' => 'setAmountMoney',
         'status' => 'setStatus',
-        'reason' => 'setReason',
-        'created_at' => 'setCreatedAt',
-        'tender_id' => 'setTenderId',
-        'transaction_id' => 'setTransactionId',
-        'location_id' => 'setLocationId'
+        'processing_fee_money' => 'setProcessingFeeMoney'
     );
   
     /**
@@ -100,46 +100,40 @@ class Refund implements ArrayAccess
       */
     static $getters = array(
         'id' => 'getId',
-        'processing_fee_money' => 'getProcessingFeeMoney',
+        'location_id' => 'getLocationId',
+        'transaction_id' => 'getTransactionId',
+        'tender_id' => 'getTenderId',
+        'created_at' => 'getCreatedAt',
+        'reason' => 'getReason',
         'amount_money' => 'getAmountMoney',
         'status' => 'getStatus',
-        'reason' => 'getReason',
-        'created_at' => 'getCreatedAt',
-        'tender_id' => 'getTenderId',
-        'transaction_id' => 'getTransactionId',
-        'location_id' => 'getLocationId'
+        'processing_fee_money' => 'getProcessingFeeMoney'
     );
   
     
     /**
-      * $id The unique ID of the refund.
+      * $id The refund's unique ID.
       * @var string
       */
     protected $id;
     
     /**
-      * $processing_fee_money The amount of processing fee refunded.
-      * @var \SquareConnect\Model\Money
-      */
-    protected $processing_fee_money;
-    
-    /**
-      * $amount_money The amount of money refunded.
-      * @var \SquareConnect\Model\Money
-      */
-    protected $amount_money;
-    
-    /**
-      * $status 
+      * $location_id The ID of the refund's associated location.
       * @var string
       */
-    protected $status;
+    protected $location_id;
     
     /**
-      * $reason The reason for the refund being issued.
+      * $transaction_id The ID of the transaction that the refunded tender is part of.
       * @var string
       */
-    protected $reason;
+    protected $transaction_id;
+    
+    /**
+      * $tender_id The ID of the refunded tender.
+      * @var string
+      */
+    protected $tender_id;
     
     /**
       * $created_at The time when the refund was created, in RFC 3339 format.
@@ -148,22 +142,28 @@ class Refund implements ArrayAccess
     protected $created_at;
     
     /**
-      * $tender_id The ID of the tender refunded.
+      * $reason The reason for the refund being issued.
       * @var string
       */
-    protected $tender_id;
+    protected $reason;
     
     /**
-      * $transaction_id The ID of the transaction refunded.
-      * @var string
+      * $amount_money The amount of money refunded to the buyer.
+      * @var \SquareConnect\Model\Money
       */
-    protected $transaction_id;
+    protected $amount_money;
     
     /**
-      * $location_id The ID of the refund's associated location.
+      * $status The current status of the refund (`PENDING`, `APPROVED`, `REJECTED`,\nor `FAILED`).
       * @var string
       */
-    protected $location_id;
+    protected $status;
+    
+    /**
+      * $processing_fee_money The amount of Square processing fee money refunded to the *merchant*.
+      * @var \SquareConnect\Model\Money
+      */
+    protected $processing_fee_money;
     
 
     /**
@@ -174,14 +174,14 @@ class Refund implements ArrayAccess
     {
         if ($data != null) {
             $this->id = $data["id"];
-            $this->processing_fee_money = $data["processing_fee_money"];
+            $this->location_id = $data["location_id"];
+            $this->transaction_id = $data["transaction_id"];
+            $this->tender_id = $data["tender_id"];
+            $this->created_at = $data["created_at"];
+            $this->reason = $data["reason"];
             $this->amount_money = $data["amount_money"];
             $this->status = $data["status"];
-            $this->reason = $data["reason"];
-            $this->created_at = $data["created_at"];
-            $this->tender_id = $data["tender_id"];
-            $this->transaction_id = $data["transaction_id"];
-            $this->location_id = $data["location_id"];
+            $this->processing_fee_money = $data["processing_fee_money"];
         }
     }
     
@@ -196,7 +196,7 @@ class Refund implements ArrayAccess
   
     /**
      * Sets id
-     * @param string $id The unique ID of the refund.
+     * @param string $id The refund's unique ID.
      * @return $this
      */
     public function setId($id)
@@ -207,89 +207,65 @@ class Refund implements ArrayAccess
     }
     
     /**
-     * Gets processing_fee_money
-     * @return \SquareConnect\Model\Money
-     */
-    public function getProcessingFeeMoney()
-    {
-        return $this->processing_fee_money;
-    }
-  
-    /**
-     * Sets processing_fee_money
-     * @param \SquareConnect\Model\Money $processing_fee_money The amount of processing fee refunded.
-     * @return $this
-     */
-    public function setProcessingFeeMoney($processing_fee_money)
-    {
-        
-        $this->processing_fee_money = $processing_fee_money;
-        return $this;
-    }
-    
-    /**
-     * Gets amount_money
-     * @return \SquareConnect\Model\Money
-     */
-    public function getAmountMoney()
-    {
-        return $this->amount_money;
-    }
-  
-    /**
-     * Sets amount_money
-     * @param \SquareConnect\Model\Money $amount_money The amount of money refunded.
-     * @return $this
-     */
-    public function setAmountMoney($amount_money)
-    {
-        
-        $this->amount_money = $amount_money;
-        return $this;
-    }
-    
-    /**
-     * Gets status
+     * Gets location_id
      * @return string
      */
-    public function getStatus()
+    public function getLocationId()
     {
-        return $this->status;
+        return $this->location_id;
     }
   
     /**
-     * Sets status
-     * @param string $status 
+     * Sets location_id
+     * @param string $location_id The ID of the refund's associated location.
      * @return $this
      */
-    public function setStatus($status)
+    public function setLocationId($location_id)
     {
-        $allowed_values = array("PENDING", "APPROVED", "REJECTED", "FAILED");
-        if (!in_array($status, $allowed_values)) {
-            throw new \InvalidArgumentException("Invalid value for 'status', must be one of 'PENDING', 'APPROVED', 'REJECTED', 'FAILED'");
-        }
-        $this->status = $status;
+        
+        $this->location_id = $location_id;
         return $this;
     }
     
     /**
-     * Gets reason
+     * Gets transaction_id
      * @return string
      */
-    public function getReason()
+    public function getTransactionId()
     {
-        return $this->reason;
+        return $this->transaction_id;
     }
   
     /**
-     * Sets reason
-     * @param string $reason The reason for the refund being issued.
+     * Sets transaction_id
+     * @param string $transaction_id The ID of the transaction that the refunded tender is part of.
      * @return $this
      */
-    public function setReason($reason)
+    public function setTransactionId($transaction_id)
     {
         
-        $this->reason = $reason;
+        $this->transaction_id = $transaction_id;
+        return $this;
+    }
+    
+    /**
+     * Gets tender_id
+     * @return string
+     */
+    public function getTenderId()
+    {
+        return $this->tender_id;
+    }
+  
+    /**
+     * Sets tender_id
+     * @param string $tender_id The ID of the refunded tender.
+     * @return $this
+     */
+    public function setTenderId($tender_id)
+    {
+        
+        $this->tender_id = $tender_id;
         return $this;
     }
     
@@ -315,65 +291,89 @@ class Refund implements ArrayAccess
     }
     
     /**
-     * Gets tender_id
+     * Gets reason
      * @return string
      */
-    public function getTenderId()
+    public function getReason()
     {
-        return $this->tender_id;
+        return $this->reason;
     }
   
     /**
-     * Sets tender_id
-     * @param string $tender_id The ID of the tender refunded.
+     * Sets reason
+     * @param string $reason The reason for the refund being issued.
      * @return $this
      */
-    public function setTenderId($tender_id)
+    public function setReason($reason)
     {
         
-        $this->tender_id = $tender_id;
+        $this->reason = $reason;
         return $this;
     }
     
     /**
-     * Gets transaction_id
-     * @return string
+     * Gets amount_money
+     * @return \SquareConnect\Model\Money
      */
-    public function getTransactionId()
+    public function getAmountMoney()
     {
-        return $this->transaction_id;
+        return $this->amount_money;
     }
   
     /**
-     * Sets transaction_id
-     * @param string $transaction_id The ID of the transaction refunded.
+     * Sets amount_money
+     * @param \SquareConnect\Model\Money $amount_money The amount of money refunded to the buyer.
      * @return $this
      */
-    public function setTransactionId($transaction_id)
+    public function setAmountMoney($amount_money)
     {
         
-        $this->transaction_id = $transaction_id;
+        $this->amount_money = $amount_money;
         return $this;
     }
     
     /**
-     * Gets location_id
+     * Gets status
      * @return string
      */
-    public function getLocationId()
+    public function getStatus()
     {
-        return $this->location_id;
+        return $this->status;
     }
   
     /**
-     * Sets location_id
-     * @param string $location_id The ID of the refund's associated location.
+     * Sets status
+     * @param string $status The current status of the refund (`PENDING`, `APPROVED`, `REJECTED`,\nor `FAILED`).
      * @return $this
      */
-    public function setLocationId($location_id)
+    public function setStatus($status)
+    {
+        $allowed_values = array("PENDING", "APPROVED", "REJECTED", "FAILED");
+        if (!in_array($status, $allowed_values)) {
+            throw new \InvalidArgumentException("Invalid value for 'status', must be one of 'PENDING', 'APPROVED', 'REJECTED', 'FAILED'");
+        }
+        $this->status = $status;
+        return $this;
+    }
+    
+    /**
+     * Gets processing_fee_money
+     * @return \SquareConnect\Model\Money
+     */
+    public function getProcessingFeeMoney()
+    {
+        return $this->processing_fee_money;
+    }
+  
+    /**
+     * Sets processing_fee_money
+     * @param \SquareConnect\Model\Money $processing_fee_money The amount of Square processing fee money refunded to the *merchant*.
+     * @return $this
+     */
+    public function setProcessingFeeMoney($processing_fee_money)
     {
         
-        $this->location_id = $location_id;
+        $this->processing_fee_money = $processing_fee_money;
         return $this;
     }
     

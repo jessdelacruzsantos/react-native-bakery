@@ -37,7 +37,7 @@ namespace SquareConnect\Model;
  * DeleteCustomerResponseTest Class Doc Comment
  *
  * @category    Class
- * @description Defines the fields that are included in the response body of \na request to the **DeleteCustomer** endpoint.
+ * @description Defines the fields that are included in the response body of\na request to the [DeleteCustomer](#endpoint-deletecustomer) endpoint.
  * @package     SquareConnect
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2

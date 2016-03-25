@@ -1,6 +1,6 @@
 <?php
 /**
- * CardDataTest
+ * TenderCardDetailsEntryMethodTest
  *
  * PHP version 5
  *
@@ -34,16 +34,16 @@
 namespace SquareConnect\Model;
 
 /**
- * CardDataTest Class Doc Comment
+ * TenderCardDetailsEntryMethodTest Class Doc Comment
  *
  * @category    Class
- * @description 
+ * @description Indicates the method used to enter the card&#39;s details.
  * @package     SquareConnect
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
  * @link        https://github.com/swagger-api/swagger-codegen
  */
-class CardDataTest extends \PHPUnit_Framework_TestCase
+class TenderCardDetailsEntryMethodTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -61,9 +61,9 @@ class CardDataTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test CardData
+     * Test TenderCardDetailsEntryMethod
      */
-    public function testCardData() {
+    public function testTenderCardDetailsEntryMethod() {
 
     }
 

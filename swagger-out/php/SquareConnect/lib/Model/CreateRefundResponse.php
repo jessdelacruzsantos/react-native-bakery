@@ -38,7 +38,7 @@ use \ArrayAccess;
  * CreateRefundResponse Class Doc Comment
  *
  * @category    Class
- * @description Defines the fields that are included in the response body of \na request to the **CreateRefund** endpoint.\n\nOne of `errors` or `refund` is present in a given response (never both).
+ * @description Defines the fields that are included in the response body of\na request to the [CreateRefund](#endpoint-createrefund) endpoint.\n\nOne of `errors` or `refund` is present in a given response (never both).
  * @package     SquareConnect
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
@@ -90,7 +90,7 @@ class CreateRefundResponse implements ArrayAccess
     protected $errors;
     
     /**
-      * $refund The details of the created refund.
+      * $refund The created refund.
       * @var \SquareConnect\Model\Refund
       */
     protected $refund;
@@ -140,7 +140,7 @@ class CreateRefundResponse implements ArrayAccess
   
     /**
      * Sets refund
-     * @param \SquareConnect\Model\Refund $refund The details of the created refund.
+     * @param \SquareConnect\Model\Refund $refund The created refund.
      * @return $this
      */
     public function setRefund($refund)

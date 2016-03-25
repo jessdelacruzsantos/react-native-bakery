@@ -37,7 +37,7 @@ namespace SquareConnect\Model;
  * CreateRefundRequestTest Class Doc Comment
  *
  * @category    Class
- * @description Defines the body parameters that can be included in\na request to the **CreateRefund** endpoint.
+ * @description Defines the body parameters that can be included in\na request to the [CreateRefund](#endpoint-createrefund) endpoint.
  * @package     SquareConnect
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2

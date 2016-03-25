@@ -37,7 +37,7 @@ namespace SquareConnect\Model;
  * CustomerTest Class Doc Comment
  *
  * @category    Class
- * @description 
+ * @description Represents one of a business&#39;s customers, which can have one or more\ncards on file associated with it.
  * @package     SquareConnect
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2

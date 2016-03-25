@@ -97,7 +97,7 @@ class CustomerApi
      * ListCustomers
      *
      * @param string $authorization The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`. (required)
-     * @param string $cursor  (optional)
+     * @param string $cursor A pagination cursor returned by a previous call to this endpoint.\nProvide this to retrieve the next set of results for your original query.\n\nSee [Paginating results](#paginatingresults) for more information. (optional)
      * @return \SquareConnect\Model\ListCustomersResponse
      * @throws \SquareConnect\ApiException on non-2xx response
      */
@@ -114,7 +114,7 @@ class CustomerApi
      * ListCustomers
      *
      * @param string $authorization The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`. (required)
-     * @param string $cursor  (optional)
+     * @param string $cursor A pagination cursor returned by a previous call to this endpoint.\nProvide this to retrieve the next set of results for your original query.\n\nSee [Paginating results](#paginatingresults) for more information. (optional)
      * @return Array of \SquareConnect\Model\ListCustomersResponse, HTTP status code, HTTP response headers (array of strings)
      * @throws \SquareConnect\ApiException on non-2xx response
      */
@@ -295,7 +295,7 @@ class CustomerApi
      * RetrieveCustomer
      *
      * @param string $authorization The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`. (required)
-     * @param string $customer_id  (required)
+     * @param string $customer_id The ID of the customer to retrieve. (required)
      * @return \SquareConnect\Model\RetrieveCustomerResponse
      * @throws \SquareConnect\ApiException on non-2xx response
      */
@@ -312,7 +312,7 @@ class CustomerApi
      * RetrieveCustomer
      *
      * @param string $authorization The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`. (required)
-     * @param string $customer_id  (required)
+     * @param string $customer_id The ID of the customer to retrieve. (required)
      * @return Array of \SquareConnect\Model\RetrieveCustomerResponse, HTTP status code, HTTP response headers (array of strings)
      * @throws \SquareConnect\ApiException on non-2xx response
      */
@@ -400,7 +400,7 @@ class CustomerApi
      * UpdateCustomer
      *
      * @param string $authorization The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`. (required)
-     * @param string $customer_id The customer to update. (required)
+     * @param string $customer_id The ID of the customer to update. (required)
      * @param \SquareConnect\Model\UpdateCustomerRequest $body An object containing the fields to POST for the request.\n\nSee the corresponding object definition for field details. (required)
      * @return \SquareConnect\Model\UpdateCustomerResponse
      * @throws \SquareConnect\ApiException on non-2xx response
@@ -418,7 +418,7 @@ class CustomerApi
      * UpdateCustomer
      *
      * @param string $authorization The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`. (required)
-     * @param string $customer_id The customer to update. (required)
+     * @param string $customer_id The ID of the customer to update. (required)
      * @param \SquareConnect\Model\UpdateCustomerRequest $body An object containing the fields to POST for the request.\n\nSee the corresponding object definition for field details. (required)
      * @return Array of \SquareConnect\Model\UpdateCustomerResponse, HTTP status code, HTTP response headers (array of strings)
      * @throws \SquareConnect\ApiException on non-2xx response
@@ -515,7 +515,7 @@ class CustomerApi
      * DeleteCustomer
      *
      * @param string $authorization The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`. (required)
-     * @param string $customer_id  (required)
+     * @param string $customer_id The ID of the customer to delete. (required)
      * @return \SquareConnect\Model\DeleteCustomerResponse
      * @throws \SquareConnect\ApiException on non-2xx response
      */
@@ -532,7 +532,7 @@ class CustomerApi
      * DeleteCustomer
      *
      * @param string $authorization The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`. (required)
-     * @param string $customer_id  (required)
+     * @param string $customer_id The ID of the customer to delete. (required)
      * @return Array of \SquareConnect\Model\DeleteCustomerResponse, HTTP status code, HTTP response headers (array of strings)
      * @throws \SquareConnect\ApiException on non-2xx response
      */

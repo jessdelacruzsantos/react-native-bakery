@@ -38,7 +38,7 @@ use \ArrayAccess;
  * Transaction Class Doc Comment
  *
  * @category    Class
- * @description Represents a transaction processed with Square, either with the\nConnect API or with Square Register.
+ * @description Represents a transaction processed with Square, either with the\nConnect API or with Square Register.\n\nThe `tenders` field of this object lists all methods of payment used to pay in\nthe transaction.
  * @package     SquareConnect
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
@@ -52,11 +52,12 @@ class Transaction implements ArrayAccess
       */
     static $swaggerTypes = array(
         'id' => 'string',
-        'reference_id' => 'string',
+        'location_id' => 'string',
         'created_at' => 'string',
-        'refunds' => '\SquareConnect\Model\Refund[]',
         'tenders' => '\SquareConnect\Model\Tender[]',
-        'location_id' => 'string'
+        'refunds' => '\SquareConnect\Model\Refund[]',
+        'reference_id' => 'string',
+        'product' => 'string'
     );
   
     /** 
@@ -65,11 +66,12 @@ class Transaction implements ArrayAccess
       */
     static $attributeMap = array(
         'id' => 'id',
-        'reference_id' => 'reference_id',
+        'location_id' => 'location_id',
         'created_at' => 'created_at',
-        'refunds' => 'refunds',
         'tenders' => 'tenders',
-        'location_id' => 'location_id'
+        'refunds' => 'refunds',
+        'reference_id' => 'reference_id',
+        'product' => 'product'
     );
   
     /**
@@ -78,11 +80,12 @@ class Transaction implements ArrayAccess
       */
     static $setters = array(
         'id' => 'setId',
-        'reference_id' => 'setReferenceId',
+        'location_id' => 'setLocationId',
         'created_at' => 'setCreatedAt',
-        'refunds' => 'setRefunds',
         'tenders' => 'setTenders',
-        'location_id' => 'setLocationId'
+        'refunds' => 'setRefunds',
+        'reference_id' => 'setReferenceId',
+        'product' => 'setProduct'
     );
   
     /**
@@ -91,11 +94,12 @@ class Transaction implements ArrayAccess
       */
     static $getters = array(
         'id' => 'getId',
-        'reference_id' => 'getReferenceId',
+        'location_id' => 'getLocationId',
         'created_at' => 'getCreatedAt',
-        'refunds' => 'getRefunds',
         'tenders' => 'getTenders',
-        'location_id' => 'getLocationId'
+        'refunds' => 'getRefunds',
+        'reference_id' => 'getReferenceId',
+        'product' => 'getProduct'
     );
   
     
@@ -106,10 +110,10 @@ class Transaction implements ArrayAccess
     protected $id;
     
     /**
-      * $reference_id If the transaction was created with the **Charge** endpoint, this\nvalue is the same as the value provided as the `reference_id` parameter\nin the request to that endpoint.
+      * $location_id The ID of the transaction's associated location.
       * @var string
       */
-    protected $reference_id;
+    protected $location_id;
     
     /**
       * $created_at The time when the transaction was created, in RFC 3339 format.
@@ -118,22 +122,28 @@ class Transaction implements ArrayAccess
     protected $created_at;
     
     /**
-      * $refunds An array of any refunds associated with the transaction.
-      * @var \SquareConnect\Model\Refund[]
-      */
-    protected $refunds;
-    
-    /**
-      * $tenders Descriptions of the tenders used to pay for the transaction.
+      * $tenders The tenders used to pay in the transaction.
       * @var \SquareConnect\Model\Tender[]
       */
     protected $tenders;
     
     /**
-      * $location_id The ID of the transaction's associated location.
+      * $refunds Refunds that have been applied to any tender in the transaction.
+      * @var \SquareConnect\Model\Refund[]
+      */
+    protected $refunds;
+    
+    /**
+      * $reference_id If the transaction was created with the [Charge](#endpoint-charge)\nendpoint, this value is the same as the value provided for the `reference_id`\nparameter in the request to that endpoint. Otherwise, it is not set.
       * @var string
       */
-    protected $location_id;
+    protected $reference_id;
+    
+    /**
+      * $product The Square product that processed the transaction.
+      * @var string
+      */
+    protected $product;
     
 
     /**
@@ -144,11 +154,12 @@ class Transaction implements ArrayAccess
     {
         if ($data != null) {
             $this->id = $data["id"];
-            $this->reference_id = $data["reference_id"];
-            $this->created_at = $data["created_at"];
-            $this->refunds = $data["refunds"];
-            $this->tenders = $data["tenders"];
             $this->location_id = $data["location_id"];
+            $this->created_at = $data["created_at"];
+            $this->tenders = $data["tenders"];
+            $this->refunds = $data["refunds"];
+            $this->reference_id = $data["reference_id"];
+            $this->product = $data["product"];
         }
     }
     
@@ -174,23 +185,23 @@ class Transaction implements ArrayAccess
     }
     
     /**
-     * Gets reference_id
+     * Gets location_id
      * @return string
      */
-    public function getReferenceId()
+    public function getLocationId()
     {
-        return $this->reference_id;
+        return $this->location_id;
     }
   
     /**
-     * Sets reference_id
-     * @param string $reference_id If the transaction was created with the **Charge** endpoint, this\nvalue is the same as the value provided as the `reference_id` parameter\nin the request to that endpoint.
+     * Sets location_id
+     * @param string $location_id The ID of the transaction's associated location.
      * @return $this
      */
-    public function setReferenceId($reference_id)
+    public function setLocationId($location_id)
     {
         
-        $this->reference_id = $reference_id;
+        $this->location_id = $location_id;
         return $this;
     }
     
@@ -216,27 +227,6 @@ class Transaction implements ArrayAccess
     }
     
     /**
-     * Gets refunds
-     * @return \SquareConnect\Model\Refund[]
-     */
-    public function getRefunds()
-    {
-        return $this->refunds;
-    }
-  
-    /**
-     * Sets refunds
-     * @param \SquareConnect\Model\Refund[] $refunds An array of any refunds associated with the transaction.
-     * @return $this
-     */
-    public function setRefunds($refunds)
-    {
-        
-        $this->refunds = $refunds;
-        return $this;
-    }
-    
-    /**
      * Gets tenders
      * @return \SquareConnect\Model\Tender[]
      */
@@ -247,7 +237,7 @@ class Transaction implements ArrayAccess
   
     /**
      * Sets tenders
-     * @param \SquareConnect\Model\Tender[] $tenders Descriptions of the tenders used to pay for the transaction.
+     * @param \SquareConnect\Model\Tender[] $tenders The tenders used to pay in the transaction.
      * @return $this
      */
     public function setTenders($tenders)
@@ -258,23 +248,68 @@ class Transaction implements ArrayAccess
     }
     
     /**
-     * Gets location_id
-     * @return string
+     * Gets refunds
+     * @return \SquareConnect\Model\Refund[]
      */
-    public function getLocationId()
+    public function getRefunds()
     {
-        return $this->location_id;
+        return $this->refunds;
     }
   
     /**
-     * Sets location_id
-     * @param string $location_id The ID of the transaction's associated location.
+     * Sets refunds
+     * @param \SquareConnect\Model\Refund[] $refunds Refunds that have been applied to any tender in the transaction.
      * @return $this
      */
-    public function setLocationId($location_id)
+    public function setRefunds($refunds)
     {
         
-        $this->location_id = $location_id;
+        $this->refunds = $refunds;
+        return $this;
+    }
+    
+    /**
+     * Gets reference_id
+     * @return string
+     */
+    public function getReferenceId()
+    {
+        return $this->reference_id;
+    }
+  
+    /**
+     * Sets reference_id
+     * @param string $reference_id If the transaction was created with the [Charge](#endpoint-charge)\nendpoint, this value is the same as the value provided for the `reference_id`\nparameter in the request to that endpoint. Otherwise, it is not set.
+     * @return $this
+     */
+    public function setReferenceId($reference_id)
+    {
+        
+        $this->reference_id = $reference_id;
+        return $this;
+    }
+    
+    /**
+     * Gets product
+     * @return string
+     */
+    public function getProduct()
+    {
+        return $this->product;
+    }
+  
+    /**
+     * Sets product
+     * @param string $product The Square product that processed the transaction.
+     * @return $this
+     */
+    public function setProduct($product)
+    {
+        $allowed_values = array("REGISTER", "EXTERNAL_API", "BILLING", "APPOINTMENTS", "INVOICES", "ONLINE_STORE", "PAYROLL", "OTHER");
+        if (!in_array($product, $allowed_values)) {
+            throw new \InvalidArgumentException("Invalid value for 'product', must be one of 'REGISTER', 'EXTERNAL_API', 'BILLING', 'APPOINTMENTS', 'INVOICES', 'ONLINE_STORE', 'PAYROLL', 'OTHER'");
+        }
+        $this->product = $product;
         return $this;
     }
     

@@ -37,7 +37,7 @@ namespace SquareConnect\Model;
  * ErrorCategoryTest Class Doc Comment
  *
  * @category    Class
- * @description 
+ * @description Indicates which high-level category of error has occurred during a\nrequest to the Connect API.
  * @package     SquareConnect
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2

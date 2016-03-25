@@ -37,7 +37,7 @@ namespace SquareConnect\Model;
  * RefundTest Class Doc Comment
  *
  * @category    Class
- * @description 
+ * @description Represents a refund processed for a Square transaction.
  * @package     SquareConnect
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2

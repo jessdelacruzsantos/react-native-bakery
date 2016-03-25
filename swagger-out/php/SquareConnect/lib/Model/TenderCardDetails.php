@@ -38,7 +38,7 @@ use \ArrayAccess;
  * TenderCardDetails Class Doc Comment
  *
  * @category    Class
- * @description Represents the details of a credit card tender.
+ * @description Represents additional details of a tender with `type` `CARD`.
  * @package     SquareConnect
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
@@ -52,7 +52,8 @@ class TenderCardDetails implements ArrayAccess
       */
     static $swaggerTypes = array(
         'status' => 'string',
-        'card' => '\SquareConnect\Model\Card'
+        'card' => '\SquareConnect\Model\Card',
+        'entry_method' => 'string'
     );
   
     /** 
@@ -61,7 +62,8 @@ class TenderCardDetails implements ArrayAccess
       */
     static $attributeMap = array(
         'status' => 'status',
-        'card' => 'card'
+        'card' => 'card',
+        'entry_method' => 'entry_method'
     );
   
     /**
@@ -70,7 +72,8 @@ class TenderCardDetails implements ArrayAccess
       */
     static $setters = array(
         'status' => 'setStatus',
-        'card' => 'setCard'
+        'card' => 'setCard',
+        'entry_method' => 'setEntryMethod'
     );
   
     /**
@@ -79,12 +82,13 @@ class TenderCardDetails implements ArrayAccess
       */
     static $getters = array(
         'status' => 'getStatus',
-        'card' => 'getCard'
+        'card' => 'getCard',
+        'entry_method' => 'getEntryMethod'
     );
   
     
     /**
-      * $status The credit card payment's current state (such as `CAPTURED`)
+      * $status The credit card payment's current state (such as `AUTHORIZED` or\n`CAPTURED`). See [TenderCardDetailsStatus](#type-tendercarddetailsstatus)\nfor possible values.
       * @var string
       */
     protected $status;
@@ -94,6 +98,12 @@ class TenderCardDetails implements ArrayAccess
       * @var \SquareConnect\Model\Card
       */
     protected $card;
+    
+    /**
+      * $entry_method The method used to enter the card's details for the transaction.
+      * @var string
+      */
+    protected $entry_method;
     
 
     /**
@@ -105,6 +115,7 @@ class TenderCardDetails implements ArrayAccess
         if ($data != null) {
             $this->status = $data["status"];
             $this->card = $data["card"];
+            $this->entry_method = $data["entry_method"];
         }
     }
     
@@ -119,7 +130,7 @@ class TenderCardDetails implements ArrayAccess
   
     /**
      * Sets status
-     * @param string $status The credit card payment's current state (such as `CAPTURED`)
+     * @param string $status The credit card payment's current state (such as `AUTHORIZED` or\n`CAPTURED`). See [TenderCardDetailsStatus](#type-tendercarddetailsstatus)\nfor possible values.
      * @return $this
      */
     public function setStatus($status)
@@ -150,6 +161,30 @@ class TenderCardDetails implements ArrayAccess
     {
         
         $this->card = $card;
+        return $this;
+    }
+    
+    /**
+     * Gets entry_method
+     * @return string
+     */
+    public function getEntryMethod()
+    {
+        return $this->entry_method;
+    }
+  
+    /**
+     * Sets entry_method
+     * @param string $entry_method The method used to enter the card's details for the transaction.
+     * @return $this
+     */
+    public function setEntryMethod($entry_method)
+    {
+        $allowed_values = array("SWIPED", "KEYED", "EMV", "ON_FILE", "CONTACTLESS");
+        if (!in_array($entry_method, $allowed_values)) {
+            throw new \InvalidArgumentException("Invalid value for 'entry_method', must be one of 'SWIPED', 'KEYED', 'EMV', 'ON_FILE', 'CONTACTLESS'");
+        }
+        $this->entry_method = $entry_method;
         return $this;
     }
     

@@ -1,6 +1,6 @@
 <?php
 /**
- * DeleteCustomerCardResponse
+ * TransactionProduct
  *
  * PHP version 5
  *
@@ -35,23 +35,23 @@ namespace SquareConnect\Model;
 
 use \ArrayAccess;
 /**
- * DeleteCustomerCardResponse Class Doc Comment
+ * TransactionProduct Class Doc Comment
  *
  * @category    Class
- * @description Defines the fields that are included in the response body of\na request to the [DeleteCustomerCard](#endpoint-deletecustomercard) endpoint.
+ * @description Indicates the Square product used to process a transaction.
  * @package     SquareConnect
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
  * @link        https://github.com/swagger-api/swagger-codegen
  */
-class DeleteCustomerCardResponse implements ArrayAccess
+class TransactionProduct implements ArrayAccess
 {
     /**
       * Array of property to type mappings. Used for (de)serialization 
       * @var string[]
       */
     static $swaggerTypes = array(
-        'errors' => '\SquareConnect\Model\Error[]'
+        
     );
   
     /** 
@@ -59,7 +59,7 @@ class DeleteCustomerCardResponse implements ArrayAccess
       * @var string[] 
       */
     static $attributeMap = array(
-        'errors' => 'errors'
+        
     );
   
     /**
@@ -67,7 +67,7 @@ class DeleteCustomerCardResponse implements ArrayAccess
       * @var string[]
       */
     static $setters = array(
-        'errors' => 'setErrors'
+        
     );
   
     /**
@@ -75,15 +75,9 @@ class DeleteCustomerCardResponse implements ArrayAccess
       * @var string[]
       */
     static $getters = array(
-        'errors' => 'getErrors'
+        
     );
   
-    
-    /**
-      * $errors Any errors that occurred during the request.
-      * @var \SquareConnect\Model\Error[]
-      */
-    protected $errors;
     
 
     /**
@@ -93,29 +87,8 @@ class DeleteCustomerCardResponse implements ArrayAccess
     public function __construct(array $data = null)
     {
         if ($data != null) {
-            $this->errors = $data["errors"];
+            
         }
-    }
-    
-    /**
-     * Gets errors
-     * @return \SquareConnect\Model\Error[]
-     */
-    public function getErrors()
-    {
-        return $this->errors;
-    }
-  
-    /**
-     * Sets errors
-     * @param \SquareConnect\Model\Error[] $errors Any errors that occurred during the request.
-     * @return $this
-     */
-    public function setErrors($errors)
-    {
-        
-        $this->errors = $errors;
-        return $this;
     }
     
     /**

@@ -37,7 +37,7 @@ namespace SquareConnect\Model;
  * TransactionTest Class Doc Comment
  *
  * @category    Class
- * @description Represents a transaction processed with Square, either with the\nConnect API or with Square Register.
+ * @description Represents a transaction processed with Square, either with the\nConnect API or with Square Register.\n\nThe `tenders` field of this object lists all methods of payment used to pay in\nthe transaction.
  * @package     SquareConnect
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2

@@ -38,7 +38,7 @@ use \ArrayAccess;
  * ErrorCode Class Doc Comment
  *
  * @category    Class
- * @description 
+ * @description Indicates specific errors that can occur during a request to the\nConnect API.
  * @package     SquareConnect
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2

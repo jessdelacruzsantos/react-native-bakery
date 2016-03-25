@@ -98,10 +98,10 @@ class TransactionApi
      *
      * @param string $authorization The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`. (required)
      * @param string $location_id The ID of the location to list transactions for. (required)
-     * @param string $begin_time The beginning of the requested reporting period, in RFC 3339 format. (optional)
-     * @param string $end_time The end of the requested reporting period, in RFC 3339 format. (optional)
-     * @param string $sort_order The order in which results are listed in the response (`ASC` for\nchronological, `DESC` for reverse-chronological). (optional)
-     * @param string $cursor A pagination cursor to retrieve the next set of results for your\noriginal query to the endpoint. (optional)
+     * @param string $begin_time The beginning of the requested reporting period, in RFC 3339 format.\n\nDefault value: The current time minus one year. (optional)
+     * @param string $end_time The end of the requested reporting period, in RFC 3339 format.\n\nDefault value: The current time. (optional)
+     * @param string $sort_order The order in which results are listed in the response (`ASC` for\noldest first, `DESC` for newest first).\n\nDefault value: `DESC` (optional)
+     * @param string $cursor A pagination cursor returned by a previous call to this endpoint.\nProvide this to retrieve the next set of results for your original query.\n\nSee [Paginating results](#paginatingresults) for more information. (optional)
      * @return \SquareConnect\Model\ListTransactionsResponse
      * @throws \SquareConnect\ApiException on non-2xx response
      */
@@ -119,10 +119,10 @@ class TransactionApi
      *
      * @param string $authorization The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`. (required)
      * @param string $location_id The ID of the location to list transactions for. (required)
-     * @param string $begin_time The beginning of the requested reporting period, in RFC 3339 format. (optional)
-     * @param string $end_time The end of the requested reporting period, in RFC 3339 format. (optional)
-     * @param string $sort_order The order in which results are listed in the response (`ASC` for\nchronological, `DESC` for reverse-chronological). (optional)
-     * @param string $cursor A pagination cursor to retrieve the next set of results for your\noriginal query to the endpoint. (optional)
+     * @param string $begin_time The beginning of the requested reporting period, in RFC 3339 format.\n\nDefault value: The current time minus one year. (optional)
+     * @param string $end_time The end of the requested reporting period, in RFC 3339 format.\n\nDefault value: The current time. (optional)
+     * @param string $sort_order The order in which results are listed in the response (`ASC` for\noldest first, `DESC` for newest first).\n\nDefault value: `DESC` (optional)
+     * @param string $cursor A pagination cursor returned by a previous call to this endpoint.\nProvide this to retrieve the next set of results for your original query.\n\nSee [Paginating results](#paginatingresults) for more information. (optional)
      * @return Array of \SquareConnect\Model\ListTransactionsResponse, HTTP status code, HTTP response headers (array of strings)
      * @throws \SquareConnect\ApiException on non-2xx response
      */
@@ -226,7 +226,7 @@ class TransactionApi
      * Charge
      *
      * @param string $authorization The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`. (required)
-     * @param string $location_id The ID of the location to associate the transaction with. (required)
+     * @param string $location_id The ID of the location to associate the created transaction with. (required)
      * @param \SquareConnect\Model\ChargeRequest $body An object containing the fields to POST for the request.\n\nSee the corresponding object definition for field details. (required)
      * @return \SquareConnect\Model\ChargeResponse
      * @throws \SquareConnect\ApiException on non-2xx response
@@ -244,7 +244,7 @@ class TransactionApi
      * Charge
      *
      * @param string $authorization The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`. (required)
-     * @param string $location_id The ID of the location to associate the transaction with. (required)
+     * @param string $location_id The ID of the location to associate the created transaction with. (required)
      * @param \SquareConnect\Model\ChargeRequest $body An object containing the fields to POST for the request.\n\nSee the corresponding object definition for field details. (required)
      * @return Array of \SquareConnect\Model\ChargeResponse, HTTP status code, HTTP response headers (array of strings)
      * @throws \SquareConnect\ApiException on non-2xx response
@@ -341,8 +341,8 @@ class TransactionApi
      * RetrieveTransaction
      *
      * @param string $authorization The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`. (required)
-     * @param string $location_id  (required)
-     * @param string $transaction_id  (required)
+     * @param string $location_id The ID of the transaction&#39;s associated location. (required)
+     * @param string $transaction_id The ID of the transaction to retrieve. (required)
      * @return \SquareConnect\Model\RetrieveTransactionResponse
      * @throws \SquareConnect\ApiException on non-2xx response
      */
@@ -359,8 +359,8 @@ class TransactionApi
      * RetrieveTransaction
      *
      * @param string $authorization The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`. (required)
-     * @param string $location_id  (required)
-     * @param string $transaction_id  (required)
+     * @param string $location_id The ID of the transaction&#39;s associated location. (required)
+     * @param string $transaction_id The ID of the transaction to retrieve. (required)
      * @return Array of \SquareConnect\Model\RetrieveTransactionResponse, HTTP status code, HTTP response headers (array of strings)
      * @throws \SquareConnect\ApiException on non-2xx response
      */

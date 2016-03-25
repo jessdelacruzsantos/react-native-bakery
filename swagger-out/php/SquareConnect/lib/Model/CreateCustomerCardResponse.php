@@ -38,7 +38,7 @@ use \ArrayAccess;
  * CreateCustomerCardResponse Class Doc Comment
  *
  * @category    Class
- * @description Defines the fields that are included in the response body of \na request to the **CreateCustomerCard** endpoint.\n\nOne of `errors` or `card` is present in a given response (never both).
+ * @description Defines the fields that are included in the response body of\na request to the [CreateCustomerCard](#endpoint-createcustomercard) endpoint.\n\nOne of `errors` or `card` is present in a given response (never both).
  * @package     SquareConnect
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
@@ -84,13 +84,13 @@ class CreateCustomerCardResponse implements ArrayAccess
   
     
     /**
-      * $errors 
+      * $errors Any errors that occurred during the request.
       * @var \SquareConnect\Model\Error[]
       */
     protected $errors;
     
     /**
-      * $card 
+      * $card The created card on file.
       * @var \SquareConnect\Model\Card
       */
     protected $card;
@@ -119,7 +119,7 @@ class CreateCustomerCardResponse implements ArrayAccess
   
     /**
      * Sets errors
-     * @param \SquareConnect\Model\Error[] $errors 
+     * @param \SquareConnect\Model\Error[] $errors Any errors that occurred during the request.
      * @return $this
      */
     public function setErrors($errors)
@@ -140,7 +140,7 @@ class CreateCustomerCardResponse implements ArrayAccess
   
     /**
      * Sets card
-     * @param \SquareConnect\Model\Card $card 
+     * @param \SquareConnect\Model\Card $card The created card on file.
      * @return $this
      */
     public function setCard($card)
