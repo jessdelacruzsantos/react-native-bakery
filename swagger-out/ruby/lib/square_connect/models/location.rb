@@ -16,16 +16,16 @@ module SquareConnect
     # The location's unique ID.
     attr_accessor :id
 
-    # The IANA Timezone Database identifier for the location's timezone.
-    attr_accessor :timezone
-
-    # The address of this location.
-    attr_accessor :address
-
-    # The name given to the location.
+    # The location's name.
     attr_accessor :name
 
-    # Indicates which Square features are enabled for the location.\n\nCurrently, there is only one value that might be present in this array:\n`CREDIT_CARD_PROCESSING`.
+    # The location's physical address.
+    attr_accessor :address
+
+    # The [IANA Timezone Database](https://www.iana.org/time-zones)\nidentifier for the location's timezone.
+    attr_accessor :timezone
+
+    # Indicates which Square features are enabled for the location.\n\nSee [LocationCapability](#type-locationcapability) for possible values.
     attr_accessor :capabilities
 
     # Attribute mapping from ruby-style variable name to JSON key.
@@ -34,11 +34,11 @@ module SquareConnect
         
         :'id' => :'id',
         
-        :'timezone' => :'timezone',
+        :'name' => :'name',
         
         :'address' => :'address',
         
-        :'name' => :'name',
+        :'timezone' => :'timezone',
         
         :'capabilities' => :'capabilities'
         
@@ -49,9 +49,9 @@ module SquareConnect
     def self.swagger_types
       {
         :'id' => :'String',
-        :'timezone' => :'String',
-        :'address' => :'Address',
         :'name' => :'String',
+        :'address' => :'Address',
+        :'timezone' => :'String',
         :'capabilities' => :'Array<String>'
         
       }
@@ -68,16 +68,16 @@ module SquareConnect
         self.id = attributes[:'id']
       end
       
-      if attributes[:'timezone']
-        self.timezone = attributes[:'timezone']
+      if attributes[:'name']
+        self.name = attributes[:'name']
       end
       
       if attributes[:'address']
         self.address = attributes[:'address']
       end
       
-      if attributes[:'name']
-        self.name = attributes[:'name']
+      if attributes[:'timezone']
+        self.timezone = attributes[:'timezone']
       end
       
       if attributes[:'capabilities']
@@ -93,9 +93,9 @@ module SquareConnect
       return true if self.equal?(o)
       self.class == o.class &&
           id == o.id &&
-          timezone == o.timezone &&
-          address == o.address &&
           name == o.name &&
+          address == o.address &&
+          timezone == o.timezone &&
           capabilities == o.capabilities
     end
 
@@ -106,7 +106,7 @@ module SquareConnect
 
     # Calculate hash code according to all attributes.
     def hash
-      [id, timezone, address, name, capabilities].hash
+      [id, name, address, timezone, capabilities].hash
     end
 
     # build the object from hash

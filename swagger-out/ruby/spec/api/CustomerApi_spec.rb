@@ -35,7 +35,7 @@ describe 'CustomerApi' do
   # Lists a business&#39;s customers.
   # @param authorization The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.
   # @param [Hash] opts the optional parameters
-  # @option opts [String] :cursor 
+  # @option opts [String] :cursor A pagination cursor returned by a previous call to this endpoint.\nProvide this to retrieve the next set of results for your original query.\n\nSee [Paginating results](#paginatingresults) for more information.
   # @return [ListCustomersResponse]
   describe 'list_customers test' do
     it "should work" do
@@ -49,7 +49,7 @@ describe 'CustomerApi' do
 
   # unit tests for create_customer
   # CreateCustomer
-  # Creates a new customer for the business, which can have associated cards on file.
+  # Creates a new customer for a business, which can have associated cards on file.\n\nYou must provide __at least one__ of the following values in your request to this\nendpoint:\n\n- `given_name`\n- `family_name`\n- `company_name`\n- `email_address`\n- `phone_number`
   # @param authorization The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.
   # @param body An object containing the fields to POST for the request.\n\nSee the corresponding object definition for field details.
   # @param [Hash] opts the optional parameters
@@ -68,7 +68,7 @@ describe 'CustomerApi' do
   # RetrieveCustomer
   # Returns details for a single customer.
   # @param authorization The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.
-  # @param customer_id 
+  # @param customer_id The ID of the customer to retrieve.
   # @param [Hash] opts the optional parameters
   # @return [RetrieveCustomerResponse]
   describe 'retrieve_customer test' do
@@ -83,9 +83,9 @@ describe 'CustomerApi' do
 
   # unit tests for update_customer
   # UpdateCustomer
-  # Updates the details of an existing customer.
+  # Updates the details of an existing customer.\n\nYou cannot edit a customer&#39;s cards on file with this endpoint. To make changes\nto a card on file, you must delete the existing card on file with the\n[DeleteCustomerCard](#endpoint-deletecustomercard) endpoint, then create a new one with the\n[CreateCustomerCard](#endpoint-createcustomercard) endpoint.
   # @param authorization The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.
-  # @param customer_id The customer to update.
+  # @param customer_id The ID of the customer to update.
   # @param body An object containing the fields to POST for the request.\n\nSee the corresponding object definition for field details.
   # @param [Hash] opts the optional parameters
   # @return [UpdateCustomerResponse]
@@ -103,7 +103,7 @@ describe 'CustomerApi' do
   # DeleteCustomer
   # Deletes a customer from a business.
   # @param authorization The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.
-  # @param customer_id 
+  # @param customer_id The ID of the customer to delete.
   # @param [Hash] opts the optional parameters
   # @return [DeleteCustomerResponse]
   describe 'delete_customer test' do

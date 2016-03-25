@@ -40,7 +40,37 @@ describe 'Tender' do
     end
   end
 
-  describe 'test attribute "processing_fee_money"' do
+  describe 'test attribute "location_id"' do
+    it 'should work' do
+       # assertion here
+       # should be_a()
+       # should be_nil
+       # should ==
+       # should_not ==
+    end
+  end
+
+  describe 'test attribute "transaction_id"' do
+    it 'should work' do
+       # assertion here
+       # should be_a()
+       # should be_nil
+       # should ==
+       # should_not ==
+    end
+  end
+
+  describe 'test attribute "created_at"' do
+    it 'should work' do
+       # assertion here
+       # should be_a()
+       # should be_nil
+       # should ==
+       # should_not ==
+    end
+  end
+
+  describe 'test attribute "note"' do
     it 'should work' do
        # assertion here
        # should be_a()
@@ -60,7 +90,17 @@ describe 'Tender' do
     end
   end
 
-  describe 'test attribute "created_at"' do
+  describe 'test attribute "processing_fee_money"' do
+    it 'should work' do
+       # assertion here
+       # should be_a()
+       # should be_nil
+       # should ==
+       # should_not ==
+    end
+  end
+
+  describe 'test attribute "customer_id"' do
     it 'should work' do
        # assertion here
        # should be_a()
@@ -90,37 +130,7 @@ describe 'Tender' do
     end
   end
 
-  describe 'test attribute "customer_id"' do
-    it 'should work' do
-       # assertion here
-       # should be_a()
-       # should be_nil
-       # should ==
-       # should_not ==
-    end
-  end
-
-  describe 'test attribute "note"' do
-    it 'should work' do
-       # assertion here
-       # should be_a()
-       # should be_nil
-       # should ==
-       # should_not ==
-    end
-  end
-
-  describe 'test attribute "transaction_id"' do
-    it 'should work' do
-       # assertion here
-       # should be_a()
-       # should be_nil
-       # should ==
-       # should_not ==
-    end
-  end
-
-  describe 'test attribute "location_id"' do
+  describe 'test attribute "cash_details"' do
     it 'should work' do
        # assertion here
        # should be_a()

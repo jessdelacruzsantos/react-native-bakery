@@ -40,7 +40,17 @@ describe 'Card' do
     end
   end
 
-  describe 'test attribute "exp_year"' do
+  describe 'test attribute "card_brand"' do
+    it 'should work' do
+       # assertion here
+       # should be_a()
+       # should be_nil
+       # should ==
+       # should_not ==
+    end
+  end
+
+  describe 'test attribute "last_4"' do
     it 'should work' do
        # assertion here
        # should be_a()
@@ -60,17 +70,7 @@ describe 'Card' do
     end
   end
 
-  describe 'test attribute "card_brand"' do
-    it 'should work' do
-       # assertion here
-       # should be_a()
-       # should be_nil
-       # should ==
-       # should_not ==
-    end
-  end
-
-  describe 'test attribute "last_4"' do
+  describe 'test attribute "exp_year"' do
     it 'should work' do
        # assertion here
        # should be_a()

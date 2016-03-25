@@ -36,10 +36,10 @@ describe 'RefundApi' do
   # @param authorization The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.
   # @param location_id The ID of the location to list refunds for.
   # @param [Hash] opts the optional parameters
-  # @option opts [String] :begin_time The beginning of the requested reporting period, in RFC 3339 format.
-  # @option opts [String] :end_time The end of the requested reporting period, in RFC 3339 format.
-  # @option opts [String] :sort_order The order in which results are listed in the response.
-  # @option opts [String] :cursor A pagination cursor to retrieve the next set of results for your\noriginal query to the endpoint.
+  # @option opts [String] :begin_time The beginning of the requested reporting period, in RFC 3339 format.\n\nDefault value: The current time minus one year.
+  # @option opts [String] :end_time The end of the requested reporting period, in RFC 3339 format.\n\nDefault value: The current time.
+  # @option opts [String] :sort_order The order in which results are listed in the response (`ASC` for\noldest first, `DESC` for newest first).\n\nDefault value: `DESC`
+  # @option opts [String] :cursor A pagination cursor returned by a previous call to this endpoint.\nProvide this to retrieve the next set of results for your original query.\n\nSee [Paginating results](#paginatingresults) for more information.
   # @return [ListRefundsResponse]
   describe 'list_refunds test' do
     it "should work" do
@@ -56,7 +56,7 @@ describe 'RefundApi' do
   # Initiates a refund for a previously charged tender.
   # @param authorization The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.
   # @param location_id The ID of the original transaction&#39;s associated location.
-  # @param transaction_id 
+  # @param transaction_id The ID of the original transaction that includes the tender to refund.
   # @param body An object containing the fields to POST for the request.\n\nSee the corresponding object definition for field details.
   # @param [Hash] opts the optional parameters
   # @return [CreateRefundResponse]

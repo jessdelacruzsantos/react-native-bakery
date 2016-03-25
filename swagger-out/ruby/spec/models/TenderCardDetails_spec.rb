@@ -50,5 +50,15 @@ describe 'TenderCardDetails' do
     end
   end
 
+  describe 'test attribute "entry_method"' do
+    it 'should work' do
+       # assertion here
+       # should be_a()
+       # should be_nil
+       # should ==
+       # should_not ==
+    end
+  end
+
 end
 

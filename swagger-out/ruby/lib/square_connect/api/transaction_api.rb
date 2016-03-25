@@ -19,14 +19,14 @@ module SquareConnect
     end
 
     # ListTransactions
-    # Lists transactions for a particular location.\n\nWhen making a request to this endpoint, your request body **must** include either the `cursor` parameter, or it must\ninclude all three of `begin_time`, `end_time`, and `sort`.
+    # Lists transactions for a particular location.
     # @param authorization The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.
     # @param location_id The ID of the location to list transactions for.
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :begin_time The beginning of the requested reporting period, in RFC 3339 format.
-    # @option opts [String] :end_time The end of the requested reporting period, in RFC 3339 format.
-    # @option opts [String] :sort_order The order in which results are listed in the response (`ASC` for\nchronological, `DESC` for reverse-chronological).
-    # @option opts [String] :cursor A pagination cursor to retrieve the next set of results for your\noriginal query to the endpoint.
+    # @option opts [String] :begin_time The beginning of the requested reporting period, in RFC 3339 format.\n\nDefault value: The current time minus one year.
+    # @option opts [String] :end_time The end of the requested reporting period, in RFC 3339 format.\n\nDefault value: The current time.
+    # @option opts [String] :sort_order The order in which results are listed in the response (`ASC` for\noldest first, `DESC` for newest first).\n\nDefault value: `DESC`
+    # @option opts [String] :cursor A pagination cursor returned by a previous call to this endpoint.\nProvide this to retrieve the next set of results for your original query.\n\nSee [Paginating results](#paginatingresults) for more information.
     # @return [ListTransactionsResponse]
     def list_transactions(authorization, location_id, opts = {})
       data, status_code, headers = list_transactions_with_http_info(authorization, location_id, opts)
@@ -34,14 +34,14 @@ module SquareConnect
     end
 
     # ListTransactions
-    # Lists transactions for a particular location.\n\nWhen making a request to this endpoint, your request body **must** include either the `cursor` parameter, or it must\ninclude all three of `begin_time`, `end_time`, and `sort`.
+    # Lists transactions for a particular location.
     # @param authorization The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.
     # @param location_id The ID of the location to list transactions for.
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :begin_time The beginning of the requested reporting period, in RFC 3339 format.
-    # @option opts [String] :end_time The end of the requested reporting period, in RFC 3339 format.
-    # @option opts [String] :sort_order The order in which results are listed in the response (`ASC` for\nchronological, `DESC` for reverse-chronological).
-    # @option opts [String] :cursor A pagination cursor to retrieve the next set of results for your\noriginal query to the endpoint.
+    # @option opts [String] :begin_time The beginning of the requested reporting period, in RFC 3339 format.\n\nDefault value: The current time minus one year.
+    # @option opts [String] :end_time The end of the requested reporting period, in RFC 3339 format.\n\nDefault value: The current time.
+    # @option opts [String] :sort_order The order in which results are listed in the response (`ASC` for\noldest first, `DESC` for newest first).\n\nDefault value: `DESC`
+    # @option opts [String] :cursor A pagination cursor returned by a previous call to this endpoint.\nProvide this to retrieve the next set of results for your original query.\n\nSee [Paginating results](#paginatingresults) for more information.
     # @return [Array<(ListTransactionsResponse, Fixnum, Hash)>] ListTransactionsResponse data, response status code and response headers
     def list_transactions_with_http_info(authorization, location_id, opts = {})
       if @api_client.config.debugging
@@ -101,9 +101,9 @@ module SquareConnect
     end
 
     # Charge
-    # Charges a card represented by a token.
+    # Charges a card represented by a card nonce or a customer&#39;s card on file.
     # @param authorization The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.
-    # @param location_id The ID of the location to associate the transaction with.
+    # @param location_id The ID of the location to associate the created transaction with.
     # @param body An object containing the fields to POST for the request.\n\nSee the corresponding object definition for field details.
     # @param [Hash] opts the optional parameters
     # @return [ChargeResponse]
@@ -113,9 +113,9 @@ module SquareConnect
     end
 
     # Charge
-    # Charges a card represented by a token.
+    # Charges a card represented by a card nonce or a customer&#39;s card on file.
     # @param authorization The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.
-    # @param location_id The ID of the location to associate the transaction with.
+    # @param location_id The ID of the location to associate the created transaction with.
     # @param body An object containing the fields to POST for the request.\n\nSee the corresponding object definition for field details.
     # @param [Hash] opts the optional parameters
     # @return [Array<(ChargeResponse, Fixnum, Hash)>] ChargeResponse data, response status code and response headers
@@ -174,8 +174,8 @@ module SquareConnect
     # RetrieveTransaction
     # Retrieves details for a single transaction.
     # @param authorization The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.
-    # @param location_id 
-    # @param transaction_id 
+    # @param location_id The ID of the transaction&#39;s associated location.
+    # @param transaction_id The ID of the transaction to retrieve.
     # @param [Hash] opts the optional parameters
     # @return [RetrieveTransactionResponse]
     def retrieve_transaction(authorization, location_id, transaction_id, opts = {})
@@ -186,8 +186,8 @@ module SquareConnect
     # RetrieveTransaction
     # Retrieves details for a single transaction.
     # @param authorization The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.
-    # @param location_id 
-    # @param transaction_id 
+    # @param location_id The ID of the transaction&#39;s associated location.
+    # @param transaction_id The ID of the transaction to retrieve.
     # @param [Hash] opts the optional parameters
     # @return [Array<(RetrieveTransactionResponse, Fixnum, Hash)>] RetrieveTransactionResponse data, response status code and response headers
     def retrieve_transaction_with_http_info(authorization, location_id, transaction_id, opts = {})
@@ -243,7 +243,7 @@ module SquareConnect
     end
 
     # CaptureTransaction
-    # Captures a transaction that was created with the **Charge**\nendpoint with a `delay_capture` value of `true`.
+    # Captures a transaction that was created with the [Charge](#endpoint-charge)\nendpoint with a `delay_capture` value of `true`.
     # @param authorization The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.
     # @param location_id 
     # @param transaction_id 
@@ -255,7 +255,7 @@ module SquareConnect
     end
 
     # CaptureTransaction
-    # Captures a transaction that was created with the **Charge**\nendpoint with a `delay_capture` value of `true`.
+    # Captures a transaction that was created with the [Charge](#endpoint-charge)\nendpoint with a `delay_capture` value of `true`.
     # @param authorization The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.
     # @param location_id 
     # @param transaction_id 
@@ -314,7 +314,7 @@ module SquareConnect
     end
 
     # VoidTransaction
-    # Cancels a transaction that was created with the **Charge**\nendpoint with a `delay_capture` value of `true`.
+    # Cancels a transaction that was created with the [Charge](#endpoint-charge)\nendpoint with a `delay_capture` value of `true`.
     # @param authorization The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.
     # @param location_id 
     # @param transaction_id 
@@ -326,7 +326,7 @@ module SquareConnect
     end
 
     # VoidTransaction
-    # Cancels a transaction that was created with the **Charge**\nendpoint with a `delay_capture` value of `true`.
+    # Cancels a transaction that was created with the [Charge](#endpoint-charge)\nendpoint with a `delay_capture` value of `true`.
     # @param authorization The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.
     # @param location_id 
     # @param transaction_id 

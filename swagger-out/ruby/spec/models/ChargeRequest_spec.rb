@@ -30,7 +30,7 @@ describe 'ChargeRequest' do
       @instance.should be_a(SquareConnect::ChargeRequest) 
     end
   end
-  describe 'test attribute "shipping_address"' do
+  describe 'test attribute "idempotency_key"' do
     it 'should work' do
        # assertion here
        # should be_a()
@@ -50,7 +50,7 @@ describe 'ChargeRequest' do
     end
   end
 
-  describe 'test attribute "customer_card_id"' do
+  describe 'test attribute "card_nonce"' do
     it 'should work' do
        # assertion here
        # should be_a()
@@ -60,7 +60,7 @@ describe 'ChargeRequest' do
     end
   end
 
-  describe 'test attribute "reference_id"' do
+  describe 'test attribute "customer_card_id"' do
     it 'should work' do
        # assertion here
        # should be_a()
@@ -80,27 +80,7 @@ describe 'ChargeRequest' do
     end
   end
 
-  describe 'test attribute "idempotency_key"' do
-    it 'should work' do
-       # assertion here
-       # should be_a()
-       # should be_nil
-       # should ==
-       # should_not ==
-    end
-  end
-
-  describe 'test attribute "card_nonce"' do
-    it 'should work' do
-       # assertion here
-       # should be_a()
-       # should be_nil
-       # should ==
-       # should_not ==
-    end
-  end
-
-  describe 'test attribute "customer_id"' do
+  describe 'test attribute "reference_id"' do
     it 'should work' do
        # assertion here
        # should be_a()
@@ -120,7 +100,27 @@ describe 'ChargeRequest' do
     end
   end
 
+  describe 'test attribute "customer_id"' do
+    it 'should work' do
+       # assertion here
+       # should be_a()
+       # should be_nil
+       # should ==
+       # should_not ==
+    end
+  end
+
   describe 'test attribute "billing_address"' do
+    it 'should work' do
+       # assertion here
+       # should be_a()
+       # should be_nil
+       # should ==
+       # should_not ==
+    end
+  end
+
+  describe 'test attribute "shipping_address"' do
     it 'should work' do
        # assertion here
        # should be_a()

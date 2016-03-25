@@ -30,16 +30,6 @@ describe 'ListTransactionsRequest' do
       @instance.should be_a(SquareConnect::ListTransactionsRequest) 
     end
   end
-  describe 'test attribute "cursor"' do
-    it 'should work' do
-       # assertion here
-       # should be_a()
-       # should be_nil
-       # should ==
-       # should_not ==
-    end
-  end
-
   describe 'test attribute "begin_time"' do
     it 'should work' do
        # assertion here
@@ -61,6 +51,16 @@ describe 'ListTransactionsRequest' do
   end
 
   describe 'test attribute "sort_order"' do
+    it 'should work' do
+       # assertion here
+       # should be_a()
+       # should be_nil
+       # should ==
+       # should_not ==
+    end
+  end
+
+  describe 'test attribute "cursor"' do
     it 'should work' do
        # assertion here
        # should be_a()
