@@ -33,7 +33,11 @@ public class ConnectEnum extends ConnectType {
     JsonObject json = new JsonObject();
     json.addProperty("type", "string");
     json.add("enum", enumValues);
-    json.addProperty("description", docAnnotations.getOrDefault("desc", ""));
+    json.addProperty("description", this.getDescription());
     return json;
+  }
+
+  public String getDescription() {
+    return docAnnotations.getOrDefault("desc", "");
   }
 }
