@@ -34,7 +34,7 @@ describe 'CustomerCardApi' do
   # CreateCustomerCard
   # Adds a card on file to an existing customer.
   # @param authorization The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.
-  # @param customer_id 
+  # @param customer_id The ID of the customer to link the card on file to.
   # @param body An object containing the fields to POST for the request.\n\nSee the corresponding object definition for field details.
   # @param [Hash] opts the optional parameters
   # @return [CreateCustomerCardResponse]
@@ -52,8 +52,8 @@ describe 'CustomerCardApi' do
   # DeleteCustomerCard
   # Removes a card on file from a customer.
   # @param authorization The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.
-  # @param customer_id 
-  # @param card_id 
+  # @param customer_id The ID of the customer that the card on file belongs to.
+  # @param card_id The ID of the card on file to delete.
   # @param [Hash] opts the optional parameters
   # @return [DeleteCustomerCardResponse]
   describe 'delete_customer_card test' do

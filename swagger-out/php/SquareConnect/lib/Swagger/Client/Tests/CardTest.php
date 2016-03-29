@@ -37,7 +37,7 @@ namespace SquareConnect\Model;
  * CardTest Class Doc Comment
  *
  * @category    Class
- * @description Represents a credit card.
+ * @description Represents the non-confidential details of a credit card.
  * @package     SquareConnect
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2

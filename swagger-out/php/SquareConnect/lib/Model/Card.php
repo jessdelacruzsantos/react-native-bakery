@@ -38,7 +38,7 @@ use \ArrayAccess;
  * Card Class Doc Comment
  *
  * @category    Class
- * @description Represents a credit card.
+ * @description Represents the non-confidential details of a credit card.
  * @package     SquareConnect
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
@@ -52,10 +52,10 @@ class Card implements ArrayAccess
       */
     static $swaggerTypes = array(
         'id' => 'string',
-        'exp_year' => 'int',
-        'exp_month' => 'int',
         'card_brand' => 'string',
         'last_4' => 'string',
+        'exp_month' => 'int',
+        'exp_year' => 'int',
         'cardholder_name' => 'string',
         'billing_address' => '\SquareConnect\Model\Address'
     );
@@ -66,10 +66,10 @@ class Card implements ArrayAccess
       */
     static $attributeMap = array(
         'id' => 'id',
-        'exp_year' => 'exp_year',
-        'exp_month' => 'exp_month',
         'card_brand' => 'card_brand',
         'last_4' => 'last_4',
+        'exp_month' => 'exp_month',
+        'exp_year' => 'exp_year',
         'cardholder_name' => 'cardholder_name',
         'billing_address' => 'billing_address'
     );
@@ -80,10 +80,10 @@ class Card implements ArrayAccess
       */
     static $setters = array(
         'id' => 'setId',
-        'exp_year' => 'setExpYear',
-        'exp_month' => 'setExpMonth',
         'card_brand' => 'setCardBrand',
         'last_4' => 'setLast4',
+        'exp_month' => 'setExpMonth',
+        'exp_year' => 'setExpYear',
         'cardholder_name' => 'setCardholderName',
         'billing_address' => 'setBillingAddress'
     );
@@ -94,10 +94,10 @@ class Card implements ArrayAccess
       */
     static $getters = array(
         'id' => 'getId',
-        'exp_year' => 'getExpYear',
-        'exp_month' => 'getExpMonth',
         'card_brand' => 'getCardBrand',
         'last_4' => 'getLast4',
+        'exp_month' => 'getExpMonth',
+        'exp_year' => 'getExpYear',
         'cardholder_name' => 'getCardholderName',
         'billing_address' => 'getBillingAddress'
     );
@@ -110,19 +110,7 @@ class Card implements ArrayAccess
     protected $id;
     
     /**
-      * $exp_year The year of the card's expiration date, which must be a 4-digit year.
-      * @var int
-      */
-    protected $exp_year;
-    
-    /**
-      * $exp_month The month of the card's expiration date, which must be between 1-12.
-      * @var int
-      */
-    protected $exp_month;
-    
-    /**
-      * $card_brand The card's brand (such as `VISA`).
+      * $card_brand The card's brand (such as `VISA`). See [CardBrand](#type-cardbrand)\nfor all possible values.
       * @var string
       */
     protected $card_brand;
@@ -134,13 +122,25 @@ class Card implements ArrayAccess
     protected $last_4;
     
     /**
-      * $cardholder_name The cardholder name for the card on file.
+      * $exp_month The month of the card's expiration date. This value is always between\n`1` and `12`, inclusive.
+      * @var int
+      */
+    protected $exp_month;
+    
+    /**
+      * $exp_year The four-digit year of the card's expiration date.
+      * @var int
+      */
+    protected $exp_year;
+    
+    /**
+      * $cardholder_name The cardholder name. This value is present only if this object\nrepresents a customer's card on file.
       * @var string
       */
     protected $cardholder_name;
     
     /**
-      * $billing_address The billing address for the card on file.
+      * $billing_address The card's billing address. This value is present only if this object\nrepresents a customer's card on file.
       * @var \SquareConnect\Model\Address
       */
     protected $billing_address;
@@ -154,10 +154,10 @@ class Card implements ArrayAccess
     {
         if ($data != null) {
             $this->id = $data["id"];
-            $this->exp_year = $data["exp_year"];
-            $this->exp_month = $data["exp_month"];
             $this->card_brand = $data["card_brand"];
             $this->last_4 = $data["last_4"];
+            $this->exp_month = $data["exp_month"];
+            $this->exp_year = $data["exp_year"];
             $this->cardholder_name = $data["cardholder_name"];
             $this->billing_address = $data["billing_address"];
         }
@@ -185,48 +185,6 @@ class Card implements ArrayAccess
     }
     
     /**
-     * Gets exp_year
-     * @return int
-     */
-    public function getExpYear()
-    {
-        return $this->exp_year;
-    }
-  
-    /**
-     * Sets exp_year
-     * @param int $exp_year The year of the card's expiration date, which must be a 4-digit year.
-     * @return $this
-     */
-    public function setExpYear($exp_year)
-    {
-        
-        $this->exp_year = $exp_year;
-        return $this;
-    }
-    
-    /**
-     * Gets exp_month
-     * @return int
-     */
-    public function getExpMonth()
-    {
-        return $this->exp_month;
-    }
-  
-    /**
-     * Sets exp_month
-     * @param int $exp_month The month of the card's expiration date, which must be between 1-12.
-     * @return $this
-     */
-    public function setExpMonth($exp_month)
-    {
-        
-        $this->exp_month = $exp_month;
-        return $this;
-    }
-    
-    /**
      * Gets card_brand
      * @return string
      */
@@ -237,7 +195,7 @@ class Card implements ArrayAccess
   
     /**
      * Sets card_brand
-     * @param string $card_brand The card's brand (such as `VISA`).
+     * @param string $card_brand The card's brand (such as `VISA`). See [CardBrand](#type-cardbrand)\nfor all possible values.
      * @return $this
      */
     public function setCardBrand($card_brand)
@@ -272,6 +230,48 @@ class Card implements ArrayAccess
     }
     
     /**
+     * Gets exp_month
+     * @return int
+     */
+    public function getExpMonth()
+    {
+        return $this->exp_month;
+    }
+  
+    /**
+     * Sets exp_month
+     * @param int $exp_month The month of the card's expiration date. This value is always between\n`1` and `12`, inclusive.
+     * @return $this
+     */
+    public function setExpMonth($exp_month)
+    {
+        
+        $this->exp_month = $exp_month;
+        return $this;
+    }
+    
+    /**
+     * Gets exp_year
+     * @return int
+     */
+    public function getExpYear()
+    {
+        return $this->exp_year;
+    }
+  
+    /**
+     * Sets exp_year
+     * @param int $exp_year The four-digit year of the card's expiration date.
+     * @return $this
+     */
+    public function setExpYear($exp_year)
+    {
+        
+        $this->exp_year = $exp_year;
+        return $this;
+    }
+    
+    /**
      * Gets cardholder_name
      * @return string
      */
@@ -282,7 +282,7 @@ class Card implements ArrayAccess
   
     /**
      * Sets cardholder_name
-     * @param string $cardholder_name The cardholder name for the card on file.
+     * @param string $cardholder_name The cardholder name. This value is present only if this object\nrepresents a customer's card on file.
      * @return $this
      */
     public function setCardholderName($cardholder_name)
@@ -303,7 +303,7 @@ class Card implements ArrayAccess
   
     /**
      * Sets billing_address
-     * @param \SquareConnect\Model\Address $billing_address The billing address for the card on file.
+     * @param \SquareConnect\Model\Address $billing_address The card's billing address. This value is present only if this object\nrepresents a customer's card on file.
      * @return $this
      */
     public function setBillingAddress($billing_address)

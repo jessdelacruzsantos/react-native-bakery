@@ -30,7 +30,17 @@ describe 'CreateRefundRequest' do
       @instance.should be_a(SquareConnect::CreateRefundRequest) 
     end
   end
-  describe 'test attribute "amount_money"' do
+  describe 'test attribute "idempotency_key"' do
+    it 'should work' do
+       # assertion here
+       # should be_a()
+       # should be_nil
+       # should ==
+       # should_not ==
+    end
+  end
+
+  describe 'test attribute "tender_id"' do
     it 'should work' do
        # assertion here
        # should be_a()
@@ -50,17 +60,7 @@ describe 'CreateRefundRequest' do
     end
   end
 
-  describe 'test attribute "idempotency_key"' do
-    it 'should work' do
-       # assertion here
-       # should be_a()
-       # should be_nil
-       # should ==
-       # should_not ==
-    end
-  end
-
-  describe 'test attribute "tender_id"' do
+  describe 'test attribute "amount_money"' do
     it 'should work' do
        # assertion here
        # should be_a()

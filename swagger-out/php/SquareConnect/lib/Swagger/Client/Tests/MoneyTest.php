@@ -37,7 +37,7 @@ namespace SquareConnect\Model;
  * MoneyTest Class Doc Comment
  *
  * @category    Class
- * @description 
+ * @description Represents an amount of money.\n\n__Important:__ Unlike version 1 of the Connect API, __all monetary amounts\nreturned by v2 endpoints are positive.__ (In v1, monetary amounts are negative\nif they represent money being paid _by_ a merchant, instead of money being\npaid _to_ a merchant.)
  * @package     SquareConnect
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2

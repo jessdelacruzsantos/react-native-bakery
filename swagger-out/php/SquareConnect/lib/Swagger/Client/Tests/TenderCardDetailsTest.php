@@ -37,7 +37,7 @@ namespace SquareConnect\Model;
  * TenderCardDetailsTest Class Doc Comment
  *
  * @category    Class
- * @description Represents the details of a credit card tender.
+ * @description Represents additional details of a tender with `type` `CARD`.
  * @package     SquareConnect
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2

@@ -40,7 +40,7 @@ describe 'Location' do
     end
   end
 
-  describe 'test attribute "timezone"' do
+  describe 'test attribute "name"' do
     it 'should work' do
        # assertion here
        # should be_a()
@@ -60,7 +60,7 @@ describe 'Location' do
     end
   end
 
-  describe 'test attribute "name"' do
+  describe 'test attribute "timezone"' do
     it 'should work' do
        # assertion here
        # should be_a()

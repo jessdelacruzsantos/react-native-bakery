@@ -97,7 +97,7 @@ class CustomerCardApi
      * CreateCustomerCard
      *
      * @param string $authorization The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`. (required)
-     * @param string $customer_id  (required)
+     * @param string $customer_id The ID of the customer to link the card on file to. (required)
      * @param \SquareConnect\Model\CreateCustomerCardRequest $body An object containing the fields to POST for the request.\n\nSee the corresponding object definition for field details. (required)
      * @return \SquareConnect\Model\CreateCustomerCardResponse
      * @throws \SquareConnect\ApiException on non-2xx response
@@ -115,7 +115,7 @@ class CustomerCardApi
      * CreateCustomerCard
      *
      * @param string $authorization The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`. (required)
-     * @param string $customer_id  (required)
+     * @param string $customer_id The ID of the customer to link the card on file to. (required)
      * @param \SquareConnect\Model\CreateCustomerCardRequest $body An object containing the fields to POST for the request.\n\nSee the corresponding object definition for field details. (required)
      * @return Array of \SquareConnect\Model\CreateCustomerCardResponse, HTTP status code, HTTP response headers (array of strings)
      * @throws \SquareConnect\ApiException on non-2xx response
@@ -212,8 +212,8 @@ class CustomerCardApi
      * DeleteCustomerCard
      *
      * @param string $authorization The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`. (required)
-     * @param string $customer_id  (required)
-     * @param string $card_id  (required)
+     * @param string $customer_id The ID of the customer that the card on file belongs to. (required)
+     * @param string $card_id The ID of the card on file to delete. (required)
      * @return \SquareConnect\Model\DeleteCustomerCardResponse
      * @throws \SquareConnect\ApiException on non-2xx response
      */
@@ -230,8 +230,8 @@ class CustomerCardApi
      * DeleteCustomerCard
      *
      * @param string $authorization The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`. (required)
-     * @param string $customer_id  (required)
-     * @param string $card_id  (required)
+     * @param string $customer_id The ID of the customer that the card on file belongs to. (required)
+     * @param string $card_id The ID of the card on file to delete. (required)
      * @return Array of \SquareConnect\Model\DeleteCustomerCardResponse, HTTP status code, HTTP response headers (array of strings)
      * @throws \SquareConnect\ApiException on non-2xx response
      */

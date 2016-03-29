@@ -38,7 +38,7 @@ use \ArrayAccess;
  * CreateRefundRequest Class Doc Comment
  *
  * @category    Class
- * @description Defines the body parameters that can be included in\na request to the **CreateRefund** endpoint.
+ * @description Defines the body parameters that can be included in\na request to the [CreateRefund](#endpoint-createrefund) endpoint.
  * @package     SquareConnect
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
@@ -51,10 +51,10 @@ class CreateRefundRequest implements ArrayAccess
       * @var string[]
       */
     static $swaggerTypes = array(
-        'amount_money' => '\SquareConnect\Model\Money',
-        'reason' => 'string',
         'idempotency_key' => 'string',
-        'tender_id' => 'string'
+        'tender_id' => 'string',
+        'reason' => 'string',
+        'amount_money' => '\SquareConnect\Model\Money'
     );
   
     /** 
@@ -62,10 +62,10 @@ class CreateRefundRequest implements ArrayAccess
       * @var string[] 
       */
     static $attributeMap = array(
-        'amount_money' => 'amount_money',
-        'reason' => 'reason',
         'idempotency_key' => 'idempotency_key',
-        'tender_id' => 'tender_id'
+        'tender_id' => 'tender_id',
+        'reason' => 'reason',
+        'amount_money' => 'amount_money'
     );
   
     /**
@@ -73,10 +73,10 @@ class CreateRefundRequest implements ArrayAccess
       * @var string[]
       */
     static $setters = array(
-        'amount_money' => 'setAmountMoney',
-        'reason' => 'setReason',
         'idempotency_key' => 'setIdempotencyKey',
-        'tender_id' => 'setTenderId'
+        'tender_id' => 'setTenderId',
+        'reason' => 'setReason',
+        'amount_money' => 'setAmountMoney'
     );
   
     /**
@@ -84,27 +84,15 @@ class CreateRefundRequest implements ArrayAccess
       * @var string[]
       */
     static $getters = array(
-        'amount_money' => 'getAmountMoney',
-        'reason' => 'getReason',
         'idempotency_key' => 'getIdempotencyKey',
-        'tender_id' => 'getTenderId'
+        'tender_id' => 'getTenderId',
+        'reason' => 'getReason',
+        'amount_money' => 'getAmountMoney'
     );
   
     
     /**
-      * $amount_money The amount of money to refund.
-      * @var \SquareConnect\Model\Money
-      */
-    protected $amount_money;
-    
-    /**
-      * $reason A description of the reason for the refund.
-      * @var string
-      */
-    protected $reason;
-    
-    /**
-      * $idempotency_key A value you specify that uniquely identifies this \nrefund among refunds you've created for the tender.\n\nIf you're unsure whether a particular refund succeeded,\nyou can reattempt it with the same idempotency key without\nworrying about duplicating the refund.
+      * $idempotency_key A value you specify that uniquely identifies this\nrefund among refunds you've created for the tender.\n\nIf you're unsure whether a particular refund succeeded,\nyou can reattempt it with the same idempotency key without\nworrying about duplicating the refund. If you do, ensure that all\nother provided fields are also identical to those of your original request.
       * @var string
       */
     protected $idempotency_key;
@@ -115,6 +103,18 @@ class CreateRefundRequest implements ArrayAccess
       */
     protected $tender_id;
     
+    /**
+      * $reason A description of the reason for the refund.\n\nDefault value: `Refund via API`
+      * @var string
+      */
+    protected $reason;
+    
+    /**
+      * $amount_money The amount of money to refund.
+      * @var \SquareConnect\Model\Money
+      */
+    protected $amount_money;
+    
 
     /**
      * Constructor
@@ -123,53 +123,11 @@ class CreateRefundRequest implements ArrayAccess
     public function __construct(array $data = null)
     {
         if ($data != null) {
-            $this->amount_money = $data["amount_money"];
-            $this->reason = $data["reason"];
             $this->idempotency_key = $data["idempotency_key"];
             $this->tender_id = $data["tender_id"];
+            $this->reason = $data["reason"];
+            $this->amount_money = $data["amount_money"];
         }
-    }
-    
-    /**
-     * Gets amount_money
-     * @return \SquareConnect\Model\Money
-     */
-    public function getAmountMoney()
-    {
-        return $this->amount_money;
-    }
-  
-    /**
-     * Sets amount_money
-     * @param \SquareConnect\Model\Money $amount_money The amount of money to refund.
-     * @return $this
-     */
-    public function setAmountMoney($amount_money)
-    {
-        
-        $this->amount_money = $amount_money;
-        return $this;
-    }
-    
-    /**
-     * Gets reason
-     * @return string
-     */
-    public function getReason()
-    {
-        return $this->reason;
-    }
-  
-    /**
-     * Sets reason
-     * @param string $reason A description of the reason for the refund.
-     * @return $this
-     */
-    public function setReason($reason)
-    {
-        
-        $this->reason = $reason;
-        return $this;
     }
     
     /**
@@ -183,7 +141,7 @@ class CreateRefundRequest implements ArrayAccess
   
     /**
      * Sets idempotency_key
-     * @param string $idempotency_key A value you specify that uniquely identifies this \nrefund among refunds you've created for the tender.\n\nIf you're unsure whether a particular refund succeeded,\nyou can reattempt it with the same idempotency key without\nworrying about duplicating the refund.
+     * @param string $idempotency_key A value you specify that uniquely identifies this\nrefund among refunds you've created for the tender.\n\nIf you're unsure whether a particular refund succeeded,\nyou can reattempt it with the same idempotency key without\nworrying about duplicating the refund. If you do, ensure that all\nother provided fields are also identical to those of your original request.
      * @return $this
      */
     public function setIdempotencyKey($idempotency_key)
@@ -211,6 +169,48 @@ class CreateRefundRequest implements ArrayAccess
     {
         
         $this->tender_id = $tender_id;
+        return $this;
+    }
+    
+    /**
+     * Gets reason
+     * @return string
+     */
+    public function getReason()
+    {
+        return $this->reason;
+    }
+  
+    /**
+     * Sets reason
+     * @param string $reason A description of the reason for the refund.\n\nDefault value: `Refund via API`
+     * @return $this
+     */
+    public function setReason($reason)
+    {
+        
+        $this->reason = $reason;
+        return $this;
+    }
+    
+    /**
+     * Gets amount_money
+     * @return \SquareConnect\Model\Money
+     */
+    public function getAmountMoney()
+    {
+        return $this->amount_money;
+    }
+  
+    /**
+     * Sets amount_money
+     * @param \SquareConnect\Model\Money $amount_money The amount of money to refund.
+     * @return $this
+     */
+    public function setAmountMoney($amount_money)
+    {
+        
+        $this->amount_money = $amount_money;
         return $this;
     }
     

@@ -32,7 +32,7 @@ describe 'LocationApi' do
 
   # unit tests for list_locations
   # ListLocations
-  # Provides summary information for all of a business&#39;s locations.
+  # Provides the details for all of a business&#39;s locations.
   # @param authorization The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.
   # @param [Hash] opts the optional parameters
   # @return [ListLocationsResponse]

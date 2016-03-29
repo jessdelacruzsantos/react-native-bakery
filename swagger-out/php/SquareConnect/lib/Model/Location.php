@@ -52,9 +52,9 @@ class Location implements ArrayAccess
       */
     static $swaggerTypes = array(
         'id' => 'string',
-        'timezone' => 'string',
-        'address' => '\SquareConnect\Model\Address',
         'name' => 'string',
+        'address' => '\SquareConnect\Model\Address',
+        'timezone' => 'string',
         'capabilities' => 'string[]'
     );
   
@@ -64,9 +64,9 @@ class Location implements ArrayAccess
       */
     static $attributeMap = array(
         'id' => 'id',
-        'timezone' => 'timezone',
-        'address' => 'address',
         'name' => 'name',
+        'address' => 'address',
+        'timezone' => 'timezone',
         'capabilities' => 'capabilities'
     );
   
@@ -76,9 +76,9 @@ class Location implements ArrayAccess
       */
     static $setters = array(
         'id' => 'setId',
-        'timezone' => 'setTimezone',
-        'address' => 'setAddress',
         'name' => 'setName',
+        'address' => 'setAddress',
+        'timezone' => 'setTimezone',
         'capabilities' => 'setCapabilities'
     );
   
@@ -88,9 +88,9 @@ class Location implements ArrayAccess
       */
     static $getters = array(
         'id' => 'getId',
-        'timezone' => 'getTimezone',
-        'address' => 'getAddress',
         'name' => 'getName',
+        'address' => 'getAddress',
+        'timezone' => 'getTimezone',
         'capabilities' => 'getCapabilities'
     );
   
@@ -102,25 +102,25 @@ class Location implements ArrayAccess
     protected $id;
     
     /**
-      * $timezone The IANA Timezone Database identifier for the location's timezone.
-      * @var string
-      */
-    protected $timezone;
-    
-    /**
-      * $address The address of this location.
-      * @var \SquareConnect\Model\Address
-      */
-    protected $address;
-    
-    /**
-      * $name The name given to the location.
+      * $name The location's name.
       * @var string
       */
     protected $name;
     
     /**
-      * $capabilities Indicates which Square features are enabled for the location.\n\nCurrently, there is only one value that might be present in this array:\n`CREDIT_CARD_PROCESSING`.
+      * $address The location's physical address.
+      * @var \SquareConnect\Model\Address
+      */
+    protected $address;
+    
+    /**
+      * $timezone The [IANA Timezone Database](https://www.iana.org/time-zones)\nidentifier for the location's timezone.
+      * @var string
+      */
+    protected $timezone;
+    
+    /**
+      * $capabilities Indicates which Square features are enabled for the location.\n\nSee [LocationCapability](#type-locationcapability) for possible values.
       * @var string[]
       */
     protected $capabilities;
@@ -134,9 +134,9 @@ class Location implements ArrayAccess
     {
         if ($data != null) {
             $this->id = $data["id"];
-            $this->timezone = $data["timezone"];
-            $this->address = $data["address"];
             $this->name = $data["name"];
+            $this->address = $data["address"];
+            $this->timezone = $data["timezone"];
             $this->capabilities = $data["capabilities"];
         }
     }
@@ -163,23 +163,23 @@ class Location implements ArrayAccess
     }
     
     /**
-     * Gets timezone
+     * Gets name
      * @return string
      */
-    public function getTimezone()
+    public function getName()
     {
-        return $this->timezone;
+        return $this->name;
     }
   
     /**
-     * Sets timezone
-     * @param string $timezone The IANA Timezone Database identifier for the location's timezone.
+     * Sets name
+     * @param string $name The location's name.
      * @return $this
      */
-    public function setTimezone($timezone)
+    public function setName($name)
     {
         
-        $this->timezone = $timezone;
+        $this->name = $name;
         return $this;
     }
     
@@ -194,7 +194,7 @@ class Location implements ArrayAccess
   
     /**
      * Sets address
-     * @param \SquareConnect\Model\Address $address The address of this location.
+     * @param \SquareConnect\Model\Address $address The location's physical address.
      * @return $this
      */
     public function setAddress($address)
@@ -205,23 +205,23 @@ class Location implements ArrayAccess
     }
     
     /**
-     * Gets name
+     * Gets timezone
      * @return string
      */
-    public function getName()
+    public function getTimezone()
     {
-        return $this->name;
+        return $this->timezone;
     }
   
     /**
-     * Sets name
-     * @param string $name The name given to the location.
+     * Sets timezone
+     * @param string $timezone The [IANA Timezone Database](https://www.iana.org/time-zones)\nidentifier for the location's timezone.
      * @return $this
      */
-    public function setName($name)
+    public function setTimezone($timezone)
     {
         
-        $this->name = $name;
+        $this->timezone = $timezone;
         return $this;
     }
     
@@ -236,7 +236,7 @@ class Location implements ArrayAccess
   
     /**
      * Sets capabilities
-     * @param string[] $capabilities Indicates which Square features are enabled for the location.\n\nCurrently, there is only one value that might be present in this array:\n`CREDIT_CARD_PROCESSING`.
+     * @param string[] $capabilities Indicates which Square features are enabled for the location.\n\nSee [LocationCapability](#type-locationcapability) for possible values.
      * @return $this
      */
     public function setCapabilities($capabilities)

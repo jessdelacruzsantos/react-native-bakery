@@ -40,7 +40,7 @@ describe 'Customer' do
     end
   end
 
-  describe 'test attribute "phone_number"' do
+  describe 'test attribute "created_at"' do
     it 'should work' do
        # assertion here
        # should be_a()
@@ -60,47 +60,7 @@ describe 'Customer' do
     end
   end
 
-  describe 'test attribute "address"' do
-    it 'should work' do
-       # assertion here
-       # should be_a()
-       # should be_nil
-       # should ==
-       # should_not ==
-    end
-  end
-
-  describe 'test attribute "nickname"' do
-    it 'should work' do
-       # assertion here
-       # should be_a()
-       # should be_nil
-       # should ==
-       # should_not ==
-    end
-  end
-
-  describe 'test attribute "reference_id"' do
-    it 'should work' do
-       # assertion here
-       # should be_a()
-       # should be_nil
-       # should ==
-       # should_not ==
-    end
-  end
-
-  describe 'test attribute "family_name"' do
-    it 'should work' do
-       # assertion here
-       # should be_a()
-       # should be_nil
-       # should ==
-       # should_not ==
-    end
-  end
-
-  describe 'test attribute "created_at"' do
+  describe 'test attribute "cards"' do
     it 'should work' do
        # assertion here
        # should be_a()
@@ -120,7 +80,7 @@ describe 'Customer' do
     end
   end
 
-  describe 'test attribute "note"' do
+  describe 'test attribute "family_name"' do
     it 'should work' do
        # assertion here
        # should be_a()
@@ -130,7 +90,17 @@ describe 'Customer' do
     end
   end
 
-  describe 'test attribute "cards"' do
+  describe 'test attribute "nickname"' do
+    it 'should work' do
+       # assertion here
+       # should be_a()
+       # should be_nil
+       # should ==
+       # should_not ==
+    end
+  end
+
+  describe 'test attribute "company_name"' do
     it 'should work' do
        # assertion here
        # should be_a()
@@ -141,6 +111,46 @@ describe 'Customer' do
   end
 
   describe 'test attribute "email_address"' do
+    it 'should work' do
+       # assertion here
+       # should be_a()
+       # should be_nil
+       # should ==
+       # should_not ==
+    end
+  end
+
+  describe 'test attribute "address"' do
+    it 'should work' do
+       # assertion here
+       # should be_a()
+       # should be_nil
+       # should ==
+       # should_not ==
+    end
+  end
+
+  describe 'test attribute "phone_number"' do
+    it 'should work' do
+       # assertion here
+       # should be_a()
+       # should be_nil
+       # should ==
+       # should_not ==
+    end
+  end
+
+  describe 'test attribute "reference_id"' do
+    it 'should work' do
+       # assertion here
+       # should be_a()
+       # should be_nil
+       # should ==
+       # should_not ==
+    end
+  end
+
+  describe 'test attribute "note"' do
     it 'should work' do
        # assertion here
        # should be_a()

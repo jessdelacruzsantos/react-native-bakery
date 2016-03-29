@@ -37,7 +37,7 @@ namespace SquareConnect\Model;
  * TenderTypeTest Class Doc Comment
  *
  * @category    Class
- * @description 
+ * @description Indicates a tender&#39;s type.
  * @package     SquareConnect
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2

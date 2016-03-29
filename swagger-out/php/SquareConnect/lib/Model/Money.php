@@ -38,7 +38,7 @@ use \ArrayAccess;
  * Money Class Doc Comment
  *
  * @category    Class
- * @description 
+ * @description Represents an amount of money.\n\n__Important:__ Unlike version 1 of the Connect API, __all monetary amounts\nreturned by v2 endpoints are positive.__ (In v1, monetary amounts are negative\nif they represent money being paid _by_ a merchant, instead of money being\npaid _to_ a merchant.)
  * @package     SquareConnect
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
@@ -84,13 +84,13 @@ class Money implements ArrayAccess
   
     
     /**
-      * $amount Amount in the lowest denominated value of this Currency. E.g. in USD\nthese are cents, in JPY they are Yen (which do not have a 'cent' concept).
+      * $amount The amount of money, in the lowest in the smallest denomination of the\ncurrency indicated by `currency`. For example, when `currency_code` is `USD`,\n`amount` is in cents.
       * @var int
       */
     protected $amount;
     
     /**
-      * $currency 
+      * $currency The type of currency, in __ISO 4217 format__. For example, the currency\ncode for US dollars is `USD`.\n\nSee [Currency](#type-currency) for possible values.
       * @var string
       */
     protected $currency;
@@ -119,7 +119,7 @@ class Money implements ArrayAccess
   
     /**
      * Sets amount
-     * @param int $amount Amount in the lowest denominated value of this Currency. E.g. in USD\nthese are cents, in JPY they are Yen (which do not have a 'cent' concept).
+     * @param int $amount The amount of money, in the lowest in the smallest denomination of the\ncurrency indicated by `currency`. For example, when `currency_code` is `USD`,\n`amount` is in cents.
      * @return $this
      */
     public function setAmount($amount)
@@ -140,7 +140,7 @@ class Money implements ArrayAccess
   
     /**
      * Sets currency
-     * @param string $currency 
+     * @param string $currency The type of currency, in __ISO 4217 format__. For example, the currency\ncode for US dollars is `USD`.\n\nSee [Currency](#type-currency) for possible values.
      * @return $this
      */
     public function setCurrency($currency)

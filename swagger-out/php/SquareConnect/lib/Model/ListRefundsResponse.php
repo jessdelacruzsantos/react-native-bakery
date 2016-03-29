@@ -38,7 +38,7 @@ use \ArrayAccess;
  * ListRefundsResponse Class Doc Comment
  *
  * @category    Class
- * @description Defines the fields that are included in the response body of \na request to the **ListTenderRefunds** endpoint.\n\nOne of `errors` or `refunds` is present in a given response (never both).
+ * @description Defines the fields that are included in the response body of\na request to the [ListRefunds](#endpoint-listrefunds) endpoint.\n\nOne of `errors` or `refunds` is present in a given response (never both).
  * @package     SquareConnect
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
@@ -51,9 +51,9 @@ class ListRefundsResponse implements ArrayAccess
       * @var string[]
       */
     static $swaggerTypes = array(
-        'cursor' => 'string',
         'errors' => '\SquareConnect\Model\Error[]',
-        'refunds' => '\SquareConnect\Model\Refund[]'
+        'refunds' => '\SquareConnect\Model\Refund[]',
+        'cursor' => 'string'
     );
   
     /** 
@@ -61,9 +61,9 @@ class ListRefundsResponse implements ArrayAccess
       * @var string[] 
       */
     static $attributeMap = array(
-        'cursor' => 'cursor',
         'errors' => 'errors',
-        'refunds' => 'refunds'
+        'refunds' => 'refunds',
+        'cursor' => 'cursor'
     );
   
     /**
@@ -71,9 +71,9 @@ class ListRefundsResponse implements ArrayAccess
       * @var string[]
       */
     static $setters = array(
-        'cursor' => 'setCursor',
         'errors' => 'setErrors',
-        'refunds' => 'setRefunds'
+        'refunds' => 'setRefunds',
+        'cursor' => 'setCursor'
     );
   
     /**
@@ -81,17 +81,11 @@ class ListRefundsResponse implements ArrayAccess
       * @var string[]
       */
     static $getters = array(
-        'cursor' => 'getCursor',
         'errors' => 'getErrors',
-        'refunds' => 'getRefunds'
+        'refunds' => 'getRefunds',
+        'cursor' => 'getCursor'
     );
   
-    
-    /**
-      * $cursor A pagination cursor for retrieving the next set of results,\nif any remain.\n\nProvide this value as the `cursor` parameter in a subsequent request\nto the **ListTenderRefunds** endpoint.
-      * @var string
-      */
-    protected $cursor;
     
     /**
       * $errors Any errors that occurred during the request.
@@ -105,6 +99,12 @@ class ListRefundsResponse implements ArrayAccess
       */
     protected $refunds;
     
+    /**
+      * $cursor A pagination cursor for retrieving the next set of results,\nif any remain. Provide this value as the `cursor` parameter in a subsequent\nrequest to this endpoint.\n\nSee [Paginating results](#paginatingresults) for more information.
+      * @var string
+      */
+    protected $cursor;
+    
 
     /**
      * Constructor
@@ -113,31 +113,10 @@ class ListRefundsResponse implements ArrayAccess
     public function __construct(array $data = null)
     {
         if ($data != null) {
-            $this->cursor = $data["cursor"];
             $this->errors = $data["errors"];
             $this->refunds = $data["refunds"];
+            $this->cursor = $data["cursor"];
         }
-    }
-    
-    /**
-     * Gets cursor
-     * @return string
-     */
-    public function getCursor()
-    {
-        return $this->cursor;
-    }
-  
-    /**
-     * Sets cursor
-     * @param string $cursor A pagination cursor for retrieving the next set of results,\nif any remain.\n\nProvide this value as the `cursor` parameter in a subsequent request\nto the **ListTenderRefunds** endpoint.
-     * @return $this
-     */
-    public function setCursor($cursor)
-    {
-        
-        $this->cursor = $cursor;
-        return $this;
     }
     
     /**
@@ -179,6 +158,27 @@ class ListRefundsResponse implements ArrayAccess
     {
         
         $this->refunds = $refunds;
+        return $this;
+    }
+    
+    /**
+     * Gets cursor
+     * @return string
+     */
+    public function getCursor()
+    {
+        return $this->cursor;
+    }
+  
+    /**
+     * Sets cursor
+     * @param string $cursor A pagination cursor for retrieving the next set of results,\nif any remain. Provide this value as the `cursor` parameter in a subsequent\nrequest to this endpoint.\n\nSee [Paginating results](#paginatingresults) for more information.
+     * @return $this
+     */
+    public function setCursor($cursor)
+    {
+        
+        $this->cursor = $cursor;
         return $this;
     }
     

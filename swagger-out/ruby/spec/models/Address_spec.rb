@@ -30,16 +30,6 @@ describe 'Address' do
       @instance.should be_a(SquareConnect::Address) 
     end
   end
-  describe 'test attribute "administrative_district_level_3"' do
-    it 'should work' do
-       # assertion here
-       # should be_a()
-       # should be_nil
-       # should ==
-       # should_not ==
-    end
-  end
-
   describe 'test attribute "address_line_1"' do
     it 'should work' do
        # assertion here
@@ -50,27 +40,17 @@ describe 'Address' do
     end
   end
 
-  describe 'test attribute "address_line_3"' do
-    it 'should work' do
-       # assertion here
-       # should be_a()
-       # should be_nil
-       # should ==
-       # should_not ==
-    end
-  end
-
-  describe 'test attribute "postal_code"' do
-    it 'should work' do
-       # assertion here
-       # should be_a()
-       # should be_nil
-       # should ==
-       # should_not ==
-    end
-  end
-
   describe 'test attribute "address_line_2"' do
+    it 'should work' do
+       # assertion here
+       # should be_a()
+       # should be_nil
+       # should ==
+       # should_not ==
+    end
+  end
+
+  describe 'test attribute "address_line_3"' do
     it 'should work' do
        # assertion here
        # should be_a()
@@ -100,7 +80,7 @@ describe 'Address' do
     end
   end
 
-  describe 'test attribute "administrative_district_level_1"' do
+  describe 'test attribute "sublocality_2"' do
     it 'should work' do
        # assertion here
        # should be_a()
@@ -120,6 +100,16 @@ describe 'Address' do
     end
   end
 
+  describe 'test attribute "administrative_district_level_1"' do
+    it 'should work' do
+       # assertion here
+       # should be_a()
+       # should be_nil
+       # should ==
+       # should_not ==
+    end
+  end
+
   describe 'test attribute "administrative_district_level_2"' do
     it 'should work' do
        # assertion here
@@ -130,7 +120,17 @@ describe 'Address' do
     end
   end
 
-  describe 'test attribute "sublocality_2"' do
+  describe 'test attribute "administrative_district_level_3"' do
+    it 'should work' do
+       # assertion here
+       # should be_a()
+       # should be_nil
+       # should ==
+       # should_not ==
+    end
+  end
+
+  describe 'test attribute "postal_code"' do
     it 'should work' do
        # assertion here
        # should be_a()

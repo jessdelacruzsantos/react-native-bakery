@@ -38,7 +38,7 @@ use \ArrayAccess;
  * ChargeResponse Class Doc Comment
  *
  * @category    Class
- * @description Defines the fields that are included in the response body of \na request to the **Charge** endpoint.\n\nOne of `errors` or `transaction` is present in a given response (never both).
+ * @description Defines the fields that are included in the response body of\na request to the [Charge](#endpoint-charge) endpoint.\n\nOne of `errors` or `transaction` is present in a given response (never both).
  * @package     SquareConnect
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
@@ -90,7 +90,7 @@ class ChargeResponse implements ArrayAccess
     protected $errors;
     
     /**
-      * $transaction The details of the created transaction.
+      * $transaction The created transaction.
       * @var \SquareConnect\Model\Transaction
       */
     protected $transaction;
@@ -140,7 +140,7 @@ class ChargeResponse implements ArrayAccess
   
     /**
      * Sets transaction
-     * @param \SquareConnect\Model\Transaction $transaction The details of the created transaction.
+     * @param \SquareConnect\Model\Transaction $transaction The created transaction.
      * @return $this
      */
     public function setTransaction($transaction)

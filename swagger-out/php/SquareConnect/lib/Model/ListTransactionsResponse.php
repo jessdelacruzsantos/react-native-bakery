@@ -38,7 +38,7 @@ use \ArrayAccess;
  * ListTransactionsResponse Class Doc Comment
  *
  * @category    Class
- * @description Defines the fields that are included in the response body of \na request to the **ListTransactions** endpoint.\n\nOne of `errors` or `transactions` is present in a given response (never both).
+ * @description Defines the fields that are included in the response body of\na request to the [ListTransactions](#endpoint-listtransactions) endpoint.\n\nOne of `errors` or `transactions` is present in a given response (never both).
  * @package     SquareConnect
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
@@ -51,9 +51,9 @@ class ListTransactionsResponse implements ArrayAccess
       * @var string[]
       */
     static $swaggerTypes = array(
+        'errors' => '\SquareConnect\Model\Error[]',
         'transactions' => '\SquareConnect\Model\Transaction[]',
-        'cursor' => 'string',
-        'errors' => '\SquareConnect\Model\Error[]'
+        'cursor' => 'string'
     );
   
     /** 
@@ -61,9 +61,9 @@ class ListTransactionsResponse implements ArrayAccess
       * @var string[] 
       */
     static $attributeMap = array(
+        'errors' => 'errors',
         'transactions' => 'transactions',
-        'cursor' => 'cursor',
-        'errors' => 'errors'
+        'cursor' => 'cursor'
     );
   
     /**
@@ -71,9 +71,9 @@ class ListTransactionsResponse implements ArrayAccess
       * @var string[]
       */
     static $setters = array(
+        'errors' => 'setErrors',
         'transactions' => 'setTransactions',
-        'cursor' => 'setCursor',
-        'errors' => 'setErrors'
+        'cursor' => 'setCursor'
     );
   
     /**
@@ -81,11 +81,17 @@ class ListTransactionsResponse implements ArrayAccess
       * @var string[]
       */
     static $getters = array(
+        'errors' => 'getErrors',
         'transactions' => 'getTransactions',
-        'cursor' => 'getCursor',
-        'errors' => 'getErrors'
+        'cursor' => 'getCursor'
     );
   
+    
+    /**
+      * $errors Any errors that occurred during the request.
+      * @var \SquareConnect\Model\Error[]
+      */
+    protected $errors;
     
     /**
       * $transactions An array of transactions that match your query.
@@ -94,16 +100,10 @@ class ListTransactionsResponse implements ArrayAccess
     protected $transactions;
     
     /**
-      * $cursor A pagination cursor for retrieving the next set of results,\nif any remain.\n\nProvide this value as the `cursor` parameter in a subsequent request\nto the **ListTransactions** endpoint.
+      * $cursor A pagination cursor for retrieving the next set of results,\nif any remain. Provide this value as the `cursor` parameter in a subsequent\nrequest to this endpoint.\n\nSee [Paginating results](#paginatingresults) for more information.
       * @var string
       */
     protected $cursor;
-    
-    /**
-      * $errors Any errors that occurred during the request.
-      * @var \SquareConnect\Model\Error[]
-      */
-    protected $errors;
     
 
     /**
@@ -113,10 +113,31 @@ class ListTransactionsResponse implements ArrayAccess
     public function __construct(array $data = null)
     {
         if ($data != null) {
+            $this->errors = $data["errors"];
             $this->transactions = $data["transactions"];
             $this->cursor = $data["cursor"];
-            $this->errors = $data["errors"];
         }
+    }
+    
+    /**
+     * Gets errors
+     * @return \SquareConnect\Model\Error[]
+     */
+    public function getErrors()
+    {
+        return $this->errors;
+    }
+  
+    /**
+     * Sets errors
+     * @param \SquareConnect\Model\Error[] $errors Any errors that occurred during the request.
+     * @return $this
+     */
+    public function setErrors($errors)
+    {
+        
+        $this->errors = $errors;
+        return $this;
     }
     
     /**
@@ -151,34 +172,13 @@ class ListTransactionsResponse implements ArrayAccess
   
     /**
      * Sets cursor
-     * @param string $cursor A pagination cursor for retrieving the next set of results,\nif any remain.\n\nProvide this value as the `cursor` parameter in a subsequent request\nto the **ListTransactions** endpoint.
+     * @param string $cursor A pagination cursor for retrieving the next set of results,\nif any remain. Provide this value as the `cursor` parameter in a subsequent\nrequest to this endpoint.\n\nSee [Paginating results](#paginatingresults) for more information.
      * @return $this
      */
     public function setCursor($cursor)
     {
         
         $this->cursor = $cursor;
-        return $this;
-    }
-    
-    /**
-     * Gets errors
-     * @return \SquareConnect\Model\Error[]
-     */
-    public function getErrors()
-    {
-        return $this->errors;
-    }
-  
-    /**
-     * Sets errors
-     * @param \SquareConnect\Model\Error[] $errors Any errors that occurred during the request.
-     * @return $this
-     */
-    public function setErrors($errors)
-    {
-        
-        $this->errors = $errors;
         return $this;
     }
     

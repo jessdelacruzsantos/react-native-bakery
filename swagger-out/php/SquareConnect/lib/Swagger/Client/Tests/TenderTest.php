@@ -37,7 +37,7 @@ namespace SquareConnect\Model;
  * TenderTest Class Doc Comment
  *
  * @category    Class
- * @description Represents a form of tender used to pay in a transaction.
+ * @description Represents a tender (i.e., a method of payment) used in a Square transaction.
  * @package     SquareConnect
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2

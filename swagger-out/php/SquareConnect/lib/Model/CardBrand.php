@@ -38,7 +38,7 @@ use \ArrayAccess;
  * CardBrand Class Doc Comment
  *
  * @category    Class
- * @description 
+ * @description Indicates a credit card&#39;s brand, such as `VISA`.
  * @package     SquareConnect
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2

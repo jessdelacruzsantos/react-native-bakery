@@ -40,7 +40,7 @@ describe 'CreateCustomerCardRequest' do
     end
   end
 
-  describe 'test attribute "cardholder_name"' do
+  describe 'test attribute "billing_address"' do
     it 'should work' do
        # assertion here
        # should be_a()
@@ -50,7 +50,7 @@ describe 'CreateCustomerCardRequest' do
     end
   end
 
-  describe 'test attribute "billing_address"' do
+  describe 'test attribute "cardholder_name"' do
     it 'should work' do
        # assertion here
        # should be_a()

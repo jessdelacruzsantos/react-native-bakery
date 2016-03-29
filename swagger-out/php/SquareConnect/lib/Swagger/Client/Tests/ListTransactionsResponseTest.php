@@ -37,7 +37,7 @@ namespace SquareConnect\Model;
  * ListTransactionsResponseTest Class Doc Comment
  *
  * @category    Class
- * @description Defines the fields that are included in the response body of \na request to the **ListTransactions** endpoint.\n\nOne of `errors` or `transactions` is present in a given response (never both).
+ * @description Defines the fields that are included in the response body of\na request to the [ListTransactions](#endpoint-listtransactions) endpoint.\n\nOne of `errors` or `transactions` is present in a given response (never both).
  * @package     SquareConnect
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2

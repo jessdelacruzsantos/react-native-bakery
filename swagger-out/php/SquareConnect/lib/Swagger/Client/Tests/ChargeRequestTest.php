@@ -37,7 +37,7 @@ namespace SquareConnect\Model;
  * ChargeRequestTest Class Doc Comment
  *
  * @category    Class
- * @description Defines the parameters that can be included in the body of \na request to the **Charge** endpoint.
+ * @description Defines the parameters that can be included in the body of\na request to the [Charge](#endpoint-charge) endpoint.
  * @package     SquareConnect
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2

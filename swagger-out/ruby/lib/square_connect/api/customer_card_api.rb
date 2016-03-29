@@ -21,7 +21,7 @@ module SquareConnect
     # CreateCustomerCard
     # Adds a card on file to an existing customer.
     # @param authorization The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.
-    # @param customer_id 
+    # @param customer_id The ID of the customer to link the card on file to.
     # @param body An object containing the fields to POST for the request.\n\nSee the corresponding object definition for field details.
     # @param [Hash] opts the optional parameters
     # @return [CreateCustomerCardResponse]
@@ -33,7 +33,7 @@ module SquareConnect
     # CreateCustomerCard
     # Adds a card on file to an existing customer.
     # @param authorization The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.
-    # @param customer_id 
+    # @param customer_id The ID of the customer to link the card on file to.
     # @param body An object containing the fields to POST for the request.\n\nSee the corresponding object definition for field details.
     # @param [Hash] opts the optional parameters
     # @return [Array<(CreateCustomerCardResponse, Fixnum, Hash)>] CreateCustomerCardResponse data, response status code and response headers
@@ -92,8 +92,8 @@ module SquareConnect
     # DeleteCustomerCard
     # Removes a card on file from a customer.
     # @param authorization The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.
-    # @param customer_id 
-    # @param card_id 
+    # @param customer_id The ID of the customer that the card on file belongs to.
+    # @param card_id The ID of the card on file to delete.
     # @param [Hash] opts the optional parameters
     # @return [DeleteCustomerCardResponse]
     def delete_customer_card(authorization, customer_id, card_id, opts = {})
@@ -104,8 +104,8 @@ module SquareConnect
     # DeleteCustomerCard
     # Removes a card on file from a customer.
     # @param authorization The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.
-    # @param customer_id 
-    # @param card_id 
+    # @param customer_id The ID of the customer that the card on file belongs to.
+    # @param card_id The ID of the card on file to delete.
     # @param [Hash] opts the optional parameters
     # @return [Array<(DeleteCustomerCardResponse, Fixnum, Hash)>] DeleteCustomerCardResponse data, response status code and response headers
     def delete_customer_card_with_http_info(authorization, customer_id, card_id, opts = {})

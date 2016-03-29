@@ -38,7 +38,7 @@ use \ArrayAccess;
  * RetrieveTransactionResponse Class Doc Comment
  *
  * @category    Class
- * @description Defines the fields that are included in the response body of \na request to the **RetrieveTransaction** endpoint.\n\nOne of `errors` or `transaction` is present in a given response (never both).
+ * @description Defines the fields that are included in the response body of\na request to the [RetrieveTransaction](#endpont-retrievetransaction) endpoint.\n\nOne of `errors` or `transaction` is present in a given response (never both).
  * @package     SquareConnect
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
@@ -90,7 +90,7 @@ class RetrieveTransactionResponse implements ArrayAccess
     protected $errors;
     
     /**
-      * $transaction The details of the requested transaction.
+      * $transaction The requested transaction.
       * @var \SquareConnect\Model\Transaction
       */
     protected $transaction;
@@ -140,7 +140,7 @@ class RetrieveTransactionResponse implements ArrayAccess
   
     /**
      * Sets transaction
-     * @param \SquareConnect\Model\Transaction $transaction The details of the requested transaction.
+     * @param \SquareConnect\Model\Transaction $transaction The requested transaction.
      * @return $this
      */
     public function setTransaction($transaction)

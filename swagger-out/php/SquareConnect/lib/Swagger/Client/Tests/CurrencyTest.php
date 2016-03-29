@@ -37,7 +37,7 @@ namespace SquareConnect\Model;
  * CurrencyTest Class Doc Comment
  *
  * @category    Class
- * @description 
+ * @description Indicates the associated currency for an amount of money. Values correspond\nto [ISO 4217](https://wikipedia.org/wiki/ISO_4217).
  * @package     SquareConnect
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2

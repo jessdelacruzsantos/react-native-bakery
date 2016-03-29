@@ -37,7 +37,7 @@ namespace SquareConnect\Model;
  * ChargeResponseTest Class Doc Comment
  *
  * @category    Class
- * @description Defines the fields that are included in the response body of \na request to the **Charge** endpoint.\n\nOne of `errors` or `transaction` is present in a given response (never both).
+ * @description Defines the fields that are included in the response body of\na request to the [Charge](#endpoint-charge) endpoint.\n\nOne of `errors` or `transaction` is present in a given response (never both).
  * @package     SquareConnect
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2

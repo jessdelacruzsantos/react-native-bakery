@@ -38,7 +38,7 @@ use \ArrayAccess;
  * ListCustomersResponse Class Doc Comment
  *
  * @category    Class
- * @description Defines the fields that are included in the response body of \na request to the **ListCustomers** endpoint.\n\nOne of `errors` or `customers` is present in a given response (never both).
+ * @description Defines the fields that are included in the response body of\na request to the [ListCustomers](#endpoint-listcustomers) endpoint.\n\nOne of `errors` or `customers` is present in a given response (never both).
  * @package     SquareConnect
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
@@ -51,9 +51,9 @@ class ListCustomersResponse implements ArrayAccess
       * @var string[]
       */
     static $swaggerTypes = array(
-        'cursor' => 'string',
         'errors' => '\SquareConnect\Model\Error[]',
-        'customers' => '\SquareConnect\Model\Customer[]'
+        'customers' => '\SquareConnect\Model\Customer[]',
+        'cursor' => 'string'
     );
   
     /** 
@@ -61,9 +61,9 @@ class ListCustomersResponse implements ArrayAccess
       * @var string[] 
       */
     static $attributeMap = array(
-        'cursor' => 'cursor',
         'errors' => 'errors',
-        'customers' => 'customers'
+        'customers' => 'customers',
+        'cursor' => 'cursor'
     );
   
     /**
@@ -71,9 +71,9 @@ class ListCustomersResponse implements ArrayAccess
       * @var string[]
       */
     static $setters = array(
-        'cursor' => 'setCursor',
         'errors' => 'setErrors',
-        'customers' => 'setCustomers'
+        'customers' => 'setCustomers',
+        'cursor' => 'setCursor'
     );
   
     /**
@@ -81,29 +81,29 @@ class ListCustomersResponse implements ArrayAccess
       * @var string[]
       */
     static $getters = array(
-        'cursor' => 'getCursor',
         'errors' => 'getErrors',
-        'customers' => 'getCustomers'
+        'customers' => 'getCustomers',
+        'cursor' => 'getCursor'
     );
   
     
     /**
-      * $cursor 
-      * @var string
-      */
-    protected $cursor;
-    
-    /**
-      * $errors 
+      * $errors Any errors that occurred during the request.
       * @var \SquareConnect\Model\Error[]
       */
     protected $errors;
     
     /**
-      * $customers 
+      * $customers An array of `Customer` objects that match your query.
       * @var \SquareConnect\Model\Customer[]
       */
     protected $customers;
+    
+    /**
+      * $cursor A pagination cursor to retrieve the next set of results for your\noriginal query to the endpoint. This value is present only if the request\nsucceeded and additional results are available.\n\nSee [Paginating results](#paginatingresults) for more information.
+      * @var string
+      */
+    protected $cursor;
     
 
     /**
@@ -113,31 +113,10 @@ class ListCustomersResponse implements ArrayAccess
     public function __construct(array $data = null)
     {
         if ($data != null) {
-            $this->cursor = $data["cursor"];
             $this->errors = $data["errors"];
             $this->customers = $data["customers"];
+            $this->cursor = $data["cursor"];
         }
-    }
-    
-    /**
-     * Gets cursor
-     * @return string
-     */
-    public function getCursor()
-    {
-        return $this->cursor;
-    }
-  
-    /**
-     * Sets cursor
-     * @param string $cursor 
-     * @return $this
-     */
-    public function setCursor($cursor)
-    {
-        
-        $this->cursor = $cursor;
-        return $this;
     }
     
     /**
@@ -151,7 +130,7 @@ class ListCustomersResponse implements ArrayAccess
   
     /**
      * Sets errors
-     * @param \SquareConnect\Model\Error[] $errors 
+     * @param \SquareConnect\Model\Error[] $errors Any errors that occurred during the request.
      * @return $this
      */
     public function setErrors($errors)
@@ -172,13 +151,34 @@ class ListCustomersResponse implements ArrayAccess
   
     /**
      * Sets customers
-     * @param \SquareConnect\Model\Customer[] $customers 
+     * @param \SquareConnect\Model\Customer[] $customers An array of `Customer` objects that match your query.
      * @return $this
      */
     public function setCustomers($customers)
     {
         
         $this->customers = $customers;
+        return $this;
+    }
+    
+    /**
+     * Gets cursor
+     * @return string
+     */
+    public function getCursor()
+    {
+        return $this->cursor;
+    }
+  
+    /**
+     * Sets cursor
+     * @param string $cursor A pagination cursor to retrieve the next set of results for your\noriginal query to the endpoint. This value is present only if the request\nsucceeded and additional results are available.\n\nSee [Paginating results](#paginatingresults) for more information.
+     * @return $this
+     */
+    public function setCursor($cursor)
+    {
+        
+        $this->cursor = $cursor;
         return $this;
     }
     

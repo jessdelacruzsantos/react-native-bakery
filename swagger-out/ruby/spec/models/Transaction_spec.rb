@@ -40,7 +40,7 @@ describe 'Transaction' do
     end
   end
 
-  describe 'test attribute "reference_id"' do
+  describe 'test attribute "location_id"' do
     it 'should work' do
        # assertion here
        # should be_a()
@@ -60,16 +60,6 @@ describe 'Transaction' do
     end
   end
 
-  describe 'test attribute "refunds"' do
-    it 'should work' do
-       # assertion here
-       # should be_a()
-       # should be_nil
-       # should ==
-       # should_not ==
-    end
-  end
-
   describe 'test attribute "tenders"' do
     it 'should work' do
        # assertion here
@@ -80,7 +70,27 @@ describe 'Transaction' do
     end
   end
 
-  describe 'test attribute "location_id"' do
+  describe 'test attribute "refunds"' do
+    it 'should work' do
+       # assertion here
+       # should be_a()
+       # should be_nil
+       # should ==
+       # should_not ==
+    end
+  end
+
+  describe 'test attribute "reference_id"' do
+    it 'should work' do
+       # assertion here
+       # should be_a()
+       # should be_nil
+       # should ==
+       # should_not ==
+    end
+  end
+
+  describe 'test attribute "product"' do
     it 'should work' do
        # assertion here
        # should be_a()

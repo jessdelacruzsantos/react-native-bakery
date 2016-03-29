@@ -38,7 +38,7 @@ use \ArrayAccess;
  * UpdateCustomerRequest Class Doc Comment
  *
  * @category    Class
- * @description 
+ * @description Defines the body parameters that can be provided in a request to the\n[UpdateCustomer](#endpoint-updatecustomer) endpoint.
  * @package     SquareConnect
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
@@ -51,14 +51,15 @@ class UpdateCustomerRequest implements ArrayAccess
       * @var string[]
       */
     static $swaggerTypes = array(
-        'phone_number' => 'string',
-        'address' => '\SquareConnect\Model\Address',
-        'nickname' => 'string',
-        'reference_id' => 'string',
-        'family_name' => 'string',
         'given_name' => 'string',
-        'note' => 'string',
-        'email_address' => 'string'
+        'family_name' => 'string',
+        'company_name' => 'string',
+        'nickname' => 'string',
+        'email_address' => 'string',
+        'address' => '\SquareConnect\Model\Address',
+        'phone_number' => 'string',
+        'reference_id' => 'string',
+        'note' => 'string'
     );
   
     /** 
@@ -66,14 +67,15 @@ class UpdateCustomerRequest implements ArrayAccess
       * @var string[] 
       */
     static $attributeMap = array(
-        'phone_number' => 'phone_number',
-        'address' => 'address',
-        'nickname' => 'nickname',
-        'reference_id' => 'reference_id',
-        'family_name' => 'family_name',
         'given_name' => 'given_name',
-        'note' => 'note',
-        'email_address' => 'email_address'
+        'family_name' => 'family_name',
+        'company_name' => 'company_name',
+        'nickname' => 'nickname',
+        'email_address' => 'email_address',
+        'address' => 'address',
+        'phone_number' => 'phone_number',
+        'reference_id' => 'reference_id',
+        'note' => 'note'
     );
   
     /**
@@ -81,14 +83,15 @@ class UpdateCustomerRequest implements ArrayAccess
       * @var string[]
       */
     static $setters = array(
-        'phone_number' => 'setPhoneNumber',
-        'address' => 'setAddress',
-        'nickname' => 'setNickname',
-        'reference_id' => 'setReferenceId',
-        'family_name' => 'setFamilyName',
         'given_name' => 'setGivenName',
-        'note' => 'setNote',
-        'email_address' => 'setEmailAddress'
+        'family_name' => 'setFamilyName',
+        'company_name' => 'setCompanyName',
+        'nickname' => 'setNickname',
+        'email_address' => 'setEmailAddress',
+        'address' => 'setAddress',
+        'phone_number' => 'setPhoneNumber',
+        'reference_id' => 'setReferenceId',
+        'note' => 'setNote'
     );
   
     /**
@@ -96,64 +99,71 @@ class UpdateCustomerRequest implements ArrayAccess
       * @var string[]
       */
     static $getters = array(
-        'phone_number' => 'getPhoneNumber',
-        'address' => 'getAddress',
-        'nickname' => 'getNickname',
-        'reference_id' => 'getReferenceId',
-        'family_name' => 'getFamilyName',
         'given_name' => 'getGivenName',
-        'note' => 'getNote',
-        'email_address' => 'getEmailAddress'
+        'family_name' => 'getFamilyName',
+        'company_name' => 'getCompanyName',
+        'nickname' => 'getNickname',
+        'email_address' => 'getEmailAddress',
+        'address' => 'getAddress',
+        'phone_number' => 'getPhoneNumber',
+        'reference_id' => 'getReferenceId',
+        'note' => 'getNote'
     );
   
     
     /**
-      * $phone_number 
-      * @var string
-      */
-    protected $phone_number;
-    
-    /**
-      * $address 
-      * @var \SquareConnect\Model\Address
-      */
-    protected $address;
-    
-    /**
-      * $nickname 
-      * @var string
-      */
-    protected $nickname;
-    
-    /**
-      * $reference_id 
-      * @var string
-      */
-    protected $reference_id;
-    
-    /**
-      * $family_name 
-      * @var string
-      */
-    protected $family_name;
-    
-    /**
-      * $given_name 
+      * $given_name The customer's given (i.e., first) name.
       * @var string
       */
     protected $given_name;
     
     /**
-      * $note 
+      * $family_name The customer's family (i.e., last) name.
       * @var string
       */
-    protected $note;
+    protected $family_name;
     
     /**
-      * $email_address 
+      * $company_name The name of the customer's company.
+      * @var string
+      */
+    protected $company_name;
+    
+    /**
+      * $nickname A nickname for the customer.
+      * @var string
+      */
+    protected $nickname;
+    
+    /**
+      * $email_address The customer's email address.
       * @var string
       */
     protected $email_address;
+    
+    /**
+      * $address The customer's physical address.
+      * @var \SquareConnect\Model\Address
+      */
+    protected $address;
+    
+    /**
+      * $phone_number The customer's phone number.
+      * @var string
+      */
+    protected $phone_number;
+    
+    /**
+      * $reference_id An optional second ID you can set to associate the customer with an\nentity in another system.
+      * @var string
+      */
+    protected $reference_id;
+    
+    /**
+      * $note An optional note to associate with the customer.
+      * @var string
+      */
+    protected $note;
     
 
     /**
@@ -163,98 +173,36 @@ class UpdateCustomerRequest implements ArrayAccess
     public function __construct(array $data = null)
     {
         if ($data != null) {
-            $this->phone_number = $data["phone_number"];
-            $this->address = $data["address"];
-            $this->nickname = $data["nickname"];
-            $this->reference_id = $data["reference_id"];
-            $this->family_name = $data["family_name"];
             $this->given_name = $data["given_name"];
-            $this->note = $data["note"];
+            $this->family_name = $data["family_name"];
+            $this->company_name = $data["company_name"];
+            $this->nickname = $data["nickname"];
             $this->email_address = $data["email_address"];
+            $this->address = $data["address"];
+            $this->phone_number = $data["phone_number"];
+            $this->reference_id = $data["reference_id"];
+            $this->note = $data["note"];
         }
     }
     
     /**
-     * Gets phone_number
+     * Gets given_name
      * @return string
      */
-    public function getPhoneNumber()
+    public function getGivenName()
     {
-        return $this->phone_number;
+        return $this->given_name;
     }
   
     /**
-     * Sets phone_number
-     * @param string $phone_number 
+     * Sets given_name
+     * @param string $given_name The customer's given (i.e., first) name.
      * @return $this
      */
-    public function setPhoneNumber($phone_number)
+    public function setGivenName($given_name)
     {
         
-        $this->phone_number = $phone_number;
-        return $this;
-    }
-    
-    /**
-     * Gets address
-     * @return \SquareConnect\Model\Address
-     */
-    public function getAddress()
-    {
-        return $this->address;
-    }
-  
-    /**
-     * Sets address
-     * @param \SquareConnect\Model\Address $address 
-     * @return $this
-     */
-    public function setAddress($address)
-    {
-        
-        $this->address = $address;
-        return $this;
-    }
-    
-    /**
-     * Gets nickname
-     * @return string
-     */
-    public function getNickname()
-    {
-        return $this->nickname;
-    }
-  
-    /**
-     * Sets nickname
-     * @param string $nickname 
-     * @return $this
-     */
-    public function setNickname($nickname)
-    {
-        
-        $this->nickname = $nickname;
-        return $this;
-    }
-    
-    /**
-     * Gets reference_id
-     * @return string
-     */
-    public function getReferenceId()
-    {
-        return $this->reference_id;
-    }
-  
-    /**
-     * Sets reference_id
-     * @param string $reference_id 
-     * @return $this
-     */
-    public function setReferenceId($reference_id)
-    {
-        
-        $this->reference_id = $reference_id;
+        $this->given_name = $given_name;
         return $this;
     }
     
@@ -269,7 +217,7 @@ class UpdateCustomerRequest implements ArrayAccess
   
     /**
      * Sets family_name
-     * @param string $family_name 
+     * @param string $family_name The customer's family (i.e., last) name.
      * @return $this
      */
     public function setFamilyName($family_name)
@@ -280,44 +228,44 @@ class UpdateCustomerRequest implements ArrayAccess
     }
     
     /**
-     * Gets given_name
+     * Gets company_name
      * @return string
      */
-    public function getGivenName()
+    public function getCompanyName()
     {
-        return $this->given_name;
+        return $this->company_name;
     }
   
     /**
-     * Sets given_name
-     * @param string $given_name 
+     * Sets company_name
+     * @param string $company_name The name of the customer's company.
      * @return $this
      */
-    public function setGivenName($given_name)
+    public function setCompanyName($company_name)
     {
         
-        $this->given_name = $given_name;
+        $this->company_name = $company_name;
         return $this;
     }
     
     /**
-     * Gets note
+     * Gets nickname
      * @return string
      */
-    public function getNote()
+    public function getNickname()
     {
-        return $this->note;
+        return $this->nickname;
     }
   
     /**
-     * Sets note
-     * @param string $note 
+     * Sets nickname
+     * @param string $nickname A nickname for the customer.
      * @return $this
      */
-    public function setNote($note)
+    public function setNickname($nickname)
     {
         
-        $this->note = $note;
+        $this->nickname = $nickname;
         return $this;
     }
     
@@ -332,13 +280,97 @@ class UpdateCustomerRequest implements ArrayAccess
   
     /**
      * Sets email_address
-     * @param string $email_address 
+     * @param string $email_address The customer's email address.
      * @return $this
      */
     public function setEmailAddress($email_address)
     {
         
         $this->email_address = $email_address;
+        return $this;
+    }
+    
+    /**
+     * Gets address
+     * @return \SquareConnect\Model\Address
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+  
+    /**
+     * Sets address
+     * @param \SquareConnect\Model\Address $address The customer's physical address.
+     * @return $this
+     */
+    public function setAddress($address)
+    {
+        
+        $this->address = $address;
+        return $this;
+    }
+    
+    /**
+     * Gets phone_number
+     * @return string
+     */
+    public function getPhoneNumber()
+    {
+        return $this->phone_number;
+    }
+  
+    /**
+     * Sets phone_number
+     * @param string $phone_number The customer's phone number.
+     * @return $this
+     */
+    public function setPhoneNumber($phone_number)
+    {
+        
+        $this->phone_number = $phone_number;
+        return $this;
+    }
+    
+    /**
+     * Gets reference_id
+     * @return string
+     */
+    public function getReferenceId()
+    {
+        return $this->reference_id;
+    }
+  
+    /**
+     * Sets reference_id
+     * @param string $reference_id An optional second ID you can set to associate the customer with an\nentity in another system.
+     * @return $this
+     */
+    public function setReferenceId($reference_id)
+    {
+        
+        $this->reference_id = $reference_id;
+        return $this;
+    }
+    
+    /**
+     * Gets note
+     * @return string
+     */
+    public function getNote()
+    {
+        return $this->note;
+    }
+  
+    /**
+     * Sets note
+     * @param string $note An optional note to associate with the customer.
+     * @return $this
+     */
+    public function setNote($note)
+    {
+        
+        $this->note = $note;
         return $this;
     }
     

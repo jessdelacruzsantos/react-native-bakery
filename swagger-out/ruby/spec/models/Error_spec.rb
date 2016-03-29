@@ -30,7 +30,17 @@ describe 'Error' do
       @instance.should be_a(SquareConnect::Error) 
     end
   end
-  describe 'test attribute "field"' do
+  describe 'test attribute "category"' do
+    it 'should work' do
+       # assertion here
+       # should be_a()
+       # should be_nil
+       # should ==
+       # should_not ==
+    end
+  end
+
+  describe 'test attribute "code"' do
     it 'should work' do
        # assertion here
        # should be_a()
@@ -50,7 +60,7 @@ describe 'Error' do
     end
   end
 
-  describe 'test attribute "code"' do
+  describe 'test attribute "field"' do
     it 'should work' do
        # assertion here
        # should be_a()

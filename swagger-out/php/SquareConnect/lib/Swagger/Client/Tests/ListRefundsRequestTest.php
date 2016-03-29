@@ -37,7 +37,7 @@ namespace SquareConnect\Model;
  * ListRefundsRequestTest Class Doc Comment
  *
  * @category    Class
- * @description Defines the query parameters that can be included in\na request to the **ListRefunds** endpoint.
+ * @description Defines the query parameters that can be included in\na request to the [ListRefunds](#endpoint-listrefunds) endpoint.
  * @package     SquareConnect
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2

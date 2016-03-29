@@ -110,7 +110,7 @@ class Configuration
      *
      * @var string
      */
-    protected $userAgent = "Square-Connect-PHP/0.0.2";
+    protected $userAgent = "Square-Connect-PHP/2.0.0-pre";
 
     /**
      * Debug switch (default set to false)
@@ -517,7 +517,7 @@ class Configuration
         $report .= "    OS: ".php_uname()."\n";
         $report .= "    PHP Version: ".phpversion()."\n";
         $report .= "    OpenAPI Spec Version: 2.0\n";
-        $report .= "    SDK Package Version: 0.0.2\n";
+        $report .= "    SDK Package Version: 2.0.0-pre\n";
         $report .= "    Temp Folder Path: ".self::getDefaultConfiguration()->getTempFolderPath()."\n";
 
         return $report;

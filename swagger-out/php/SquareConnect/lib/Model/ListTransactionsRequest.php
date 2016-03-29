@@ -38,7 +38,7 @@ use \ArrayAccess;
  * ListTransactionsRequest Class Doc Comment
  *
  * @category    Class
- * @description Defines the query parameters that can be included in\na request to the **ListTransactions** endpoint.
+ * @description Defines the query parameters that can be included in\na request to the [ListTransactions](#endpoint-listtransactions) endpoint.
  * @package     SquareConnect
  * @author      http://github.com/swagger-api/swagger-codegen
  * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache Licene v2
@@ -51,10 +51,10 @@ class ListTransactionsRequest implements ArrayAccess
       * @var string[]
       */
     static $swaggerTypes = array(
-        'cursor' => 'string',
         'begin_time' => 'string',
         'end_time' => 'string',
-        'sort_order' => 'string'
+        'sort_order' => 'string',
+        'cursor' => 'string'
     );
   
     /** 
@@ -62,10 +62,10 @@ class ListTransactionsRequest implements ArrayAccess
       * @var string[] 
       */
     static $attributeMap = array(
-        'cursor' => 'cursor',
         'begin_time' => 'begin_time',
         'end_time' => 'end_time',
-        'sort_order' => 'sort_order'
+        'sort_order' => 'sort_order',
+        'cursor' => 'cursor'
     );
   
     /**
@@ -73,10 +73,10 @@ class ListTransactionsRequest implements ArrayAccess
       * @var string[]
       */
     static $setters = array(
-        'cursor' => 'setCursor',
         'begin_time' => 'setBeginTime',
         'end_time' => 'setEndTime',
-        'sort_order' => 'setSortOrder'
+        'sort_order' => 'setSortOrder',
+        'cursor' => 'setCursor'
     );
   
     /**
@@ -84,36 +84,36 @@ class ListTransactionsRequest implements ArrayAccess
       * @var string[]
       */
     static $getters = array(
-        'cursor' => 'getCursor',
         'begin_time' => 'getBeginTime',
         'end_time' => 'getEndTime',
-        'sort_order' => 'getSortOrder'
+        'sort_order' => 'getSortOrder',
+        'cursor' => 'getCursor'
     );
   
     
     /**
-      * $cursor A pagination cursor to retrieve the next set of results for your\noriginal query to the endpoint.
-      * @var string
-      */
-    protected $cursor;
-    
-    /**
-      * $begin_time The beginning of the requested reporting period, in RFC 3339 format.
+      * $begin_time The beginning of the requested reporting period, in RFC 3339 format.\n\nDefault value: The current time minus one year.
       * @var string
       */
     protected $begin_time;
     
     /**
-      * $end_time The end of the requested reporting period, in RFC 3339 format.
+      * $end_time The end of the requested reporting period, in RFC 3339 format.\n\nDefault value: The current time.
       * @var string
       */
     protected $end_time;
     
     /**
-      * $sort_order The order in which results are listed in the response (`ASC` for\nchronological, `DESC` for reverse-chronological).
+      * $sort_order The order in which results are listed in the response (`ASC` for\noldest first, `DESC` for newest first).\n\nDefault value: `DESC`
       * @var string
       */
     protected $sort_order;
+    
+    /**
+      * $cursor A pagination cursor returned by a previous call to this endpoint.\nProvide this to retrieve the next set of results for your original query.\n\nSee [Paginating results](#paginatingresults) for more information.
+      * @var string
+      */
+    protected $cursor;
     
 
     /**
@@ -123,32 +123,11 @@ class ListTransactionsRequest implements ArrayAccess
     public function __construct(array $data = null)
     {
         if ($data != null) {
-            $this->cursor = $data["cursor"];
             $this->begin_time = $data["begin_time"];
             $this->end_time = $data["end_time"];
             $this->sort_order = $data["sort_order"];
+            $this->cursor = $data["cursor"];
         }
-    }
-    
-    /**
-     * Gets cursor
-     * @return string
-     */
-    public function getCursor()
-    {
-        return $this->cursor;
-    }
-  
-    /**
-     * Sets cursor
-     * @param string $cursor A pagination cursor to retrieve the next set of results for your\noriginal query to the endpoint.
-     * @return $this
-     */
-    public function setCursor($cursor)
-    {
-        
-        $this->cursor = $cursor;
-        return $this;
     }
     
     /**
@@ -162,7 +141,7 @@ class ListTransactionsRequest implements ArrayAccess
   
     /**
      * Sets begin_time
-     * @param string $begin_time The beginning of the requested reporting period, in RFC 3339 format.
+     * @param string $begin_time The beginning of the requested reporting period, in RFC 3339 format.\n\nDefault value: The current time minus one year.
      * @return $this
      */
     public function setBeginTime($begin_time)
@@ -183,7 +162,7 @@ class ListTransactionsRequest implements ArrayAccess
   
     /**
      * Sets end_time
-     * @param string $end_time The end of the requested reporting period, in RFC 3339 format.
+     * @param string $end_time The end of the requested reporting period, in RFC 3339 format.\n\nDefault value: The current time.
      * @return $this
      */
     public function setEndTime($end_time)
@@ -204,7 +183,7 @@ class ListTransactionsRequest implements ArrayAccess
   
     /**
      * Sets sort_order
-     * @param string $sort_order The order in which results are listed in the response (`ASC` for\nchronological, `DESC` for reverse-chronological).
+     * @param string $sort_order The order in which results are listed in the response (`ASC` for\noldest first, `DESC` for newest first).\n\nDefault value: `DESC`
      * @return $this
      */
     public function setSortOrder($sort_order)
@@ -214,6 +193,27 @@ class ListTransactionsRequest implements ArrayAccess
             throw new \InvalidArgumentException("Invalid value for 'sort_order', must be one of 'DESC', 'ASC'");
         }
         $this->sort_order = $sort_order;
+        return $this;
+    }
+    
+    /**
+     * Gets cursor
+     * @return string
+     */
+    public function getCursor()
+    {
+        return $this->cursor;
+    }
+  
+    /**
+     * Sets cursor
+     * @param string $cursor A pagination cursor returned by a previous call to this endpoint.\nProvide this to retrieve the next set of results for your original query.\n\nSee [Paginating results](#paginatingresults) for more information.
+     * @return $this
+     */
+    public function setCursor($cursor)
+    {
+        
+        $this->cursor = $cursor;
         return $this;
     }
     
