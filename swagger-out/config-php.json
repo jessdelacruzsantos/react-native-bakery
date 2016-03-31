@@ -1,9 +1,0 @@
-{
-  "packagePath": "SquareConnect",
-  "artifactVersion": "2.0.0-pre",
-  "invokerPackage": "SquareConnect",
-  "modelPackage": "SquareConnect\\Model",
-  "apiPackage": "SquareConnect\\Api",
-  "composerVendorName": "Square",
-  "composerProjectName": "Connect"
-}
