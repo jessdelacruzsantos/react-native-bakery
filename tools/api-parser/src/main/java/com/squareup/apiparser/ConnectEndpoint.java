@@ -13,6 +13,7 @@ import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.squareup.apiparser.ConnectType.TYPE_MAP;
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
 
@@ -94,7 +95,8 @@ public class ConnectEndpoint {
         swaggerParameter.add("enum", enumArray);
         swaggerParameter.addProperty("type", "string");
       } else {
-        swaggerParameter.addProperty("type", param.getType());
+        final String type = param.getType();
+        swaggerParameter.addProperty("type", TYPE_MAP.getOrDefault(type, type));
       }
       if (param.isPathParam()) {
         swaggerParameter.addProperty("in", "path");
