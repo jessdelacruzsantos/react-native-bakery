@@ -22,7 +22,7 @@
         ],
         "summary": "Charge",
         "operationId": "Charge",
-        "description": "Charges a card represented by a token.",
+        "description": "Charges a card represented by a card nonce or a customer\u0027s card on file.\n\nYour request to this endpoint must include _either_:\n- A value for the `card_nonce` parameter (to charge a card nonce generated\nwith the `SqPaymentForm`)\n- Values for the `customer_card_id` and `customer_id` parameters (to charge\na customer\u0027s card on file)",
         "parameters": [
           {
             "name": "Authorization",
@@ -33,7 +33,7 @@
           },
           {
             "name": "location_id",
-            "description": "The ID of the location to associate the transaction with.",
+            "description": "The ID of the location to associate the created transaction with.",
             "type": "string",
             "in": "path",
             "required": true
@@ -63,7 +63,7 @@
         ],
         "summary": "ListTransactions",
         "operationId": "ListTransactions",
-        "description": "Lists transactions for a particular location.\n\nWhen making a request to this endpoint, your request body **must** include either the `cursor` parameter, or it must\ninclude both `begin_time` and `end_time` with an optional `sort_order`.",
+        "description": "Lists transactions for a particular location.",
         "parameters": [
           {
             "name": "Authorization",
@@ -81,21 +81,21 @@
           },
           {
             "name": "begin_time",
-            "description": "The beginning of the requested reporting period, in RFC 3339 format.",
+            "description": "The beginning of the requested reporting period, in RFC 3339 format.\n\nDefault value: The current time minus one year.",
             "type": "string",
             "in": "query",
             "required": false
           },
           {
             "name": "end_time",
-            "description": "The end of the requested reporting period, in RFC 3339 format.",
+            "description": "The end of the requested reporting period, in RFC 3339 format.\n\nDefault value: The current time.",
             "type": "string",
             "in": "query",
             "required": false
           },
           {
             "name": "sort_order",
-            "description": "The order in which results are listed in the response (`ASC` for\nchronological, `DESC` for reverse-chronological).",
+            "description": "The order in which results are listed in the response (`ASC` for\noldest first, `DESC` for newest first).\n\nDefault value: `DESC`",
             "enum": [
               "DESC",
               "ASC"
@@ -106,7 +106,7 @@
           },
           {
             "name": "cursor",
-            "description": "A pagination cursor to retrieve the next set of results for your\noriginal query to the endpoint.",
+            "description": "A pagination cursor returned by a previous call to this endpoint.\nProvide this to retrieve the next set of results for your original query.\n\nSee [Paginating results](#paginatingresults) for more information.",
             "type": "string",
             "in": "query",
             "required": false
@@ -147,7 +147,7 @@
           },
           {
             "name": "transaction_id",
-            "description": "",
+            "description": "The ID of the original transaction that includes the tender to refund.",
             "type": "string",
             "in": "path",
             "required": true
@@ -179,7 +179,7 @@
         ],
         "summary": "ListRefunds",
         "operationId": "ListRefunds",
-        "description": "Lists refunds for one of a business\u0027s locations.",
+        "description": "Lists refunds for one of a business\u0027s locations.\n\nRefunds with a `status` of `PENDING` are not currently included in this\nendpoint\u0027s response.",
         "parameters": [
           {
             "name": "Authorization",
@@ -197,21 +197,21 @@
           },
           {
             "name": "begin_time",
-            "description": "The beginning of the requested reporting period, in RFC 3339 format.",
+            "description": "The beginning of the requested reporting period, in RFC 3339 format.\n\nDefault value: The current time minus one year.",
             "type": "string",
             "in": "query",
             "required": false
           },
           {
             "name": "end_time",
-            "description": "The end of the requested reporting period, in RFC 3339 format.",
+            "description": "The end of the requested reporting period, in RFC 3339 format.\n\nDefault value: The current time.",
             "type": "string",
             "in": "query",
             "required": false
           },
           {
             "name": "sort_order",
-            "description": "The order in which results are listed in the response.",
+            "description": "The order in which results are listed in the response (`ASC` for\noldest first, `DESC` for newest first).\n\nDefault value: `DESC`",
             "enum": [
               "DESC",
               "ASC"
@@ -222,7 +222,7 @@
           },
           {
             "name": "cursor",
-            "description": "A pagination cursor to retrieve the next set of results for your\noriginal query to the endpoint.",
+            "description": "A pagination cursor returned by a previous call to this endpoint.\nProvide this to retrieve the next set of results for your original query.\n\nSee [Paginating results](#paginatingresults) for more information.",
             "type": "string",
             "in": "query",
             "required": false
@@ -245,7 +245,7 @@
         ],
         "summary": "ListLocations",
         "operationId": "ListLocations",
-        "description": "Provides summary information for all of a business\u0027s locations.",
+        "description": "Provides the details for all of a business\u0027s locations.\n\nMost other Connect API endpoints have a required `location_id` path parameter.\nThe `id` field of the [`Location`](#type-location) objects returned by this\nendpoint correspond to that `location_id` parameter.",
         "parameters": [
           {
             "name": "Authorization",
@@ -301,7 +301,7 @@
         ],
         "summary": "CreateCustomer",
         "operationId": "CreateCustomer",
-        "description": "Creates a new customer for the business, which can have associated cards on file.",
+        "description": "Creates a new customer for a business, which can have associated cards on file.\n\nYou must provide __at least one__ of the following values in your request to this\nendpoint:\n\n- `given_name`\n- `family_name`\n- `company_name`\n- `email_address`\n- `phone_number`\n\nThis endpoint does not accept an idempotency key. If you accidentally create\na duplicate customer, you can delete it with the\n[DeleteCustomer](#endpoint-deletecustomer) endpoint.",
         "parameters": [
           {
             "name": "Authorization",
@@ -346,7 +346,7 @@
           },
           {
             "name": "cursor",
-            "description": "",
+            "description": "A pagination cursor returned by a previous call to this endpoint.\nProvide this to retrieve the next set of results for your original query.\n\nSee [Paginating results](#paginatingresults) for more information.",
             "type": "string",
             "in": "query",
             "required": false
@@ -369,7 +369,7 @@
         ],
         "summary": "UpdateCustomer",
         "operationId": "UpdateCustomer",
-        "description": "Updates the details of an existing customer.",
+        "description": "Updates the details of an existing customer.\n\nYou cannot edit a customer\u0027s cards on file with this endpoint. To make changes\nto a card on file, you must delete the existing card on file with the\n[DeleteCustomerCard](#endpoint-deletecustomercard) endpoint, then create a new one with the\n[CreateCustomerCard](#endpoint-createcustomercard) endpoint.",
         "parameters": [
           {
             "name": "Authorization",
@@ -380,7 +380,7 @@
           },
           {
             "name": "customer_id",
-            "description": "The customer to update.",
+            "description": "The ID of the customer to update.",
             "type": "string",
             "in": "path",
             "required": true
@@ -421,7 +421,7 @@
           },
           {
             "name": "customer_id",
-            "description": "",
+            "description": "The ID of the customer to retrieve.",
             "type": "string",
             "in": "path",
             "required": true
@@ -442,7 +442,7 @@
         ],
         "summary": "DeleteCustomer",
         "operationId": "DeleteCustomer",
-        "description": "Deletes a customer from a business.",
+        "description": "Deletes a customer from a business, along with any linked cards on file.",
         "parameters": [
           {
             "name": "Authorization",
@@ -453,7 +453,7 @@
           },
           {
             "name": "customer_id",
-            "description": "",
+            "description": "The ID of the customer to delete.",
             "type": "string",
             "in": "path",
             "required": true
@@ -487,7 +487,7 @@
           },
           {
             "name": "customer_id",
-            "description": "",
+            "description": "The ID of the customer to link the card on file to.",
             "type": "string",
             "in": "path",
             "required": true
@@ -530,14 +530,14 @@
           },
           {
             "name": "customer_id",
-            "description": "",
+            "description": "The ID of the customer that the card on file belongs to.",
             "type": "string",
             "in": "path",
             "required": true
           },
           {
             "name": "card_id",
-            "description": "",
+            "description": "The ID of the card on file to delete.",
             "type": "string",
             "in": "path",
             "required": true
@@ -560,7 +560,7 @@
         ],
         "summary": "CaptureTransaction",
         "operationId": "CaptureTransaction",
-        "description": "Captures a transaction that was created with the **Charge**\nendpoint with a `delay_capture` value of `true`.",
+        "description": "Captures a transaction that was created with the [Charge](#endpoint-charge)\nendpoint with a `delay_capture` value of `true`.\n\nSee [Delayed capture transactions](/articles/delayed-capture-transactions/)\nfor more information.",
         "parameters": [
           {
             "name": "Authorization",
@@ -601,7 +601,7 @@
         ],
         "summary": "VoidTransaction",
         "operationId": "VoidTransaction",
-        "description": "Cancels a transaction that was created with the **Charge**\nendpoint with a `delay_capture` value of `true`.",
+        "description": "Cancels a transaction that was created with the [Charge](#endpoint-charge)\nendpoint with a `delay_capture` value of `true`.\n\nSee [Delayed capture transactions](/articles/delayed-capture-transactions/)\nfor more information.",
         "parameters": [
           {
             "name": "Authorization",
@@ -653,14 +653,14 @@
           },
           {
             "name": "location_id",
-            "description": "",
+            "description": "The ID of the transaction\u0027s associated location.",
             "type": "string",
             "in": "path",
             "required": true
           },
           {
             "name": "transaction_id",
-            "description": "",
+            "description": "The ID of the transaction to retrieve.",
             "type": "string",
             "in": "path",
             "required": true
@@ -691,7 +691,7 @@
         "CHINA_UNIONPAY",
         "SQUARE_GIFT_CARD"
       ],
-      "description": ""
+      "description": "Indicates a credit card\u0027s brand, such as `VISA`."
     },
     "Country": {
       "type": "string",
@@ -947,7 +947,7 @@
         "ZM",
         "ZW"
       ],
-      "description": ""
+      "description": "Indicates the country associated with another entity, such as a business.\nValues are in [ISO 3166-1-alpha-2 format](http://www.iso.org/iso/home/standards/country_codes.htm)."
     },
     "Currency": {
       "type": "string",
@@ -1133,7 +1133,7 @@
         "ZMW",
         "BTC"
       ],
-      "description": ""
+      "description": "Indicates the associated currency for an amount of money. Values correspond\nto [ISO 4217](https://wikipedia.org/wiki/ISO_4217)."
     },
     "ErrorCategory": {
       "type": "string",
@@ -1145,7 +1145,7 @@
         "PAYMENT_METHOD_ERROR",
         "REFUND_ERROR"
       ],
-      "description": ""
+      "description": "Indicates which high-level category of error has occurred during a\nrequest to the Connect API."
     },
     "ErrorCode": {
       "type": "string",
@@ -1213,14 +1213,14 @@
         "NOT_IMPLEMENTED",
         "SERVICE_UNAVAILABLE"
       ],
-      "description": ""
+      "description": "Indicates specific errors that can occur during a request to the\nConnect API."
     },
     "LocationCapability": {
       "type": "string",
       "enum": [
         "CREDIT_CARD_PROCESSING"
       ],
-      "description": ""
+      "description": "Indicates account capabilities that a business\u0027s location might or\nmight not have enabled."
     },
     "RefundStatus": {
       "type": "string",
@@ -1230,7 +1230,7 @@
         "REJECTED",
         "FAILED"
       ],
-      "description": ""
+      "description": "Indicates a refund\u0027s current status."
     },
     "SortOrder": {
       "type": "string",
@@ -1238,7 +1238,7 @@
         "DESC",
         "ASC"
       ],
-      "description": ""
+      "description": "The chronological order in which results from a request are returned."
     },
     "TenderCardDetailsEntryMethod": {
       "type": "string",
@@ -1249,7 +1249,7 @@
         "ON_FILE",
         "CONTACTLESS"
       ],
-      "description": "The method used to read the card"
+      "description": "Indicates the method used to enter the card\u0027s details."
     },
     "TenderCardDetailsStatus": {
       "type": "string",
@@ -1259,19 +1259,19 @@
         "VOIDED",
         "FAILED"
       ],
-      "description": ""
+      "description": "Indicates the card transaction\u0027s current status."
     },
     "TenderType": {
       "type": "string",
       "enum": [
-        "OTHER",
         "CARD",
         "CASH",
         "THIRD_PARTY_CARD",
         "SQUARE_GIFT_CARD",
-        "NO_SALE"
+        "NO_SALE",
+        "OTHER"
       ],
-      "description": ""
+      "description": "Indicates a tender\u0027s type."
     },
     "TransactionProduct": {
       "type": "string",
@@ -1285,54 +1285,54 @@
         "PAYROLL",
         "OTHER"
       ],
-      "description": "The name of the product used to accept payment for this transaction"
+      "description": "Indicates the Square product used to process a transaction."
     },
     "Address": {
       "type": "object",
       "properties": {
         "address_line_1": {
           "type": "string",
-          "description": ""
+          "description": "The first line of the address.\n\nFields that start with `address_line` provide the address\u0027s most specific\ndetails, like street number, street name, and building name. They do *not*\nprovide less specific details like city, state/province, or country (these\ndetails are provided in other fields)."
         },
         "address_line_2": {
           "type": "string",
-          "description": ""
+          "description": "The second line of the address, if any."
         },
         "address_line_3": {
           "type": "string",
-          "description": ""
+          "description": "The third line of the address, if any."
         },
         "locality": {
           "type": "string",
-          "description": ""
+          "description": "The city or town of the address."
         },
         "sublocality": {
           "type": "string",
-          "description": ""
+          "description": "A civil region within the address\u0027s `locality`, if any."
         },
         "sublocality_2": {
           "type": "string",
-          "description": ""
+          "description": "A civil region within the address\u0027s `sublocality`, if any."
         },
         "sublocality_3": {
           "type": "string",
-          "description": ""
+          "description": "A civil region within the address\u0027s `sublocality_2`, if any."
         },
         "administrative_district_level_1": {
           "type": "string",
-          "description": ""
+          "description": "A civil entity within the address\u0027s country. In the US, this\nis the state."
         },
         "administrative_district_level_2": {
           "type": "string",
-          "description": ""
+          "description": "A civil entity within the address\u0027s `administrative_district_level_1`.\nIn the US, this is the county."
         },
         "administrative_district_level_3": {
           "type": "string",
-          "description": ""
+          "description": "A civil entity within the address\u0027s `administrative_district_level_2`,\nif any."
         },
         "postal_code": {
           "type": "string",
-          "description": ""
+          "description": "The address\u0027s postal code."
         },
         "country": {
           "type": "string",
@@ -1588,10 +1588,10 @@
             "ZM",
             "ZW"
           ],
-          "description": ""
+          "description": "The address\u0027s country, in ISO 3166-1-alpha-2 format."
         }
       },
-      "description": ""
+      "description": "Represents a physical address."
     },
     "CaptureTransactionResponse": {
       "type": "object",
@@ -1604,7 +1604,8 @@
           "description": "Any errors that occurred during the request."
         }
       },
-      "description": "Defines the fields that are included in the response body of\na request to the **CaptureTransaction** endpoint."
+      "description": "Defines the fields that are included in the response body of\na request to the [CaptureTransaction](#endpoint-capturetransaction) endpoint.",
+      "example": {}
     },
     "Card": {
       "type": "object",
@@ -1626,7 +1627,7 @@
             "CHINA_UNIONPAY",
             "SQUARE_GIFT_CARD"
           ],
-          "description": "The card\u0027s brand (such as `VISA`)."
+          "description": "The card\u0027s brand (such as `VISA`). See [CardBrand](#type-cardbrand)\nfor all possible values."
         },
         "last_4": {
           "type": "string",
@@ -1634,22 +1635,22 @@
         },
         "exp_month": {
           "type": "integer",
-          "description": "The month of the card\u0027s expiration date, which must be between 1-12."
+          "description": "The month of the card\u0027s expiration date. This value is always between\n`1` and `12`, inclusive."
         },
         "exp_year": {
           "type": "integer",
-          "description": "The year of the card\u0027s expiration date, which must be a 4-digit year."
+          "description": "The four-digit year of the card\u0027s expiration date."
         },
         "cardholder_name": {
           "type": "string",
-          "description": "The cardholder name for the card on file."
+          "description": "The cardholder name. This value is present only if this object\nrepresents a customer\u0027s card on file."
         },
         "billing_address": {
           "$ref": "#/definitions/Address",
-          "description": "The billing address for the card on file."
+          "description": "The card\u0027s billing address. This value is present only if this object\nrepresents a customer\u0027s card on file."
         }
       },
-      "description": "Represents a credit card."
+      "description": "Represents the non-confidential details of a credit card."
     },
     "ChargeRequest": {
       "type": "object",
@@ -1660,31 +1661,31 @@
       "properties": {
         "idempotency_key": {
           "type": "string",
-          "description": "A value you specify that uniquely identifies this\ntransaction among transactions you\u0027ve created.\n\nIf you\u0027re unsure whether a particular transaction succeeded,\nyou can reattempt it with the same idempotency key without\nworrying about double-charging the buyer. Note that *all other fields*\nmust also remain identical in your followup request, or an error will occur."
+          "description": "A value you specify that uniquely identifies this\ntransaction among transactions you\u0027ve created.\n\nIf you\u0027re unsure whether a particular transaction succeeded,\nyou can reattempt it with the same idempotency key without\nworrying about double-charging the buyer.\n\nSee [Idempotency keys](#idempotencykeys) for more information."
         },
         "amount_money": {
           "$ref": "#/definitions/Money",
-          "description": "The amount of money to collect in the transaction."
+          "description": "The amount of money to charge.\n\nThe value of `currency` must match the currency associated with the business\nthat is charging the card."
         },
         "card_nonce": {
           "type": "string",
-          "description": "A nonce representing the credit card to charge for this transaction.\nDo not provide a value for this field if you provide a value for\n`customer_card_id`."
+          "description": "A nonce generated from the `SqPaymentForm` that represents the card\nto charge.\n\nThe application that provides a nonce to this endpoint must be the\n_same application_ that generated the nonce with the `SqPaymentForm`.\nOtherwise, the nonce is invalid.\n\nDo not provide a value for this field if you provide a value for\n`customer_card_id`."
         },
         "customer_card_id": {
           "type": "string",
-          "description": "The ID of the customer card on file to charge for this transaction. Do\nnot provide a value for this field if you provide a value for `card_nonce`."
+          "description": "The ID of the customer card on file to charge. Do\nnot provide a value for this field if you provide a value for `card_nonce`.\n\nIf you provide this value, you _must_ also provide a value for\n`customer_id`."
         },
         "delay_capture": {
           "type": "boolean",
-          "description": "If `true`, the request will only perform an Auth on the provided\ncard. You can then later perform either a Capture (with the\n*CaptureTransaction** endpoint) or a Void (with the **VoidTransation**\nendpoint."
+          "description": "If `true`, the request will only perform an Auth on the provided\ncard. You can then later perform either a Capture (with the\n[CaptureTransaction](#endpoint-capturetransaction) endpoint) or a Void\n(with the [VoidTransation](#endpoint-voidtransaction) endpoint).\n\nDefault value: `false`"
         },
         "reference_id": {
           "type": "string",
-          "description": "An optional ID you can associate with the transaction for your own\npurposes (such as to associate the transaction with an entity ID in your\nown database)."
+          "description": "An optional ID you can associate with the transaction for your own\npurposes (such as to associate the transaction with an entity ID in your\nown database).\n\nThis value cannot exceed 40 characters."
         },
         "note": {
           "type": "string",
-          "description": "An optional note to associate with the transaction."
+          "description": "An optional note to associate with the transaction.\n\nThis value cannot exceed 60 characters."
         },
         "customer_id": {
           "type": "string",
@@ -1692,14 +1693,18 @@
         },
         "billing_address": {
           "$ref": "#/definitions/Address",
-          "description": "If available, Postal code in the billing address for US and Canada payments may reduce decline rate."
+          "description": "The buyer\u0027s billing address. This value is optional, but providing it\nmight help reduce risk of buyer fraud."
         },
         "shipping_address": {
           "$ref": "#/definitions/Address",
-          "description": ""
+          "description": "The buyer\u0027s shipping address, if available. This value is optional,\nbut providing it might help reduce risk of buyer fraud."
+        },
+        "buyer_email_address": {
+          "type": "string",
+          "description": "The buyer\u0027s email address, if available. This value is optional,\nbut providing it might help reduce risk of buyer fraud."
         }
       },
-      "description": "Defines the parameters that can be included in the body of\na request to the **Charge** endpoint.",
+      "description": "Defines the parameters that can be included in the body of\na request to the [Charge](#endpoint-charge) endpoint.",
       "example": {
         "idempotency_key": "74ae1696-b1e3-4328-af6d-f1e04d947a13",
         "shipping_address": {
@@ -1739,16 +1744,48 @@
         },
         "transaction": {
           "$ref": "#/definitions/Transaction",
-          "description": "The details of the created transaction."
+          "description": "The created transaction."
         }
       },
-      "description": "Defines the fields that are included in the response body of\na request to the **Charge** endpoint.\n\nOne of `errors` or `transaction` is present in a given response (never both)."
+      "description": "Defines the fields that are included in the response body of\na request to the [Charge](#endpoint-charge) endpoint.\n\nOne of `errors` or `transaction` is present in a given response (never both).",
+      "example": {
+        "transaction": {
+          "id": "KnL67ZIwXCPtzOrqj0HrkxMF",
+          "location_id": "18YC4JDH91E1H",
+          "created_at": "2016-03-10T22:57:56Z",
+          "tenders": [
+            {
+              "id": "MtZRYYdDrYNQbOvV7nbuBvMF",
+              "location_id": "18YC4JDH91E1H",
+              "transaction_id": "KnL67ZIwXCPtzOrqj0HrkxMF",
+              "created_at": "2016-03-10T22:57:56Z",
+              "note": "some optional note",
+              "amount_money": {
+                "amount": 5000,
+                "currency": "USD"
+              },
+              "type": "CARD",
+              "card_details": {
+                "status": "CAPTURED",
+                "card": {
+                  "card_brand": "VISA",
+                  "last_4": "1111"
+                },
+                "entry_method": "KEYED"
+              }
+            }
+          ],
+          "reference_id": "some optional reference id",
+          "product": "EXTERNAL_API"
+        }
+      }
     },
     "CreateCardNonceRequest": {
       "type": "object",
       "required": [
         "client_id",
-        "card_data"
+        "card_data",
+        "session_id"
       ],
       "properties": {
         "client_id": {
@@ -1811,18 +1848,30 @@
       "properties": {
         "card_nonce": {
           "type": "string",
-          "description": "A card nonce representing the card data to link to the customer."
+          "description": "A card nonce representing the credit card to link to the customer.\n\nCard nonces are generated by the `SqPaymentForm` that buyers enter\ntheir card information into. See\n[Embedding the payment form](/articles/adding-payment-form/) for\nmore information."
         },
         "billing_address": {
           "$ref": "#/definitions/Address",
-          "description": "Postal code in the address is required for US and Canada payments."
+          "description": "Address information for the card on file. Only the `postal_code`\nfield is required for payments in the US and Canada."
         },
         "cardholder_name": {
           "type": "string",
-          "description": "The cardholder name."
+          "description": "The cardholder\u0027s name."
         }
       },
-      "description": ""
+      "description": "Defines the fields that are included in the request body of a request\nto the [CreateCustomerCard](#endpoint-createcustomercard) endpoint.",
+      "example": {
+        "card_nonce": "YOUR_CARD_NONCE",
+        "billing_address": {
+          "address_line_1": "500 Electric Ave",
+          "address_line_2": "Suite 600",
+          "locality": "New York",
+          "administrative_district_level_1": "NY",
+          "postal_code": "10003",
+          "country": "US"
+        },
+        "cardholder_name": "Amelia Earhart"
+      }
     },
     "CreateCustomerCardResponse": {
       "type": "object",
@@ -1832,56 +1881,90 @@
           "items": {
             "$ref": "#/definitions/Error"
           },
-          "description": ""
+          "description": "Any errors that occurred during the request."
         },
         "card": {
           "$ref": "#/definitions/Card",
-          "description": ""
+          "description": "The created card on file."
         }
       },
-      "description": "Defines the fields that are included in the response body of\na request to the **CreateCustomerCard** endpoint.\n\nOne of `errors` or `card` is present in a given response (never both)."
+      "description": "Defines the fields that are included in the response body of\na request to the [CreateCustomerCard](#endpoint-createcustomercard) endpoint.\n\nOne of `errors` or `card` is present in a given response (never both).",
+      "example": {
+        "card": {
+          "id": "icard-card_id",
+          "card_brand": "VISA",
+          "last_4": "1111",
+          "exp_month": 11,
+          "exp_year": 2018,
+          "cardholder_name": "Amelia Earhart",
+          "billing_address": {
+            "address_line_1": "500 Electric Ave",
+            "address_line_2": "Suite 600",
+            "locality": "New York",
+            "administrative_district_level_1": "NY",
+            "postal_code": "10003",
+            "country": "US"
+          }
+        }
+      }
     },
     "CreateCustomerRequest": {
       "type": "object",
       "properties": {
         "given_name": {
           "type": "string",
-          "description": ""
+          "description": "The customer\u0027s given (i.e., first) name."
         },
         "family_name": {
           "type": "string",
-          "description": ""
+          "description": "The customer\u0027s family (i.e., last) name."
         },
         "company_name": {
           "type": "string",
-          "description": ""
+          "description": "The name of the customer\u0027s company."
         },
         "nickname": {
           "type": "string",
-          "description": ""
+          "description": "A nickname for the customer."
         },
         "email_address": {
           "type": "string",
-          "description": ""
+          "description": "The customer\u0027s email address."
         },
         "address": {
           "$ref": "#/definitions/Address",
-          "description": ""
+          "description": "The customer\u0027s physical address."
         },
         "phone_number": {
           "type": "string",
-          "description": ""
+          "description": "The customer\u0027s phone number."
         },
         "reference_id": {
           "type": "string",
-          "description": ""
+          "description": "An optional second ID you can set to associate the customer with an\nentity in another system."
         },
         "note": {
           "type": "string",
-          "description": ""
+          "description": "An optional note to associate with the customer."
         }
       },
-      "description": ""
+      "description": "Defines the body parameters that can be provided in a request to the\n[CreateCustomer](#endpoint-createcustomer) endpoint.",
+      "example": {
+        "given_name": "Amelia",
+        "family_name": "Earhart",
+        "email_address": "Amelia.Earhart@example.com",
+        "address": {
+          "address_line_1": "500 Electric Ave",
+          "address_line_2": "Suite 600",
+          "locality": "New York",
+          "administrative_district_level_1": "NY",
+          "postal_code": "10003",
+          "country": "US"
+        },
+        "phone_number": "1-212-555-4240",
+        "reference_id": "YOUR_REFERENCE_ID",
+        "note": "a customer"
+      }
     },
     "CreateCustomerResponse": {
       "type": "object",
@@ -1891,14 +1974,35 @@
           "items": {
             "$ref": "#/definitions/Error"
           },
-          "description": ""
+          "description": "Any errors that occurred during the request."
         },
         "customer": {
           "$ref": "#/definitions/Customer",
-          "description": ""
+          "description": "The created customer."
         }
       },
-      "description": "Defines the fields that are included in the response body of\na request to the **CreateCustomer** endpoint.\n\nOne of `errors` or `customer` is present in a given response (never both)."
+      "description": "Defines the fields that are included in the response body of\na request to the [CreateCustomer](#endpoint-createcustomer) endpoint.\n\nOne of `errors` or `customer` is present in a given response (never both).",
+      "example": {
+        "customer": {
+          "id": "JDKYHBWT1D4F8MFH63DBMEN8Y4",
+          "created_at": "2016-03-23T20:21:54.859Z",
+          "updated_at": "2016-03-23T20:21:54.859Z",
+          "given_name": "Amelia",
+          "family_name": "Earhart",
+          "email_address": "Amelia.Earhart@example.com",
+          "address": {
+            "address_line_1": "500 Electric Ave",
+            "address_line_2": "Suite 600",
+            "locality": "New York",
+            "administrative_district_level_1": "NY",
+            "postal_code": "10003",
+            "country": "US"
+          },
+          "phone_number": "1-212-555-4240",
+          "reference_id": "YOUR_REFERENCE_ID",
+          "note": "a customer"
+        }
+      }
     },
     "CreateRefundRequest": {
       "type": "object",
@@ -1910,22 +2014,31 @@
       "properties": {
         "idempotency_key": {
           "type": "string",
-          "description": "A value you specify that uniquely identifies this\nrefund among refunds you\u0027ve created for the tender.\n\nIf you\u0027re unsure whether a particular refund succeeded,\nyou can reattempt it with the same idempotency key without\nworrying about duplicating the refund."
+          "description": "A value you specify that uniquely identifies this\nrefund among refunds you\u0027ve created for the tender.\n\nIf you\u0027re unsure whether a particular refund succeeded,\nyou can reattempt it with the same idempotency key without\nworrying about duplicating the refund.\n\nSee [Idempotency keys](#idempotencykeys) for more information."
         },
         "tender_id": {
           "type": "string",
-          "description": "The ID of the tender to refund."
-        },
-        "reason": {
-          "type": "string",
-          "description": "A description of the reason for the refund."
+          "description": "The ID of the tender to refund.\n\nA [`Transaction`](#type-transaction) has one or more `tenders` (i.e., methods\nof payment) associated with it, and you refund each tender separately with\nthe Connect API."
         },
         "amount_money": {
           "$ref": "#/definitions/Money",
-          "description": "The amount of money to refund."
+          "description": "The amount of money to refund.\n\nThis amount cannot exceed the amount that was originally charged to the\ntender that corresponds to `tender_id`."
+        },
+        "reason": {
+          "type": "string",
+          "description": "A description of the reason for the refund.\n\nDefault value: `Refund via API`"
         }
       },
-      "description": "Defines the body parameters that can be included in\na request to the **CreateRefund** endpoint."
+      "description": "Defines the body parameters that can be included in\na request to the [CreateRefund](#endpoint-createrefund) endpoint.",
+      "example": {
+        "idempotency_key": "YOUR_IDEMPOTENCY_KEY",
+        "tender_id": "TENDER_ID",
+        "reason": "a reason",
+        "amount_money": {
+          "amount": 100,
+          "currency": "USD"
+        }
+      }
     },
     "CreateRefundResponse": {
       "type": "object",
@@ -1939,13 +2052,33 @@
         },
         "refund": {
           "$ref": "#/definitions/Refund",
-          "description": "The details of the created refund."
+          "description": "The created refund."
         }
       },
-      "description": "Defines the fields that are included in the response body of\na request to the **CreateRefund** endpoint.\n\nOne of `errors` or `refund` is present in a given response (never both)."
+      "description": "Defines the fields that are included in the response body of\na request to the [CreateRefund](#endpoint-createrefund) endpoint.\n\nOne of `errors` or `refund` is present in a given response (never both).",
+      "example": {
+        "refund": {
+          "id": "b27436d1-7f8e-5610-45c6-417ef71434b4-SW",
+          "location_id": "18YC4JDH91E1H",
+          "transaction_id": "TRANSACTION_ID",
+          "tender_id": "TENDER_ID",
+          "created_at": "2016-02-12T00:28:18Z",
+          "reason": "some reason",
+          "amount_money": {
+            "amount": 100,
+            "currency": "USD"
+          },
+          "status": "PENDING"
+        }
+      }
     },
     "Customer": {
       "type": "object",
+      "required": [
+        "id",
+        "created_at",
+        "updated_at"
+      ],
       "properties": {
         "id": {
           "type": "string",
@@ -1957,53 +2090,53 @@
         },
         "updated_at": {
           "type": "string",
-          "description": "The time when the customer was updated, in RFC 3339 format."
+          "description": "The time when the customer was last updated, in RFC 3339 format."
         },
         "cards": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/Card"
           },
-          "description": "Cards on file for the customer."
+          "description": "The non-confidential details of the customer\u0027s cards on file."
         },
         "given_name": {
           "type": "string",
-          "description": ""
+          "description": "The customer\u0027s given (i.e., first) name."
         },
         "family_name": {
           "type": "string",
-          "description": ""
+          "description": "The customer\u0027s family (i.e., last) name."
         },
         "nickname": {
           "type": "string",
-          "description": ""
+          "description": "The customer\u0027s nickname."
         },
         "company_name": {
           "type": "string",
-          "description": ""
+          "description": "The name of the customer\u0027s company."
         },
         "email_address": {
           "type": "string",
-          "description": ""
+          "description": "The customer\u0027s email address."
         },
         "address": {
           "$ref": "#/definitions/Address",
-          "description": ""
+          "description": "The customer\u0027s physical address."
         },
         "phone_number": {
           "type": "string",
-          "description": ""
+          "description": "The customer\u0027s phone number."
         },
         "reference_id": {
           "type": "string",
-          "description": ""
+          "description": "A second ID you can set to associate the customer with an\nentity in another system."
         },
         "note": {
           "type": "string",
-          "description": ""
+          "description": "A note to associate with the customer."
         }
       },
-      "description": ""
+      "description": "Represents one of a business\u0027s customers, which can have one or more\ncards on file associated with it."
     },
     "DeleteCustomerCardResponse": {
       "type": "object",
@@ -2013,10 +2146,11 @@
           "items": {
             "$ref": "#/definitions/Error"
           },
-          "description": ""
+          "description": "Any errors that occurred during the request."
         }
       },
-      "description": "Defines the fields that are included in the response body of\na request to the **DeleteCustomerCard** endpoint."
+      "description": "Defines the fields that are included in the response body of\na request to the [DeleteCustomerCard](#endpoint-deletecustomercard) endpoint.",
+      "example": {}
     },
     "DeleteCustomerResponse": {
       "type": "object",
@@ -2026,10 +2160,11 @@
           "items": {
             "$ref": "#/definitions/Error"
           },
-          "description": ""
+          "description": "Any errors that occurred during the request."
         }
       },
-      "description": "Defines the fields that are included in the response body of\na request to the **DeleteCustomer** endpoint."
+      "description": "Defines the fields that are included in the response body of\na request to the [DeleteCustomer](#endpoint-deletecustomer) endpoint.",
+      "example": {}
     },
     "Error": {
       "type": "object",
@@ -2048,7 +2183,7 @@
             "PAYMENT_METHOD_ERROR",
             "REFUND_ERROR"
           ],
-          "description": ""
+          "description": "The error\u0027s high-level category. See [ErrorCategory](#type-errorcategory)\nfor possible values."
         },
         "code": {
           "type": "string",
@@ -2116,28 +2251,31 @@
             "NOT_IMPLEMENTED",
             "SERVICE_UNAVAILABLE"
           ],
-          "description": ""
+          "description": "The error\u0027s specific code. See [ErrorCode](#type-errorcode) for possible\nvalues"
         },
         "detail": {
           "type": "string",
-          "description": ""
+          "description": "A human-readable description of the error for debugging purposes."
         },
         "field": {
           "type": "string",
-          "description": ""
+          "description": "The name of the field provided in the original request that the error\npertains to, if any."
         }
       },
-      "description": ""
+      "description": "Represents an error encountered during a request to the Connect API.\n\nSee [Handling errors](#handlingerrors) for more information."
     },
     "ListCustomersRequest": {
       "type": "object",
       "properties": {
         "cursor": {
           "type": "string",
-          "description": ""
+          "description": "A pagination cursor returned by a previous call to this endpoint.\nProvide this to retrieve the next set of results for your original query.\n\nSee [Paginating results](#paginatingresults) for more information."
         }
       },
-      "description": ""
+      "description": "Defines the query parameters that can be provided in a request to the\n[ListCustomers](#endpoint-listcustomers) endpoint.",
+      "example": {
+        "url": "https://connect.squareup.com/v2/customers"
+      }
     },
     "ListCustomersResponse": {
       "type": "object",
@@ -2147,21 +2285,44 @@
           "items": {
             "$ref": "#/definitions/Error"
           },
-          "description": ""
+          "description": "Any errors that occurred during the request."
         },
         "customers": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/Customer"
           },
-          "description": ""
+          "description": "An array of `Customer` objects that match your query."
         },
         "cursor": {
           "type": "string",
-          "description": ""
+          "description": "A pagination cursor to retrieve the next set of results for your\noriginal query to the endpoint. This value is present only if the request\nsucceeded and additional results are available.\n\nSee [Paginating results](#paginatingresults) for more information."
         }
       },
-      "description": "Defines the fields that are included in the response body of\na request to the **ListCustomers** endpoint.\n\nOne of `errors` or `customers` is present in a given response (never both)."
+      "description": "Defines the fields that are included in the response body of\na request to the [ListCustomers](#endpoint-listcustomers) endpoint.\n\nOne of `errors` or `customers` is present in a given response (never both).",
+      "example": {
+        "customers": [
+          {
+            "id": "JDKYHBWT1D4F8MFH63DBMEN8Y4",
+            "created_at": "2016-03-23T20:21:54.859Z",
+            "updated_at": "2016-03-23T20:21:55Z",
+            "given_name": "Amelia",
+            "family_name": "Earhart",
+            "email_address": "Amelia.Earhart@example.com",
+            "address": {
+              "address_line_1": "500 Electric Ave",
+              "address_line_2": "Suite 600",
+              "locality": "New York",
+              "administrative_district_level_1": "NY",
+              "postal_code": "10003",
+              "country": "US"
+            },
+            "phone_number": "1-212-555-4240",
+            "reference_id": "YOUR_REFERENCE_ID",
+            "note": "a customer"
+          }
+        ]
+      }
     },
     "ListLocationsResponse": {
       "type": "object",
@@ -2178,21 +2339,40 @@
           "items": {
             "$ref": "#/definitions/Location"
           },
-          "description": "An array of the business\u0027s locations."
+          "description": "The business\u0027s locations."
         }
       },
-      "description": "Defines the fields that are included in the response body of \na request to the **ListLocations** endpoint.\n\nOne of `errors` or `locations` is present in a given response (never both)."
+      "description": "Defines the fields that are included in the response body of\na request to the [ListLocations](#endpoint-listlocations) endpoint.\n\nOne of `errors` or `locations` is present in a given response (never both).",
+      "example": {
+        "locations": [
+          {
+            "id": "18YC4JDH91E1H",
+            "name": "your location name",
+            "address": {
+              "address_line_1": "123 Main St",
+              "locality": "San Francisco",
+              "administrative_district_level_1": "CA",
+              "postal_code": "94114",
+              "country": "US"
+            },
+            "timezone": "America/Los_Angeles",
+            "capabilities": [
+              "CREDIT_CARD_PROCESSING"
+            ]
+          }
+        ]
+      }
     },
     "ListRefundsRequest": {
       "type": "object",
       "properties": {
         "begin_time": {
           "type": "string",
-          "description": "The beginning of the requested reporting period, in RFC 3339 format."
+          "description": "The beginning of the requested reporting period, in RFC 3339 format.\n\nDefault value: The current time minus one year."
         },
         "end_time": {
           "type": "string",
-          "description": "The end of the requested reporting period, in RFC 3339 format."
+          "description": "The end of the requested reporting period, in RFC 3339 format.\n\nDefault value: The current time."
         },
         "sort_order": {
           "type": "string",
@@ -2200,14 +2380,17 @@
             "DESC",
             "ASC"
           ],
-          "description": "The order in which results are listed in the response."
+          "description": "The order in which results are listed in the response (`ASC` for\noldest first, `DESC` for newest first).\n\nDefault value: `DESC`"
         },
         "cursor": {
           "type": "string",
-          "description": "A pagination cursor to retrieve the next set of results for your\noriginal query to the endpoint."
+          "description": "A pagination cursor returned by a previous call to this endpoint.\nProvide this to retrieve the next set of results for your original query.\n\nSee [Paginating results](#paginatingresults) for more information."
         }
       },
-      "description": "Defines the query parameters that can be included in\na request to the **ListRefunds** endpoint."
+      "description": "Defines the query parameters that can be included in\na request to the [ListRefunds](#endpoint-listrefunds) endpoint.",
+      "example": {
+        "url": "https://connect.squareup.com/v2/locations/LOCATION_ID/refunds?begin_time\u003d2016-01-15T00:00:00Z\u0026end_time\u003d2016-01-31T00:00:00Z"
+      }
     },
     "ListRefundsResponse": {
       "type": "object",
@@ -2228,21 +2411,38 @@
         },
         "cursor": {
           "type": "string",
-          "description": "A pagination cursor for retrieving the next set of results,\nif any remain.\n\nProvide this value as the `cursor` parameter in a subsequent request\nto the **ListTenderRefunds** endpoint."
+          "description": "A pagination cursor for retrieving the next set of results,\nif any remain. Provide this value as the `cursor` parameter in a subsequent\nrequest to this endpoint.\n\nSee [Paginating results](#paginatingresults) for more information."
         }
       },
-      "description": "Defines the fields that are included in the response body of\na request to the **ListTenderRefunds** endpoint.\n\nOne of `errors` or `refunds` is present in a given response (never both)."
+      "description": "Defines the fields that are included in the response body of\na request to the [ListRefunds](#endpoint-listrefunds) endpoint.\n\nOne of `errors` or `refunds` is present in a given response (never both).",
+      "example": {
+        "refunds": [
+          {
+            "id": "b27436d1-7f8e-5610-45c6-417ef71434b4-SW",
+            "location_id": "18YC4JDH91E1H",
+            "transaction_id": "TRANSACTION_ID",
+            "tender_id": "TENDER_ID",
+            "created_at": "2016-02-12T00:28:18Z",
+            "reason": "some reason",
+            "amount_money": {
+              "amount": 100,
+              "currency": "USD"
+            },
+            "status": "APPROVED"
+          }
+        ]
+      }
     },
     "ListTransactionsRequest": {
       "type": "object",
       "properties": {
         "begin_time": {
           "type": "string",
-          "description": "The beginning of the requested reporting period, in RFC 3339 format."
+          "description": "The beginning of the requested reporting period, in RFC 3339 format.\n\nDefault value: The current time minus one year."
         },
         "end_time": {
           "type": "string",
-          "description": "The end of the requested reporting period, in RFC 3339 format."
+          "description": "The end of the requested reporting period, in RFC 3339 format.\n\nDefault value: The current time."
         },
         "sort_order": {
           "type": "string",
@@ -2250,14 +2450,17 @@
             "DESC",
             "ASC"
           ],
-          "description": "The order in which results are listed in the response (`ASC` for\nchronological, `DESC` for reverse-chronological)."
+          "description": "The order in which results are listed in the response (`ASC` for\noldest first, `DESC` for newest first).\n\nDefault value: `DESC`"
         },
         "cursor": {
           "type": "string",
-          "description": "A pagination cursor to retrieve the next set of results for your\noriginal query to the endpoint."
+          "description": "A pagination cursor returned by a previous call to this endpoint.\nProvide this to retrieve the next set of results for your original query.\n\nSee [Paginating results](#paginatingresults) for more information."
         }
       },
-      "description": "Defines the query parameters that can be included in\na request to the **ListTransactions** endpoint."
+      "description": "Defines the query parameters that can be included in\na request to the [ListTransactions](#endpoint-listtransactions) endpoint.",
+      "example": {
+        "url": "https://connect.squareup.com/v2/locations/LOCATION_ID/transactions?begin_time\u003d2016-01-15T00:00:00Z\u0026end_time\u003d2016-01-31T00:00:00Z"
+      }
     },
     "ListTransactionsResponse": {
       "type": "object",
@@ -2278,10 +2481,47 @@
         },
         "cursor": {
           "type": "string",
-          "description": "A pagination cursor for retrieving the next set of results,\nif any remain.\n\nProvide this value as the `cursor` parameter in a subsequent request\nto the **ListTransactions** endpoint."
+          "description": "A pagination cursor for retrieving the next set of results,\nif any remain. Provide this value as the `cursor` parameter in a subsequent\nrequest to this endpoint.\n\nSee [Paginating results](#paginatingresults) for more information."
         }
       },
-      "description": "Defines the fields that are included in the response body of\na request to the **ListTransactions** endpoint.\n\nOne of `errors` or `transactions` is present in a given response (never both)."
+      "description": "Defines the fields that are included in the response body of\na request to the [ListTransactions](#endpoint-listtransactions) endpoint.\n\nOne of `errors` or `transactions` is present in a given response (never both).",
+      "example": {
+        "transactions": [
+          {
+            "id": "KnL67ZIwXCPtzOrqj0HrkxMF",
+            "location_id": "18YC4JDH91E1H",
+            "created_at": "2016-03-10T22:57:56Z",
+            "tenders": [
+              {
+                "id": "MtZRYYdDrYNQbOvV7nbuBvMF",
+                "location_id": "18YC4JDH91E1H",
+                "transaction_id": "KnL67ZIwXCPtzOrqj0HrkxMF",
+                "created_at": "2016-03-10T22:57:56Z",
+                "note": "some optional note",
+                "amount_money": {
+                  "amount": 5000,
+                  "currency": "USD"
+                },
+                "processing_fee_money": {
+                  "amount": 138,
+                  "currency": "USD"
+                },
+                "type": "CARD",
+                "card_details": {
+                  "status": "CAPTURED",
+                  "card": {
+                    "card_brand": "VISA",
+                    "last_4": "1111"
+                  },
+                  "entry_method": "KEYED"
+                }
+              }
+            ],
+            "reference_id": "some optional reference id",
+            "product": "EXTERNAL_API"
+          }
+        ]
+      }
     },
     "Location": {
       "type": "object",
@@ -2292,15 +2532,15 @@
         },
         "name": {
           "type": "string",
-          "description": "The name given to the location."
+          "description": "The location\u0027s name."
         },
         "address": {
           "$ref": "#/definitions/Address",
-          "description": "The address of this location."
+          "description": "The location\u0027s physical address."
         },
         "timezone": {
           "type": "string",
-          "description": "The IANA Timezone Database identifier for the location\u0027s timezone."
+          "description": "The [IANA Timezone Database](https://www.iana.org/time-zones)\nidentifier for the location\u0027s timezone."
         },
         "capabilities": {
           "type": "array",
@@ -2310,7 +2550,7 @@
               "CREDIT_CARD_PROCESSING"
             ]
           },
-          "description": "Indicates which Square features are enabled for the location.\n\nCurrently, there is only one value that might be present in this array:\n`CREDIT_CARD_PROCESSING`."
+          "description": "Indicates which Square features are enabled for the location.\n\nSee [LocationCapability](#type-locationcapability) for possible values."
         }
       },
       "description": "Represents one of a business\u0027s locations."
@@ -2320,7 +2560,7 @@
       "properties": {
         "amount": {
           "type": "integer",
-          "description": "Amount in the lowest denominated value of this Currency. E.g. in USD\nthese are cents, in JPY they are Yen (which do not have a \u0027cent\u0027 concept)."
+          "description": "The amount of money, in the lowest in the smallest denomination of the\ncurrency indicated by `currency`. For example, when `currency_code` is `USD`,\n`amount` is in cents."
         },
         "currency": {
           "type": "string",
@@ -2506,10 +2746,10 @@
             "ZMW",
             "BTC"
           ],
-          "description": ""
+          "description": "The type of currency, in __ISO 4217 format__. For example, the currency\ncode for US dollars is `USD`.\n\nSee [Currency](#type-currency) for possible values."
         }
       },
-      "description": ""
+      "description": "Represents an amount of money.\n\n__Important:__ Unlike version 1 of the Connect API, __all monetary amounts\nreturned by v2 endpoints are positive.__ (In v1, monetary amounts are negative\nif they represent money being paid _by_ a merchant, instead of money being\npaid _to_ a merchant.)"
     },
     "Refund": {
       "type": "object",
@@ -2525,7 +2765,7 @@
       "properties": {
         "id": {
           "type": "string",
-          "description": "The unique ID of the refund."
+          "description": "The refund\u0027s unique ID."
         },
         "location_id": {
           "type": "string",
@@ -2533,11 +2773,11 @@
         },
         "transaction_id": {
           "type": "string",
-          "description": "The ID of the transaction refunded."
+          "description": "The ID of the transaction that the refunded tender is part of."
         },
         "tender_id": {
           "type": "string",
-          "description": "The ID of the tender refunded."
+          "description": "The ID of the refunded tender."
         },
         "created_at": {
           "type": "string",
@@ -2549,7 +2789,7 @@
         },
         "amount_money": {
           "$ref": "#/definitions/Money",
-          "description": "The amount of money refunded."
+          "description": "The amount of money refunded to the buyer."
         },
         "status": {
           "type": "string",
@@ -2559,14 +2799,14 @@
             "REJECTED",
             "FAILED"
           ],
-          "description": ""
+          "description": "The current status of the refund (`PENDING`, `APPROVED`, `REJECTED`,\nor `FAILED`)."
         },
         "processing_fee_money": {
           "$ref": "#/definitions/Money",
-          "description": "The amount of processing fee refunded."
+          "description": "The amount of Square processing fee money refunded to the *merchant*."
         }
       },
-      "description": ""
+      "description": "Represents a refund processed for a Square transaction."
     },
     "RequestCardData": {
       "type": "object",
@@ -2653,14 +2893,35 @@
           "items": {
             "$ref": "#/definitions/Error"
           },
-          "description": ""
+          "description": "Any errors that occurred during the request."
         },
         "customer": {
           "$ref": "#/definitions/Customer",
-          "description": ""
+          "description": "The requested customer."
         }
       },
-      "description": "Defines the fields that are included in the response body of\na request to the **RetrieveCustomer** endpoint.\n\nOne of `errors` or `customer` is present in a given response (never both)."
+      "description": "Defines the fields that are included in the response body of\na request to the [RetrieveCustomer](#endpoint-retrievecustomer) endpoint.\n\nOne of `errors` or `customer` is present in a given response (never both).",
+      "example": {
+        "customer": {
+          "id": "JDKYHBWT1D4F8MFH63DBMEN8Y4",
+          "created_at": "2016-03-23T20:21:54.859Z",
+          "updated_at": "2016-03-23T20:21:54.859Z",
+          "given_name": "Amelia",
+          "family_name": "Earhart",
+          "email_address": "Amelia.Earhart@example.com",
+          "address": {
+            "address_line_1": "500 Electric Ave",
+            "address_line_2": "Suite 600",
+            "locality": "New York",
+            "administrative_district_level_1": "NY",
+            "postal_code": "10003",
+            "country": "US"
+          },
+          "phone_number": "1-212-555-4240",
+          "reference_id": "YOUR_REFERENCE_ID",
+          "note": "a customer"
+        }
+      }
     },
     "RetrieveTransactionResponse": {
       "type": "object",
@@ -2674,10 +2935,13 @@
         },
         "transaction": {
           "$ref": "#/definitions/Transaction",
-          "description": "The details of the requested transaction."
+          "description": "The requested transaction."
         }
       },
-      "description": "Defines the fields that are included in the response body of\na request to the **RetrieveTransaction** endpoint.\n\nOne of `errors` or `transaction` is present in a given response (never both)."
+      "description": "Defines the fields that are included in the response body of\na request to the [RetrieveTransaction](#endpont-retrievetransaction) endpoint.\n\nOne of `errors` or `transaction` is present in a given response (never both).",
+      "example": {
+        "url": "https://connect.squareup.com/v2/locations/LOCATION_ID/transactions/TRANSACTION_ID"
+      }
     },
     "Tender": {
       "type": "object",
@@ -2691,7 +2955,7 @@
         },
         "location_id": {
           "type": "string",
-          "description": "The ID of the tender\u0027s associated location."
+          "description": "The ID of the transaction\u0027s associated location."
         },
         "transaction_id": {
           "type": "string",
@@ -2720,25 +2984,25 @@
         "type": {
           "type": "string",
           "enum": [
-            "OTHER",
             "CARD",
             "CASH",
             "THIRD_PARTY_CARD",
             "SQUARE_GIFT_CARD",
-            "NO_SALE"
+            "NO_SALE",
+            "OTHER"
           ],
-          "description": "The type of tender."
+          "description": "The type of tender, such as `CARD` or `CASH`."
         },
         "card_details": {
           "$ref": "#/definitions/TenderCardDetails",
-          "description": "The details of the card tender.\nThis value is present only if the value of `type` is `CARD`."
+          "description": "The details of the card tender.\n\nThis value is present only if the value of `type` is `CARD`."
         },
         "cash_details": {
           "$ref": "#/definitions/TenderCashDetails",
-          "description": "The details of the cash tender.\nThis value is present only if the value of `type` is `CASH`."
+          "description": "The details of the cash tender.\n\nThis value is present only if the value of `type` is `CASH`."
         }
       },
-      "description": "Represents a form of tender used to pay in a transaction."
+      "description": "Represents a tender (i.e., a method of payment) used in a Square transaction."
     },
     "TenderCardDetails": {
       "type": "object",
@@ -2751,7 +3015,7 @@
             "VOIDED",
             "FAILED"
           ],
-          "description": "The credit card payment\u0027s current state (such as `CAPTURED`)"
+          "description": "The credit card payment\u0027s current state (such as `AUTHORIZED` or\n`CAPTURED`). See [TenderCardDetailsStatus](#type-tendercarddetailsstatus)\nfor possible values."
         },
         "card": {
           "$ref": "#/definitions/Card",
@@ -2766,24 +3030,24 @@
             "ON_FILE",
             "CONTACTLESS"
           ],
-          "description": "The method used to read the card."
+          "description": "The method used to enter the card\u0027s details for the transaction."
         }
       },
-      "description": "Represents the details of a credit card tender."
+      "description": "Represents additional details of a tender with `type` `CARD` or `SQUARE_GIFT_CARD`"
     },
     "TenderCashDetails": {
       "type": "object",
       "properties": {
         "buyer_tendered_money": {
           "$ref": "#/definitions/Money",
-          "description": "The total amount provided by the buyer for this tender, before change is given."
+          "description": "The total amount of cash provided by the buyer, before change is given."
         },
         "change_back_money": {
           "$ref": "#/definitions/Money",
-          "description": "The change returned to the buyer for this tender. This amount should be \u003e\u003d 0."
+          "description": "The amount of change returned to the buyer."
         }
       },
-      "description": "Represents the details of a cash tender."
+      "description": "Represents the details of a tender with `type` `CASH`."
     },
     "Transaction": {
       "type": "object",
@@ -2805,18 +3069,18 @@
           "items": {
             "$ref": "#/definitions/Tender"
           },
-          "description": "Descriptions of the tenders used to pay for the transaction."
+          "description": "The tenders used to pay in the transaction."
         },
         "refunds": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/Refund"
           },
-          "description": "An array of any refunds associated with the transaction."
+          "description": "Refunds that have been applied to any tender in the transaction."
         },
         "reference_id": {
           "type": "string",
-          "description": "If the transaction was created with the **Charge** endpoint, this\nvalue is the same as the value provided as the `reference_id` parameter\nin the request to that endpoint."
+          "description": "If the transaction was created with the [Charge](#endpoint-charge)\nendpoint, this value is the same as the value provided for the `reference_id`\nparameter in the request to that endpoint. Otherwise, it is not set."
         },
         "product": {
           "type": "string",
@@ -2830,52 +3094,57 @@
             "PAYROLL",
             "OTHER"
           ],
-          "description": "The product that processed the transaction."
+          "description": "The Square product that processed the transaction."
         }
       },
-      "description": "Represents a transaction processed with Square, either with the\nConnect API or with Square Register."
+      "description": "Represents a transaction processed with Square, either with the\nConnect API or with Square Register.\n\nThe `tenders` field of this object lists all methods of payment used to pay in\nthe transaction."
     },
     "UpdateCustomerRequest": {
       "type": "object",
       "properties": {
         "given_name": {
           "type": "string",
-          "description": ""
+          "description": "The customer\u0027s given (i.e., first) name."
         },
         "family_name": {
           "type": "string",
-          "description": ""
+          "description": "The customer\u0027s family (i.e., last) name."
         },
         "company_name": {
           "type": "string",
-          "description": ""
+          "description": "The name of the customer\u0027s company."
         },
         "nickname": {
           "type": "string",
-          "description": ""
+          "description": "A nickname for the customer."
         },
         "email_address": {
           "type": "string",
-          "description": ""
+          "description": "The customer\u0027s email address."
         },
         "address": {
           "$ref": "#/definitions/Address",
-          "description": ""
+          "description": "The customer\u0027s physical address."
         },
         "phone_number": {
           "type": "string",
-          "description": ""
+          "description": "The customer\u0027s phone number."
         },
         "reference_id": {
           "type": "string",
-          "description": ""
+          "description": "An optional second ID you can set to associate the customer with an\nentity in another system."
         },
         "note": {
           "type": "string",
-          "description": ""
+          "description": "An optional note to associate with the customer."
         }
       },
-      "description": ""
+      "description": "Defines the body parameters that can be provided in a request to the\n[UpdateCustomer](#endpoint-updatecustomer) endpoint.",
+      "example": {
+        "phone_number": "",
+        "email_address": "New.Amelia.Earhart@example.com",
+        "note": "updated customer note"
+      }
     },
     "UpdateCustomerResponse": {
       "type": "object",
@@ -2885,14 +3154,34 @@
           "items": {
             "$ref": "#/definitions/Error"
           },
-          "description": ""
+          "description": "Any errors that occurred during the request."
         },
         "customer": {
           "$ref": "#/definitions/Customer",
-          "description": ""
+          "description": "The updated customer."
         }
       },
-      "description": "Defines the fields that are included in the response body of\na request to the **UpdateCustomer** endpoint.\n\nOne of `errors` or `customer` is present in a given response (never both)."
+      "description": "Defines the fields that are included in the response body of\na request to the [UpdateCustomer](#endpoint-updatecustomer) endpoint.\n\nOne of `errors` or `customer` is present in a given response (never both).",
+      "example": {
+        "customer": {
+          "id": "JDKYHBWT1D4F8MFH63DBMEN8Y4",
+          "created_at": "2016-03-23T20:21:54.859Z",
+          "updated_at": "2016-03-25T20:21:55Z",
+          "given_name": "Amelia",
+          "family_name": "Earhart",
+          "email_address": "New.Amelia.Earhart@example.com",
+          "address": {
+            "address_line_1": "500 Electric Ave",
+            "address_line_2": "Suite 600",
+            "locality": "New York",
+            "administrative_district_level_1": "NY",
+            "postal_code": "10003",
+            "country": "US"
+          },
+          "reference_id": "YOUR_REFERENCE_ID",
+          "note": "updated customer note"
+        }
+      }
     },
     "VoidTransactionResponse": {
       "type": "object",
@@ -2905,7 +3194,8 @@
           "description": "Any errors that occurred during the request."
         }
       },
-      "description": "Defines the fields that are included in the response body of\na request to the **CaptureTransaction** endpoint."
+      "description": "Defines the fields that are included in the response body of\na request to the [CaptureTransaction](#endpoint-capturetransaction) endpoint.",
+      "example": {}
     }
   }
 }
