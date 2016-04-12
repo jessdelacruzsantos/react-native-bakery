@@ -69,6 +69,7 @@ public class ConnectEndpoint {
     root.addProperty("summary", this.getName());
     root.addProperty("operationId", this.getName());
     root.addProperty("description", docAnnotations.getOrDefault("desc", ""));
+    root.addProperty("x-oauthpermissions", docAnnotations.getOrDefault("oauthpermissions", ""));
 
     JsonArray swaggerParameters = new JsonArray();
 
