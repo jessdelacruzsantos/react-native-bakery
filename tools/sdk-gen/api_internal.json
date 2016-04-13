@@ -280,6 +280,35 @@
         }
       }
     },
+    "/v2/card-nonce": {
+      "post": {
+        "tags": [
+          "CardNonce"
+        ],
+        "summary": "CreateCardNonce",
+        "operationId": "CreateCardNonce",
+        "description": "Make a one time use token (nonce) to return to the seller\u0027s site which is\nseparate and distinct from the card PAN. (Nonce is safe to persist, as it\nis not a payment card, although it can only be used one time.)",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "An object containing the fields to POST for the request.\n\nSee the corresponding object definition for field details.",
+            "schema": {
+              "$ref": "#/definitions/CreateCardNonceRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/CreateCardNonceResponse"
+            }
+          }
+        }
+      }
+    },
     "/v2/customers": {
       "post": {
         "tags": [
@@ -1808,6 +1837,66 @@
         }
       }
     },
+    "CreateCardNonceRequest": {
+      "type": "object",
+      "required": [
+        "client_id",
+        "card_data",
+        "session_id"
+      ],
+      "properties": {
+        "client_id": {
+          "type": "string",
+          "description": ""
+        },
+        "business_id": {
+          "type": "string",
+          "description": ""
+        },
+        "card_data": {
+          "$ref": "#/definitions/RequestCardData",
+          "description": ""
+        },
+        "fingerprint": {
+          "type": "string",
+          "description": ""
+        },
+        "fingerprint_components_json": {
+          "type": "string",
+          "description": ""
+        },
+        "session_id": {
+          "type": "string",
+          "description": ""
+        },
+        "website_url": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "description": ""
+    },
+    "CreateCardNonceResponse": {
+      "type": "object",
+      "properties": {
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Error"
+          },
+          "description": ""
+        },
+        "card_nonce": {
+          "type": "string",
+          "description": "card nonce result. One time use token that represents this card data."
+        },
+        "card": {
+          "$ref": "#/definitions/ResponseCardData",
+          "description": ""
+        }
+      },
+      "description": ""
+    },
     "CreateCustomerCardRequest": {
       "type": "object",
       "required": [
@@ -2809,6 +2898,83 @@
         }
       },
       "description": "Represents a refund processed for a Square transaction."
+    },
+    "RequestCardData": {
+      "type": "object",
+      "required": [
+        "number",
+        "exp_month",
+        "exp_year",
+        "cvv",
+        "billing_postal_code"
+      ],
+      "properties": {
+        "number": {
+          "type": "string",
+          "description": "The number on the card."
+        },
+        "exp_month": {
+          "type": "integer",
+          "description": "The month of the card\u0027s expiration date, which must be between 1-12."
+        },
+        "exp_year": {
+          "type": "integer",
+          "description": "The year of the card\u0027s expiration date, which must be a 4 digit year."
+        },
+        "cvv": {
+          "type": "string",
+          "description": "The card verification value (i.e. security code) printed on the card."
+        },
+        "billing_postal_code": {
+          "type": "string",
+          "description": "The billing postal code for the card.\nPostal code for US and Canada payments may reduce decline rate."
+        }
+      },
+      "description": "Represents a credit card in the card nonce creation request."
+    },
+    "ResponseCardData": {
+      "type": "object",
+      "required": [
+        "card_brand",
+        "last_4",
+        "exp_month",
+        "exp_year",
+        "billing_postal_code"
+      ],
+      "properties": {
+        "card_brand": {
+          "type": "string",
+          "enum": [
+            "OTHER_BRAND",
+            "VISA",
+            "MASTERCARD",
+            "AMERICAN_EXPRESS",
+            "DISCOVER",
+            "DISCOVER_DINERS",
+            "JCB",
+            "CHINA_UNIONPAY",
+            "SQUARE_GIFT_CARD"
+          ],
+          "description": "The card\u0027s brand (such as `VISA`)."
+        },
+        "last_4": {
+          "type": "string",
+          "description": "The last 4 digits of the card\u0027s number."
+        },
+        "exp_month": {
+          "type": "integer",
+          "description": "The month of the card\u0027s expiration date, which must be between 1-12."
+        },
+        "exp_year": {
+          "type": "integer",
+          "description": "The year of the card\u0027s expiration date, which must be a 4-digit year."
+        },
+        "billing_postal_code": {
+          "type": "string",
+          "description": "The original billing postal code specified in the card nonce creation request."
+        }
+      },
+      "description": "Represents a credit card in the card nonce creation response."
     },
     "RetrieveCustomerRequest": {
       "type": "object",
