@@ -22,7 +22,8 @@
         ],
         "summary": "Charge",
         "operationId": "Charge",
-        "description": "Charges a card represented by a card nonce or a customer\u0027s card on file.\n\nYour request to this endpoint must include _either_:\n\n- A value for the `card_nonce` parameter (to charge a card nonce generated\nwith the `SqPaymentForm`)\n- Values for the `customer_card_id` and `customer_id` parameters (to charge\na customer\u0027s card on file)\n\nIn order for an e-commerce payment to potentially qualify for\n[Square chargeback protection](https://squareup.com/help/article/5394), you\n_must_ provide values for the following parameters in your request:\n\n- `buyer_email_address`\n- At least one of `billing_address` or `shipping_address`",
+        "description": "Charges a card represented by a card nonce or a customer\u0027s card on file.\n\nYour request to this endpoint must include _either_:\n- A value for the `card_nonce` parameter (to charge a card nonce generated\nwith the `SqPaymentForm`)\n- Values for the `customer_card_id` and `customer_id` parameters (to charge\na customer\u0027s card on file)",
+        "x-oauthpermissions": "PAYMENTS_WRITE",
         "parameters": [
           {
             "name": "Authorization",
@@ -64,6 +65,7 @@
         "summary": "ListTransactions",
         "operationId": "ListTransactions",
         "description": "Lists transactions for a particular location.",
+        "x-oauthpermissions": "PAYMENTS_READ",
         "parameters": [
           {
             "name": "Authorization",
@@ -130,6 +132,7 @@
         "summary": "CreateRefund",
         "operationId": "CreateRefund",
         "description": "Initiates a refund for a previously charged tender.",
+        "x-oauthpermissions": "PAYMENTS_WRITE",
         "parameters": [
           {
             "name": "Authorization",
@@ -180,6 +183,7 @@
         "summary": "ListRefunds",
         "operationId": "ListRefunds",
         "description": "Lists refunds for one of a business\u0027s locations.\n\nRefunds with a `status` of `PENDING` are not currently included in this\nendpoint\u0027s response.",
+        "x-oauthpermissions": "PAYMENTS_READ",
         "parameters": [
           {
             "name": "Authorization",
@@ -246,6 +250,7 @@
         "summary": "ListLocations",
         "operationId": "ListLocations",
         "description": "Provides the details for all of a business\u0027s locations.\n\nMost other Connect API endpoints have a required `location_id` path parameter.\nThe `id` field of the [`Location`](#type-location) objects returned by this\nendpoint correspond to that `location_id` parameter.",
+        "x-oauthpermissions": "MERCHANT_PROFILE_READ",
         "parameters": [
           {
             "name": "Authorization",
@@ -273,6 +278,7 @@
         "summary": "CreateCardNonce",
         "operationId": "CreateCardNonce",
         "description": "Make a one time use token (nonce) to return to the seller\u0027s site which is\nseparate and distinct from the card PAN. (Nonce is safe to persist, as it\nis not a payment card, although it can only be used one time.)",
+        "x-oauthpermissions": "",
         "parameters": [
           {
             "name": "body",
@@ -302,6 +308,7 @@
         "summary": "CreateCustomer",
         "operationId": "CreateCustomer",
         "description": "Creates a new customer for a business, which can have associated cards on file.\n\nYou must provide __at least one__ of the following values in your request to this\nendpoint:\n\n- `given_name`\n- `family_name`\n- `company_name`\n- `email_address`\n- `phone_number`\n\nThis endpoint does not accept an idempotency key. If you accidentally create\na duplicate customer, you can delete it with the\n[DeleteCustomer](#endpoint-deletecustomer) endpoint.",
+        "x-oauthpermissions": "CUSTOMERS_WRITE",
         "parameters": [
           {
             "name": "Authorization",
@@ -336,6 +343,7 @@
         "summary": "ListCustomers",
         "operationId": "ListCustomers",
         "description": "Lists a business\u0027s customers.",
+        "x-oauthpermissions": "CUSTOMERS_READ",
         "parameters": [
           {
             "name": "Authorization",
@@ -370,6 +378,7 @@
         "summary": "UpdateCustomer",
         "operationId": "UpdateCustomer",
         "description": "Updates the details of an existing customer.\n\nYou cannot edit a customer\u0027s cards on file with this endpoint. To make changes\nto a card on file, you must delete the existing card on file with the\n[DeleteCustomerCard](#endpoint-deletecustomercard) endpoint, then create a new one with the\n[CreateCustomerCard](#endpoint-createcustomercard) endpoint.",
+        "x-oauthpermissions": "CUSTOMERS_WRITE",
         "parameters": [
           {
             "name": "Authorization",
@@ -411,6 +420,7 @@
         "summary": "RetrieveCustomer",
         "operationId": "RetrieveCustomer",
         "description": "Returns details for a single customer.",
+        "x-oauthpermissions": "CUSTOMERS_READ",
         "parameters": [
           {
             "name": "Authorization",
@@ -443,6 +453,7 @@
         "summary": "DeleteCustomer",
         "operationId": "DeleteCustomer",
         "description": "Deletes a customer from a business, along with any linked cards on file.",
+        "x-oauthpermissions": "CUSTOMERS_WRITE",
         "parameters": [
           {
             "name": "Authorization",
@@ -477,6 +488,7 @@
         "summary": "CreateCustomerCard",
         "operationId": "CreateCustomerCard",
         "description": "Adds a card on file to an existing customer.",
+        "x-oauthpermissions": "CUSTOMERS_WRITE",
         "parameters": [
           {
             "name": "Authorization",
@@ -520,6 +532,7 @@
         "summary": "DeleteCustomerCard",
         "operationId": "DeleteCustomerCard",
         "description": "Removes a card on file from a customer.",
+        "x-oauthpermissions": "CUSTOMERS_WRITE",
         "parameters": [
           {
             "name": "Authorization",
@@ -561,6 +574,7 @@
         "summary": "CaptureTransaction",
         "operationId": "CaptureTransaction",
         "description": "Captures a transaction that was created with the [Charge](#endpoint-charge)\nendpoint with a `delay_capture` value of `true`.\n\nSee [Delayed capture transactions](/articles/delayed-capture-transactions/)\nfor more information.",
+        "x-oauthpermissions": "PAYMENTS_WRITE",
         "parameters": [
           {
             "name": "Authorization",
@@ -602,6 +616,7 @@
         "summary": "VoidTransaction",
         "operationId": "VoidTransaction",
         "description": "Cancels a transaction that was created with the [Charge](#endpoint-charge)\nendpoint with a `delay_capture` value of `true`.\n\nSee [Delayed capture transactions](/articles/delayed-capture-transactions/)\nfor more information.",
+        "x-oauthpermissions": "PAYMENTS_WRITE",
         "parameters": [
           {
             "name": "Authorization",
@@ -643,6 +658,7 @@
         "summary": "RetrieveTransaction",
         "operationId": "RetrieveTransaction",
         "description": "Retrieves details for a single transaction.",
+        "x-oauthpermissions": "PAYMENTS_READ",
         "parameters": [
           {
             "name": "Authorization",
@@ -1593,6 +1609,14 @@
       },
       "description": "Represents a physical address."
     },
+    "CaptureTransactionRequest": {
+      "type": "object",
+      "properties": {},
+      "description": "",
+      "example": {
+        "request_url": "https://connect.squareup.com/v2/locations/LOCATION_ID/transactions/TRANSACTION_ID/capture"
+      }
+    },
     "CaptureTransactionResponse": {
       "type": "object",
       "properties": {
@@ -1693,43 +1717,46 @@
         },
         "billing_address": {
           "$ref": "#/definitions/Address",
-          "description": "The buyer\u0027s billing address. This value is optional, but this transaction\nis ineligible for chargeback protection if neither this parameter nor\n`shipping_address` is provided."
+          "description": "The buyer\u0027s billing address. This value is optional, but providing it\nmight help reduce risk of buyer fraud."
         },
         "shipping_address": {
           "$ref": "#/definitions/Address",
-          "description": "The buyer\u0027s shipping address, if available. This value is optional,\nbut this transaction is ineligible for chargeback protection if neither this\nparameter nor `billing_address` is provided."
+          "description": "The buyer\u0027s shipping address, if available. This value is optional,\nbut providing it might help reduce risk of buyer fraud."
         },
         "buyer_email_address": {
           "type": "string",
-          "description": "The buyer\u0027s email address, if available. This value is optional,\nbut this transaction is ineligible for chargeback protection if it is not\nprovided."
+          "description": "The buyer\u0027s email address, if available. This value is optional,\nbut providing it might help reduce risk of buyer fraud."
         }
       },
       "description": "Defines the parameters that can be included in the body of\na request to the [Charge](#endpoint-charge) endpoint.",
       "example": {
-        "idempotency_key": "74ae1696-b1e3-4328-af6d-f1e04d947a13",
-        "shipping_address": {
-          "address_line_1": "123 Main St",
-          "locality": "San Francisco",
-          "administrative_district_level_1": "CA",
-          "postal_code": "94114",
-          "country": "US"
-        },
-        "billing_address": {
-          "address_line_1": "500 Electric Ave",
-          "address_line_2": "Suite 600",
-          "administrative_district_level_1": "NY",
-          "locality": "New York",
-          "postal_code": "10003",
-          "country": "US"
-        },
-        "amount_money": {
-          "amount": 5000,
-          "currency": "USD"
-        },
-        "card_nonce": "card_nonce_from_square_123",
-        "reference_id": "some optional reference id",
-        "note": "some optional note",
-        "delay_capture": false
+        "request_url": "/v2/locations/LOCATION_ID/transactions",
+        "request_body": {
+          "idempotency_key": "74ae1696-b1e3-4328-af6d-f1e04d947a13",
+          "shipping_address": {
+            "address_line_1": "123 Main St",
+            "locality": "San Francisco",
+            "administrative_district_level_1": "CA",
+            "postal_code": "94114",
+            "country": "US"
+          },
+          "billing_address": {
+            "address_line_1": "500 Electric Ave",
+            "address_line_2": "Suite 600",
+            "administrative_district_level_1": "NY",
+            "locality": "New York",
+            "postal_code": "10003",
+            "country": "US"
+          },
+          "amount_money": {
+            "amount": 5000,
+            "currency": "USD"
+          },
+          "card_nonce": "card_nonce_from_square_123",
+          "reference_id": "some optional reference id",
+          "note": "some optional note",
+          "delay_capture": false
+        }
       }
     },
     "ChargeResponse": {
@@ -1861,16 +1888,19 @@
       },
       "description": "Defines the fields that are included in the request body of a request\nto the [CreateCustomerCard](#endpoint-createcustomercard) endpoint.",
       "example": {
-        "card_nonce": "YOUR_CARD_NONCE",
-        "billing_address": {
-          "address_line_1": "500 Electric Ave",
-          "address_line_2": "Suite 600",
-          "locality": "New York",
-          "administrative_district_level_1": "NY",
-          "postal_code": "10003",
-          "country": "US"
-        },
-        "cardholder_name": "Amelia Earhart"
+        "request_url": "/v2/CUSTOMER_ID",
+        "request_body": {
+          "card_nonce": "YOUR_CARD_NONCE",
+          "billing_address": {
+            "address_line_1": "500 Electric Ave",
+            "address_line_2": "Suite 600",
+            "locality": "New York",
+            "administrative_district_level_1": "NY",
+            "postal_code": "10003",
+            "country": "US"
+          },
+          "cardholder_name": "Amelia Earhart"
+        }
       }
     },
     "CreateCustomerCardResponse": {
@@ -1950,20 +1980,23 @@
       },
       "description": "Defines the body parameters that can be provided in a request to the\n[CreateCustomer](#endpoint-createcustomer) endpoint.",
       "example": {
-        "given_name": "Amelia",
-        "family_name": "Earhart",
-        "email_address": "Amelia.Earhart@example.com",
-        "address": {
-          "address_line_1": "500 Electric Ave",
-          "address_line_2": "Suite 600",
-          "locality": "New York",
-          "administrative_district_level_1": "NY",
-          "postal_code": "10003",
-          "country": "US"
-        },
-        "phone_number": "1-212-555-4240",
-        "reference_id": "YOUR_REFERENCE_ID",
-        "note": "a customer"
+        "request_url": "/v2/customers",
+        "request_body": {
+          "given_name": "Amelia",
+          "family_name": "Earhart",
+          "email_address": "Amelia.Earhart@example.com",
+          "address": {
+            "address_line_1": "500 Electric Ave",
+            "address_line_2": "Suite 600",
+            "locality": "New York",
+            "administrative_district_level_1": "NY",
+            "postal_code": "10003",
+            "country": "US"
+          },
+          "phone_number": "1-212-555-4240",
+          "reference_id": "YOUR_REFERENCE_ID",
+          "note": "a customer"
+        }
       }
     },
     "CreateCustomerResponse": {
@@ -2031,12 +2064,15 @@
       },
       "description": "Defines the body parameters that can be included in\na request to the [CreateRefund](#endpoint-createrefund) endpoint.",
       "example": {
-        "idempotency_key": "YOUR_IDEMPOTENCY_KEY",
-        "tender_id": "TENDER_ID",
-        "reason": "a reason",
-        "amount_money": {
-          "amount": 100,
-          "currency": "USD"
+        "request_url": "/v2/locations/LOCATION_ID/transactions/TRANSACTION_ID/refund",
+        "request_body": {
+          "idempotency_key": "YOUR_IDEMPOTENCY_KEY",
+          "tender_id": "TENDER_ID",
+          "reason": "a reason",
+          "amount_money": {
+            "amount": 100,
+            "currency": "USD"
+          }
         }
       }
     },
@@ -2138,6 +2174,14 @@
       },
       "description": "Represents one of a business\u0027s customers, which can have one or more\ncards on file associated with it."
     },
+    "DeleteCustomerCardRequest": {
+      "type": "object",
+      "properties": {},
+      "description": "",
+      "example": {
+        "request_url": "https://connect.squareup.com/v2/customers/CUSTOMER_ID"
+      }
+    },
     "DeleteCustomerCardResponse": {
       "type": "object",
       "properties": {
@@ -2151,6 +2195,14 @@
       },
       "description": "Defines the fields that are included in the response body of\na request to the [DeleteCustomerCard](#endpoint-deletecustomercard) endpoint.",
       "example": {}
+    },
+    "DeleteCustomerRequest": {
+      "type": "object",
+      "properties": {},
+      "description": "",
+      "example": {
+        "request_url": "https://connect.squareup.com/v2/customers/CUSTOMER_ID"
+      }
     },
     "DeleteCustomerResponse": {
       "type": "object",
@@ -2274,7 +2326,7 @@
       },
       "description": "Defines the query parameters that can be provided in a request to the\n[ListCustomers](#endpoint-listcustomers) endpoint.",
       "example": {
-        "url": "https://connect.squareup.com/v2/customers"
+        "request_url": "https://connect.squareup.com/v2/customers"
       }
     },
     "ListCustomersResponse": {
@@ -2322,6 +2374,14 @@
             "note": "a customer"
           }
         ]
+      }
+    },
+    "ListLocationsRequest": {
+      "type": "object",
+      "properties": {},
+      "description": "",
+      "example": {
+        "request_url": "https://connect.squareup.com/v2/locations"
       }
     },
     "ListLocationsResponse": {
@@ -2389,7 +2449,7 @@
       },
       "description": "Defines the query parameters that can be included in\na request to the [ListRefunds](#endpoint-listrefunds) endpoint.",
       "example": {
-        "url": "https://connect.squareup.com/v2/locations/LOCATION_ID/refunds?begin_time\u003d2016-01-15T00:00:00Z\u0026end_time\u003d2016-01-31T00:00:00Z"
+        "request_url": "https://connect.squareup.com/v2/locations/LOCATION_ID/refunds?begin_time\u003d2016-01-15T00:00:00Z\u0026end_time\u003d2016-01-31T00:00:00Z"
       }
     },
     "ListRefundsResponse": {
@@ -2459,7 +2519,7 @@
       },
       "description": "Defines the query parameters that can be included in\na request to the [ListTransactions](#endpoint-listtransactions) endpoint.",
       "example": {
-        "url": "https://connect.squareup.com/v2/locations/LOCATION_ID/transactions?begin_time\u003d2016-01-15T00:00:00Z\u0026end_time\u003d2016-01-31T00:00:00Z"
+        "request_url": "https://connect.squareup.com/v2/locations/LOCATION_ID/transactions?begin_time\u003d2016-01-15T00:00:00Z\u0026end_time\u003d2016-01-31T00:00:00Z"
       }
     },
     "ListTransactionsResponse": {
@@ -2885,6 +2945,14 @@
       },
       "description": "Represents a credit card in the card nonce creation response."
     },
+    "RetrieveCustomerRequest": {
+      "type": "object",
+      "properties": {},
+      "description": "",
+      "example": {
+        "request_url": "https://connect.squareup.com/v2/customers/CUSTOMER_ID"
+      }
+    },
     "RetrieveCustomerResponse": {
       "type": "object",
       "properties": {
@@ -2923,6 +2991,14 @@
         }
       }
     },
+    "RetrieveTransactionRequest": {
+      "type": "object",
+      "properties": {},
+      "description": "",
+      "example": {
+        "request_url": "https://connect.squareup.com/v2/locations/LOCATION_ID/transactions/TRANSACTION_ID"
+      }
+    },
     "RetrieveTransactionResponse": {
       "type": "object",
       "properties": {
@@ -2940,7 +3016,39 @@
       },
       "description": "Defines the fields that are included in the response body of\na request to the [RetrieveTransaction](#endpont-retrievetransaction) endpoint.\n\nOne of `errors` or `transaction` is present in a given response (never both).",
       "example": {
-        "url": "https://connect.squareup.com/v2/locations/LOCATION_ID/transactions/TRANSACTION_ID"
+        "transaction": {
+          "id": "KnL67ZIwXCPtzOrqj0HrkxMF",
+          "location_id": "18YC4JDH91E1H",
+          "created_at": "2016-03-10T22:57:56Z",
+          "tenders": [
+            {
+              "id": "MtZRYYdDrYNQbOvV7nbuBvMF",
+              "location_id": "18YC4JDH91E1H",
+              "transaction_id": "KnL67ZIwXCPtzOrqj0HrkxMF",
+              "created_at": "2016-03-10T22:57:56Z",
+              "note": "some optional note",
+              "amount_money": {
+                "amount": 5000,
+                "currency": "USD"
+              },
+              "processing_fee_money": {
+                "amount": 138,
+                "currency": "USD"
+              },
+              "type": "CARD",
+              "card_details": {
+                "status": "CAPTURED",
+                "card": {
+                  "card_brand": "VISA",
+                  "last_4": "1111"
+                },
+                "entry_method": "KEYED"
+              }
+            }
+          ],
+          "reference_id": "some optional reference id",
+          "product": "EXTERNAL_API"
+        }
       }
     },
     "Tender": {
@@ -3141,9 +3249,12 @@
       },
       "description": "Defines the body parameters that can be provided in a request to the\n[UpdateCustomer](#endpoint-updatecustomer) endpoint.",
       "example": {
-        "phone_number": "",
-        "email_address": "New.Amelia.Earhart@example.com",
-        "note": "updated customer note"
+        "request_url": "/v2/customers/CUSTOMER_ID",
+        "request_body": {
+          "phone_number": "",
+          "email_address": "New.Amelia.Earhart@example.com",
+          "note": "updated customer note"
+        }
       }
     },
     "UpdateCustomerResponse": {
@@ -3181,6 +3292,14 @@
           "reference_id": "YOUR_REFERENCE_ID",
           "note": "updated customer note"
         }
+      }
+    },
+    "VoidTransactionRequest": {
+      "type": "object",
+      "properties": {},
+      "description": "",
+      "example": {
+        "request_url": "https://connect.squareup.com/v2/locations/LOCATION_ID/transactions/TRANSACTION_ID/void"
       }
     },
     "VoidTransactionResponse": {
