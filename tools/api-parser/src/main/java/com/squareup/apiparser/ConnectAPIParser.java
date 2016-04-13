@@ -4,7 +4,6 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonObject;
-
 import java.io.PrintWriter;
 import java.util.Map;
 
@@ -51,13 +50,12 @@ public class ConnectAPIParser implements APIParser {
     final Joiner join = Joiner.on(".");
     for (ConnectEnum enumm : index.getEnums().values()) {
       jsonTypes.add(enumm.getName(), enumm.toJson());
-      enumm.getValues().stream().forEach(v -> enumMapBuilder.put(join.join(enumm.getName(), v.getName()), v.getDescription()));
+      enumm.getValues().forEach(v ->
+              enumMapBuilder.put(join.join(enumm.getName(), v.getName()), v.getDescription()));
     }
 
     for (ConnectDatatype datatype : index.getDatatypes().values()) {
-      if (datatype.hasBodyParameters()) {
-        jsonTypes.add(datatype.getName(), datatype.toJson());
-      }
+      jsonTypes.add(datatype.getName(), datatype.toJson());
     }
     root.add("definitions", jsonTypes);
 

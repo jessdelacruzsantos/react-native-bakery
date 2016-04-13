@@ -29,7 +29,7 @@ public class ConnectType {
     this.rootType = checkNotNull(rootType);
     this.packageName = checkNotNull(packageName);
     this.parentType = checkNotNull(parentType);
-    this.docAnnotations = new DocString(rootType.documentation()).parse().getAnnotations();
+    this.docAnnotations = new DocString(rootType.documentation()).getAnnotations();
     this.name = this.generateName();
   }
 

@@ -264,11 +264,14 @@ for (var pathName in paths) {
 
         if (endpointRequestObject != undefined) {
           if (endpointRequestObject.details.hasOwnProperty('example')) {
-            if (endpoint.httpmethod == 'get' || endpoint.httpmethod == 'delete') {
-              endpoint.requestExample = endpointRequestObject.details.example.url;
-              endpoint.hasNoRequestBody = true;
-            } else {
-              endpoint.requestExample = JSON.stringify(endpointRequestObject.details.example, null, 2);
+            endpoint.requestExample = {
+              'httpMethod': endpoint.httpmethod.toUpperCase(),
+              'url': endpointRequestObject.details.example.request_url,
+            }
+
+            exampleBody = endpointRequestObject.details.example.request_body
+            if (exampleBody != undefined) {
+              endpoint.requestExample.body = JSON.stringify(exampleBody, null, 2);
             }
           }
         }
