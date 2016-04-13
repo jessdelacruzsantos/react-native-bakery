@@ -23,7 +23,9 @@
         "summary": "Charge",
         "operationId": "Charge",
         "description": "Charges a card represented by a card nonce or a customer\u0027s card on file.\n\nYour request to this endpoint must include _either_:\n- A value for the `card_nonce` parameter (to charge a card nonce generated\nwith the `SqPaymentForm`)\n- Values for the `customer_card_id` and `customer_id` parameters (to charge\na customer\u0027s card on file)",
-        "x-oauthpermissions": "PAYMENTS_WRITE",
+        "x-oauthpermissions": [
+          "PAYMENTS_WRITE"
+        ],
         "parameters": [
           {
             "name": "Authorization",
@@ -65,7 +67,9 @@
         "summary": "ListTransactions",
         "operationId": "ListTransactions",
         "description": "Lists transactions for a particular location.",
-        "x-oauthpermissions": "PAYMENTS_READ",
+        "x-oauthpermissions": [
+          "PAYMENTS_READ"
+        ],
         "parameters": [
           {
             "name": "Authorization",
@@ -132,7 +136,9 @@
         "summary": "CreateRefund",
         "operationId": "CreateRefund",
         "description": "Initiates a refund for a previously charged tender.",
-        "x-oauthpermissions": "PAYMENTS_WRITE",
+        "x-oauthpermissions": [
+          "PAYMENTS_WRITE"
+        ],
         "parameters": [
           {
             "name": "Authorization",
@@ -183,7 +189,9 @@
         "summary": "ListRefunds",
         "operationId": "ListRefunds",
         "description": "Lists refunds for one of a business\u0027s locations.\n\nRefunds with a `status` of `PENDING` are not currently included in this\nendpoint\u0027s response.",
-        "x-oauthpermissions": "PAYMENTS_READ",
+        "x-oauthpermissions": [
+          "PAYMENTS_READ"
+        ],
         "parameters": [
           {
             "name": "Authorization",
@@ -250,7 +258,9 @@
         "summary": "ListLocations",
         "operationId": "ListLocations",
         "description": "Provides the details for all of a business\u0027s locations.\n\nMost other Connect API endpoints have a required `location_id` path parameter.\nThe `id` field of the [`Location`](#type-location) objects returned by this\nendpoint correspond to that `location_id` parameter.",
-        "x-oauthpermissions": "MERCHANT_PROFILE_READ",
+        "x-oauthpermissions": [
+          "MERCHANT_PROFILE_READ"
+        ],
         "parameters": [
           {
             "name": "Authorization",
@@ -278,7 +288,6 @@
         "summary": "CreateCardNonce",
         "operationId": "CreateCardNonce",
         "description": "Make a one time use token (nonce) to return to the seller\u0027s site which is\nseparate and distinct from the card PAN. (Nonce is safe to persist, as it\nis not a payment card, although it can only be used one time.)",
-        "x-oauthpermissions": "",
         "parameters": [
           {
             "name": "body",
@@ -308,7 +317,9 @@
         "summary": "CreateCustomer",
         "operationId": "CreateCustomer",
         "description": "Creates a new customer for a business, which can have associated cards on file.\n\nYou must provide __at least one__ of the following values in your request to this\nendpoint:\n\n- `given_name`\n- `family_name`\n- `company_name`\n- `email_address`\n- `phone_number`\n\nThis endpoint does not accept an idempotency key. If you accidentally create\na duplicate customer, you can delete it with the\n[DeleteCustomer](#endpoint-deletecustomer) endpoint.",
-        "x-oauthpermissions": "CUSTOMERS_WRITE",
+        "x-oauthpermissions": [
+          "CUSTOMERS_WRITE"
+        ],
         "parameters": [
           {
             "name": "Authorization",
@@ -343,7 +354,9 @@
         "summary": "ListCustomers",
         "operationId": "ListCustomers",
         "description": "Lists a business\u0027s customers.",
-        "x-oauthpermissions": "CUSTOMERS_READ",
+        "x-oauthpermissions": [
+          "CUSTOMERS_READ"
+        ],
         "parameters": [
           {
             "name": "Authorization",
@@ -378,7 +391,9 @@
         "summary": "UpdateCustomer",
         "operationId": "UpdateCustomer",
         "description": "Updates the details of an existing customer.\n\nYou cannot edit a customer\u0027s cards on file with this endpoint. To make changes\nto a card on file, you must delete the existing card on file with the\n[DeleteCustomerCard](#endpoint-deletecustomercard) endpoint, then create a new one with the\n[CreateCustomerCard](#endpoint-createcustomercard) endpoint.",
-        "x-oauthpermissions": "CUSTOMERS_WRITE",
+        "x-oauthpermissions": [
+          "CUSTOMERS_WRITE"
+        ],
         "parameters": [
           {
             "name": "Authorization",
@@ -420,7 +435,9 @@
         "summary": "RetrieveCustomer",
         "operationId": "RetrieveCustomer",
         "description": "Returns details for a single customer.",
-        "x-oauthpermissions": "CUSTOMERS_READ",
+        "x-oauthpermissions": [
+          "CUSTOMERS_READ"
+        ],
         "parameters": [
           {
             "name": "Authorization",
@@ -453,7 +470,9 @@
         "summary": "DeleteCustomer",
         "operationId": "DeleteCustomer",
         "description": "Deletes a customer from a business, along with any linked cards on file.",
-        "x-oauthpermissions": "CUSTOMERS_WRITE",
+        "x-oauthpermissions": [
+          "CUSTOMERS_WRITE"
+        ],
         "parameters": [
           {
             "name": "Authorization",
@@ -488,7 +507,9 @@
         "summary": "CreateCustomerCard",
         "operationId": "CreateCustomerCard",
         "description": "Adds a card on file to an existing customer.",
-        "x-oauthpermissions": "CUSTOMERS_WRITE",
+        "x-oauthpermissions": [
+          "CUSTOMERS_WRITE"
+        ],
         "parameters": [
           {
             "name": "Authorization",
@@ -532,7 +553,9 @@
         "summary": "DeleteCustomerCard",
         "operationId": "DeleteCustomerCard",
         "description": "Removes a card on file from a customer.",
-        "x-oauthpermissions": "CUSTOMERS_WRITE",
+        "x-oauthpermissions": [
+          "CUSTOMERS_WRITE"
+        ],
         "parameters": [
           {
             "name": "Authorization",
@@ -574,7 +597,9 @@
         "summary": "CaptureTransaction",
         "operationId": "CaptureTransaction",
         "description": "Captures a transaction that was created with the [Charge](#endpoint-charge)\nendpoint with a `delay_capture` value of `true`.\n\nSee [Delayed capture transactions](/articles/delayed-capture-transactions/)\nfor more information.",
-        "x-oauthpermissions": "PAYMENTS_WRITE",
+        "x-oauthpermissions": [
+          "PAYMENTS_WRITE"
+        ],
         "parameters": [
           {
             "name": "Authorization",
@@ -616,7 +641,9 @@
         "summary": "VoidTransaction",
         "operationId": "VoidTransaction",
         "description": "Cancels a transaction that was created with the [Charge](#endpoint-charge)\nendpoint with a `delay_capture` value of `true`.\n\nSee [Delayed capture transactions](/articles/delayed-capture-transactions/)\nfor more information.",
-        "x-oauthpermissions": "PAYMENTS_WRITE",
+        "x-oauthpermissions": [
+          "PAYMENTS_WRITE"
+        ],
         "parameters": [
           {
             "name": "Authorization",
@@ -658,7 +685,9 @@
         "summary": "RetrieveTransaction",
         "operationId": "RetrieveTransaction",
         "description": "Retrieves details for a single transaction.",
-        "x-oauthpermissions": "PAYMENTS_READ",
+        "x-oauthpermissions": [
+          "PAYMENTS_READ"
+        ],
         "parameters": [
           {
             "name": "Authorization",
