@@ -12,4 +12,4 @@ Just run `npm install`. That should do it.
 To generate core classes, run `node index.js`. Core classes for PHP and Ruby
 SDKs will be written to the proper directories within `src`.
 
-To generate documentation, run `node docgen.js`.
+To generate documentation, run `node doc-gen.js`.
