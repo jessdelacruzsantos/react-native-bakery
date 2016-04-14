@@ -69,7 +69,16 @@ public class ConnectEndpoint {
     root.addProperty("summary", this.getName());
     root.addProperty("operationId", this.getName());
     root.addProperty("description", docAnnotations.getOrDefault("desc", ""));
-    root.addProperty("x-oauthpermissions", docAnnotations.getOrDefault("oauthpermissions", ""));
+
+    // Split the required OAuth permissions listed in the proto declaration into a JSON array
+    String oauthPermissions = docAnnotations.get("oauthpermissions");
+    if (oauthPermissions != null) {
+      JsonArray permissionsArray = new JsonArray();
+      for (String permission : oauthPermissions.split("\\s+")){
+        permissionsArray.add(permission);
+      }
+      root.add("x-oauthpermissions", permissionsArray);
+    }
 
     JsonArray swaggerParameters = new JsonArray();
 
