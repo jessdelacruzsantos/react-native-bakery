@@ -3191,7 +3191,7 @@
       "properties": {
         "id": {
           "type": "string",
-          "description": "The transaction\u0027s unique ID."
+          "description": "The transaction\u0027s unique ID, issued by Square payments servers."
         },
         "location_id": {
           "type": "string",
@@ -3232,6 +3232,10 @@
             "OTHER"
           ],
           "description": "The Square product that processed the transaction."
+        },
+        "client_id": {
+          "type": "string",
+          "description": "The client transaction identifier, populated for transactions\ncreated by Square Register app only, including the ones created through\nRegister API. It can be used as a unique reference to an offline or other\ntypes of asynchronously processed transaction before a server issued\ntransaction identifier becomes available."
         }
       },
       "description": "Represents a transaction processed with Square, either with the\nConnect API or with Square Register.\n\nThe `tenders` field of this object lists all methods of payment used to pay in\nthe transaction."
