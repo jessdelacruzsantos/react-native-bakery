@@ -4,11 +4,13 @@
 <h3 id="endpoint-{{#idify}}{{this.details.operationId}}{{/idify}}" class="endpoint">{{this.details.operationId}}</h3>
 <pre><code class="restpath no-highlight">{{#capitalize}}{{this.httpmethod}}{{/capitalize}} {{this.path}}</code></pre>
 {{#convertMarkdown}}{{{this.details.description}}}{{/convertMarkdown}}
-<!--<p>Required permissions:
-{{#each this.oauthpermissions}}
-  <code>{{this}}</code>
-{{/each}}</p>-->
-
+{{#if this.details.x-oauthpermissions}}
+  <p>Required permissions:
+    {{#each this.details.x-oauthpermissions}}
+      <code>{{this}}</code>
+    {{/each}}
+  </p>
+{{/if}}
 {{#if this.haspathparams}}
 <h4>Path Parameters</h4>
 <table>
