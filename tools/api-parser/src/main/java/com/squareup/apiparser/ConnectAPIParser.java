@@ -1,6 +1,7 @@
 package com.squareup.apiparser;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonObject;
@@ -9,7 +10,7 @@ import java.util.Map;
 
 import static com.squareup.apiparser.Json.GSON;
 
-public class ConnectAPIParser implements APIParser {
+public class ConnectAPIParser {
   static class JsonAPI {
     final JsonObject swagger;
     final JsonObject enumMap;
@@ -31,31 +32,38 @@ public class ConnectAPIParser implements APIParser {
       .put("produces", ImmutableList.of("application/json"))
       .build();
 
-  public JsonAPI parseAPI(ProtoIndex index) {
+  public JsonAPI parseAPI(ProtoIndex index, boolean includeInternal) {
     // Transform all the symbols to JSON and write out to file
     JsonObject root = GSON.toJsonTree(SWAGGER_BASE).getAsJsonObject();
     final ImmutableMap.Builder<String, String> enumMapBuilder = ImmutableMap.builder();
 
     JsonObject jsonEndpoints = new JsonObject();
+
     for (ConnectEndpoint endpoint : index.getEndpoints()) {
-      if (!jsonEndpoints.has(endpoint.getPath())) {
-        jsonEndpoints.add(endpoint.getPath(), new JsonObject());
+      if (!endpoint.isInternal() || includeInternal){
+        if (!jsonEndpoints.has(endpoint.getPath())) {
+          jsonEndpoints.add(endpoint.getPath(), new JsonObject());
+        }
+        jsonEndpoints.getAsJsonObject(endpoint.getPath())
+            .add(endpoint.getHttpmethod().toLowerCase(), endpoint.toJson());
       }
-      jsonEndpoints.getAsJsonObject(endpoint.getPath())
-          .add(endpoint.getHttpmethod().toLowerCase(), endpoint.toJson());
     }
     root.add("paths", jsonEndpoints);
 
     JsonObject jsonTypes = new JsonObject();
     final Joiner join = Joiner.on(".");
     for (ConnectEnum enumm : index.getEnums().values()) {
-      jsonTypes.add(enumm.getName(), enumm.toJson());
-      enumm.getValues().forEach(v ->
-              enumMapBuilder.put(join.join(enumm.getName(), v.getName()), v.getDescription()));
+      if (!enumm.isInternal() || includeInternal) {
+        jsonTypes.add(enumm.getName(), enumm.toJson());
+        enumm.getValues().forEach(v ->
+            enumMapBuilder.put(join.join(enumm.getName(), v.getName()), v.getDescription()));
+      }
     }
 
     for (ConnectDatatype datatype : index.getDatatypes().values()) {
-      jsonTypes.add(datatype.getName(), datatype.toJson());
+      if (!datatype.isInternal() || includeInternal) {
+        jsonTypes.add(datatype.getName(), datatype.toJson());
+      }
     }
     root.add("definitions", jsonTypes);
 
@@ -63,25 +71,29 @@ public class ConnectAPIParser implements APIParser {
     return new JsonAPI(root, map);
   }
 
+  private static void writeJson(String json, String path) {
+    try (PrintWriter writer = new PrintWriter(path, "UTF-8")) {
+      writer.println(json);
+    } catch (Exception e) {
+      throw Throwables.propagate(e);
+    }
+    System.out.println("Successfully wrote to " + path);
+  }
+
   public static void main(String argv[]) {
     try {
       ProtoIndex index = new ProtoIndexer().indexProtos(ImmutableList.copyOf(argv));
-      JsonAPI api = new ConnectAPIParser().parseAPI(index);
-      final String APIOutputPath = System.getProperty("user.dir") + "/api.json";
+      JsonAPI publicApi = new ConnectAPIParser().parseAPI(index, false);
+      JsonAPI internalApi = new ConnectAPIParser().parseAPI(index, true);
+      final String internalAPIOutputPath = System.getProperty("user.dir") + "/api_internal.json";
+      final String publicAPIOutputPath = System.getProperty("user.dir") + "/api.json";
       final String enumOutputPath = System.getProperty("user.dir") + "/enum_mapping.json";
-
-      try (PrintWriter writer = new PrintWriter(APIOutputPath, "UTF-8")) {
-        writer.println(GSON.toJson(api.swagger));
-      }
-      System.out.println("Wrote api.json to " + APIOutputPath);
-      try (PrintWriter writer = new PrintWriter(enumOutputPath, "UTF-8")) {
-        writer.println(GSON.toJson(api.enumMap));
-      }
-      System.out.println("Wrote enum mapping to " + enumOutputPath);
+      writeJson(GSON.toJson(internalApi.swagger), internalAPIOutputPath);
+      writeJson(GSON.toJson(publicApi.swagger), publicAPIOutputPath);
+      writeJson(GSON.toJson(publicApi.enumMap), enumOutputPath);
     } catch (Exception e) {
-      System.out.println("Failed to write api.json!");
-      e.printStackTrace();
-      System.exit(1);
+      System.out.println("Failed to index protos!");
+      System.exit(2);
     }
   }
 }

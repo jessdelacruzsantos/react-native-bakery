@@ -56,6 +56,8 @@ public class ConnectEndpoint {
     return this.rootRpc.name();
   }
 
+  public boolean isInternal()  { return this.docAnnotations.containsKey("internal"); }
+
   // Builds out endpoint JSON in the format expected by the Swagger 2.0 specification.
   public JsonObject toJson() {
     JsonObject root = new JsonObject();

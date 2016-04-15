@@ -49,6 +49,8 @@ public class ConnectType {
     return this.name;
   }
 
+  public boolean isInternal() { return docAnnotations.containsKey("internal"); }
+
   public String generateName() {
     return getParentType().map(ConnectType::generateName).orElse("") + getRootType().name();
   }
