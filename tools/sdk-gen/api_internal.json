@@ -22,7 +22,7 @@
         ],
         "summary": "Charge",
         "operationId": "Charge",
-        "description": "Charges a card represented by a card nonce or a customer\u0027s card on file.\n\nYour request to this endpoint must include _either_:\n- A value for the `card_nonce` parameter (to charge a card nonce generated\nwith the `SqPaymentForm`)\n- Values for the `customer_card_id` and `customer_id` parameters (to charge\na customer\u0027s card on file)",
+        "description": "Charges a card represented by a card nonce or a customer\u0027s card on file.\n\nYour request to this endpoint must include _either_:\n\n- A value for the `card_nonce` parameter (to charge a card nonce generated\nwith the `SqPaymentForm`)\n- Values for the `customer_card_id` and `customer_id` parameters (to charge\na customer\u0027s card on file)\n\nIn order for an e-commerce payment to potentially qualify for\n[Square chargeback protection](https://squareup.com/help/article/5394), you\n_must_ provide values for the following parameters in your request:\n\n- `buyer_email_address`\n- At least one of `billing_address` or `shipping_address`",
         "x-oauthpermissions": [
           "PAYMENTS_WRITE"
         ],
@@ -1747,15 +1747,15 @@
         },
         "billing_address": {
           "$ref": "#/definitions/Address",
-          "description": "The buyer\u0027s billing address. This value is optional, but providing it\nmight help reduce risk of buyer fraud."
+          "description": "The buyer\u0027s billing address. This value is optional, but this transaction\nis ineligible for chargeback protection if neither this parameter nor\n`shipping_address` is provided."
         },
         "shipping_address": {
           "$ref": "#/definitions/Address",
-          "description": "The buyer\u0027s shipping address, if available. This value is optional,\nbut providing it might help reduce risk of buyer fraud."
+          "description": "The buyer\u0027s shipping address, if available. This value is optional,\nbut this transaction is ineligible for chargeback protection if neither this\nparameter nor `billing_address` is provided."
         },
         "buyer_email_address": {
           "type": "string",
-          "description": "The buyer\u0027s email address, if available. This value is optional,\nbut providing it might help reduce risk of buyer fraud."
+          "description": "The buyer\u0027s email address, if available. This value is optional,\nbut this transaction is ineligible for chargeback protection if it is not\nprovided."
         }
       },
       "description": "Defines the parameters that can be included in the body of\na request to the [Charge](#endpoint-charge) endpoint.",
