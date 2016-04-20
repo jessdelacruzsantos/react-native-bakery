@@ -29,7 +29,7 @@ public class ConnectAPIParserTest {
     final Path path = Paths.get(url.getFile());
     final ProtoIndex index = indexer.indexProtos(ImmutableList.of(path.getParent().toString()));
 
-    final ConnectAPIParser.JsonAPI api = new ConnectAPIParser().parseAPI(index);
+    final ConnectAPIParser.JsonAPI api = new ConnectAPIParser().parseAPI(index, true);
     final JsonObject json = api.swagger;
     final JsonObject paths = json.getAsJsonObject("paths");
     final JsonObject definitions = json.getAsJsonObject("definitions");
