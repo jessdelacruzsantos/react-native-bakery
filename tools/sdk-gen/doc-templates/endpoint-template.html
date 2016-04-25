@@ -131,12 +131,9 @@
   <blockquote class="example">
     <h4>Example Request</h4>
   </blockquote>
-  <pre class="example">
-    {{#if this.requestExample.url}}<code class="no-highlight">{{~this.requestExample.httpMethod}} {{this.requestExample.url~}}</code>{{/if}}
+  <pre class="example">{{#if this.requestExample.url}}<code class="no-highlight">{{~this.requestExample.httpMethod}} {{this.requestExample.url~}}</code>{{/if}}
 
-    {{#if this.requestExample.body}}<code>{{~this.requestExample.body~}}</code>{{/if}}
-  </pre>
-  {{/if}}
+{{#if this.requestExample.body}}<code>{{~this.requestExample.body~}}</code>{{/if}}</pre>{{/if}}
   {{#if this.responseExample}}
   <blockquote class="example">
     <h4>Example Response Body</h4>
