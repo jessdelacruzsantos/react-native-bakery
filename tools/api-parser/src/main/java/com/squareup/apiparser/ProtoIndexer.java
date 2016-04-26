@@ -1,5 +1,6 @@
 package com.squareup.apiparser;
 
+import com.google.common.collect.ImmutableList;
 import com.squareup.wire.schema.Location;
 import com.squareup.wire.schema.internal.parser.ProtoFileElement;
 import com.squareup.wire.schema.internal.parser.ProtoParser;
@@ -22,6 +23,9 @@ import java.util.Optional;
 import java.util.regex.Pattern;
 
 public class ProtoIndexer {
+
+  private static final ImmutableList<String> IGNORED_PROTOS = ImmutableList.of("squareup/connect/v2/common/options.proto");
+
   private final List<ConnectType> protoTypes = new ArrayList<>();
   private final List<ConnectService> protoServices = new ArrayList<>();
 
@@ -31,6 +35,9 @@ public class ProtoIndexer {
       Files.walkFileTree(Paths.get(path), new SimpleFileVisitor<Path>() {
         @Override public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
             throws IOException {
+          if (shouldIgnoreProto(file.toString())) {
+            return FileVisitResult.CONTINUE;
+          }
           if (Pattern.matches(".*\\.proto\\Z", file.toString())) {
             addProtoFile(file.toFile());
           }
@@ -63,5 +70,14 @@ public class ProtoIndexer {
     for (TypeElement subType : datatype.nestedTypes()) {
       addType(subType, packageName, Optional.of(ct));
     }
+  }
+
+  private boolean shouldIgnoreProto(String protoFile) {
+    for (String ignored : IGNORED_PROTOS) {
+      if (protoFile.endsWith(ignored)) {
+        return true;
+      }
+    }
+    return false;
   }
 }
