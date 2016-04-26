@@ -226,3 +226,11 @@ for possible values.
 * `code` indicates the exact type of error that occurred. This value never
 changes for a particular error. See [ErrorCode](#type-errorcode) for possible values.
 * `detail` is a human-readable string that will help you diagnose the error. This value **can** change for a particular error.
+
+
+## Using OAuth
+
+If you are developing a Connect v2 application for multiple merchants to use,
+those merchants authorize your application with the exact same OAuth flow that
+v1 endpoints use. See [OAuth Overview](/api/connect/v1/#oauth-overview) in the v1
+API reference for more information.

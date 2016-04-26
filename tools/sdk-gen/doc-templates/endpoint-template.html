@@ -5,7 +5,7 @@
 <pre><code class="restpath no-highlight">{{#capitalize}}{{this.httpmethod}}{{/capitalize}} {{this.path}}</code></pre>
 {{#convertMarkdown}}{{{this.details.description}}}{{/convertMarkdown}}
 {{#if this.details.x-oauthpermissions}}
-  <p>Required permissions:
+  <p>Required <a href="#usingoauth">permissions</a>:
     {{#each this.details.x-oauthpermissions}}
       <code>{{this}}</code>
     {{/each}}
