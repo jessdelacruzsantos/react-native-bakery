@@ -92,6 +92,7 @@ public class ConnectAPIParser {
       writeJson(GSON.toJson(publicApi.swagger), publicAPIOutputPath);
       writeJson(GSON.toJson(publicApi.enumMap), enumOutputPath);
     } catch (Exception e) {
+      e.printStackTrace();
       System.out.println("Failed to index protos!");
       System.exit(2);
     }
