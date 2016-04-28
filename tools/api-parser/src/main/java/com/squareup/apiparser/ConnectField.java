@@ -16,6 +16,7 @@ import static java.util.stream.Collectors.toList;
 public class ConnectField {
   private final boolean required;
   private final boolean isArray;
+  private final boolean isPathParam;
   private final String name;
   private final String type;
   private final List<String> enumValues;
@@ -29,6 +30,7 @@ public class ConnectField {
     this.type = Protos.cleanName(field.type());
     this.isArray = field.label() == Field.Label.REPEATED;
     this.required = field.label() == Field.Label.REQUIRED || ProtoOptions.isRequired(field);
+    this.isPathParam = ProtoOptions.isPathParam(field);
     this.docAnnotations = new DocString(field.documentation()).getAnnotations();
     final List<ConnectField> values =
         enumm.map(ConnectEnum::getValues).orElse(Collections.emptyList());
@@ -47,6 +49,7 @@ public class ConnectField {
     this.enumValues = ImmutableList.of();
     this.validations = ImmutableMap.of();
     this.docAnnotations = new DocString(checkNotNull(documentation)).getAnnotations();
+    this.isPathParam = false;
   }
 
   public String getName() {
@@ -70,7 +73,7 @@ public class ConnectField {
   }
 
   public boolean isPathParam() {
-    return this.docAnnotations.containsKey("pathparam");
+    return this.isPathParam;
   }
 
   public Boolean isArray() {

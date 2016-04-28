@@ -8,12 +8,12 @@ option java_multiple_files = true;
 
 package squareup.connect.v3.actions;
 
-message RetrieveTransactionRequest {
-  //@pathparam
-  required string location_id = 1;
+import "squareup/connect/v2/common/options.proto";
 
-  //@pathparam
-  required string transaction_id = 2;
+message RetrieveTransactionRequest {
+  required string location_id = 1 [(common.path_param) = true];
+
+  required string transaction_id = 2 [(common.path_param) = true];
 }
 message RetrieveTransactionResponse {
   repeated resources.Error errors = 1;
@@ -21,11 +21,9 @@ message RetrieveTransactionResponse {
 }
 
 message CaptureTransactionRequest {
-  //@pathparam
-  required string location_id = 1;
+  required string location_id = 1 [(common.path_param) = true];
 
-  //@pathparam
-  required string transaction_id = 2;
+  required string transaction_id = 2 [(common.path_param) = true];
 
   required string body_param = 3 [(squareup.validations.required) = true];
 }

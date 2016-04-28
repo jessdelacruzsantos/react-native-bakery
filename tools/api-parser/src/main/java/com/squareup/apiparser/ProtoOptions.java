@@ -1,13 +1,17 @@
 package com.squareup.apiparser;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.squareup.wire.schema.Field;
 import com.squareup.wire.schema.internal.parser.FieldElement;
 import com.squareup.wire.schema.internal.parser.OptionElement;
+import com.squareup.wire.schema.internal.parser.RpcElement;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import org.apache.commons.lang3.tuple.Pair;
 
 import static com.google.common.base.Preconditions.checkState;
@@ -17,6 +21,11 @@ import static com.google.common.base.Preconditions.checkState;
  * for supported validations.
  */
 public class ProtoOptions {
+
+  private static final String RELEASE_STATUS_PUBLIC = "PUBLIC";
+  private static final String RELEASE_STATUS_BETA = "BETA";
+  private static final String RELEASE_STATUS_INTERNAL = "INTERNAL";
+
   private static final Map<String, Function<OptionElement, Optional<Pair<String, Object>>>>
       TRANSFORMERS = ImmutableMap.of(
       "squareup.validation.length", ProtoOptions::length,
@@ -49,12 +58,56 @@ public class ProtoOptions {
     if (field.label() == Field.Label.REQUIRED) {
       return true;
     }
+    return getBooleanValue(field.options(), "squareup.validation.required");
+  }
 
-    return field.options().stream()
-        .filter(option -> "squareup.validation.required".equals(option.name()))
+  public static boolean isPathParam(FieldElement field) {
+    return getBooleanValue(field.options(), "common.path_param");
+  }
+
+  public static boolean getBooleanValue(Collection<OptionElement> options, String optionName) {
+    return options.stream()
+        .filter(option -> optionName.endsWith(option.name()))
         .findFirst()
         .map(option -> Boolean.parseBoolean((String) option.value()))
         .orElse(false);
+  }
+
+  public static Optional<String> getStringValue(Collection<OptionElement> options, String optionName) {
+    return options.stream()
+        .filter(option -> optionName.endsWith(option.name()))
+        .findFirst()
+        .map(option -> (String) option.value());
+  }
+
+  public static boolean isReleaseStatusInternal(Collection<OptionElement> options, String optionName) {
+    return releaseStatusEquals(options, optionName, RELEASE_STATUS_INTERNAL);
+  }
+
+  public static boolean isReleaseStatusPublic(Collection<OptionElement> options, String optionName) {
+    return releaseStatusEquals(options, optionName, RELEASE_STATUS_PUBLIC);
+  }
+
+  public static boolean isReleaseStatusBeta(Collection<OptionElement> options, String optionName) {
+    return releaseStatusEquals(options, optionName, RELEASE_STATUS_BETA);
+  }
+
+  public static boolean releaseStatusEquals(Collection<OptionElement> options, String optionName,
+      String status) {
+    return status.equals(getStringValue(options, optionName).orElse(RELEASE_STATUS_PUBLIC));
+  }
+
+  public static List<String> getOAuthPermissions(RpcElement rpcElement) {
+    return rpcElement.options().stream()
+        .filter(option -> option.name().endsWith("common.oauth_permissions"))
+        .findFirst()
+        .map(option -> {
+          @SuppressWarnings("unchecked")
+          List<Object> permissions = (List<Object>) ((Map<String, Object>) option.value())
+              .getOrDefault("value", ImmutableList.of());
+          return permissions.stream().map(Object::toString).collect(Collectors.toList());
+        })
+        .orElse(ImmutableList.of());
   }
 
   /**
