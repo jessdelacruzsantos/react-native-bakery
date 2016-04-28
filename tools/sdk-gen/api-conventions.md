@@ -4,10 +4,11 @@
 Version 2 of the Connect API is defined with the
 [Swagger specification](http://swagger.io/getting-started/). The definition is
 available on [Github](https://github.com/square/connect-api-specification). You
-can use the definition to generate your own Connect client library with the
-[Swagger Code Generator](https://github.com/swagger-api/swagger-codegen).
+can use this definition to simplify certain development tasks, such as by
+generating custom client libraries.
 
-Note that v1 and OAuth endpoints are not currently defined with Swagger.
+See [Generating client libraries and other tools with Swagger](/articles/client-libraries/#generatingwithswagger)
+for more information.
 
 ## Endpoint paths
 
