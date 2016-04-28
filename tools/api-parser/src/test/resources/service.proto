@@ -5,23 +5,26 @@ option java_multiple_files = true;
 package squareup.connect.v3;
 
 import "actions.proto";
+import "squareup/connect/v2/common/options.proto";
 
 service SquareConnectV3 {
   /*--
-    @entity Transaction
-    @path /v2/locations/{location_id}/transactions/{transaction_id}
-    @httpmethod POST
-    @oauthpermissions PAYMENTS_WRITE
     @desc For executing delayed capture.
   --*/
-  rpc CaptureTransaction (actions.CaptureTransactionRequest) returns (actions.CaptureTransactionResponse);
+  rpc CaptureTransaction (actions.CaptureTransactionRequest) returns (actions.CaptureTransactionResponse) {
+    option (common.entity) = "Transaction";
+    option (common.path) = "/v2/locations/{location_id}/transactions/{transaction_id}";
+    option (common.http_method) = POST;
+    option (common.oauth_permissions) = { value: [PAYMENTS_WRITE] };
+  }
 
   /*--
-    @entity Transaction
-    @path /v2/locations/{location_id}/transactions/{transaction_id}
-    @httpmethod GET
     @desc Retrieves details for a single transaction.
-    @oauthpermissions PAYMENTS_READ
   --*/
-  rpc RetrieveTransaction (actions.RetrieveTransactionRequest) returns (actions.RetrieveTransactionResponse);
+  rpc RetrieveTransaction (actions.RetrieveTransactionRequest) returns (actions.RetrieveTransactionResponse) {
+    option (common.entity) = "Transaction";
+    option (common.path) = "/v2/locations/{location_id}/transactions/{transaction_id}";
+    option (common.http_method) = GET;
+    option (common.oauth_permissions) = { value: [PAYMENTS_READ] };
+  };
 }

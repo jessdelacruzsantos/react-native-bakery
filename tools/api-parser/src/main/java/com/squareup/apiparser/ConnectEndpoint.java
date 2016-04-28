@@ -45,26 +45,30 @@ public class ConnectEndpoint {
   }
 
   public String getPath() {
-    return this.docAnnotations.getOrDefault("path", "");
+    return ProtoOptions.getStringValue(rootRpc.options(), "common.path").orElse("");
   }
 
   public String getHttpmethod() {
-    return this.docAnnotations.getOrDefault("httpmethod", "");
+    return ProtoOptions.getStringValue(rootRpc.options(), "common.http_method").orElse("");
   }
 
   public String getName() {
     return this.rootRpc.name();
   }
 
-  public boolean isInternal()  { return this.docAnnotations.containsKey("internal"); }
+  public boolean isInternal()  {
+    return ProtoOptions.isReleaseStatusInternal(rootRpc.options(), "common.method_status");
+  }
 
   // Builds out endpoint JSON in the format expected by the Swagger 2.0 specification.
   public JsonObject toJson() {
     JsonObject root = new JsonObject();
 
-    if (this.docAnnotations.containsKey("entity")) {
+    Optional<String> entityOptional =
+        ProtoOptions.getStringValue(rootRpc.options(), "common.entity");
+    if (entityOptional.isPresent()) {
       JsonArray swaggerTags = new JsonArray();
-      swaggerTags.add(this.docAnnotations.get("entity"));
+      swaggerTags.add(entityOptional.get());
       root.add("tags", swaggerTags);
     }
 
@@ -73,10 +77,10 @@ public class ConnectEndpoint {
     root.addProperty("description", docAnnotations.getOrDefault("desc", ""));
 
     // Split the required OAuth permissions listed in the proto declaration into a JSON array
-    String oauthPermissions = docAnnotations.get("oauthpermissions");
-    if (oauthPermissions != null) {
+    List<String> oauthPermissions = ProtoOptions.getOAuthPermissions(rootRpc);
+    if (!oauthPermissions.isEmpty()) {
       JsonArray permissionsArray = new JsonArray();
-      for (String permission : oauthPermissions.split("\\s+")){
+      for (String permission : oauthPermissions){
         permissionsArray.add(permission);
       }
       root.add("x-oauthpermissions", permissionsArray);
