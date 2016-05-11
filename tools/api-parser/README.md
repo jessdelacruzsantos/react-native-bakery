@@ -17,3 +17,13 @@ From this directory, run:
 This will overwrite the `api.json` file in `tools/sdk-gen`. `sdk-gen` uses this
 file to generate core classes for each language's SDK. See its README for more
 information.
+
+You can also override some of the basic values for your API definition. These are:
+
+    version (default 2.0)
+    title (default Square Connect API)
+    host (default connect.squareup.com)
+
+An example of that is doing this for the Caviar/Delivery API.
+
+    java -jar target/apiparser-1.0-SNAPSHOT.jar -version 1.0 -title "Caviar API" -host "api.trycaviar.com" ~/Development/go/src/square/up/xp/connect-public-protos/protos/squareup/delivery/v1

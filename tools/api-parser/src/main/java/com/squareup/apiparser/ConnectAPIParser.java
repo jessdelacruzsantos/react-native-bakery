@@ -1,5 +1,6 @@
 package com.squareup.apiparser;
 
+import com.beust.jcommander.JCommander;
 import com.google.common.base.Joiner;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
@@ -21,20 +22,22 @@ public class ConnectAPIParser {
     }
   }
 
-  private static final Map<String, Object> SWAGGER_BASE = ImmutableMap.<String, Object>builder()
-      .put("swagger", "2.0")
-      .put("info", ImmutableMap.of(
-          "version", "2.0",
-          "title", "Square Connect API"))
-      .put("host", "connect.squareup.com")
-      .put("schemes", ImmutableList.of("https"))
-      .put("consumes", ImmutableList.of("application/json"))
-      .put("produces", ImmutableList.of("application/json"))
-      .build();
+  private static Map<String, Object> createSwaggerBase(Configuration configuration) {
+    return ImmutableMap.<String, Object>builder()
+        .put("swagger", "2.0")
+        .put("info", ImmutableMap.of(
+            "version", configuration.getVersion(),
+            "title", configuration.getTitle()))
+        .put("host", configuration.getHost())
+        .put("schemes", ImmutableList.of("https"))
+        .put("consumes", ImmutableList.of("application/json"))
+        .put("produces", ImmutableList.of("application/json"))
+        .build();
+  }
 
-  public JsonAPI parseAPI(ProtoIndex index, boolean includeInternal) {
+  public JsonAPI parseAPI(ProtoIndex index, Configuration configuration, boolean includeInternal) {
     // Transform all the symbols to JSON and write out to file
-    JsonObject root = GSON.toJsonTree(SWAGGER_BASE).getAsJsonObject();
+    JsonObject root = GSON.toJsonTree(createSwaggerBase(configuration)).getAsJsonObject();
     final ImmutableMap.Builder<String, String> enumMapBuilder = ImmutableMap.builder();
 
     JsonObject jsonEndpoints = new JsonObject();
@@ -82,9 +85,11 @@ public class ConnectAPIParser {
 
   public static void main(String argv[]) {
     try {
-      ProtoIndex index = new ProtoIndexer().indexProtos(ImmutableList.copyOf(argv));
-      JsonAPI publicApi = new ConnectAPIParser().parseAPI(index, false);
-      JsonAPI internalApi = new ConnectAPIParser().parseAPI(index, true);
+      Configuration configuration = new Configuration();
+      new JCommander(configuration, argv);
+      ProtoIndex index = new ProtoIndexer().indexProtos(ImmutableList.copyOf(configuration.getProtobufLocations()));
+      JsonAPI publicApi = new ConnectAPIParser().parseAPI(index, configuration, false);
+      JsonAPI internalApi = new ConnectAPIParser().parseAPI(index, configuration, true);
       final String internalAPIOutputPath = System.getProperty("user.dir") + "/api_internal.json";
       final String publicAPIOutputPath = System.getProperty("user.dir") + "/api.json";
       final String enumOutputPath = System.getProperty("user.dir") + "/enum_mapping.json";
