@@ -14,8 +14,6 @@ import java.util.Set;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.squareup.apiparser.ConnectType.TYPE_MAP;
-import static java.util.stream.Collectors.collectingAndThen;
-import static java.util.stream.Collectors.toList;
 
 /**
  * Represents the details of an HTTP endpoint as defined by an rpc in a proto file.
@@ -38,10 +36,7 @@ public class ConnectEndpoint {
     this.docAnnotations = new DocString(rpc.documentation()).getAnnotations();
     Optional<ConnectDatatype> requestType = index.getDataType(inputType);
     checkState(requestType.isPresent());
-    this.params = requestType.get()
-        .getFields()
-        .stream()
-        .collect(collectingAndThen(toList(), ImmutableList::copyOf));
+    this.params = ImmutableList.copyOf(requestType.get().getFields());
   }
 
   public String getPath() {
@@ -56,8 +51,8 @@ public class ConnectEndpoint {
     return this.rootRpc.name();
   }
 
-  public boolean isInternal()  {
-    return ProtoOptions.isReleaseStatusInternal(rootRpc.options(), "common.method_status");
+  public String getReleaseStatus() {
+    return ProtoOptions.getReleaseStatus(rootRpc.options(), "common.method_status");
   }
 
   // Builds out endpoint JSON in the format expected by the Swagger 2.0 specification.

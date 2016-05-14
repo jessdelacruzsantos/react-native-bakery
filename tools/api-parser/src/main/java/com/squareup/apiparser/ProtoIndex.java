@@ -15,12 +15,14 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class ProtoIndex {
+  private final ApiReleaseType apiReleaseType;
   private final ExampleResolver exampleResolver;
   private final Map<String, ConnectDatatype> dtypes = new TreeMap<>();
   private final Map<String, ConnectEnum> enums = new TreeMap<>();
   private final List<ConnectEndpoint> endpoints = new ArrayList<>();
 
-  public ProtoIndex(ExampleResolver exampleResolver) {
+  public ProtoIndex(ApiReleaseType apiReleaseType, ExampleResolver exampleResolver) {
+    this.apiReleaseType = checkNotNull(apiReleaseType);
     this.exampleResolver = checkNotNull(exampleResolver);
   }
 
@@ -30,8 +32,8 @@ public class ProtoIndex {
     for (ConnectType type : types) {
       TypeElement rootType = type.getRootType();
       if (rootType instanceof EnumElement) {
-        ConnectEnum ce = new ConnectEnum((EnumElement) rootType, type.getPackageName(),
-            type.getParentType());
+        ConnectEnum ce = new ConnectEnum(
+            apiReleaseType, (EnumElement) rootType, type.getPackageName(), type.getParentType());
         checkArgument(!enums.containsKey(ce.getName()), "Already seen %s", ce.getName());
         this.enums.put(type.getName(), ce);
       } else if (rootType instanceof MessageElement) {
@@ -50,6 +52,7 @@ public class ProtoIndex {
       endpoints.addAll(service.getRootService()
           .rpcs()
           .stream()
+          .filter(rpc -> apiReleaseType.shouldInclude(rpc.options(), "common.method_status"))
           .map(rpc -> new ConnectEndpoint(rpc, this))
           .collect(Collectors.toList()));
     }
@@ -79,5 +82,9 @@ public class ProtoIndex {
     final Optional<String> dataType =
         dtypes.keySet().stream().filter(d -> d.endsWith(type)).findFirst();
     return dataType.map(dtypes::get);
+  }
+
+  public ApiReleaseType getApiReleaseType() {
+    return apiReleaseType;
   }
 }

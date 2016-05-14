@@ -7,19 +7,19 @@ import com.squareup.wire.schema.internal.parser.EnumElement;
 import java.util.List;
 import java.util.Optional;
 
-import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
 
 public class ConnectEnum extends ConnectType {
   private final List<ConnectField> values;
 
-  public ConnectEnum(EnumElement enumm, String packageName, Optional<ConnectType> parentType)
-      throws AnnotationException {
+  public ConnectEnum(ApiReleaseType apiReleaseType, EnumElement enumm, String packageName,
+      Optional<ConnectType> parentType) throws AnnotationException {
     super(enumm, packageName, parentType);
-    this.values = enumm.constants()
+    this.values = ImmutableList.copyOf(enumm.constants()
         .stream()
-        .map(f -> new ConnectField(f.name(), "", f.documentation()))
-        .collect(collectingAndThen(toList(), ImmutableList::copyOf));
+        .filter(v -> apiReleaseType.shouldInclude(v.options(), "common.enum_value_status"))
+        .map(v -> new ConnectField(v.name(), "", v.documentation()))
+        .collect(toList()));
   }
 
   public List<ConnectField> getValues() {

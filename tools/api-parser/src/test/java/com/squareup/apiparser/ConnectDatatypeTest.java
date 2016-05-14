@@ -49,9 +49,11 @@ public class ConnectDatatypeTest {
     when(e.fields()).thenReturn(ImmutableList.of(fe1));
     when(e.options()).thenReturn(ImmutableList.of());
 
-    final ConnectDatatype datatype = new ConnectDatatype(e, "packageName", Optional.empty(), resolver);
+    final ConnectDatatype datatype =
+        new ConnectDatatype(e, "packageName", Optional.empty(), resolver);
     final ProtoIndex index = mock(ProtoIndex.class);
     when(index.getEnumType("string")).thenReturn(Optional.empty());
+    when(index.getApiReleaseType()).thenReturn(ApiReleaseType.ALL);
     datatype.populateFields(index);
     assertThat(datatype.toJson().get("description").getAsString(), equalTo("a mock"));
     assertThat(datatype.toJson().get("type").getAsString(), equalTo("object"));
@@ -75,25 +77,25 @@ public class ConnectDatatypeTest {
   public void testHasBodyParameters_OneField() throws Exception {
     final String value = "";
     MessageElement me = stubMessage(value);
-    FieldElement fe = stubField(" //@pathparam\n");
+    FieldElement fe = stubField(" //@desc a random path element field\n", true);
     when(me.fields()).thenReturn(ImmutableList.of(fe));
     when(me.options()).thenReturn(ImmutableList.of());
 
     ConnectDatatype dataType = new ConnectDatatype(me, "packageName", Optional.empty(), resolver);
-    dataType.populateFields(new ProtoIndex(resolver));
+    dataType.populateFields(new ProtoIndex(ApiReleaseType.ALL, resolver));
     assertFalse(dataType.hasBodyParameters());
   }
 
   @Test
   public void testHasBodyParameters_TwoFields() throws Exception {
     MessageElement me = stubMessage("");
-    FieldElement fe1 = stubField(" //@pathparam\n");
-    FieldElement fe2 = stubField(" //@required\n");
+    FieldElement fe1 = stubField(" //@desc a ramdom path param\n", true);
+    FieldElement fe2 = stubField(" //@required\n", false);
     when(me.fields()).thenReturn(ImmutableList.of(fe1, fe2));
     when(me.options()).thenReturn(ImmutableList.of());
 
     ConnectDatatype dataType = new ConnectDatatype(me, "packageName", Optional.empty(), resolver);
-    dataType.populateFields(new ProtoIndex(resolver));
+    dataType.populateFields(new ProtoIndex(ApiReleaseType.ALL, resolver));
     assertTrue(dataType.hasBodyParameters());
   }
 
@@ -107,15 +109,23 @@ public class ConnectDatatypeTest {
     final OneOfElement oe = mock(OneOfElement.class);
     when(m.oneOfs()).thenReturn(ImmutableList.of(oe));
 
-    final ConnectDatatype datatype = new ConnectDatatype(m, "packageName", Optional.empty(), resolver);
-    datatype.populateFields(new ProtoIndex(resolver));
+    final ConnectDatatype datatype =
+        new ConnectDatatype(m, "packageName", Optional.empty(), resolver);
+    datatype.populateFields(new ProtoIndex(ApiReleaseType.ALL, resolver));
   }
 
-  private FieldElement stubField(String documentation) {
+  private FieldElement stubField(String documentation, boolean isPathParam) {
     FieldElement fe1 = mock(FieldElement.class);
     when(fe1.documentation()).thenReturn(documentation);
     when(fe1.type()).thenReturn("string");
-    when(fe1.options()).thenReturn(ImmutableList.of());
+    if (isPathParam) {
+      OptionElement opt = mock(OptionElement.class);
+      when(opt.name()).thenReturn("common.path_param");
+      when(opt.value()).thenReturn("true");
+      when(fe1.options()).thenReturn(ImmutableList.of(opt));
+    } else {
+      when(fe1.options()).thenReturn(ImmutableList.of());
+    }
     return fe1;
   }
 

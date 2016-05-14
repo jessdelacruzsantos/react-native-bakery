@@ -1,0 +1,5 @@
+test_command: 'script/ci'
+language: java
+targets:
+  - type: maven
+    workers: 1

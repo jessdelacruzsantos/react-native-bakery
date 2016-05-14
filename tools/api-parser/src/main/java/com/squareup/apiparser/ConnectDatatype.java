@@ -37,7 +37,9 @@ public class ConnectDatatype extends ConnectType {
     MessageElement rootMessage = (MessageElement) this.rootType;
     final Consumer<FieldElement> addField =
         f -> fields.add(new ConnectField(f, index.getEnumType(f.type())));
-    rootMessage.fields().stream().forEach(addField);
+    rootMessage.fields().stream()
+        .filter(f -> index.getApiReleaseType().shouldInclude(f.options(), "common.field_status"))
+        .forEach(addField);
 
     if (!rootMessage.oneOfs().isEmpty()) {
       throw new IllegalUseOfOneOfException(rootMessage);
