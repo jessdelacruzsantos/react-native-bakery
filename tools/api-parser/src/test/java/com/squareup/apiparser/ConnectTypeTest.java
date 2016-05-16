@@ -3,6 +3,7 @@ package com.squareup.apiparser;
 import com.google.common.collect.ImmutableList;
 import com.squareup.wire.schema.internal.parser.EnumConstantElement;
 import com.squareup.wire.schema.internal.parser.EnumElement;
+import com.squareup.wire.schema.internal.parser.MessageElement;
 import com.squareup.wire.schema.internal.parser.TypeElement;
 import org.junit.Test;
 
@@ -16,7 +17,7 @@ import static org.mockito.Mockito.when;
 public class ConnectTypeTest {
   @Test
   public void testGenerateName() throws Exception {
-    final TypeElement tender = mock(TypeElement.class);
+    final TypeElement tender = mock(MessageElement.class);
     when(tender.name()).thenReturn("Tender");
     when(tender.documentation()).thenReturn("");
     when(tender.options()).thenReturn(ImmutableList.of());
@@ -33,14 +34,15 @@ public class ConnectTypeTest {
     when(status.constants()).thenReturn(ImmutableList.of(enum1));
     when(status.options()).thenReturn(ImmutableList.of());
 
-    final TypeElement cardDetails = mock(TypeElement.class);
+    final TypeElement cardDetails = mock(MessageElement.class);
     when(cardDetails.name()).thenReturn("CardDetails");
     when(cardDetails.documentation()).thenReturn("");
     when(cardDetails.options()).thenReturn(ImmutableList.of());
 
     final ConnectType root = new ConnectType(tender, "actions.", Optional.empty());
     final ConnectType parent = new ConnectType(cardDetails, "actions.", Optional.of(root));
-    final ConnectEnum child = new ConnectEnum(status, "actions.", Optional.of(parent));
+    final ConnectEnum child = new ConnectEnum(
+        ApiReleaseType.ALL, status, "actions.", Optional.of(parent));
     assertThat(parent.generateName(), equalTo("TenderCardDetails"));
     assertThat(child.generateName(), equalTo("TenderCardDetailsStatus"));
   }

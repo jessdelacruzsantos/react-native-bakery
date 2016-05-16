@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.Optional;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
 
 public class ConnectField {
@@ -34,9 +33,9 @@ public class ConnectField {
     this.docAnnotations = new DocString(field.documentation()).getAnnotations();
     final List<ConnectField> values =
         enumm.map(ConnectEnum::getValues).orElse(Collections.emptyList());
-    this.enumValues = values.stream()
+    this.enumValues = ImmutableList.copyOf(values.stream()
         .map(ConnectField::getName)
-        .collect(collectingAndThen(toList(), ImmutableList::copyOf));
+        .collect(toList()));
     this.validations = ImmutableMap.copyOf(ProtoOptions.validations(field.options()));
   }
 

@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+export KOCHIKU_BUILD="true"
+
+echo Command: $0 $*
+echo
+
+export LANG=en_US.UTF-8
+export ENVIRONMENT=test
+
+
+echo "Environment:"
+env
+echo
+
+
+set -ex
+
+mvn -e -V clean package

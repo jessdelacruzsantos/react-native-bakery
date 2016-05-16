@@ -8,10 +8,12 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonObject;
 import java.io.PrintWriter;
 import java.util.Map;
+import javax.annotation.Nullable;
 
 import static com.squareup.apiparser.Json.GSON;
 
 public class ConnectAPIParser {
+
   static class JsonAPI {
     final JsonObject swagger;
     final JsonObject enumMap;
@@ -35,7 +37,7 @@ public class ConnectAPIParser {
         .build();
   }
 
-  public JsonAPI parseAPI(ProtoIndex index, Configuration configuration, boolean includeInternal) {
+  public JsonAPI parseAPI(ProtoIndex index, Configuration configuration) {
     // Transform all the symbols to JSON and write out to file
     JsonObject root = GSON.toJsonTree(createSwaggerBase(configuration)).getAsJsonObject();
     final ImmutableMap.Builder<String, String> enumMapBuilder = ImmutableMap.builder();
@@ -43,7 +45,7 @@ public class ConnectAPIParser {
     JsonObject jsonEndpoints = new JsonObject();
 
     for (ConnectEndpoint endpoint : index.getEndpoints()) {
-      if (!endpoint.isInternal() || includeInternal){
+      if (index.getApiReleaseType().shouldInclude(endpoint.getReleaseStatus())) {
         if (!jsonEndpoints.has(endpoint.getPath())) {
           jsonEndpoints.add(endpoint.getPath(), new JsonObject());
         }
@@ -56,7 +58,7 @@ public class ConnectAPIParser {
     JsonObject jsonTypes = new JsonObject();
     final Joiner join = Joiner.on(".");
     for (ConnectEnum enumm : index.getEnums().values()) {
-      if (!enumm.isInternal() || includeInternal) {
+      if (index.getApiReleaseType().shouldInclude(enumm.getReleaseStatus())) {
         jsonTypes.add(enumm.getName(), enumm.toJson());
         enumm.getValues().forEach(v ->
             enumMapBuilder.put(join.join(enumm.getName(), v.getName()), v.getDescription()));
@@ -64,7 +66,7 @@ public class ConnectAPIParser {
     }
 
     for (ConnectDatatype datatype : index.getDatatypes().values()) {
-      if (!datatype.isInternal() || includeInternal) {
+      if (index.getApiReleaseType().shouldInclude(datatype.getReleaseStatus())) {
         jsonTypes.add(datatype.getName(), datatype.toJson());
       }
     }
@@ -87,19 +89,37 @@ public class ConnectAPIParser {
     try {
       Configuration configuration = new Configuration();
       new JCommander(configuration, argv);
-      ProtoIndex index = new ProtoIndexer().indexProtos(ImmutableList.copyOf(configuration.getProtobufLocations()));
-      JsonAPI publicApi = new ConnectAPIParser().parseAPI(index, configuration, false);
-      JsonAPI internalApi = new ConnectAPIParser().parseAPI(index, configuration, true);
-      final String internalAPIOutputPath = System.getProperty("user.dir") + "/api_internal.json";
-      final String publicAPIOutputPath = System.getProperty("user.dir") + "/api.json";
-      final String enumOutputPath = System.getProperty("user.dir") + "/enum_mapping.json";
-      writeJson(GSON.toJson(internalApi.swagger), internalAPIOutputPath);
-      writeJson(GSON.toJson(publicApi.swagger), publicAPIOutputPath);
-      writeJson(GSON.toJson(publicApi.enumMap), enumOutputPath);
+      ImmutableList<String> protoPaths = ImmutableList.copyOf(configuration.getProtobufLocations());
+
+      String allAPIOutputPath = System.getProperty("user.dir") + "/api_internal.json";
+      generateJsonAPI(configuration, protoPaths, ApiReleaseType.ALL, allAPIOutputPath, null);
+
+      String publicAPIOutputPath = System.getProperty("user.dir") + "/api.json";
+      String enumOutputPath = System.getProperty("user.dir") + "/enum_mapping.json";
+      generateJsonAPI(
+          configuration, protoPaths, ApiReleaseType.PUBLIC, publicAPIOutputPath, enumOutputPath);
+
+      String betaAPIOutputPath = System.getProperty("user.dir") + "/api_beta.json";
+      generateJsonAPI(configuration, protoPaths, ApiReleaseType.BETA, betaAPIOutputPath, null);
+
+      String upcomingAPIOutputPath = System.getProperty("user.dir") + "/api_upcoming.json";
+      generateJsonAPI(
+          configuration, protoPaths, ApiReleaseType.UPCOMING, upcomingAPIOutputPath, null);
     } catch (Exception e) {
       e.printStackTrace();
-      System.out.println("Failed to index protos!");
+      System.out.println("Failed to generate JSON APIs!");
       System.exit(2);
+    }
+  }
+
+  private static void generateJsonAPI(Configuration configuration, ImmutableList<String> protoPaths,
+      ApiReleaseType apiReleaseType, String apiOutputPath, @Nullable String enumOutputPath)
+      throws Exception {
+    ProtoIndex index = new ProtoIndexer().indexProtos(apiReleaseType, protoPaths);
+    JsonAPI api = new ConnectAPIParser().parseAPI(index, configuration);
+    writeJson(GSON.toJson(api.swagger), apiOutputPath);
+    if (enumOutputPath != null) {
+      writeJson(GSON.toJson(api.enumMap), enumOutputPath);
     }
   }
 }

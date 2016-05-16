@@ -3,6 +3,7 @@ target/
 vendor/
 tools/api-parser/.idea/*
 tools/api-parser/apiparser.iml
+tools/api-parser/dependency-reduced-pom.xml
 sdk-test/
 **/.idea
 **/*.iml

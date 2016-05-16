@@ -64,8 +64,8 @@ public class ConnectType {
     return this.name;
   }
 
-  public boolean isInternal() {
-    return ProtoOptions.isReleaseStatusInternal(getRootType().options(), releaseStatusOptionName);
+  public String getReleaseStatus() {
+      return ProtoOptions.getReleaseStatus(getRootType().options(), releaseStatusOptionName);
   }
 
   public String generateName() {

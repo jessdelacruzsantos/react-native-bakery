@@ -22,9 +22,10 @@ import static com.google.common.base.Preconditions.checkState;
  */
 public class ProtoOptions {
 
-  private static final String RELEASE_STATUS_PUBLIC = "PUBLIC";
-  private static final String RELEASE_STATUS_BETA = "BETA";
-  private static final String RELEASE_STATUS_INTERNAL = "INTERNAL";
+  public static final String RELEASE_STATUS_PUBLIC = "PUBLIC";
+  public static final String RELEASE_STATUS_BETA = "BETA";
+  public static final String RELEASE_STATUS_UPCOMING = "UPCOMING";
+  public static final String RELEASE_STATUS_INTERNAL = "INTERNAL";
 
   private static final Map<String, Function<OptionElement, Optional<Pair<String, Object>>>>
       TRANSFORMERS = ImmutableMap.of(
@@ -73,28 +74,16 @@ public class ProtoOptions {
         .orElse(false);
   }
 
-  public static Optional<String> getStringValue(Collection<OptionElement> options, String optionName) {
+  public static Optional<String> getStringValue(Collection<OptionElement> options,
+      String optionName) {
     return options.stream()
         .filter(option -> optionName.endsWith(option.name()))
         .findFirst()
         .map(option -> (String) option.value());
   }
 
-  public static boolean isReleaseStatusInternal(Collection<OptionElement> options, String optionName) {
-    return releaseStatusEquals(options, optionName, RELEASE_STATUS_INTERNAL);
-  }
-
-  public static boolean isReleaseStatusPublic(Collection<OptionElement> options, String optionName) {
-    return releaseStatusEquals(options, optionName, RELEASE_STATUS_PUBLIC);
-  }
-
-  public static boolean isReleaseStatusBeta(Collection<OptionElement> options, String optionName) {
-    return releaseStatusEquals(options, optionName, RELEASE_STATUS_BETA);
-  }
-
-  public static boolean releaseStatusEquals(Collection<OptionElement> options, String optionName,
-      String status) {
-    return status.equals(getStringValue(options, optionName).orElse(RELEASE_STATUS_PUBLIC));
+  public static String getReleaseStatus(Collection<OptionElement> options, String optionName) {
+      return getStringValue(options, optionName).orElse(RELEASE_STATUS_PUBLIC);
   }
 
   public static List<String> getOAuthPermissions(RpcElement rpcElement) {

@@ -15,9 +15,10 @@ public class ProtoIndexerTest {
   @Test
   public void testProtoLoading() throws Exception {
     final ProtoIndexer indexer = new ProtoIndexer();
-    final URL url = Resources.getResource("resources/actions.proto");
+    final URL url = Resources.getResource("actions.proto");
     final Path path = Paths.get(url.getFile());
-    final ProtoIndex index = indexer.indexProtos(ImmutableList.of(path.getParent().toString()));
+    final ProtoIndex index = indexer.indexProtos(
+        ApiReleaseType.ALL, ImmutableList.of(path.getParent().toString()));
     assertThat(index.getEndpoints().size(), equalTo(2));
     assertThat(index.getDatatypes().size(), equalTo(10));
     assertThat(index.getEnums().size(), equalTo(4));

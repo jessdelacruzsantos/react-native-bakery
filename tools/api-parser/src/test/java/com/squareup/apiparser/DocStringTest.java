@@ -28,18 +28,12 @@ public class DocStringTest {
   @Test
   public void testParseMultiline() throws Exception {
     final String doc = "  /*--\n"
-        + "    @entity Transaction\n"
-        + "    @path /v2/locations\n"
-        + "    @httpmethod POST\n"
-        + "    @oauthpermissions PAYMENTS_WRITE\n"
+        + "    @foo Bar\n"
         + "    @desc Description here.\n"
         + "  --*/";
     final ImmutableMap<String, String> actual = new DocString(doc).getAnnotations();
     final Map<String, String> expected = ImmutableMap.<String, String>builder()
-        .put("entity", "Transaction")
-        .put("path", "/v2/locations")
-        .put("httpmethod", "POST")
-        .put("oauthpermissions", "PAYMENTS_WRITE")
+        .put("foo", "Bar")
         .put("desc", "Description here.")
         .build();
     assertThat(actual, equalTo(expected));
@@ -47,9 +41,9 @@ public class DocStringTest {
 
   @Test
   public void testParseSingleLine() throws Exception {
-    final String doc = "  //@entity Transaction @path /v2/locations \n";
+    final String doc = "  //@desc Description here. @foo Bar \n";
     final ImmutableMap<String, String> actual = new DocString(doc).getAnnotations();
-    final Map<String, String> expected = ImmutableMap.of("entity", "Transaction", "path", "/v2/locations");
+    final Map<String, String> expected = ImmutableMap.of("desc", "Description here.", "foo", "Bar");
     assertThat(actual, equalTo(expected));
   }
 }

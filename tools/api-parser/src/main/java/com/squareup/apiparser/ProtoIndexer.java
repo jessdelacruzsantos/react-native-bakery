@@ -24,13 +24,15 @@ import java.util.regex.Pattern;
 
 public class ProtoIndexer {
 
-  private static final ImmutableList<String> IGNORED_PROTOS = ImmutableList.of("squareup/connect/v2/common/options.proto");
+  private static final ImmutableList<String> IGNORED_PROTOS = ImmutableList.of(
+      "squareup/connect/v2/common/options.proto");
 
   private final List<ConnectType> protoTypes = new ArrayList<>();
   private final List<ConnectService> protoServices = new ArrayList<>();
 
-  public ProtoIndex indexProtos(List<String> protoPaths) throws IOException, AnnotationException {
-    final ProtoIndex index = new ProtoIndex(new ExampleResolver(protoPaths));
+  public ProtoIndex indexProtos(ApiReleaseType apiReleaseType, List<String> protoPaths)
+      throws IOException, AnnotationException {
+    final ProtoIndex index = new ProtoIndex(apiReleaseType, new ExampleResolver(protoPaths));
     for (String path : protoPaths) {
       Files.walkFileTree(Paths.get(path), new SimpleFileVisitor<Path>() {
         @Override public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
@@ -39,7 +41,7 @@ public class ProtoIndexer {
             return FileVisitResult.CONTINUE;
           }
           if (Pattern.matches(".*\\.proto\\Z", file.toString())) {
-            addProtoFile(file.toFile());
+            addProtoFile(apiReleaseType, file.toFile());
           }
           return FileVisitResult.CONTINUE;
         }
@@ -49,26 +51,33 @@ public class ProtoIndexer {
     return index;
   }
 
-  private void addProtoFile(File file) throws IOException {
+  private void addProtoFile(ApiReleaseType apiReleaseType, File file) throws IOException {
     try (BufferedSource buffer = Okio.buffer(Okio.source(file))) {
       final Location l = Location.get(file.getCanonicalPath());
       final ProtoFileElement proto = ProtoParser.parse(l, buffer.readUtf8());
 
-      proto.types().stream().forEach(t -> addType(t, proto.packageName(), Optional.empty()));
+      if (!apiReleaseType.shouldInclude(proto.options(), "common.file_status")) {
+        return;
+      }
+
+      proto.types().stream()
+          .forEach(t -> addType(apiReleaseType, t, proto.packageName(), Optional.empty()));
 
       for (ServiceElement service : proto.services()) {
         this.protoServices.add(new ConnectService(service));
       }
-    } catch (IOException e) {
-      throw e;
     }
   }
 
-  private void addType(TypeElement datatype, String packageName, Optional<ConnectType> parent) {
+  private void addType(ApiReleaseType apiReleaseType, TypeElement datatype, String packageName,
+      Optional<ConnectType> parent) {
     ConnectType ct = new ConnectType(datatype, packageName, parent);
+    if (!apiReleaseType.shouldInclude(ct.getReleaseStatus())) {
+      return;
+    }
     this.protoTypes.add(ct);
     for (TypeElement subType : datatype.nestedTypes()) {
-      addType(subType, packageName, Optional.of(ct));
+      addType(apiReleaseType, subType, packageName, Optional.of(ct));
     }
   }
 
