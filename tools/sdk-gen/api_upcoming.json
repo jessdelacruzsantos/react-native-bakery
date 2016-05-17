@@ -691,9 +691,94 @@
           }
         }
       }
+    },
+    "/v2/carts": {
+      "post": {
+        "tags": [
+          "Cart"
+        ],
+        "summary": "CreateCart",
+        "operationId": "CreateCart",
+        "description": "",
+        "x-oauthpermissions": [
+          "PAYMENTS_WRITE"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string",
+            "required": true,
+            "description": "The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`."
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "An object containing the fields to POST for the request.\n\nSee the corresponding object definition for field details.",
+            "schema": {
+              "$ref": "#/definitions/CreateCartRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/CreateCartResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v2/carts/{cart_id}": {
+      "get": {
+        "tags": [
+          "Cart"
+        ],
+        "summary": "RetrieveCart",
+        "operationId": "RetrieveCart",
+        "description": "",
+        "x-oauthpermissions": [
+          "PAYMENTS_WRITE"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string",
+            "required": true,
+            "description": "The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`."
+          },
+          {
+            "name": "cart_id",
+            "description": "",
+            "type": "string",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/RetrieveCartResponse"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
+    "CalculationPhase": {
+      "type": "string",
+      "enum": [
+        "OTHER",
+        "FEE_SUBTOTAL_PHASE",
+        "FEE_TOTAL_PHASE"
+      ],
+      "description": ""
+    },
     "CardBrand": {
       "type": "string",
       "enum": [
@@ -708,6 +793,14 @@
         "SQUARE_GIFT_CARD"
       ],
       "description": "Indicates a credit card\u0027s brand, such as `VISA`."
+    },
+    "CartCatalogObjectSource": {
+      "type": "string",
+      "enum": [
+        "SQUARE",
+        "CUSTOM"
+      ],
+      "description": ""
     },
     "Country": {
       "type": "string",
@@ -1151,6 +1244,16 @@
       ],
       "description": "Indicates the associated currency for an amount of money. Values correspond\nto [ISO 4217](https://wikipedia.org/wiki/ISO_4217)."
     },
+    "DiscountType": {
+      "type": "string",
+      "enum": [
+        "VARIABLE_AMOUNT",
+        "VARIABLE_PERCENTAGE",
+        "FIXED_AMOUNT",
+        "FIXED_PERCENTAGE"
+      ],
+      "description": "Indicates whether a discount is amount or percentage based,\nand whether it is fixed or entered at the time of sale."
+    },
     "ErrorCategory": {
       "type": "string",
       "enum": [
@@ -1232,12 +1335,92 @@
       ],
       "description": "Indicates specific errors that can occur during a request to the\nConnect API."
     },
+    "FeeAdjustmentType": {
+      "type": "string",
+      "enum": [
+        "TAX"
+      ],
+      "description": ""
+    },
+    "FeeInclusionType": {
+      "type": "string",
+      "enum": [
+        "ADDITIVE",
+        "INCLUSIVE"
+      ],
+      "description": ""
+    },
+    "FeeType": {
+      "type": "string",
+      "enum": [
+        "OTHER",
+        "CA_GST",
+        "CA_HST",
+        "CA_PEI_PST",
+        "CA_PST",
+        "CA_QST",
+        "JP_CONSUMPTION_TAX",
+        "US_SALES_TAX"
+      ],
+      "description": ""
+    },
+    "ItemAvailability": {
+      "type": "string",
+      "enum": [
+        "ONLINE_SHIPPING",
+        "ONLINE_PICKUP",
+        "ELECTRONIC_FULFILLMENT"
+      ],
+      "description": "Indicates availability options for an item in the merchant\u0027s\nonline store"
+    },
+    "ItemType": {
+      "type": "string",
+      "enum": [
+        "OTHER_TYPE",
+        "NORMAL",
+        "GIFT_CARD"
+      ],
+      "description": "Indicates an item\u0027s type. Almost all items have the type NORMAL."
+    },
+    "ItemVariationInventoryAlertType": {
+      "type": "string",
+      "enum": [
+        "NONE",
+        "LOW_QUANTITY"
+      ],
+      "description": "Indicates whether the item variation generates an alert when its\ninventory quantity goes below its `inventory_alert_threshold`."
+    },
+    "ItemVariationPricingType": {
+      "type": "string",
+      "enum": [
+        "FIXED_PRICING",
+        "VARIABLE_PRICING"
+      ],
+      "description": "Indicates whether an item variation\u0027s price is fixed\nor entered at the time of sale."
+    },
+    "ItemVisibility": {
+      "type": "string",
+      "enum": [
+        "OTHER_VISIBILITY",
+        "PUBLIC",
+        "PRIVATE"
+      ],
+      "description": "Indicates whether an item is viewable from a merchant\u0027s online\nstore. This does not indicate whether the item is available for\npurchase in the online store."
+    },
     "LocationCapability": {
       "type": "string",
       "enum": [
         "CREDIT_CARD_PROCESSING"
       ],
       "description": "Indicates account capabilities that a business\u0027s location might or\nmight not have enabled."
+    },
+    "ModifierListSelectionType": {
+      "type": "string",
+      "enum": [
+        "SINGLE",
+        "MULTIPLE"
+      ],
+      "description": ""
     },
     "RefundStatus": {
       "type": "string",
@@ -1677,6 +1860,517 @@
       },
       "description": "Represents the non-confidential details of a credit card."
     },
+    "Cart": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Cart identifier if it\u0027s created through the CreateCart API endpoint."
+        },
+        "note": {
+          "type": "string",
+          "description": "A custom note for the entire cart."
+        },
+        "line_items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CartLineItem"
+          },
+          "description": "All the line items within a cart. At least one is required."
+        },
+        "cart_taxes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CartAppliedTax"
+          },
+          "description": "All the taxes applied to the line items."
+        },
+        "cart_discounts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CartAppliedDiscount"
+          },
+          "description": "All the discounts applied to the line items."
+        },
+        "cart_amounts": {
+          "$ref": "#/definitions/CartAmounts",
+          "description": ""
+        }
+      },
+      "description": ""
+    },
+    "CartAmounts": {
+      "type": "object",
+      "properties": {
+        "additive_tax_money": {
+          "$ref": "#/definitions/Money",
+          "description": "The total additive tax for the entire cart."
+        },
+        "inclusive_tax_money": {
+          "$ref": "#/definitions/Money",
+          "description": "The total inclusive tax for the entire cart."
+        },
+        "discount_money": {
+          "$ref": "#/definitions/Money",
+          "description": "The total discount for the entire cart."
+        },
+        "tip_money": {
+          "$ref": "#/definitions/Money",
+          "description": "The tip amont."
+        },
+        "total_money": {
+          "$ref": "#/definitions/Money",
+          "description": "The total collected money, including the tip if there is any: sum(line item total) + tip_money"
+        }
+      },
+      "description": "All the amounts associated with this cart."
+    },
+    "CartAppliedDiscount": {
+      "type": "object",
+      "properties": {
+        "discount_id": {
+          "type": "string",
+          "description": "The catalog discount object ID."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the catalog discount."
+        },
+        "discount_money": {
+          "$ref": "#/definitions/Money",
+          "description": "The discount amount applied to a line item or cart."
+        },
+        "is_variable_discount": {
+          "type": "boolean",
+          "description": "Whether it\u0027s a variable percentage or variable amount discount."
+        },
+        "percentage_discount": {
+          "$ref": "#/definitions/CartAppliedDiscountPercentageDiscount",
+          "description": "Populated for fixed or variable percentage discount."
+        },
+        "amount_discount_money": {
+          "$ref": "#/definitions/Money",
+          "description": "Total discount amount that can be applied to the entire cart. Populated\nfor fixed or variable amount discount."
+        },
+        "source": {
+          "type": "string",
+          "enum": [
+            "SQUARE",
+            "CUSTOM"
+          ],
+          "description": ""
+        }
+      },
+      "description": "Discount that\u0027s applied to the line items/cart."
+    },
+    "CartAppliedDiscountPercentageDiscount": {
+      "type": "object",
+      "properties": {
+        "percentage": {
+          "type": "string",
+          "description": "Decimal percentage in string."
+        },
+        "max_amount_money": {
+          "$ref": "#/definitions/Money",
+          "description": "The maximum amount allowed for this percentage discount if it\u0027s specified."
+        }
+      },
+      "description": ""
+    },
+    "CartAppliedModifierList": {
+      "type": "object",
+      "properties": {
+        "modifier_list_id": {
+          "type": "string",
+          "description": "The catalog modifier list object ID."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the modifier list."
+        },
+        "is_hidden_from_customers": {
+          "type": "boolean",
+          "description": "Whether the modifier options belonging to this list should be hidden from\ncustomers. This flag is available for Square managed catalog only."
+        },
+        "modifier_options": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CartAppliedModifierOption"
+          },
+          "description": "All the selected modifier options for this modifier list, sorted by\ntheir sort order specified in the catalog."
+        },
+        "source": {
+          "type": "string",
+          "enum": [
+            "SQUARE",
+            "CUSTOM"
+          ],
+          "description": "If a modifier list is from custom catalog, all its modifier options should\nbe custom too."
+        }
+      },
+      "description": "Modifier list that\u0027s applied to a line item."
+    },
+    "CartAppliedModifierOption": {
+      "type": "object",
+      "properties": {
+        "modifier_option_id": {
+          "type": "string",
+          "description": "The catalog modifier option object ID."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the modifier option."
+        },
+        "modifier_option_money": {
+          "$ref": "#/definitions/Money",
+          "description": "The price of the modifier option."
+        }
+      },
+      "description": "Modifier that\u0027s applied to a line item."
+    },
+    "CartAppliedTax": {
+      "type": "object",
+      "properties": {
+        "tax_id": {
+          "type": "string",
+          "description": "The catalog fee object ID."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the catalog tax."
+        },
+        "tax_money": {
+          "$ref": "#/definitions/Money",
+          "description": "The tax amount applied to a line item or cart."
+        },
+        "percentage": {
+          "type": "string",
+          "description": "Decimal percentage in string."
+        },
+        "is_inclusive": {
+          "type": "boolean",
+          "description": "Whether the tax is inclusive."
+        },
+        "tax_type": {
+          "type": "string",
+          "description": "The name of the tax type (ex. \"GST/HST\")."
+        },
+        "source": {
+          "type": "string",
+          "enum": [
+            "SQUARE",
+            "CUSTOM"
+          ],
+          "description": ""
+        }
+      },
+      "description": "Tax that\u0027s applied to the line items/cart."
+    },
+    "CartLineItem": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Client assigned identifier of the line item. Must be unique within a cart."
+        },
+        "item_id": {
+          "type": "string",
+          "description": "The catalog item object ID. Not populated if it\u0027s a custom amount line item."
+        },
+        "item_name": {
+          "type": "string",
+          "description": "The name of the catalog item."
+        },
+        "item_variation_id": {
+          "type": "string",
+          "description": "The catalog item variation object ID. Not populated if it\u0027s a custom amount line item."
+        },
+        "item_variation_name": {
+          "type": "string",
+          "description": "The name of the catalog item variation."
+        },
+        "sku": {
+          "type": "string",
+          "description": "The product SKU."
+        },
+        "quantity": {
+          "type": "string",
+          "description": "Quantity of the line item. Currently integers only, but will eventually\nsupport decimal partial quantities."
+        },
+        "note": {
+          "type": "string",
+          "description": "A custom note for the line item."
+        },
+        "color": {
+          "type": "string",
+          "description": "The color of the item variation."
+        },
+        "image_url": {
+          "type": "string",
+          "description": "The image URL for the item variation."
+        },
+        "taxes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CartAppliedTax"
+          },
+          "description": "All the taxes applied to this line item, including the ones that are\napplied to the entire cart."
+        },
+        "discounts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CartAppliedDiscount"
+          },
+          "description": "All the discounts applied to this line item, including the ones that are\napplied to the entire cart."
+        },
+        "modifier_lists": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CartAppliedModifierList"
+          },
+          "description": "Modifier lists will be re-sorted by their ordinals specified in\nthe catalog. The original order will be preserved if two modifier\nlists have the same ordinal."
+        },
+        "line_item_amounts": {
+          "$ref": "#/definitions/CartLineItemAmounts",
+          "description": ""
+        },
+        "source": {
+          "type": "string",
+          "enum": [
+            "SQUARE",
+            "CUSTOM"
+          ],
+          "description": "Source of the item, item variation and modifier lists/options referenced\nby this line item, which also infers the item, item variation and modifier\nlists/options referenced by a line item must be from the same catalog source,\nbut applied taxes and discounts could be from a different source."
+        }
+      },
+      "description": ""
+    },
+    "CartLineItemAmounts": {
+      "type": "object",
+      "properties": {
+        "item_variation_price_money": {
+          "$ref": "#/definitions/Money",
+          "description": "Price for a single item variation/product."
+        },
+        "unit_price_money": {
+          "$ref": "#/definitions/Money",
+          "description": "Unit price for the entire line item before taxes and discounts are applied,\nwhich is item variation price + sum(modifier option prices)."
+        },
+        "gross_total_money": {
+          "$ref": "#/definitions/Money",
+          "description": "The gross total of the line item, which is unit price with quantity multiplied."
+        },
+        "discount_money": {
+          "$ref": "#/definitions/Money",
+          "description": "The total discount applied to the line item."
+        },
+        "additive_tax_money": {
+          "$ref": "#/definitions/Money",
+          "description": "The additive tax applied to the line item."
+        },
+        "inclusive_tax_money": {
+          "$ref": "#/definitions/Money",
+          "description": "The inclusive tax applied to the line item."
+        },
+        "total_money": {
+          "$ref": "#/definitions/Money",
+          "description": "The total money to collect for this line item."
+        }
+      },
+      "description": "All the amounts associated with a line item."
+    },
+    "CartRequests": {
+      "type": "object",
+      "properties": {},
+      "description": ""
+    },
+    "CartRequestsCatalogV1Objects": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Item"
+          },
+          "description": ""
+        },
+        "item_variations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ItemVariation"
+          },
+          "description": ""
+        },
+        "modifier_lists": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ModifierList"
+          },
+          "description": ""
+        },
+        "modifier_options": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ModifierOption"
+          },
+          "description": ""
+        },
+        "taxes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Fee"
+          },
+          "description": ""
+        },
+        "discounts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Discount"
+          },
+          "description": ""
+        },
+        "categories": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "API_ERROR",
+              "AUTHENTICATION_ERROR",
+              "INVALID_REQUEST_ERROR",
+              "RATE_LIMIT_ERROR",
+              "PAYMENT_METHOD_ERROR",
+              "REFUND_ERROR"
+            ]
+          },
+          "description": ""
+        }
+      },
+      "description": "A container for catalog V1 objects.\n\nIt can be used to specify custom catalog objects in the cart creation requests,\nfor which, all the objects must be included at top level. The nested objects\nwill be ignored."
+    },
+    "CartRequestsDiscountReference": {
+      "type": "object",
+      "properties": {
+        "discount_id": {
+          "type": "string",
+          "description": ""
+        },
+        "variable_percentage": {
+          "type": "string",
+          "description": "Decimal percentage in string. Required for variable percentage discount."
+        },
+        "variable_amount_money": {
+          "$ref": "#/definitions/Money",
+          "description": "Required for variable amount discount."
+        }
+      },
+      "description": "Discount that\u0027s applied to the line items/cart."
+    },
+    "CartRequestsLineItem": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Client assigned identifier for the line item. Must be unique within a cart."
+        },
+        "item_id": {
+          "type": "string",
+          "description": "The catalog item object ID. It should be left unset for a custom amount line item."
+        },
+        "item_variation_id": {
+          "type": "string",
+          "description": "The catalog item variation object ID. It should be left unset for a custom amount line item."
+        },
+        "quantity": {
+          "type": "string",
+          "description": "Quantity of the line item. Currently only integers are supported."
+        },
+        "note": {
+          "type": "string",
+          "description": "A custom note for the line item. This value cannot exceed 500 characters."
+        },
+        "item_variation_price_money": {
+          "$ref": "#/definitions/Money",
+          "description": "The price of the item variation. It\u0027s required. A \"price changed\"\nerror will be returned if it differs from the current price in the catalog."
+        },
+        "taxes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CartRequestsTaxReference"
+          },
+          "description": "All the line item level taxes to be applied."
+        },
+        "discounts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CartRequestsDiscountReference"
+          },
+          "description": "All the line item level discounts."
+        },
+        "modifier_lists": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CartRequestsModifierListReference"
+          },
+          "description": "When a cart is saved, The modifier lists will be re-sorted by\ntheir ordinals specified in the catalog. The original order will be\npreserved if two modifier lists have the same ordinal."
+        }
+      },
+      "description": ""
+    },
+    "CartRequestsModifierListReference": {
+      "type": "object",
+      "properties": {
+        "modifier_list_id": {
+          "type": "string",
+          "description": "The catalog modifier list object ID."
+        },
+        "modifier_options": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CartRequestsModifierOptionReference"
+          },
+          "description": "All the selected modifier options for this modifier list. At least one is required."
+        }
+      },
+      "description": "Modifier list that\u0027s applied to a line item."
+    },
+    "CartRequestsModifierOptionReference": {
+      "type": "object",
+      "properties": {
+        "modifier_option_id": {
+          "type": "string",
+          "description": "The catalog modifier option object ID."
+        },
+        "modifier_option_money": {
+          "$ref": "#/definitions/Money",
+          "description": "The price of the modifier option. It\u0027s required. A \"price changed\"\nerror will be returned if it differs from the current price in the catalog."
+        }
+      },
+      "description": "Modifier that\u0027s applied to a line item."
+    },
+    "CartRequestsTaxReference": {
+      "type": "object",
+      "properties": {
+        "tax_id": {
+          "type": "string",
+          "description": "The catalog fee object ID."
+        }
+      },
+      "description": ""
+    },
+    "Category": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": ""
+        },
+        "name": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "description": ""
+    },
     "ChargeRequest": {
       "type": "object",
       "required": [
@@ -1807,6 +2501,58 @@
           "product": "EXTERNAL_API"
         }
       }
+    },
+    "CreateCartRequest": {
+      "type": "object",
+      "properties": {
+        "note": {
+          "type": "string",
+          "description": "A custom note for the entire cart. This value cannot exceed 500 characters."
+        },
+        "line_items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CartRequestsLineItem"
+          },
+          "description": "At least one line item is required."
+        },
+        "cart_taxes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CartRequestsTaxReference"
+          },
+          "description": "All taxes applied to the entire cart, including the line item specific ones.\n\nIf a tax is included here but not attached to any specific line items, it will\nbe applied to all line items."
+        },
+        "cart_discounts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CartRequestsDiscountReference"
+          },
+          "description": "All discounts applied to the entire cart, including the line item specific ones.\n\nIf a discount is included here but not attached to any specific line items, it will\nbe applied to all line items."
+        },
+        "custom_catalog_objects_v1": {
+          "$ref": "#/definitions/CartRequestsCatalogV1Objects",
+          "description": "Custom catalog objects referenced by the cart. Any catalog object IDs not\nfound in the custom catalog object list must exist in the Square backed\ncatalog."
+        }
+      },
+      "description": ""
+    },
+    "CreateCartResponse": {
+      "type": "object",
+      "properties": {
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Error"
+          },
+          "description": ""
+        },
+        "cart": {
+          "$ref": "#/definitions/Cart",
+          "description": "The created calculated cart."
+        }
+      },
+      "description": ""
     },
     "CreateCustomerCardRequest": {
       "type": "object",
@@ -2159,6 +2905,46 @@
       "description": "Defines the fields that are included in the response body of\na request to the [DeleteCustomer](#endpoint-deletecustomer) endpoint.",
       "example": {}
     },
+    "Discount": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The discount\u0027s unique ID."
+        },
+        "name": {
+          "type": "string",
+          "description": "The discount\u0027s name."
+        },
+        "color": {
+          "type": "string",
+          "description": ""
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "VARIABLE_AMOUNT",
+            "VARIABLE_PERCENTAGE",
+            "FIXED_AMOUNT",
+            "FIXED_PERCENTAGE"
+          ],
+          "description": "Indicates whether a discount is amount or percentage based,\nand whether it is fixed or entered at the time of sale."
+        },
+        "rate": {
+          "type": "string",
+          "description": ""
+        },
+        "amount_money": {
+          "$ref": "#/definitions/Money",
+          "description": "The amount of the discount.\n\nThis field is only included if `discount_type` is `FIXED_AMOUNT`."
+        },
+        "pin_required": {
+          "type": "boolean",
+          "description": ""
+        }
+      },
+      "description": "Represents a discount that can be applied to a payment.\n\nA discount can be either a percentage or a flat amount."
+    },
     "Error": {
       "type": "object",
       "required": [
@@ -2257,6 +3043,206 @@
         }
       },
       "description": "Represents an error encountered during a request to the Connect API.\n\nSee [Handling errors](#handlingerrors) for more information."
+    },
+    "Fee": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The fee\u0027s unique ID."
+        },
+        "name": {
+          "type": "string",
+          "description": "The fee\u0027s name."
+        },
+        "rate": {
+          "type": "string",
+          "description": "The rate of the fee, as an integer number of basis points.\n\nOne basis point is equal to one hundredth of a percent."
+        },
+        "calculation_phase": {
+          "type": "string",
+          "enum": [
+            "OTHER",
+            "FEE_SUBTOTAL_PHASE",
+            "FEE_TOTAL_PHASE"
+          ],
+          "description": ""
+        },
+        "adjustment_type": {
+          "type": "string",
+          "enum": [
+            "TAX"
+          ],
+          "description": ""
+        },
+        "applies_to_custom_amounts": {
+          "type": "boolean",
+          "description": "If `true`, the fee applies to custom amounts entered into Square\nRegister that are not associated with a particular item."
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "If `true`, the fee is applied to all appropriate items.\nIf `false`, the fee is not applied at all."
+        },
+        "inclusion_type": {
+          "type": "string",
+          "enum": [
+            "ADDITIVE",
+            "INCLUSIVE"
+          ],
+          "description": ""
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "OTHER",
+            "CA_GST",
+            "CA_HST",
+            "CA_PEI_PST",
+            "CA_PST",
+            "CA_QST",
+            "JP_CONSUMPTION_TAX",
+            "US_SALES_TAX"
+          ],
+          "description": ""
+        }
+      },
+      "description": "Represents a tax or other fee that can be applied to a payment."
+    },
+    "Item": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The item\u0027s unique ID."
+        },
+        "name": {
+          "type": "string",
+          "description": "The item\u0027s name."
+        },
+        "description": {
+          "type": "string",
+          "description": "The item\u0027s description, if any."
+        },
+        "abbreviation": {
+          "type": "string",
+          "description": "The text of the item\u0027s display label in Square Register.\nThis value is present only if an abbreviation other than the default\nhas been set."
+        },
+        "color": {
+          "type": "string",
+          "description": "The color of the item\u0027s display label in Square Register,\nas a six character hexadecimal value. This value is present only\nif a color other than the default has been set.\n\nThe default color is `9da2a6`."
+        },
+        "ordinal": {
+          "type": "integer",
+          "description": ""
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "OTHER_TYPE",
+            "NORMAL",
+            "GIFT_CARD"
+          ],
+          "description": "The item\u0027s type. This value is `NORMAL` for almost all items."
+        },
+        "visibility": {
+          "type": "string",
+          "enum": [
+            "OTHER_VISIBILITY",
+            "PUBLIC",
+            "PRIVATE"
+          ],
+          "description": ""
+        },
+        "availability": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "ONLINE_SHIPPING",
+              "ONLINE_PICKUP",
+              "ELECTRONIC_FULFILLMENT"
+            ]
+          },
+          "description": "Indicates ways that the item can be ordered online, if any."
+        },
+        "category_id": {
+          "type": "string",
+          "description": "The ID of the category the item belongs to, if any."
+        },
+        "modifier_list_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The IDs of modifier lists that apply to the item, if any."
+        },
+        "fee_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The IDs of fees that apply to the item, if any."
+        }
+      },
+      "description": "Represents a merchant\u0027s item."
+    },
+    "ItemVariation": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The variation\u0027s unique ID."
+        },
+        "name": {
+          "type": "string",
+          "description": "The item variation\u0027s name."
+        },
+        "item_id": {
+          "type": "string",
+          "description": ""
+        },
+        "pricing_type": {
+          "type": "string",
+          "enum": [
+            "FIXED_PRICING",
+            "VARIABLE_PRICING"
+          ],
+          "description": "Indicates whether the item variation\u0027s price is fixed\nor determined at the time of sale."
+        },
+        "price_money": {
+          "$ref": "#/definitions/Money",
+          "description": "The item variation\u0027s price, if any."
+        },
+        "sku": {
+          "type": "string",
+          "description": "The item variation\u0027s SKU, if any."
+        },
+        "ordinal": {
+          "type": "integer",
+          "description": "Indicates the variation\u0027s list position when displayed in Square Register\nand the merchant dashboard. If more than one variation for the same item\nhas the same `ordinal` value, those variations are displayed in\nalphabetical order.\n\nAn item\u0027s variation with the lowest `ordinal` value is displayed first."
+        },
+        "track_inventory": {
+          "type": "boolean",
+          "description": "If `true`, inventory tracking is active for the variation."
+        },
+        "inventory_alert_type": {
+          "type": "string",
+          "enum": [
+            "NONE",
+            "LOW_QUANTITY"
+          ],
+          "description": "Indicates whether the item variation displays an alert when its inventory\nquantity is less than or equal to its `inventory_alert_threshold`."
+        },
+        "user_data": {
+          "type": "string",
+          "description": "Arbitrary metadata associated with the variation. Cannot exceed\n255 characters."
+        },
+        "inventory_alert_threshold": {
+          "type": "integer",
+          "description": "If the inventory quantity for the variation is less than or equal to this\nvalue and `inventory_alert_type` is LOW_QUANTITY, the variation displays an\nalert in the merchant dashboard.\n\nThis value is always an integer."
+        }
+      },
+      "description": "Represents a variation of an `[Item](#datatype-item)`\nEvery item has at least one variation."
     },
     "ListCustomersRequest": {
       "type": "object",
@@ -2557,6 +3543,54 @@
       },
       "description": "Represents one of a business\u0027s locations."
     },
+    "ModifierList": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": ""
+        },
+        "name": {
+          "type": "string",
+          "description": ""
+        },
+        "selection_type": {
+          "type": "string",
+          "enum": [
+            "SINGLE",
+            "MULTIPLE"
+          ],
+          "description": ""
+        }
+      },
+      "description": ""
+    },
+    "ModifierOption": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": ""
+        },
+        "price_money": {
+          "$ref": "#/definitions/Money",
+          "description": ""
+        },
+        "name": {
+          "type": "string",
+          "description": ""
+        },
+        "ordinal": {
+          "type": "integer",
+          "description": ""
+        },
+        "modifier_list_id": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "description": ""
+    },
     "Money": {
       "type": "object",
       "properties": {
@@ -2809,6 +3843,28 @@
         }
       },
       "description": "Represents a refund processed for a Square transaction."
+    },
+    "RetrieveCartRequest": {
+      "type": "object",
+      "properties": {},
+      "description": ""
+    },
+    "RetrieveCartResponse": {
+      "type": "object",
+      "properties": {
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Error"
+          },
+          "description": ""
+        },
+        "cart": {
+          "$ref": "#/definitions/Cart",
+          "description": "The previously saved calculated cart."
+        }
+      },
+      "description": ""
     },
     "RetrieveCustomerRequest": {
       "type": "object",
