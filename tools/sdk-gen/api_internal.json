@@ -2983,7 +2983,7 @@
           "description": "The customer has unsubscribed from receiving marketing campaign emails."
         }
       },
-      "description": "Represents a set of customer\u0027s preferences."
+      "description": "Represents a particular customer\u0027s preferences."
     },
     "DeleteCustomerCardRequest": {
       "type": "object",
