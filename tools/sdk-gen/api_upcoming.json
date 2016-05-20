@@ -2854,12 +2854,26 @@
           "type": "string",
           "description": "A second ID you can set to associate the customer with an\nentity in another system."
         },
+        "preferences": {
+          "$ref": "#/definitions/CustomerPreferences",
+          "description": "The customer\u0027s preferences."
+        },
         "note": {
           "type": "string",
           "description": "A note to associate with the customer."
         }
       },
       "description": "Represents one of a business\u0027s customers, which can have one or more\ncards on file associated with it."
+    },
+    "CustomerPreferences": {
+      "type": "object",
+      "properties": {
+        "email_unsubscribed": {
+          "type": "boolean",
+          "description": "The customer has unsubscribed from receiving marketing campaign emails."
+        }
+      },
+      "description": "Represents a set of customer\u0027s preferences."
     },
     "DeleteCustomerCardRequest": {
       "type": "object",
