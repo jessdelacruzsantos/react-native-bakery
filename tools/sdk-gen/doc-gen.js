@@ -3,13 +3,12 @@ var markdown = require('markdown').markdown;
 var fs = require('fs');
 var marked = require('marked');
 var cheerio = require('cheerio');
-
+var argv = require('minimist')(process.argv.slice(2));
 
 // Load in the API definitions and index them
 var apiDefinition = JSON.parse(fs.readFileSync('api.json', 'utf-8'));
 var enumValueDescriptions = JSON.parse(fs.readFileSync('enum_mapping.json', 'utf-8'));
 var apiChangelog = JSON.parse(fs.readFileSync('changelog.json', 'utf-8'));
-apiChangelog.title = apiDefinition.info.title;
 
 // Load in HTML templates for doc types
 var docpageTemplate = handlebars.compile(fs.readFileSync('doc-templates/docpage-template.html', 'utf-8'),{preventIndent: true});
@@ -24,6 +23,15 @@ handlebars.registerPartial('nav', navTemplate);
 handlebars.registerPartial('datatype', datatypeTemplate);
 handlebars.registerPartial('enum', enumTemplate);
 handlebars.registerPartial('changelog', changelogTemplate);
+
+var apiName = '';
+if (argv['name'] == undefined) {
+  apiName = apiDefinition.info.title;
+} else {
+  apiName = argv['name'];
+}
+
+apiChangelog.title = apiName;
 
 var warnings = [];
 
@@ -133,7 +141,7 @@ var docpage = {};
 
 // Convert the API Conventions article from Markdown to HTML
 docpage.apiconventions = marked(fs.readFileSync('api-conventions.md', 'utf-8'));
-docpage.title = apiDefinition.info.title;
+docpage.title = apiName;
 var $ = cheerio.load(docpage.apiconventions);
 
 // Scan the headers of the API Conventions article to add them to the left nav
