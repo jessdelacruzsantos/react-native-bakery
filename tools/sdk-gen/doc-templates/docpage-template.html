@@ -1,7 +1,10 @@
 <div class="tocify-wrapper">
+  <h4 class="toc-title">{{title}} Reference</h4>
   <div class="search-box">
-    <h4 class="toc-title">{{title}} Reference</h4>
-    <input id="quicksearch" class="typeahead" type="search" placeholder="Search">
+    <form action="/searchresults.html">
+      <input type="text" name="q" id="tipue_search_input" autocomplete="off" required="true" tabindex="1">
+      <input type="submit" id="search_submit" value="Search the docs">
+    </form>
   </div>
   {{> nav}}
 </div>
