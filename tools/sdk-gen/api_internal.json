@@ -796,6 +796,33 @@
           }
         }
       }
+    },
+    "/v2/sandbox-demo-config": {
+      "get": {
+        "tags": [
+          "SandboxDemoConfig"
+        ],
+        "summary": "RetrieveSandboxDemoConfig",
+        "operationId": "RetrieveSandboxDemoConfig",
+        "description": "Retrieves an anonymous sandbox configuration to be used in the API documentation tutorials",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string",
+            "required": true,
+            "description": "The value to provide in the Authorization header of\nyour request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/RetrieveSandboxDemoConfigResponse"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -1959,11 +1986,15 @@
         },
         "tip_money": {
           "$ref": "#/definitions/Money",
-          "description": "The tip amont."
+          "description": "The tip amount."
+        },
+        "rounding_adjustment_money": {
+          "$ref": "#/definitions/Money",
+          "description": "The rounding adjustment amount."
         },
         "total_money": {
           "$ref": "#/definitions/Money",
-          "description": "The total collected money, including the tip if there is any: sum(line item total) + tip_money"
+          "description": "The total collected money, including the tip and rounding adjustment if there are any:\ntotal_money \u003d sum(line item total) + tip_money + rounding_adjustment_money"
         }
       },
       "description": "All the amounts associated with this cart."
@@ -1979,7 +2010,7 @@
           "type": "string",
           "description": "The name of the catalog discount."
         },
-        "discount_money": {
+        "applied_discount_money": {
           "$ref": "#/definitions/Money",
           "description": "The discount amount applied to a line item or cart."
         },
@@ -2082,7 +2113,7 @@
           "type": "string",
           "description": "The name of the catalog tax."
         },
-        "tax_money": {
+        "applied_tax_money": {
           "$ref": "#/definitions/Money",
           "description": "The tax amount applied to a line item or cart."
         },
@@ -2427,7 +2458,7 @@
         },
         "amount_money": {
           "$ref": "#/definitions/Money",
-          "description": "The amount of money to charge.\n\nThe value of `currency` must match the currency associated with the business\nthat is charging the card."
+          "description": "The amount of money to charge.\n\nNote that you specify the amount in the\n__smallest denomination of the applicable currency__. For example, US dollar\namounts are specified in cents. See\n[Working with monetary amounts](#workingwithmonetaryamounts) for details.\n\nThe value of `currency` must match the currency associated with the business\nthat is charging the card."
         },
         "card_nonce": {
           "type": "string",
@@ -2852,7 +2883,7 @@
         },
         "amount_money": {
           "$ref": "#/definitions/Money",
-          "description": "The amount of money to refund.\n\nThis amount cannot exceed the amount that was originally charged to the\ntender that corresponds to `tender_id`."
+          "description": "The amount of money to refund.\n\nNote that you specify the amount in the\n__smallest denomination of the applicable currency__. For example, US dollar\namounts are specified in cents. See\n[Working with monetary amounts](#workingwithmonetaryamounts) for details.\n\nThis amount cannot exceed the amount that was originally charged to the\ntender that corresponds to `tender_id`."
         },
         "reason": {
           "type": "string",
@@ -4113,6 +4144,28 @@
         }
       }
     },
+    "RetrieveSandboxDemoConfigRequest": {
+      "type": "object",
+      "properties": {},
+      "description": ""
+    },
+    "RetrieveSandboxDemoConfigResponse": {
+      "type": "object",
+      "properties": {
+        "application": {
+          "$ref": "#/definitions/SandboxDemoConfig",
+          "description": ""
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Error"
+          },
+          "description": ""
+        }
+      },
+      "description": "Defines the fields that are included in the response body of\na request to the [SandboxDemoConfig](#endpoint-sandboxdemoconfig) endpoint."
+    },
     "RetrieveTransactionRequest": {
       "type": "object",
       "properties": {},
@@ -4173,6 +4226,32 @@
         }
       }
     },
+    "SandboxDemoConfig": {
+      "type": "object",
+      "required": [
+        "app_id",
+        "access_token",
+        "location_id"
+      ],
+      "properties": {
+        "app_id": {
+          "type": "string",
+          "description": "Sandbox application ID"
+        },
+        "access_token": {
+          "type": "string",
+          "description": "Personal sandbox access token will be prefixed with “shared-sandbox”"
+        },
+        "location_id": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "IDs of the application\u0027s associated locations."
+        }
+      },
+      "description": "Represents an anonymous sandbox application to be used for tutorials in the docs"
+    },
     "Tender": {
       "type": "object",
       "required": [
@@ -4205,7 +4284,7 @@
         },
         "processing_fee_money": {
           "$ref": "#/definitions/Money",
-          "description": "The amount of any Square processing fees applied to the tender."
+          "description": "The amount of any Square processing fees applied to the tender.\n\nThis field is not immediately populated when a new transaction is created.\nIt is usually available after about ten seconds."
         },
         "customer_id": {
           "type": "string",
@@ -4328,7 +4407,7 @@
         },
         "client_id": {
           "type": "string",
-          "description": "The client transaction identifier, populated for transactions\ncreated by Square Register app only, including the ones created through\nRegister API. It can be used as a unique reference to an offline or other\ntypes of asynchronously processed transaction before a server issued\ntransaction identifier becomes available."
+          "description": "If the transaction was created in the Square Register app, this value\nis the ID generated for the transaction by Square Register.\n\nThis ID has no relationship to the transaction\u0027s canonical `id`, which is\ngenerated by Square\u0027s backend servers. This value is generated for bookkeeping\npurposes, in case the transaction cannot immediately be completed (for example,\nif the transaction is processed in offline mode).\n\nIt is not currently possible with the Connect API to perform a transaction\nlookup by this value."
         }
       },
       "description": "Represents a transaction processed with Square, either with the\nConnect API or with Square Register.\n\nThe `tenders` field of this object lists all methods of payment used to pay in\nthe transaction."
