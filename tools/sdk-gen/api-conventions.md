@@ -233,5 +233,4 @@ changes for a particular error. See [ErrorCode](#type-errorcode) for possible va
 
 If you are developing a Connect v2 application for multiple merchants to use,
 those merchants authorize your application with the exact same OAuth flow that
-v1 endpoints use. See [OAuth Overview](/api/connect/v1/#oauth-overview) in the v1
-API reference for more information.
+v1 endpoints use. See the [OAuth API Reference](/api/oauth/) for more information.
