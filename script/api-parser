@@ -1,0 +1,33 @@
+#!/bin/sh
+# See tools/api-parser/README.md for full usage notes. 
+
+# Abort script at first error, when a command exits with non-zero status
+set -o errexit
+
+# Attempt to use undefined variable outputs error message, and forces an exit
+set -o nounset
+
+# If set, the return value of a pipeline is the value of the last (rightmost)
+# command to exit with a non-zero status, or zero if all commands in the
+# pipeline exit successfully.
+set -o pipefail
+
+BASE_DIR=$(dirname "$0")/..
+
+(
+    cd "$BASE_DIR/tools/api-parser"
+
+    echo "Compiling apiparser"
+    if ! mvn install > /dev/null
+    then
+        echo "Failed to compile apiparser."
+        echo "To debug, manually run \`(cd tools/api-parser && mvn install)\`"
+        exit 1
+    fi
+
+    java -jar target/apiparser-1.0-SNAPSHOT.jar "$@"
+)
+
+mv "$BASE_DIR"/tools/api-parser/*.json "$BASE_DIR/tools/sdk-gen"
+echo "Open API files copied to tools/sdk-gen. Launching diff."
+git diff "$BASE_DIR/tools/sdk-gen/*.json"
