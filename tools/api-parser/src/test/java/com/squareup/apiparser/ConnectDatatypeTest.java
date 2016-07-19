@@ -3,19 +3,20 @@ package com.squareup.apiparser;
 import com.google.common.collect.ImmutableList;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.squareup.wire.schema.Location;
 import com.squareup.wire.schema.internal.parser.FieldElement;
 import com.squareup.wire.schema.internal.parser.MessageElement;
 import com.squareup.wire.schema.internal.parser.OneOfElement;
 import com.squareup.wire.schema.internal.parser.OptionElement;
-import org.junit.Test;
-
 import java.util.Optional;
+import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.isA;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -60,6 +61,34 @@ public class ConnectDatatypeTest {
     assertThat(datatype.toJson().get("properties"), isA(JsonElement.class));
     final JsonArray required = datatype.toJson().get("required").getAsJsonArray();
     assertThat(required.get(0).getAsString(), equalTo("FakeField"));
+  }
+
+  @Test
+  public void testToJson_sdkSampleCode() throws Exception {
+    final OptionElement o = mock(OptionElement.class);
+    when(o.name()).thenReturn("common.sdk_sample_directory");
+    when(o.value()).thenReturn("/samples/Endpoint");
+
+    final MessageElement e = mock(MessageElement.class);
+    when(e.name()).thenReturn("Message");
+    when(e.documentation()).thenReturn("");
+    when(e.options()).thenReturn(ImmutableList.of(o));
+
+    final ConnectDatatype datatype = new ConnectDatatype(e, "packageName", Optional.empty(), resolver);
+    final JsonObject sdkSamples = datatype.toJson().get("x-sq-sdk-sample-code").getAsJsonObject();
+    assertThat(sdkSamples.getAsJsonPrimitive("ruby").getAsString(),
+        equalTo("/samples/Endpoint/Message.ruby"));
+  }
+
+  @Test
+  public void testToJson_noSdkSampleCode() throws Exception {
+    final MessageElement e = mock(MessageElement.class);
+    when(e.name()).thenReturn("Message");
+    when(e.documentation()).thenReturn("");
+    when(e.options()).thenReturn(ImmutableList.of());
+
+    final ConnectDatatype datatype = new ConnectDatatype(e, "packageName", Optional.empty(), resolver);
+    assertNull(datatype.toJson().get("x-sq-sdk-sample-code"));
   }
 
   @Test

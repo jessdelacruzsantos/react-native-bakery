@@ -38,11 +38,11 @@ public class ProtoOptions {
       "squareup.validation.required", option -> Optional.empty());
 
   public static Optional<String> exampleFilename(Collection<OptionElement> options) {
-    return options.stream()
-        // Wire OptionElements may not have fully qualified names
-        .filter(o -> o.name().endsWith("common.json_example_path"))
-        .map(o -> (String) o.value())
-        .findFirst();
+    return getStringValue(options, "common.json_example_path");
+  }
+
+  public static Optional<String> sdkSampleDirectory(Collection<OptionElement> options) {
+    return getStringValue(options, "common.sdk_sample_directory");
   }
 
   public static Map<String, Object> validations(Collection<OptionElement> options) {
