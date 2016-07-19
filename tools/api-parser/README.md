@@ -3,6 +3,12 @@
 This is a java application that parses the protos in the `connect-public-protos`
 repo to generate a JSON representation of the Connect API.
 
+## Quick start
+
+    script/api-parser $GOPATH/src/square/up/xp/connect-public-protos/squareup/connect/v2
+
+This command handles the build, running, and file-moving that the below
+instructions mention. Provided arguments will be passed along to the JAR file.
 
 ## Building
 Run `mvn install` from this directory. That should be it!
