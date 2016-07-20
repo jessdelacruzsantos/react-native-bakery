@@ -5,6 +5,9 @@ const marked = require('marked');
 const cheerio = require('cheerio');
 const argv = require('minimist')(process.argv.slice(2));
 
+const DocpageRenderer = require('./docpage-renderer');
+const docpageValidator = require('./docpage-validator');
+const hbsSetup = require('./hbs-setup');
 const helpers = require('./helpers');
 
 function readJson(filename) {
@@ -35,8 +38,10 @@ if (!apiName) {
 }
 apiChangelog.title = apiName;
 
+const docpageRenderer = new DocpageRenderer();
+
 // Set up all the handlebars templates for the docpages
-const docpageTemplate = require('./hbs-setup').createDocPageTemplate(files);
+const docpageTemplate = hbsSetup.createDocPageTemplate(files);
 
 // Convert the API Conventions article from Markdown to HTML
 let docpage = {
@@ -54,12 +59,12 @@ docpage.apiconventions = $.html();
 
 // Merge rendered fields into docpage
 docpage = Object.assign(docpage,
-    require('./docpage-renderer').render(
+    docpageRenderer.render(
       apiDefinition.definitions,
       enumValueDescriptions,
       apiDefinition.paths));
 
-const warnings = require('./docpage-validator').validate(docpage);
+const warnings = docpageValidator.validate(docpage);
 
 console.log(docpageTemplate(docpage));
 

@@ -13,8 +13,11 @@ function getTypeWithName(typeName, typeList, removeFromList) {
   return null;
 }
 
+function DocpageRenderer() {
+}
+
 // Render datatypes and enums
-function renderDatatypes(apiDefinitions, enumValueDescriptions) {
+DocpageRenderer.prototype.renderDatatypes = function(apiDefinitions, enumValueDescriptions) {
   // So that minimal refactoring is needed for a copy-pasted segment of code
   let types = apiDefinitions;
   let enums = [];
@@ -82,7 +85,7 @@ function renderDatatypes(apiDefinitions, enumValueDescriptions) {
   };
 }
 
-function renderEndpoints(paths, datatypes) {
+DocpageRenderer.prototype.renderEndpoints = function(paths, datatypes) {
   let endpoints = [];
   let endpointEntities = {};
   for (let pathName in paths) {
@@ -182,8 +185,10 @@ function renderEndpoints(paths, datatypes) {
   };
 }
 
-exports.render = function(definitions, enumDescriptions, paths) {
-  let docpage = renderDatatypes(definitions, enumDescriptions);
-  docpage = Object.assign(docpage, renderEndpoints(paths, docpage.datatypes));
+DocpageRenderer.prototype.render = function(definitions, enumDescriptions, paths) {
+  let docpage = this.renderDatatypes(definitions, enumDescriptions);
+  docpage = Object.assign(docpage, this.renderEndpoints(paths, docpage.datatypes));
   return docpage;
 };
+
+module.exports = DocpageRenderer;
