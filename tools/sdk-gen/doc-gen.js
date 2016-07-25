@@ -1,6 +1,8 @@
 "use strict";
 
 const fs = require('fs');
+const path = require('path');
+
 const marked = require('marked');
 const cheerio = require('cheerio');
 const argv = require('minimist')(process.argv.slice(2));
@@ -9,6 +11,7 @@ const DocpageRenderer = require('./docpage-renderer');
 const docpageValidator = require('./docpage-validator');
 const hbsSetup = require('./hbs-setup');
 const helpers = require('./helpers');
+const SdkSampleLoader = require('./sdk-sample-loader');
 
 function readJson(filename) {
   return JSON.parse(fs.readFileSync(filename, 'utf-8'));
@@ -27,6 +30,8 @@ const files = {
   changelogTemplate: 'doc-templates/changelog-template.html',
 };
 
+const sdkLanguages = ['curl', 'php', 'ruby'];
+
 // Load in the API definitions and index them
 const apiDefinition = readJson(files['apiDefinition']);
 const enumValueDescriptions = readJson(files['enumValueDescriptions']);
@@ -38,7 +43,16 @@ if (!apiName) {
 }
 apiChangelog.title = apiName;
 
-const docpageRenderer = new DocpageRenderer();
+let pathToSdkSamples = argv['sdk-samples'];
+if (!pathToSdkSamples) {
+  pathToSdkSamples = path.normalize(path.join(__dirname, '../..', 'sdk_samples'));
+  console.error(`--sdk-samples not specified. Defaulting to ${pathToSdkSamples}`);
+}
+const developmentMode = argv['dev-mode'] || false;
+
+const sdkSampleLoader = new SdkSampleLoader(
+    pathToSdkSamples, sdkLanguages, developmentMode);
+const docpageRenderer = new DocpageRenderer(sdkSampleLoader);
 
 // Set up all the handlebars templates for the docpages
 const docpageTemplate = hbsSetup.createDocPageTemplate(files);

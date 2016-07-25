@@ -2,6 +2,43 @@
 
 const _ = require('lodash');
 
+const SDK_SAMPLE_FIELD = 'x-sq-sdk-sample-code';
+
+// `samplesObject` will look like this:
+//
+// {
+//   ruby: "full code sample for Ruby",
+//   php: "full code sample for PHP",
+//   csharp: "full code sample for C#",
+//   ...
+// }
+//
+// The output will look like:
+//
+// [
+//   { language: "ruby", code: "full code sample for Ruby" },
+//   { language: "php", code: "full code sample for PHP" },
+//   { language: "csharp", code: "full code sample for C#" },
+//   ...
+// ]
+//
+// This transformation makes it easier to refer to the code samples in a
+// Handlebars template. Language name mappings are defined in a const at the top
+// of the file. Thus, we can do something like this in the Handlebars template:
+//
+// {{#if this.sdkRequestSamples}}
+//   <blockquote class="example {{language}}">
+//     <h4>Example {{language}} Request</h4>
+//   </blockquote>
+//   <pre class="example">{{code}}</pre>
+// {{/if}}
+function languageSamplesToMustache(samplesObject) {
+  return _.keys(samplesObject).map((language) => ({
+    language: language,
+    code: samplesObject[language]
+  }));
+}
+
 function getTypeWithName(typeName, typeList, removeFromList) {
   for (let i = 0; i < typeList.length; i++) {
     if (typeList[i].name == typeName) {
@@ -15,7 +52,8 @@ function getTypeWithName(typeName, typeList, removeFromList) {
   return null;
 }
 
-function DocpageRenderer() {
+function DocpageRenderer(sdkSampleLoader) {
+  this.sdkSampleLoader = sdkSampleLoader;
 }
 
 // Render datatypes and enums
@@ -118,11 +156,19 @@ DocpageRenderer.prototype.renderEndpoints = function(paths, datatypes) {
             }
         }
 
+        if (endpointRequestObject.details.hasOwnProperty(SDK_SAMPLE_FIELD)) {
+          let samples = this.sdkSampleLoader.readSamples(endpointName, endpointRequestObjectName);
+          endpoint.sdkRequestSamples = languageSamplesToMustache(samples);
+        }
       }
 
       if (endpointResponseObject) {
         if (endpointResponseObject.details.hasOwnProperty('example')) {
           endpoint.responseExample = JSON.stringify(endpointResponseObject.details.example, null, 2);
+        }
+        if (endpointRequestObject.details.hasOwnProperty(SDK_SAMPLE_FIELD)) {
+          let samples = this.sdkSampleLoader.readSamples(endpointName, endpointResponseObjectName);
+          endpoint.sdkResponseSamples = languageSamplesToMustache(samples);
         }
         endpoint.responsetype = endpointResponseObject;
       }
