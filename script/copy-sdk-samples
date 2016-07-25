@@ -1,0 +1,24 @@
+#!/bin/sh
+
+# Abort script at first error, when a command exits with non-zero status
+set -o errexit
+
+# Attempt to use undefined variable outputs error message, and forces an exit
+set -o nounset
+
+# If set, the return value of a pipeline is the value of the last (rightmost)
+# command to exit with a non-zero status, or zero if all commands in the
+# pipeline exit successfully.
+set -o pipefail
+
+# Print a trace of simple commands
+set -o xtrace
+
+# Base directory for API protos
+API_PROTO_DIRECTORY="$GOPATH/src/square/up/xp/connect-public-protos/protos/squareup/connect/v2"
+SDK_SAMPLES="$API_PROTO_DIRECTORY/sdk_samples"
+
+# Base directory of this repository
+BASE_DIR="$(dirname "$0")/.."
+
+cp -r "$SDK_SAMPLES" "$BASE_DIR"
