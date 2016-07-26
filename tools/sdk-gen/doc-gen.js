@@ -48,7 +48,13 @@ if (!pathToSdkSamples) {
   pathToSdkSamples = path.normalize(path.join(__dirname, '../..', 'sdk_samples'));
   console.error(`--sdk-samples not specified. Defaulting to ${pathToSdkSamples}`);
 }
-const developmentMode = argv['dev-mode'] || false;
+
+// TODO(dge|2016-07-25): By default, this script will always be run in
+// development mode so that we don't break existing docgen scripts.
+let developmentMode = true;
+if (typeof argv['dev-mode'] === 'boolean') {
+  developmentMode = argv['dev-mode'];
+}
 
 const sdkSampleLoader = new SdkSampleLoader(
     pathToSdkSamples, sdkLanguages, developmentMode);
