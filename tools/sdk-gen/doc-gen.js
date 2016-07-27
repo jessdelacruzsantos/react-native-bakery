@@ -30,7 +30,7 @@ const files = {
   changelogTemplate: 'doc-templates/changelog-template.html',
 };
 
-const sdkLanguages = ['curl', 'php', 'ruby'];
+const sdkLanguages = ['php', 'ruby'];
 
 // Load in the API definitions and index them
 const apiDefinition = readJson(files['apiDefinition']);
