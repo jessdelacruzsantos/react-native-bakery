@@ -2,6 +2,7 @@ package com.squareup.apiparser;
 
 import com.beust.jcommander.JCommander;
 import com.google.common.base.Joiner;
+import com.google.common.base.Preconditions;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -89,6 +90,9 @@ public class ConnectAPIParser {
     try {
       Configuration configuration = new Configuration();
       new JCommander(configuration, argv);
+      Preconditions.checkArgument(!configuration.getProtobufLocations().isEmpty(),
+          "At least one protobuf location is required");
+
       ImmutableList<String> protoPaths = ImmutableList.copyOf(configuration.getProtobufLocations());
 
       String allAPIOutputPath = System.getProperty("user.dir") + "/api_internal.json";
