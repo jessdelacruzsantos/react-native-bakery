@@ -1,11 +1,17 @@
 "use strict";
 
 const fs = require('fs');
+const path = require('path');
+
 const marked = require('marked');
 const cheerio = require('cheerio');
 const argv = require('minimist')(process.argv.slice(2));
 
+const DocpageRenderer = require('./docpage-renderer');
+const docpageValidator = require('./docpage-validator');
+const hbsSetup = require('./hbs-setup');
 const helpers = require('./helpers');
+const SdkSampleLoader = require('./sdk-sample-loader');
 
 function readJson(filename) {
   return JSON.parse(fs.readFileSync(filename, 'utf-8'));
@@ -24,6 +30,8 @@ const files = {
   changelogTemplate: 'doc-templates/changelog-template.html',
 };
 
+const sdkLanguages = ['php', 'ruby'];
+
 // Load in the API definitions and index them
 const apiDefinition = readJson(files['apiDefinition']);
 const enumValueDescriptions = readJson(files['enumValueDescriptions']);
@@ -35,8 +43,25 @@ if (!apiName) {
 }
 apiChangelog.title = apiName;
 
+let pathToSdkSamples = argv['sdk-samples'];
+if (!pathToSdkSamples) {
+  pathToSdkSamples = path.normalize(path.join(__dirname, '../..', 'sdk_samples'));
+  console.error(`--sdk-samples not specified. Defaulting to ${pathToSdkSamples}`);
+}
+
+// TODO(dge|2016-07-25): By default, this script will always be run in
+// development mode so that we don't break existing docgen scripts.
+let developmentMode = true;
+if (typeof argv['dev-mode'] === 'boolean') {
+  developmentMode = argv['dev-mode'];
+}
+
+const sdkSampleLoader = new SdkSampleLoader(
+    pathToSdkSamples, sdkLanguages, developmentMode);
+const docpageRenderer = new DocpageRenderer(sdkSampleLoader);
+
 // Set up all the handlebars templates for the docpages
-const docpageTemplate = require('./hbs-setup').createDocPageTemplate(files);
+const docpageTemplate = hbsSetup.createDocPageTemplate(files);
 
 // Convert the API Conventions article from Markdown to HTML
 let docpage = {
@@ -54,12 +79,12 @@ docpage.apiconventions = $.html();
 
 // Merge rendered fields into docpage
 docpage = Object.assign(docpage,
-    require('./docpage-renderer').render(
+    docpageRenderer.render(
       apiDefinition.definitions,
       enumValueDescriptions,
       apiDefinition.paths));
 
-const warnings = require('./docpage-validator').validate(docpage);
+const warnings = docpageValidator.validate(docpage);
 
 console.log(docpageTemplate(docpage));
 

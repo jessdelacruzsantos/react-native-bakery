@@ -5,6 +5,13 @@ const fs = require('fs');
 const handlebars = require('handlebars');
 const markdown = require('markdown').markdown;
 
+const LANGUAGE_MAPPINGS = {
+  "csharp": "C#",
+  "php": "PHP",
+  "python": "Python",
+  "ruby": "Ruby"
+};
+
 function hbsCompile(filename, additionalOpts) {
   return handlebars.compile(fs.readFileSync(filename, 'utf-8'), additionalOpts);
 }
@@ -59,6 +66,10 @@ function registerHelpers() {
 
   handlebars.registerHelper('capitalize', function(options) {
     return options.fn(this).toUpperCase();
+  });
+
+  handlebars.registerHelper('presentLanguage', function(language) {
+    return LANGUAGE_MAPPINGS[language];
   });
 }
 
