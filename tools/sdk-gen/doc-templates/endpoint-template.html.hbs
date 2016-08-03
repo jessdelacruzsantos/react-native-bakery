@@ -127,18 +127,42 @@
 {{/if}}
 </div>
 <div class="full-view">
-  {{#if this.requestExample}}
-  <blockquote class="example">
-    <h4>Example Request</h4>
-  </blockquote>
-  <pre class="example">{{#if this.requestExample.url}}<code class="no-highlight">{{~this.requestExample.httpMethod}} {{this.requestExample.url~}}</code>{{/if}}
+  <div class="request">
+    {{!-- HTTP example --}}
+    {{#if this.requestExample}}
+    <blockquote class="example http">
+      <h4>Example HTTP Request</h4>
+    </blockquote>
+    <pre class="example http">{{#if this.requestExample.url}}<code class="no-highlight">{{~this.requestExample.httpMethod}} {{this.requestExample.url~}}</code>{{/if}}
+    {{#if this.requestExample.body}}<code class="json">{{~this.requestExample.body~}}</code>{{/if}}</pre>
+    {{/if}}
 
-{{#if this.requestExample.body}}<code>{{~this.requestExample.body~}}</code>{{/if}}</pre>{{/if}}
-  {{#if this.responseExample}}
-  <blockquote class="example">
-    <h4>Example Response Body</h4>
-  </blockquote>
-<pre class="example"><code>{{~this.responseExample~}}</code></pre>
-  {{/if}}
+    {{!-- SDK examples --}}
+    {{#each this.sdkRequestSamples}}
+    <blockquote class="example {{language}}">
+      <h4>Example Request in {{presentLanguage language}}</h4>
+    </blockquote>
+    <pre class="example {{language}}"><code class="{{language}}">{{~code~}}</code></pre>
+    {{/each}}
+  </div>
+
+  <div class="response">
+    {{!-- HTTP example --}}
+    {{#if this.responseExample}}
+    <blockquote class="example http">
+      <h4>Example HTTP Response</h4>
+    </blockquote>
+    <pre class="example http"><code class="json">{{~this.responseExample~}}</code></pre>
+    {{/if}}
+
+    {{!-- SDK examples --}}
+    {{#each this.sdkResponseSamples}}
+    <blockquote class="example {{language}}">
+      <h4>Example Response in {{presentLanguage language}}</h4>
+    </blockquote>
+    <pre class="example {{language}}"><code class="{{language}}">{{~code~}}</code></pre>
+    {{/each}}
+  </div>
+
 </div>
 </div>

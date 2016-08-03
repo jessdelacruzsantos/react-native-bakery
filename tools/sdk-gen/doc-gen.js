@@ -22,12 +22,12 @@ const files = {
   enumValueDescriptions: 'enum_mapping.json',
   apiChangelog: 'changelog.json',
   apiConventions: 'api-conventions.md',
-  docpageTemplate: 'doc-templates/docpage-template.html',
-  endpointTemplate: 'doc-templates/endpoint-template.html',
-  navTemplate: 'doc-templates/nav-template.html',
-  datatypeTemplate: 'doc-templates/datatype-template.html',
-  enumTemplate: 'doc-templates/enum-template.html',
-  changelogTemplate: 'doc-templates/changelog-template.html',
+  docpageTemplate: 'doc-templates/docpage-template.html.hbs',
+  endpointTemplate: 'doc-templates/endpoint-template.html.hbs',
+  navTemplate: 'doc-templates/nav-template.html.hbs',
+  datatypeTemplate: 'doc-templates/datatype-template.html.hbs',
+  enumTemplate: 'doc-templates/enum-template.html.hbs',
+  changelogTemplate: 'doc-templates/changelog-template.html.hbs',
 };
 
 const sdkLanguages = ['php', 'ruby'];
