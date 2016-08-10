@@ -1,18 +1,15 @@
-# Connect SDKs
+# Connect API doc generation
 
 Contrary to its (current) name, this repo does __NOT__ contain the source for
 SDKs generated for the Connect API.
 
-Rather, our generated SDKs are published on Github:
+The repo which generates our SDKs and hosts our public API specification is [published on
+Github](https://github.com/square/connect-api-specification).
+
+Generated SDKs are published on Github:
 
 * [PHP](https://github.com/square/connect-php-sdk)
 * [Ruby](https://github.com/square/connect-ruby-sdk)
-
-These repos also have remotes in Stash for us to generate new versions before
-releasing publicly.
-
-Our public API specification is also [published on
-Github](https://github.com/square/connect-api-specification).
 
 ## So what DOES this repo contain?
 In the `tools` directory:
