@@ -1819,6 +1819,12 @@
       "description": "",
       "example": {
         "request_url": "https://connect.squareup.com/v2/locations/LOCATION_ID/transactions/TRANSACTION_ID/capture"
+      },
+      "x-sq-sdk-sample-code": {
+        "python": "/sdk_samples/CaptureTransaction/CaptureTransactionRequest.python",
+        "csharp": "/sdk_samples/CaptureTransaction/CaptureTransactionRequest.csharp",
+        "php": "/sdk_samples/CaptureTransaction/CaptureTransactionRequest.php",
+        "ruby": "/sdk_samples/CaptureTransaction/CaptureTransactionRequest.ruby"
       }
     },
     "CaptureTransactionResponse": {
@@ -1833,7 +1839,13 @@
         }
       },
       "description": "Defines the fields that are included in the response body of\na request to the [CaptureTransaction](#endpoint-capturetransaction) endpoint.",
-      "example": {}
+      "example": {},
+      "x-sq-sdk-sample-code": {
+        "python": "/sdk_samples/CaptureTransaction/CaptureTransactionResponse.python",
+        "csharp": "/sdk_samples/CaptureTransaction/CaptureTransactionResponse.csharp",
+        "php": "/sdk_samples/CaptureTransaction/CaptureTransactionResponse.php",
+        "ruby": "/sdk_samples/CaptureTransaction/CaptureTransactionResponse.ruby"
+      }
     },
     "Card": {
       "type": "object",
@@ -1944,6 +1956,10 @@
         "buyer_email_address": {
           "type": "string",
           "description": "The buyer\u0027s email address, if available. This value is optional,\nbut this transaction is ineligible for chargeback protection if it is not\nprovided."
+        },
+        "order_id": {
+          "type": "string",
+          "description": "Optional order ID if this is a charge for a previously created order."
         }
       },
       "description": "Defines the parameters that can be included in the body of\na request to the [Charge](#endpoint-charge) endpoint.",
@@ -1975,6 +1991,12 @@
           "note": "some optional note",
           "delay_capture": false
         }
+      },
+      "x-sq-sdk-sample-code": {
+        "python": "/sdk_samples/Charge/ChargeRequest.python",
+        "csharp": "/sdk_samples/Charge/ChargeRequest.csharp",
+        "php": "/sdk_samples/Charge/ChargeRequest.php",
+        "ruby": "/sdk_samples/Charge/ChargeRequest.ruby"
       }
     },
     "ChargeResponse": {
@@ -2023,6 +2045,12 @@
           "reference_id": "some optional reference id",
           "product": "EXTERNAL_API"
         }
+      },
+      "x-sq-sdk-sample-code": {
+        "python": "/sdk_samples/Charge/ChargeResponse.python",
+        "csharp": "/sdk_samples/Charge/ChargeResponse.csharp",
+        "php": "/sdk_samples/Charge/ChargeResponse.php",
+        "ruby": "/sdk_samples/Charge/ChargeResponse.ruby"
       }
     },
     "CreateCustomerCardRequest": {
@@ -2059,6 +2087,12 @@
           },
           "cardholder_name": "Amelia Earhart"
         }
+      },
+      "x-sq-sdk-sample-code": {
+        "python": "/sdk_samples/CreateCustomerCard/CreateCustomerCardRequest.python",
+        "csharp": "/sdk_samples/CreateCustomerCard/CreateCustomerCardRequest.csharp",
+        "php": "/sdk_samples/CreateCustomerCard/CreateCustomerCardRequest.php",
+        "ruby": "/sdk_samples/CreateCustomerCard/CreateCustomerCardRequest.ruby"
       }
     },
     "CreateCustomerCardResponse": {
@@ -2094,6 +2128,12 @@
             "country": "US"
           }
         }
+      },
+      "x-sq-sdk-sample-code": {
+        "python": "/sdk_samples/CreateCustomerCard/CreateCustomerCardResponse.python",
+        "csharp": "/sdk_samples/CreateCustomerCard/CreateCustomerCardResponse.csharp",
+        "php": "/sdk_samples/CreateCustomerCard/CreateCustomerCardResponse.php",
+        "ruby": "/sdk_samples/CreateCustomerCard/CreateCustomerCardResponse.ruby"
       }
     },
     "CreateCustomerRequest": {
@@ -2155,6 +2195,12 @@
           "reference_id": "YOUR_REFERENCE_ID",
           "note": "a customer"
         }
+      },
+      "x-sq-sdk-sample-code": {
+        "python": "/sdk_samples/CreateCustomer/CreateCustomerRequest.python",
+        "csharp": "/sdk_samples/CreateCustomer/CreateCustomerRequest.csharp",
+        "php": "/sdk_samples/CreateCustomer/CreateCustomerRequest.php",
+        "ruby": "/sdk_samples/CreateCustomer/CreateCustomerRequest.ruby"
       }
     },
     "CreateCustomerResponse": {
@@ -2193,6 +2239,12 @@
           "reference_id": "YOUR_REFERENCE_ID",
           "note": "a customer"
         }
+      },
+      "x-sq-sdk-sample-code": {
+        "python": "/sdk_samples/CreateCustomer/CreateCustomerResponse.python",
+        "csharp": "/sdk_samples/CreateCustomer/CreateCustomerResponse.csharp",
+        "php": "/sdk_samples/CreateCustomer/CreateCustomerResponse.php",
+        "ruby": "/sdk_samples/CreateCustomer/CreateCustomerResponse.ruby"
       }
     },
     "CreateOrderRequest": {
@@ -2295,6 +2347,12 @@
             "currency": "USD"
           }
         }
+      },
+      "x-sq-sdk-sample-code": {
+        "python": "/sdk_samples/CreateRefund/CreateRefundRequest.python",
+        "csharp": "/sdk_samples/CreateRefund/CreateRefundRequest.csharp",
+        "php": "/sdk_samples/CreateRefund/CreateRefundRequest.php",
+        "ruby": "/sdk_samples/CreateRefund/CreateRefundRequest.ruby"
       }
     },
     "CreateRefundResponse": {
@@ -2327,6 +2385,12 @@
           },
           "status": "PENDING"
         }
+      },
+      "x-sq-sdk-sample-code": {
+        "python": "/sdk_samples/CreateRefund/CreateRefundResponse.python",
+        "csharp": "/sdk_samples/CreateRefund/CreateRefundResponse.csharp",
+        "php": "/sdk_samples/CreateRefund/CreateRefundResponse.php",
+        "ruby": "/sdk_samples/CreateRefund/CreateRefundResponse.ruby"
       }
     },
     "Customer": {
@@ -2415,6 +2479,12 @@
       "description": "",
       "example": {
         "request_url": "https://connect.squareup.com/v2/customers/CUSTOMER_ID"
+      },
+      "x-sq-sdk-sample-code": {
+        "python": "/sdk_samples/DeleteCustomerCard/DeleteCustomerCardRequest.python",
+        "csharp": "/sdk_samples/DeleteCustomerCard/DeleteCustomerCardRequest.csharp",
+        "php": "/sdk_samples/DeleteCustomerCard/DeleteCustomerCardRequest.php",
+        "ruby": "/sdk_samples/DeleteCustomerCard/DeleteCustomerCardRequest.ruby"
       }
     },
     "DeleteCustomerCardResponse": {
@@ -2429,7 +2499,13 @@
         }
       },
       "description": "Defines the fields that are included in the response body of\na request to the [DeleteCustomerCard](#endpoint-deletecustomercard) endpoint.",
-      "example": {}
+      "example": {},
+      "x-sq-sdk-sample-code": {
+        "python": "/sdk_samples/DeleteCustomerCard/DeleteCustomerCardResponse.python",
+        "csharp": "/sdk_samples/DeleteCustomerCard/DeleteCustomerCardResponse.csharp",
+        "php": "/sdk_samples/DeleteCustomerCard/DeleteCustomerCardResponse.php",
+        "ruby": "/sdk_samples/DeleteCustomerCard/DeleteCustomerCardResponse.ruby"
+      }
     },
     "DeleteCustomerRequest": {
       "type": "object",
@@ -2437,6 +2513,12 @@
       "description": "",
       "example": {
         "request_url": "https://connect.squareup.com/v2/customers/CUSTOMER_ID"
+      },
+      "x-sq-sdk-sample-code": {
+        "python": "/sdk_samples/DeleteCustomer/DeleteCustomerRequest.python",
+        "csharp": "/sdk_samples/DeleteCustomer/DeleteCustomerRequest.csharp",
+        "php": "/sdk_samples/DeleteCustomer/DeleteCustomerRequest.php",
+        "ruby": "/sdk_samples/DeleteCustomer/DeleteCustomerRequest.ruby"
       }
     },
     "DeleteCustomerResponse": {
@@ -2451,7 +2533,13 @@
         }
       },
       "description": "Defines the fields that are included in the response body of\na request to the [DeleteCustomer](#endpoint-deletecustomer) endpoint.",
-      "example": {}
+      "example": {},
+      "x-sq-sdk-sample-code": {
+        "python": "/sdk_samples/DeleteCustomer/DeleteCustomerResponse.python",
+        "csharp": "/sdk_samples/DeleteCustomer/DeleteCustomerResponse.csharp",
+        "php": "/sdk_samples/DeleteCustomer/DeleteCustomerResponse.php",
+        "ruby": "/sdk_samples/DeleteCustomer/DeleteCustomerResponse.ruby"
+      }
     },
     "Discount": {
       "type": "object",
@@ -2809,6 +2897,12 @@
       "description": "Defines the query parameters that can be provided in a request to the\n[ListCustomers](#endpoint-listcustomers) endpoint.",
       "example": {
         "request_url": "https://connect.squareup.com/v2/customers"
+      },
+      "x-sq-sdk-sample-code": {
+        "python": "/sdk_samples/ListCustomers/ListCustomersRequest.python",
+        "csharp": "/sdk_samples/ListCustomers/ListCustomersRequest.csharp",
+        "php": "/sdk_samples/ListCustomers/ListCustomersRequest.php",
+        "ruby": "/sdk_samples/ListCustomers/ListCustomersRequest.ruby"
       }
     },
     "ListCustomersResponse": {
@@ -2856,6 +2950,12 @@
             "note": "a customer"
           }
         ]
+      },
+      "x-sq-sdk-sample-code": {
+        "python": "/sdk_samples/ListCustomers/ListCustomersResponse.python",
+        "csharp": "/sdk_samples/ListCustomers/ListCustomersResponse.csharp",
+        "php": "/sdk_samples/ListCustomers/ListCustomersResponse.php",
+        "ruby": "/sdk_samples/ListCustomers/ListCustomersResponse.ruby"
       }
     },
     "ListLocationsRequest": {
@@ -2864,6 +2964,12 @@
       "description": "",
       "example": {
         "request_url": "https://connect.squareup.com/v2/locations"
+      },
+      "x-sq-sdk-sample-code": {
+        "python": "/sdk_samples/ListLocations/ListLocationsRequest.python",
+        "csharp": "/sdk_samples/ListLocations/ListLocationsRequest.csharp",
+        "php": "/sdk_samples/ListLocations/ListLocationsRequest.php",
+        "ruby": "/sdk_samples/ListLocations/ListLocationsRequest.ruby"
       }
     },
     "ListLocationsResponse": {
@@ -2903,6 +3009,12 @@
             ]
           }
         ]
+      },
+      "x-sq-sdk-sample-code": {
+        "python": "/sdk_samples/ListLocations/ListLocationsResponse.python",
+        "csharp": "/sdk_samples/ListLocations/ListLocationsResponse.csharp",
+        "php": "/sdk_samples/ListLocations/ListLocationsResponse.php",
+        "ruby": "/sdk_samples/ListLocations/ListLocationsResponse.ruby"
       }
     },
     "ListRefundsRequest": {
@@ -2932,6 +3044,12 @@
       "description": "Defines the query parameters that can be included in\na request to the [ListRefunds](#endpoint-listrefunds) endpoint.",
       "example": {
         "request_url": "https://connect.squareup.com/v2/locations/LOCATION_ID/refunds?begin_time\u003d2016-01-15T00:00:00Z\u0026end_time\u003d2016-01-31T00:00:00Z"
+      },
+      "x-sq-sdk-sample-code": {
+        "python": "/sdk_samples/ListRefunds/ListRefundsRequest.python",
+        "csharp": "/sdk_samples/ListRefunds/ListRefundsRequest.csharp",
+        "php": "/sdk_samples/ListRefunds/ListRefundsRequest.php",
+        "ruby": "/sdk_samples/ListRefunds/ListRefundsRequest.ruby"
       }
     },
     "ListRefundsResponse": {
@@ -2973,6 +3091,12 @@
             "status": "APPROVED"
           }
         ]
+      },
+      "x-sq-sdk-sample-code": {
+        "python": "/sdk_samples/ListRefunds/ListRefundsResponse.python",
+        "csharp": "/sdk_samples/ListRefunds/ListRefundsResponse.csharp",
+        "php": "/sdk_samples/ListRefunds/ListRefundsResponse.php",
+        "ruby": "/sdk_samples/ListRefunds/ListRefundsResponse.ruby"
       }
     },
     "ListTransactionsRequest": {
@@ -3002,6 +3126,12 @@
       "description": "Defines the query parameters that can be included in\na request to the [ListTransactions](#endpoint-listtransactions) endpoint.",
       "example": {
         "request_url": "https://connect.squareup.com/v2/locations/LOCATION_ID/transactions?begin_time\u003d2016-01-15T00:00:00Z\u0026end_time\u003d2016-01-31T00:00:00Z"
+      },
+      "x-sq-sdk-sample-code": {
+        "python": "/sdk_samples/ListTransactions/ListTransactionsRequest.python",
+        "csharp": "/sdk_samples/ListTransactions/ListTransactionsRequest.csharp",
+        "php": "/sdk_samples/ListTransactions/ListTransactionsRequest.php",
+        "ruby": "/sdk_samples/ListTransactions/ListTransactionsRequest.ruby"
       }
     },
     "ListTransactionsResponse": {
@@ -3063,6 +3193,12 @@
             "product": "EXTERNAL_API"
           }
         ]
+      },
+      "x-sq-sdk-sample-code": {
+        "python": "/sdk_samples/ListTransactions/ListTransactionsResponse.python",
+        "csharp": "/sdk_samples/ListTransactions/ListTransactionsResponse.csharp",
+        "php": "/sdk_samples/ListTransactions/ListTransactionsResponse.php",
+        "ruby": "/sdk_samples/ListTransactions/ListTransactionsResponse.ruby"
       }
     },
     "Location": {
@@ -3945,6 +4081,12 @@
       "description": "",
       "example": {
         "request_url": "https://connect.squareup.com/v2/customers/CUSTOMER_ID"
+      },
+      "x-sq-sdk-sample-code": {
+        "python": "/sdk_samples/RetrieveCustomer/RetrieveCustomerRequest.python",
+        "csharp": "/sdk_samples/RetrieveCustomer/RetrieveCustomerRequest.csharp",
+        "php": "/sdk_samples/RetrieveCustomer/RetrieveCustomerRequest.php",
+        "ruby": "/sdk_samples/RetrieveCustomer/RetrieveCustomerRequest.ruby"
       }
     },
     "RetrieveCustomerResponse": {
@@ -3983,6 +4125,12 @@
           "reference_id": "YOUR_REFERENCE_ID",
           "note": "a customer"
         }
+      },
+      "x-sq-sdk-sample-code": {
+        "python": "/sdk_samples/RetrieveCustomer/RetrieveCustomerResponse.python",
+        "csharp": "/sdk_samples/RetrieveCustomer/RetrieveCustomerResponse.csharp",
+        "php": "/sdk_samples/RetrieveCustomer/RetrieveCustomerResponse.php",
+        "ruby": "/sdk_samples/RetrieveCustomer/RetrieveCustomerResponse.ruby"
       }
     },
     "RetrieveOrderRequest": {
@@ -4017,6 +4165,12 @@
       "description": "",
       "example": {
         "request_url": "https://connect.squareup.com/v2/locations/LOCATION_ID/transactions/TRANSACTION_ID"
+      },
+      "x-sq-sdk-sample-code": {
+        "python": "/sdk_samples/RetrieveTransaction/RetrieveTransactionRequest.python",
+        "csharp": "/sdk_samples/RetrieveTransaction/RetrieveTransactionRequest.csharp",
+        "php": "/sdk_samples/RetrieveTransaction/RetrieveTransactionRequest.php",
+        "ruby": "/sdk_samples/RetrieveTransaction/RetrieveTransactionRequest.ruby"
       }
     },
     "RetrieveTransactionResponse": {
@@ -4069,6 +4223,12 @@
           "reference_id": "some optional reference id",
           "product": "EXTERNAL_API"
         }
+      },
+      "x-sq-sdk-sample-code": {
+        "python": "/sdk_samples/RetrieveTransaction/RetrieveTransactionResponse.python",
+        "csharp": "/sdk_samples/RetrieveTransaction/RetrieveTransactionResponse.csharp",
+        "php": "/sdk_samples/RetrieveTransaction/RetrieveTransactionResponse.php",
+        "ruby": "/sdk_samples/RetrieveTransaction/RetrieveTransactionResponse.ruby"
       }
     },
     "Tender": {
@@ -4227,6 +4387,14 @@
         "client_id": {
           "type": "string",
           "description": "If the transaction was created in the Square Register app, this value\nis the ID generated for the transaction by Square Register.\n\nThis ID has no relationship to the transaction\u0027s canonical `id`, which is\ngenerated by Square\u0027s backend servers. This value is generated for bookkeeping\npurposes, in case the transaction cannot immediately be completed (for example,\nif the transaction is processed in offline mode).\n\nIt is not currently possible with the Connect API to perform a transaction\nlookup by this value."
+        },
+        "order": {
+          "type": "string",
+          "enum": [
+            "DESC",
+            "ASC"
+          ],
+          "description": "Order for which this transaction was created."
         }
       },
       "description": "Represents a transaction processed with Square, either with the\nConnect API or with Square Register.\n\nThe `tenders` field of this object lists all methods of payment used to pay in\nthe transaction."
@@ -4279,6 +4447,12 @@
           "email_address": "New.Amelia.Earhart@example.com",
           "note": "updated customer note"
         }
+      },
+      "x-sq-sdk-sample-code": {
+        "python": "/sdk_samples/UpdateCustomer/UpdateCustomerRequest.python",
+        "csharp": "/sdk_samples/UpdateCustomer/UpdateCustomerRequest.csharp",
+        "php": "/sdk_samples/UpdateCustomer/UpdateCustomerRequest.php",
+        "ruby": "/sdk_samples/UpdateCustomer/UpdateCustomerRequest.ruby"
       }
     },
     "UpdateCustomerResponse": {
@@ -4316,6 +4490,12 @@
           "reference_id": "YOUR_REFERENCE_ID",
           "note": "updated customer note"
         }
+      },
+      "x-sq-sdk-sample-code": {
+        "python": "/sdk_samples/UpdateCustomer/UpdateCustomerResponse.python",
+        "csharp": "/sdk_samples/UpdateCustomer/UpdateCustomerResponse.csharp",
+        "php": "/sdk_samples/UpdateCustomer/UpdateCustomerResponse.php",
+        "ruby": "/sdk_samples/UpdateCustomer/UpdateCustomerResponse.ruby"
       }
     },
     "VoidTransactionRequest": {
@@ -4324,6 +4504,12 @@
       "description": "",
       "example": {
         "request_url": "https://connect.squareup.com/v2/locations/LOCATION_ID/transactions/TRANSACTION_ID/void"
+      },
+      "x-sq-sdk-sample-code": {
+        "python": "/sdk_samples/VoidTransaction/VoidTransactionRequest.python",
+        "csharp": "/sdk_samples/VoidTransaction/VoidTransactionRequest.csharp",
+        "php": "/sdk_samples/VoidTransaction/VoidTransactionRequest.php",
+        "ruby": "/sdk_samples/VoidTransaction/VoidTransactionRequest.ruby"
       }
     },
     "VoidTransactionResponse": {
@@ -4338,7 +4524,13 @@
         }
       },
       "description": "Defines the fields that are included in the response body of\na request to the [CaptureTransaction](#endpoint-capturetransaction) endpoint.",
-      "example": {}
+      "example": {},
+      "x-sq-sdk-sample-code": {
+        "python": "/sdk_samples/VoidTransaction/VoidTransactionResponse.python",
+        "csharp": "/sdk_samples/VoidTransaction/VoidTransactionResponse.csharp",
+        "php": "/sdk_samples/VoidTransaction/VoidTransactionResponse.php",
+        "ruby": "/sdk_samples/VoidTransaction/VoidTransactionResponse.ruby"
+      }
     }
   }
 }
