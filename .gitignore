@@ -7,3 +7,6 @@ tools/api-parser/dependency-reduced-pom.xml
 sdk-test/
 **/.idea
 **/*.iml
+
+# Always copied in from Go repo
+sdk_samples/
