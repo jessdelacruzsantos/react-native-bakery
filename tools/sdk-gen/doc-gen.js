@@ -28,6 +28,7 @@ const files = {
   datatypeTemplate: 'doc-templates/datatype-template.html.hbs',
   enumTemplate: 'doc-templates/enum-template.html.hbs',
   changelogTemplate: 'doc-templates/changelog-template.html.hbs',
+  switcherTemplate: 'doc-templates/lang-switcher-template.html.hbs',
 };
 
 const sdkLanguages = ['php', 'ruby'];
@@ -61,7 +62,7 @@ const sdkSampleLoader = new SdkSampleLoader(
 const docpageRenderer = new DocpageRenderer(sdkSampleLoader);
 
 // Set up all the handlebars templates for the docpages
-const docpageTemplate = hbsSetup.createDocPageTemplate(files);
+const docpageTemplate = hbsSetup.createDocPageTemplate(files, sdkLanguages);
 
 // Convert the API Conventions article from Markdown to HTML
 let docpage = {
@@ -83,6 +84,10 @@ docpage = Object.assign(docpage,
       apiDefinition.definitions,
       enumValueDescriptions,
       apiDefinition.paths));
+
+// Finally, simply add a list of languages to render the language switcher
+// NOTE: the template will by default prepend HTTP and set it as "active"
+docpage.switcherLanguages = sdkLanguages;
 
 const warnings = docpageValidator.validate(docpage);
 

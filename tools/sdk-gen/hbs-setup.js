@@ -16,7 +16,7 @@ function hbsCompile(filename, additionalOpts) {
   return handlebars.compile(fs.readFileSync(filename, 'utf-8'), additionalOpts);
 }
 
-function registerHelpers() {
+function registerHelpers(opts) {
   // Removes whitespace in addition to making lower case
   handlebars.registerHelper('idify', function(options) {
     return options.fn(this).toLowerCase().replace(/[ \.]/g,'');
@@ -71,6 +71,15 @@ function registerHelpers() {
   handlebars.registerHelper('presentLanguage', function(language) {
     return LANGUAGE_MAPPINGS[language];
   });
+
+  // eslint-disable-next-line no-unused-vars
+  handlebars.registerHelper('languageSwitcher', function(_options) {
+    let switcherTemplate = opts['switcherTemplate'];
+    let switcherLanguages = opts['switcherLanguages'];
+    let templateArgs = { switcherLanguages: switcherLanguages };
+
+    return new handlebars.SafeString(switcherTemplate(templateArgs));
+  });
 }
 
 /**
@@ -85,7 +94,7 @@ function registerHelpers() {
  * - "enumTemplate"
  * - "changelogTemplate"
  */
-exports.createDocPageTemplate = function(files) {
+exports.createDocPageTemplate = function(files, switcherLanguages) {
   // Load in HTML templates for doc types
   const docpageTemplate = hbsCompile(files['docpageTemplate'], { preventIndent: true });
   const endpointTemplate = hbsCompile(files['endpointTemplate']);
@@ -93,6 +102,12 @@ exports.createDocPageTemplate = function(files) {
   const datatypeTemplate = hbsCompile(files['datatypeTemplate']);
   const enumTemplate = hbsCompile(files['enumTemplate']);
   const changelogTemplate = hbsCompile(files['changelogTemplate']);
+  const switcherTemplate = hbsCompile(files['switcherTemplate']);
+
+  let opts = {
+    switcherLanguages: switcherLanguages,
+    switcherTemplate: switcherTemplate,
+  };
 
   handlebars.registerPartial('endpoint', endpointTemplate);
   handlebars.registerPartial('nav', navTemplate);
@@ -100,7 +115,7 @@ exports.createDocPageTemplate = function(files) {
   handlebars.registerPartial('enum', enumTemplate);
   handlebars.registerPartial('changelog', changelogTemplate);
 
-  registerHelpers();
+  registerHelpers(opts);
 
   return docpageTemplate;
 };
