@@ -28,6 +28,6 @@ BASE_DIR=$(dirname "$0")/..
     java -jar target/apiparser-1.0-SNAPSHOT.jar "$@"
 )
 
-mv "$BASE_DIR"/tools/api-parser/*.json "$BASE_DIR/tools/sdk-gen"
+mv "$BASE_DIR"/tools/api-parser/*.json "$BASE_DIR/api.json.d"
 echo "Open API files copied to tools/sdk-gen. Launching diff."
 git diff "$BASE_DIR/tools/sdk-gen/*.json"
