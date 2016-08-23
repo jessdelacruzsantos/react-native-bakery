@@ -17,3 +17,8 @@ This command handles the build, running, and file-moving that the below
 instructions mention. Provided arguments will be passed along to the JAR file.
 Specification files are output to 'api.json.d/'.  For more usage notes, see
 tools/api-parser/README.md.
+
+Make sure to copy the files output here to the 'api.json.d' folder in
+[connect-documentation-website](https://stash.corp.squareup.com/projects/CAD/repos/connect-documentation-website/browse).
+
+`cp api.json.d/*json ~/Development/connect-documentation-website/api.json.d/`

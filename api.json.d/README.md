@@ -6,3 +6,5 @@ prevent commit drift between two separate repositories. Make sure to copy the
 files output here to the 'api.json.d' folder in
 [connect-documentation-website](https://stash.corp.squareup.com/projects/CAD/repos/connect-documentation-website/browse)
 or else no one else will see them.
+
+`cp api.json.d/*json ~/Development/connect-documentation-website/api.json.d/`
