@@ -5,7 +5,7 @@ repo to generate a JSON representation of the Connect API.
 
 ## Quick start
 
-    script/api-parser $GOPATH/src/square/up/xp/connect-public-protos/squareup/connect/v2
+    script/api-parser $GOPATH/src/square/up/xp/connect-public-protos/protos/squareup/connect/v2/
 
 This command handles the build, running, and file-moving that the below
 instructions mention. Provided arguments will be passed along to the JAR file.
