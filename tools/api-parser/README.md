@@ -10,19 +10,14 @@ repo to generate a JSON representation of the Connect API.
 This command handles the build, running, and file-moving that the below
 instructions mention. Provided arguments will be passed along to the JAR file.
 
-## Building
-Run `mvn install` from this directory. That should be it!
+## Manually running the tool
 
-## Running
+Run `mvn install` from this directory to build.
+
 From this directory, run:
 
     java -jar target/apiparser-1.0-SNAPSHOT.jar ~/Development/go/src/square/up/xp/connect-public-protos/protos/squareup/connect/v2
-
-    mv *.json ../sdk-gen/
-
-This will overwrite the `api.json` file in `tools/sdk-gen`. `sdk-gen` uses this
-file to generate core classes for each language's SDK. See its README for more
-information.
+    mv *.json ../../api.json.d
 
 You can also override some of the basic values for your API definition. These are:
 
