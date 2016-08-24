@@ -83,7 +83,6 @@ public class ConnectAPIParser {
     } catch (Exception e) {
       throw Throwables.propagate(e);
     }
-    System.out.println("Successfully wrote to " + path);
   }
 
   public static void main(String argv[]) {
