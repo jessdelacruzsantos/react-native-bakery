@@ -73,14 +73,14 @@ public class ProtoIndex {
   public Optional<ConnectEnum> getEnumType(String typeName) {
     final String type = Protos.cleanName(typeName);
     final Optional<String> enumType =
-        enums.keySet().stream().filter(e -> e.endsWith(type)).findFirst();
+        enums.keySet().stream().filter(e -> e.equals(type) || e.endsWith("." + type)).findFirst();
     return enumType.map(enums::get);
   }
 
   public Optional<ConnectDatatype> getDataType(String typeName) {
     final String type = Protos.cleanName(typeName);
     final Optional<String> dataType =
-        dtypes.keySet().stream().filter(d -> d.endsWith(type)).findFirst();
+        dtypes.keySet().stream().filter(d -> d.equals(type) || d.endsWith("." + type)).findFirst();
     return dataType.map(dtypes::get);
   }
 
