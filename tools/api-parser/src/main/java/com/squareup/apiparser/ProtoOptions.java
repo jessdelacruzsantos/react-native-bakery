@@ -59,7 +59,9 @@ public class ProtoOptions {
     if (field.label() == Field.Label.REQUIRED) {
       return true;
     }
-    return getBooleanValue(field.options(), "squareup.validation.required");
+    return getBooleanValue(field.options(), "squareup.validation.required")
+        || getBooleanValue(field.options(), "squareup.validation.not_empty")
+        || getIntegerValue(field.options(), "(squareup.validation.legnth).min_length").orElse(0) > 0;
   }
 
   public static boolean isPathParam(FieldElement field) {
@@ -80,6 +82,14 @@ public class ProtoOptions {
         .filter(option -> optionName.endsWith(option.name()))
         .findFirst()
         .map(option -> (String) option.value());
+  }
+
+  public static Optional<Integer> getIntegerValue(Collection<OptionElement> options,
+      String optionName) {
+    return options.stream()
+        .filter(option -> optionName.endsWith(option.name()))
+        .findFirst()
+        .map(option -> Integer.parseInt((String) option.value()));
   }
 
   public static String getReleaseStatus(Collection<OptionElement> options, String optionName) {
