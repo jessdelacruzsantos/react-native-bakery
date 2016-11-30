@@ -13,6 +13,7 @@ import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.squareup.apiparser.ConnectType.FORMAT_MAP;
 import static com.squareup.apiparser.ConnectType.TYPE_MAP;
 
 /**
@@ -108,6 +109,9 @@ public class ConnectEndpoint {
       } else {
         final String type = param.getType();
         swaggerParameter.addProperty("type", TYPE_MAP.getOrDefault(type, type));
+        if (FORMAT_MAP.containsKey(type)) {
+          swaggerParameter.addProperty("format", FORMAT_MAP.get(type));
+        }
       }
       if (param.isPathParam()) {
         swaggerParameter.addProperty("in", "path");
