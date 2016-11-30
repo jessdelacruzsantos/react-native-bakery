@@ -27,6 +27,10 @@ public class ConnectType {
       .put("string", "string")
       .build();
 
+  public static final Map<String, String> FORMAT_MAP = ImmutableMap.<String, String>builder()
+      .put("int64", "int64")
+      .build();
+
   protected ConnectType(TypeElement rootType, String packageName,
       Optional<ConnectType> parentType) {
     this.rootType = checkNotNull(rootType);

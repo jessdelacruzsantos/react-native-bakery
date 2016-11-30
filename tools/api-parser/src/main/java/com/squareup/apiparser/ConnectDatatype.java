@@ -111,6 +111,9 @@ public class ConnectDatatype extends ConnectType {
     final String value = TYPE_MAP.getOrDefault(type, "#/definitions/" + type);
     final String key = (TYPE_MAP.containsKey(type)) ? "type" : "$ref";
     json.addProperty(key, value);
+    if (key.equals("type") && FORMAT_MAP.containsKey(type)) {
+      json.addProperty("format", FORMAT_MAP.get(type));
+    }
     return json;
   }
 }
