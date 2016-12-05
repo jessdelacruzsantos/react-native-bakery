@@ -95,12 +95,11 @@ public class ConnectAPIParser {
       ImmutableList<String> protoPaths = ImmutableList.copyOf(configuration.getProtobufLocations());
 
       String allAPIOutputPath = System.getProperty("user.dir") + "/api_internal.json";
-      generateJsonAPI(configuration, protoPaths, ApiReleaseType.ALL, allAPIOutputPath, null);
+      String enumOutputPath = System.getProperty("user.dir") + "/enum_mapping.json";
+      generateJsonAPI(configuration, protoPaths, ApiReleaseType.ALL, allAPIOutputPath, enumOutputPath);
 
       String publicAPIOutputPath = System.getProperty("user.dir") + "/api.json";
-      String enumOutputPath = System.getProperty("user.dir") + "/enum_mapping.json";
-      generateJsonAPI(
-          configuration, protoPaths, ApiReleaseType.PUBLIC, publicAPIOutputPath, enumOutputPath);
+      generateJsonAPI(configuration, protoPaths, ApiReleaseType.PUBLIC, publicAPIOutputPath, null);
 
       String betaAPIOutputPath = System.getProperty("user.dir") + "/api_beta.json";
       generateJsonAPI(configuration, protoPaths, ApiReleaseType.BETA, betaAPIOutputPath, null);
