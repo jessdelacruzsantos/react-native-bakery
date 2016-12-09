@@ -14,6 +14,14 @@ set -o pipefail
 
 BASE_DIR=$(dirname "$0")/..
 
+if [ $# -eq 0 ]; then
+	echo "Need to pass in the path to the protos."
+	echo "USAGE:"
+	echo '  script/api-parser $GOPATH/src/square/up/xp/connect-public-protos/protos/squareup/connect/v2/'
+	echo
+	exit 1
+fi
+
 (
     cd "$BASE_DIR/tools/api-parser"
 
