@@ -25,12 +25,32 @@ public class ConnectAPIParser {
     }
   }
 
-  private static Map<String, Object> createSwaggerBase(Configuration configuration) {
+  private static Map<String, Object> swaggerBase(Configuration configuration) {
+    ImmutableMap.Builder<String, String> contact = ImmutableMap.<String, String>builder()
+        .put("name", "Square Developer Platform")
+        .put("email", "developers@squareup.com")
+        .put("url", "https://squareup.com/developers");
+
+    ImmutableMap.Builder<String, String> license = ImmutableMap.<String, String>builder()
+        .put("name", "Apache 2.0")
+        .put("url", "http://www.apache.org/licenses/LICENSE-2.0.html");
+
+    ImmutableMap.Builder<String, Object> info = ImmutableMap.<String, Object>builder()
+        .put("version", configuration.getVersion())
+        .put("title", configuration.getTitle())
+        .put("description", "Client library for accessing the Square Connect APIs")
+        .put("termsOfService", "https://connect.squareup.com/tos")
+        .put("contact", contact.build())
+        .put("license", license.build());
+
+    ImmutableMap.Builder<String, String> docs = ImmutableMap.<String, String>builder()
+        .put("description", "Read the official documentation here:")
+        .put("url", "https://docs.connect.squareup.com/");
+
     return ImmutableMap.<String, Object>builder()
         .put("swagger", "2.0")
-        .put("info", ImmutableMap.of(
-            "version", configuration.getVersion(),
-            "title", configuration.getTitle()))
+        .put("info", info.build())
+        .put("externalDocs", docs.build())
         .put("host", configuration.getHost())
         .put("schemes", ImmutableList.of("https"))
         .put("consumes", ImmutableList.of("application/json"))
@@ -38,9 +58,41 @@ public class ConnectAPIParser {
         .build();
   }
 
+  private static Map<String, Object> securityDefinitions() {
+    ImmutableMap.Builder<String, String> scopes = ImmutableMap.<String, String>builder()
+        .put("MERCHANT_PROFILE_READ", "GET endpoints related to a merchant's business and location entities. Almost all Connect API applications need this permission in order to obtain a merchant's location IDs")
+        .put("PAYMENTS_READ", "GET endpoints related to transactions and refunds")
+        .put("PAYMENTS_WRITE", "POST, PUT, and DELETE endpoints related to transactions and refunds. E-commerce applications must request this permission")
+        .put("CUSTOMERS_READ", " GET endpoints related to customer management")
+        .put("CUSTOMERS_WRITE", "POST, PUT, and DELETE endpoints related to customer management")
+        .put("SETTLEMENTS_READ", "GET endpoints related to settlements (deposits)")
+        .put("BANK_ACCOUNTS_READ", "GET endpoints related to a merchant's bank accounts")
+        .put("ITEMS_READ", "GET endpoints related to a merchant's item library")
+        .put("ITEMS_WRITE", "POST, PUT, and DELETE endpoints related to a merchant's item library")
+        .put("ORDERS_READ", "GET endpoints related to a merchant's Square online store.")
+        .put("ORDERS_WRITE", "POST, PUT, and DELETE endpoints related to a merchant's Square online store")
+        .put("EMPLOYEES_READ", "GET endpoints related to employee management")
+        .put("EMPLOYEES_WRITE", "POST, PUT, and DELETE endpoints related to employee management")
+        .put("TIMECARDS_READ", "GET endpoints related to employee timecards")
+        .put("TIMECARDS_WRITE", "POST, PUT, and DELETE endpoints related to employee timecards");
+
+    ImmutableMap.Builder<String, Object> oauth = ImmutableMap.<String, Object>builder()
+        .put("type", "oauth2")
+        .put("authorizationUrl", "https://connect.squareup.com/oauth2/authorize?<PARAMETERS>")
+        .put("flow", "accessCode")
+        .put("tokenUrl", "https://connect.squareup.com/oauth2/token")
+        .put("scopes", scopes.build());
+
+    return ImmutableMap.<String, Object>builder()
+        .put("oauth2", oauth.build())
+        .build();
+  }
+
   public JsonAPI parseAPI(ProtoIndex index, Configuration configuration) {
     // Transform all the symbols to JSON and write out to file
-    JsonObject root = GSON.toJsonTree(createSwaggerBase(configuration)).getAsJsonObject();
+    JsonObject root = GSON.toJsonTree(swaggerBase(configuration)).getAsJsonObject();
+    root.add("securityDefinitions", GSON.toJsonTree(securityDefinitions()));
+
     final ImmutableMap.Builder<String, String> enumMapBuilder = ImmutableMap.builder();
 
     JsonObject jsonEndpoints = new JsonObject();
