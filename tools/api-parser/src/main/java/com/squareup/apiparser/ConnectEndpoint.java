@@ -27,8 +27,6 @@ public class ConnectEndpoint {
   private final RpcElement rootRpc;
   private final ProtoIndex index;
 
-  private static final Set<String> NO_AUTH_REQUIRED = ImmutableSet.of("CreateCardNonce");
-
   public ConnectEndpoint(RpcElement rpc, ProtoIndex index) {
     this.rootRpc = checkNotNull(rpc);
     this.inputType = rpc.requestType();
@@ -93,19 +91,6 @@ public class ConnectEndpoint {
     }
 
     JsonArray swaggerParameters = new JsonArray();
-
-    if (!NO_AUTH_REQUIRED.contains(this.getName())) {
-      JsonObject authorizationParameter = new JsonObject();
-      authorizationParameter.addProperty("name", "Authorization");
-      authorizationParameter.addProperty("in", "header");
-      authorizationParameter.addProperty("type", "string");
-      authorizationParameter.addProperty("required", true);
-      authorizationParameter.addProperty("description",
-          "The value to provide in the Authorization header of\n"
-              + "your request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.");
-
-      swaggerParameters.add(authorizationParameter);
-    }
 
     for (ConnectField param : this.params) {
       JsonObject swaggerParameter = new JsonObject();
