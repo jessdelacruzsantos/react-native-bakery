@@ -79,6 +79,16 @@ public class ConnectEndpoint {
       for (String permission : oauthPermissions){
         permissionsArray.add(permission);
       }
+
+      // Add the swagger oauth2 security section that specifies required OAuth permissions
+      JsonObject oauth2 = new JsonObject();
+      oauth2.add("oauth2", permissionsArray);
+      JsonArray secList = new JsonArray();
+      secList.add(oauth2);
+      root.add("security", secList);
+
+      // TODO(killpack) - Remove 'x-oauthpermissions' once documentation generation pipeline is
+      // parsing the security section
       root.add("x-oauthpermissions", permissionsArray);
     }
 
