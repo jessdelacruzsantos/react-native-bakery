@@ -11,7 +11,7 @@ class Configuration {
   @Parameter(names = "-title", description = "Title of your API")
   private String title = "Square Connect API";
 
-  @Parameter(names = "-host", description = "Host of your api (ex: connect.squareup.com)")
+  @Parameter(names = "-host", description = "Host of your API (ex: connect.squareup.com)")
   private String host = "connect.squareup.com";
 
   @Parameter(description = "Locations of protobufs")

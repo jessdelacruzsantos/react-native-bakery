@@ -15,12 +15,70 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 public class ConnectAPIParserTest {
+  @Test
+  public void testSwaggerAndInfoObjects() throws Exception {
+    ExampleResolver resolver = new ExampleResolver(ImmutableList.of(""));
+    ProtoIndex index = new ProtoIndex(ApiReleaseType.ALL, resolver);
+    Configuration config = new Configuration();
+    ConnectAPIParser.JsonAPI api = new ConnectAPIParser().parseAPI(index, config);
+
+    JsonObject swagger = api.swagger;
+    assertThat(swagger.get("swagger").getAsString(), equalTo("2.0"));
+
+    JsonObject info = api.swagger.getAsJsonObject("info");
+    assertThat(info, not(nullValue()));
+    assertThat(info.get("version").getAsString(), equalTo(config.getVersion()));
+    assertThat(info.get("title").getAsString(), equalTo(config.getTitle()));
+    assertThat(info.get("description").getAsString(), equalTo("Client library for accessing the Square Connect APIs"));
+    assertThat(info.get("termsOfService").getAsString(), equalTo("https://connect.squareup.com/tos"));
+
+    JsonObject contact = info.getAsJsonObject("contact");
+    assertThat(contact, not(nullValue()));
+    assertThat(contact.get("name").getAsString(), equalTo("Square Developer Platform"));
+    assertThat(contact.get("email").getAsString(), equalTo("developers@squareup.com"));
+    assertThat(contact.get("url").getAsString(), equalTo("https://squareup.com/developers"));
+
+    JsonObject license = info.getAsJsonObject("license");
+    assertThat(license, not(nullValue()));
+    assertThat(license.get("name").getAsString(), equalTo("Apache 2.0"));
+    assertThat(license.get("url").getAsString(), equalTo("http://www.apache.org/licenses/LICENSE-2.0.html"));
+
+    JsonObject docs = swagger.getAsJsonObject("externalDocs");
+    assertThat(docs, not(nullValue()));
+    assertThat(docs.get("description").getAsString(), equalTo("Read the official documentation here:"));
+    assertThat(docs.get("url").getAsString(), equalTo("https://docs.connect.squareup.com/"));
+
+    assertThat(api.swagger.get("host").getAsString(), equalTo(config.getHost()));
+    assertThat(api.swagger.getAsJsonArray("schemes").getAsString(), equalTo("https"));
+    assertThat(api.swagger.getAsJsonArray("consumes").getAsString(), equalTo("application/json"));
+    assertThat(api.swagger.getAsJsonArray("produces").getAsString(), equalTo("application/json"));
+  }
+
+  @Test
+  public void testSecurityDefinitions() throws Exception {
+    ExampleResolver resolver = new ExampleResolver(ImmutableList.of(""));
+    ProtoIndex index = new ProtoIndex(ApiReleaseType.ALL, resolver);
+    Configuration config = new Configuration();
+    ConnectAPIParser.JsonAPI api = new ConnectAPIParser().parseAPI(index, config);
+
+    JsonObject secDef = api.swagger.getAsJsonObject("securityDefinitions");
+    assertThat(secDef, not(nullValue()));
+
+    JsonObject oauth = secDef.getAsJsonObject("oauth2");
+    assertThat(oauth, not(nullValue()));
+
+    assertThat(oauth.get("type").getAsString(), equalTo("oauth2"));
+    // TODO - Complete this
+  }
+
   @Ignore
   @Test
   public void testParseAPI() throws Exception {
