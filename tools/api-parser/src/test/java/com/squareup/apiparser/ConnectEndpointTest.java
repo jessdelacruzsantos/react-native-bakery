@@ -7,6 +7,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.squareup.wire.schema.internal.parser.OptionElement;
 import com.squareup.wire.schema.internal.parser.RpcElement;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import org.junit.Test;
 
 import java.net.URL;
@@ -15,6 +19,7 @@ import java.nio.file.Paths;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -42,11 +47,25 @@ public class ConnectEndpointTest {
 
     assertThat(json.get("description").getAsString(), equalTo("For executing delayed capture."));
 
+    final JsonArray params = json.get("parameters").getAsJsonArray();
+    List<String> names = StreamSupport.stream(params.getAsJsonArray().spliterator(), false)
+        .map(o -> o.getAsJsonObject().get("name").getAsString())
+        .collect(Collectors.toList());
+    assertThat(names, equalTo(Arrays.asList("location_id", "transaction_id", "body")));
+
     JsonArray perms = json.get("x-oauthpermissions").getAsJsonArray();
     assertThat(perms.size(), equalTo(1));
     assertThat(perms.getAsString(), equalTo("PAYMENTS_WRITE"));
+  }
 
-    // TODO - verify parameters
+  @Test
+  public void testUnauthenticatedEndpoint() throws Exception {
+    final ConnectEndpoint endpoint = createEndpointWithOAuthPerms(ImmutableList.of());
+    final JsonObject json = endpoint.toJson();
+
+    assertTrue(json.has("tags"));
+    JsonArray security = json.getAsJsonArray("security");
+    assertThat(security.size(), equalTo(0));
   }
 
   private OptionElement mockOptionElement(String name, Object value) {
@@ -57,6 +76,10 @@ public class ConnectEndpointTest {
   }
 
   private ConnectEndpoint createEndpoint() throws Exception {
+    return createEndpointWithOAuthPerms(ImmutableList.of("PAYMENTS_WRITE"));
+  }
+
+  private ConnectEndpoint createEndpointWithOAuthPerms(List<String> perms) throws Exception {
     final String doc = "  /*--\n"
         + "    @desc For executing delayed capture.\n"
         + "  --*/\n";
@@ -69,8 +92,9 @@ public class ConnectEndpointTest {
     OptionElement pathOpt = mockOptionElement(
         "path", "/v2/locations/{location_id}/transactions/{transaction_id}/capture");
     OptionElement httpMethodOpt = mockOptionElement("http_method", "POST");
+
     OptionElement oauthPermissionsOpt = mockOptionElement("common.oauth_permissions",
-        ImmutableMap.of("value", ImmutableList.of("PAYMENTS_WRITE")));
+        ImmutableMap.of("value", perms));
     when(rpc.options()).thenReturn(
         ImmutableList.of(entityOpt, pathOpt, httpMethodOpt, oauthPermissionsOpt));
 

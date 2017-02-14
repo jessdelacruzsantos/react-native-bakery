@@ -70,25 +70,37 @@ public class ConnectEndpoint {
     root.addProperty("operationId", this.getName());
     root.addProperty("description", docAnnotations.getOrDefault("desc", ""));
 
-    // Split the required OAuth permissions listed in the proto declaration into a JSON array
+    // Endpoints should either specify OAuth permissions or mark that they don't use OAuth. Anything
+    // else is an assert.
+    // NOTE(killpack) - This is pure speculation on my part, which is why the exception is there.
+    // This also assumes that OAuth is the only authentication mechanism available, reasonable at
+    // this time.
     List<String> oauthPermissions = ProtoOptions.getOAuthPermissions(rootRpc);
+    JsonArray permissionsArray = new JsonArray();
     if (!oauthPermissions.isEmpty()) {
-      JsonArray permissionsArray = new JsonArray();
-      for (String permission : oauthPermissions){
+      for (String permission : oauthPermissions) {
         permissionsArray.add(permission);
       }
+    } else {
+      if (ProtoOptions.getBooleanValue(rootRpc.options(), "common.oauth_credential_required")) {
+        throw new RuntimeException(String.format("Endpoint %s requires OAuth but has not set permissions", this.getName()));
+      }
 
-      // Add the swagger oauth2 security section that specifies required OAuth permissions
+      // Use empty permissions array to disable oauth security on the endpoint
+    }
+
+    // Add the swagger OAuth2 security section that specifies required OAuth permissions
+    JsonArray secList = new JsonArray();
+    if (!oauthPermissions.isEmpty()) {
       JsonObject oauth2 = new JsonObject();
       oauth2.add("oauth2", permissionsArray);
-      JsonArray secList = new JsonArray();
       secList.add(oauth2);
-      root.add("security", secList);
 
       // TODO(killpack) - Remove 'x-oauthpermissions' once documentation generation pipeline is
       // parsing the security section
       root.add("x-oauthpermissions", permissionsArray);
     }
+    root.add("security", secList);
 
     JsonArray swaggerParameters = new JsonArray();
 

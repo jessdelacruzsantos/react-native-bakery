@@ -59,6 +59,7 @@ public class ConnectAPIParser {
   }
 
   private static Map<String, Object> securityDefinitions() {
+    // TODO - These should be extracted from protos directly
     ImmutableMap.Builder<String, String> scopes = ImmutableMap.<String, String>builder()
         .put("MERCHANT_PROFILE_READ", "GET endpoints related to a merchant's business and location entities. Almost all Connect API applications need this permission in order to obtain a merchant's location IDs")
         .put("PAYMENTS_READ", "GET endpoints related to transactions and refunds")
