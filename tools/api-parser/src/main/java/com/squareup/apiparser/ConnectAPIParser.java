@@ -6,13 +6,19 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import java.io.FileReader;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Iterator;
+import java.util.Optional;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import javax.annotation.Nullable;
 
 import static com.squareup.apiparser.Json.GSON;
@@ -149,8 +155,6 @@ public class ConnectAPIParser {
       Preconditions.checkArgument(!configuration.getProtobufLocations().isEmpty(),
           "At least one protobuf location is required");
 
-      ImmutableList<String> protoPaths = ImmutableList.copyOf(configuration.getProtobufLocations());
-
       Optional<Path> outputArg = configuration.getOutputPath();
       Path outputPath;
       if (!outputArg.isPresent()) {
@@ -167,19 +171,39 @@ public class ConnectAPIParser {
         }
       }
 
+      ImmutableList<String> protoPaths = ImmutableList.copyOf(configuration.getProtobufLocations());
+
+      JsonAPI api = generateJsonAPI(configuration, protoPaths, ApiReleaseType.ALL);
       Path allAPIOutputPath = outputPath.resolve("api_internal.json");
+      writeJson(GSON.toJson(api.swagger), allAPIOutputPath);
       Path enumOutputPath = outputPath.resolve("enum_mapping.json");
-      generateJsonAPI(configuration, protoPaths, ApiReleaseType.ALL, allAPIOutputPath, enumOutputPath);
+      writeJson(GSON.toJson(api.enumMap), enumOutputPath);
 
+      api = generateJsonAPI(configuration, protoPaths, ApiReleaseType.ALL);
+      if (!configuration.getV1APISchemaFile().equals("")) {
+        // Because the incoming api.json lacks visibility information we only merge it into the
+        // public definitions. This is not the way to handle v1 endpoints.
+        JsonParser parser = new JsonParser();
+        JsonObject v1API = parser.parse(new FileReader(configuration.getV1APISchemaFile())).getAsJsonObject();
+
+        JsonObject v2API = api.swagger;
+
+        // Merge v1 endpoints into v2 schema
+        mergeJsonObjectsUnderKey(v1API, v2API, "paths");
+
+        // Merge v1 definitions into v2 definitions
+        mergeJsonObjectsUnderKey(v1API, v2API, "definitions");
+      }
       Path publicAPIOutputPath = outputPath.resolve("api.json");
-      generateJsonAPI(configuration, protoPaths, ApiReleaseType.PUBLIC, publicAPIOutputPath, null);
+      writeJson(GSON.toJson(api.swagger), publicAPIOutputPath);
 
+      api = generateJsonAPI(configuration, protoPaths, ApiReleaseType.BETA);
       Path betaAPIOutputPath = outputPath.resolve("api_beta.json");
-      generateJsonAPI(configuration, protoPaths, ApiReleaseType.BETA, betaAPIOutputPath, null);
+      writeJson(GSON.toJson(api.swagger), betaAPIOutputPath);
 
+      generateJsonAPI(configuration, protoPaths, ApiReleaseType.UPCOMING);
       Path upcomingAPIOutputPath = outputPath.resolve("api_upcoming.json");
-      generateJsonAPI(
-          configuration, protoPaths, ApiReleaseType.UPCOMING, upcomingAPIOutputPath, null);
+      writeJson(GSON.toJson(api.swagger), upcomingAPIOutputPath);
     } catch (InvalidSpecException e) {
       String errorMsg;
       if (e.getContext().isPresent()) {
@@ -197,14 +221,32 @@ public class ConnectAPIParser {
     }
   }
 
-  private static void generateJsonAPI(Configuration configuration, ImmutableList<String> protoPaths,
-      ApiReleaseType apiReleaseType, Path apiOutputPath, @Nullable Path enumOutputPath)
-      throws Exception {
-    ProtoIndex index = new ProtoIndexer().indexProtos(apiReleaseType, protoPaths);
-    JsonAPI api = new ConnectAPIParser().parseAPI(index, configuration);
-    writeJson(GSON.toJson(api.swagger), apiOutputPath);
-    if (enumOutputPath != null) {
-      writeJson(GSON.toJson(api.enumMap), enumOutputPath);
+  // Merges all elements in a into b
+  private static void mergeJsonObjectsUnderKey(JsonObject objA, JsonObject objB, String key) {
+    JsonObject a = objA.getAsJsonObject(key);
+    JsonObject b = objB.getAsJsonObject(key);
+    if (a == null || b == null) {
+      return;
     }
+
+    Set<Map.Entry<String,JsonElement>> aElems = a.entrySet();
+    Iterator<Map.Entry<String,JsonElement>> iter = aElems.iterator();
+    while (iter.hasNext()) {
+      Map.Entry<String,JsonElement> v1Endpoint = iter.next();
+      String path = v1Endpoint.getKey();
+      if (b.has(path)) {
+        // Emit a warning and move to the next
+        System.out.format("WARN: Skipping duplicate key '%s' in v2 schema\n", path);
+        continue;
+      }
+
+      b.add(path, v1Endpoint.getValue());
+    }
+  }
+
+  private static JsonAPI generateJsonAPI(Configuration configuration, ImmutableList<String> protoPaths,
+      ApiReleaseType apiReleaseType) throws Exception {
+    ProtoIndex index = new ProtoIndexer().indexProtos(apiReleaseType, protoPaths);
+    return new ConnectAPIParser().parseAPI(index, configuration);
   }
 }

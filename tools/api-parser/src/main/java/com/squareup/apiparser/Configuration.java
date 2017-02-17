@@ -23,6 +23,9 @@ class Configuration {
   @Parameter(names = {"--output", "-o"}, description = "Output path, defaults to current directory", converter = PathConverter.class)
   private Path outputPath;
 
+  @Parameter(names = "-mergev1", description = "Location of v1 api.json to merge in")
+  private String v1APISchemaFile = "";
+
   List<String> getProtobufLocations() {
     return protobufLocations;
   }
@@ -41,5 +44,9 @@ class Configuration {
 
   Optional<Path> getOutputPath() {
     return Optional.ofNullable(outputPath);
+  }
+
+  String getV1APISchemaFile() {
+    return v1APISchemaFile;
   }
 }
