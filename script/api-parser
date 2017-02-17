@@ -1,5 +1,5 @@
 #!/bin/sh
-# See tools/api-parser/README.md for full usage notes. 
+# See tools/api-parser/README.md for full usage notes.
 
 # Abort script at first error, when a command exits with non-zero status
 set -o errexit
@@ -33,7 +33,7 @@ fi
         exit 1
     fi
 
-    java -jar target/apiparser-1.0-SNAPSHOT.jar "$@"
+    java -jar target/apiparser-1.0-SNAPSHOT.jar "$@" -mergev1 "../../api_v1.json"
 )
 
 # Output commands being run
