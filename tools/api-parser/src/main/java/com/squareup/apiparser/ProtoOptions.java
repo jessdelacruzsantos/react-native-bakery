@@ -13,6 +13,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -67,7 +69,7 @@ public class ProtoOptions {
     }
     return getBooleanValueOrDefault(field.options(), "squareup.validation.required", false)
         || getBooleanValueOrDefault(field.options(), "squareup.validation.not_empty", false)
-        || getIntegerValue(field.options(), "(squareup.validation.length).min_length").orElse(0) > 0;
+        || getIntegerValue(field.options(), "(squareup.validation.length).min").orElse(0) > 0;
   }
 
   public static boolean isPathParam(FieldElement field) {
@@ -138,7 +140,7 @@ public class ProtoOptions {
     if ("max".equals(actual.name())) {
       return Optional.of(Pair.of("maxLength", Integer.parseInt((String) actual.value())));
     } else if ("min".equals(actual.name())) {
-      return Optional.of(Pair.of("maxLength", Integer.parseInt((String) actual.value())));
+      return Optional.of(Pair.of("minLength", Integer.parseInt((String) actual.value())));
     } else {
       throw new IllegalStateException("Unsupported length validation " + actual.name());
     }
@@ -164,8 +166,18 @@ public class ProtoOptions {
     }
   }
 
-  private static Optional<Pair<String, Object>> matchesPattern(OptionElement option) {
-    return Optional.of(Pair.of("pattern", option.value()));
+  private static Optional<Pair<String, Object>> matchesPattern(OptionElement option) throws InvalidSpecException{
+    String regex = (String)option.value();
+
+    // Make sure it is valid
+    try {
+      //noinspection ResultOfMethodCallIgnored
+      Pattern.compile(regex);
+    } catch(PatternSyntaxException e) {
+      throw new InvalidSpecException(String.format("Regular expression pattern '%s' is not valid", regex), e);
+    }
+
+    return Optional.of(Pair.of("pattern", regex));
   }
 
   private ProtoOptions() {
