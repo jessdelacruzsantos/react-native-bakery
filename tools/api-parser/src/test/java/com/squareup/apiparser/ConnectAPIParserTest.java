@@ -81,34 +81,34 @@ public class ConnectAPIParserTest {
   @Ignore
   @Test
   public void testParseAPI() throws Exception {
-    final ProtoIndexer indexer = new ProtoIndexer();
-    final URL url = Resources.getResource("actions.proto");
-    final Path path = Paths.get(url.getFile());
-    final ProtoIndex index = indexer.indexProtos(
+    ProtoIndexer indexer = new ProtoIndexer();
+    URL url = Resources.getResource("actions.proto");
+    Path path = Paths.get(url.getFile());
+    ProtoIndex index = indexer.indexProtos(
         ApiReleaseType.ALL, ImmutableList.of(path.getParent().toString()));
 
-    final ConnectAPIParser.JsonAPI api =
+    ConnectAPIParser.JsonAPI api =
         new ConnectAPIParser().parseAPI(index, new Configuration());
-    final JsonObject json = api.swagger;
-    final JsonObject paths = json.getAsJsonObject("paths");
-    final JsonObject definitions = json.getAsJsonObject("definitions");
+    JsonObject json = api.swagger;
+    JsonObject paths = json.getAsJsonObject("paths");
+    JsonObject definitions = json.getAsJsonObject("definitions");
 
     assertThat(paths.getAsJsonObject("/v2/locations/{location_id}/transactions/{transaction_id}"), not(nullValue()));
     assertThat(definitions.getAsJsonObject("RetrieveTransactionResponse"), not(nullValue()));
 
-    final Path tmp = Files.createTempFile("swagger", ".json");
+    Path tmp = Files.createTempFile("swagger", ".json");
     try (BufferedSink b = Okio.buffer(Okio.sink(tmp))) {
-      final ByteString bs = ByteString.encodeUtf8(json.toString());
+      ByteString bs = ByteString.encodeUtf8(json.toString());
       b.write(bs);
       b.flush();
-      final String f = tmp.toAbsolutePath().toString();
-      final ImmutableList<String> cmd = ImmutableList.of("swagger", "validate", f);
-      final Process p = new ProcessBuilder().command(cmd).start();
-      final BufferedSource out = Okio.buffer(Okio.source(p.getInputStream()));
-      final BufferedSource err = Okio.buffer(Okio.source(p.getErrorStream()));
-      final int i = p.waitFor();
-      final String e = err.readUtf8();
-      final String o = out.readUtf8();
+      String f = tmp.toAbsolutePath().toString();
+      ImmutableList<String> cmd = ImmutableList.of("swagger", "validate", f);
+      Process p = new ProcessBuilder().command(cmd).start();
+      BufferedSource out = Okio.buffer(Okio.source(p.getInputStream()));
+      BufferedSource err = Okio.buffer(Okio.source(p.getErrorStream()));
+      int i = p.waitFor();
+      String e = err.readUtf8();
+      String o = out.readUtf8();
       if (0 != i || !e.isEmpty()) {
         fail("swagger couldn't validate output:\n" + e + "\n" + json);
       }

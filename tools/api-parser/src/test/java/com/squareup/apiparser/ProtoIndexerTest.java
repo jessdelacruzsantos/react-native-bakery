@@ -14,10 +14,10 @@ import static org.junit.Assert.assertThat;
 public class ProtoIndexerTest {
   @Test
   public void testProtoLoading() throws Exception {
-    final ProtoIndexer indexer = new ProtoIndexer();
-    final URL url = Resources.getResource("actions.proto");
-    final Path path = Paths.get(url.getFile());
-    final ProtoIndex index = indexer.indexProtos(
+    ProtoIndexer indexer = new ProtoIndexer();
+    URL url = Resources.getResource("actions.proto");
+    Path path = Paths.get(url.getFile());
+    ProtoIndex index = indexer.indexProtos(
         ApiReleaseType.ALL, ImmutableList.of(path.getParent().toString()));
     assertThat(index.getEndpoints().size(), equalTo(2));
     assertThat(index.getDatatypes().size(), equalTo(10));

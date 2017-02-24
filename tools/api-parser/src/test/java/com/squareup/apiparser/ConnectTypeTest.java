@@ -17,31 +17,31 @@ import static org.mockito.Mockito.when;
 public class ConnectTypeTest {
   @Test
   public void testGenerateName() throws Exception {
-    final TypeElement tender = mock(MessageElement.class);
+    TypeElement tender = mock(MessageElement.class);
     when(tender.name()).thenReturn("Tender");
     when(tender.documentation()).thenReturn("");
     when(tender.options()).thenReturn(ImmutableList.of());
 
-    final EnumConstantElement enum1 = mock(EnumConstantElement.class);
+    EnumConstantElement enum1 = mock(EnumConstantElement.class);
     when(enum1.name()).thenReturn("SUCCESS");
     when(enum1.tag()).thenReturn(1);
     when(enum1.documentation()).thenReturn("");
     when(enum1.options()).thenReturn(ImmutableList.of());
 
-    final EnumElement status = mock(EnumElement.class);
+    EnumElement status = mock(EnumElement.class);
     when(status.name()).thenReturn("Status");
     when(status.documentation()).thenReturn("");
     when(status.constants()).thenReturn(ImmutableList.of(enum1));
     when(status.options()).thenReturn(ImmutableList.of());
 
-    final TypeElement cardDetails = mock(MessageElement.class);
+    TypeElement cardDetails = mock(MessageElement.class);
     when(cardDetails.name()).thenReturn("CardDetails");
     when(cardDetails.documentation()).thenReturn("");
     when(cardDetails.options()).thenReturn(ImmutableList.of());
 
-    final ConnectType root = new ConnectType(tender, "actions.", Optional.empty());
-    final ConnectType parent = new ConnectType(cardDetails, "actions.", Optional.of(root));
-    final ConnectEnum child = new ConnectEnum(
+    ConnectType root = new ConnectType(tender, "actions.", Optional.empty());
+    ConnectType parent = new ConnectType(cardDetails, "actions.", Optional.of(root));
+    ConnectEnum child = new ConnectEnum(
         ApiReleaseType.ALL, status, "actions.", Optional.of(parent));
     assertThat(parent.generateName(), equalTo("TenderCardDetails"));
     assertThat(child.generateName(), equalTo("TenderCardDetailsStatus"));
