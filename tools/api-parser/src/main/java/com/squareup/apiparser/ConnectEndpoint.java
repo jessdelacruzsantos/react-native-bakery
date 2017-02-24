@@ -1,6 +1,7 @@
 package com.squareup.apiparser;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.squareup.wire.schema.internal.parser.RpcElement;
@@ -26,6 +27,9 @@ public class ConnectEndpoint {
   private final RpcElement rootRpc;
   private final ProtoIndex index;
 
+  // See http://swagger.io/specification/#pathItemObject
+  static final ImmutableSet<String> VALID_HTTP_METHODS = ImmutableSet.of("GET", "PUT", "POST", "DELETE", "OPTIONS", "HEAD", "PATCH");
+
   public ConnectEndpoint(RpcElement rpc, ProtoIndex index) {
     this.rootRpc = checkNotNull(rpc);
     this.inputType = rpc.requestType();
@@ -41,8 +45,17 @@ public class ConnectEndpoint {
     return ProtoOptions.getStringValue(rootRpc.options(), "common.path").orElse("");
   }
 
-  public String getHttpMethod() {
-    return ProtoOptions.getStringValue(rootRpc.options(), "common.http_method").orElse("");
+  public String getHttpMethod() throws InvalidSpecException {
+    Optional<String> method = ProtoOptions.getStringValue(rootRpc.options(), "common.http_method");
+    if (!method.isPresent()) {
+      throw new InvalidSpecException("No common.http_method option found");
+    }
+
+    if (!VALID_HTTP_METHODS.contains(method.get())) {
+      throw new InvalidSpecException(String.format("Unrecognized HTTP method '%s'", method.get(), VALID_HTTP_METHODS.asList()));
+    }
+
+    return method.get();
   }
 
   public String getName() {
