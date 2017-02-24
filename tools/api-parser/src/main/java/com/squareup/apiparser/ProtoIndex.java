@@ -14,19 +14,19 @@ import java.util.stream.Collectors;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class ProtoIndex {
+class ProtoIndex {
   private final ApiReleaseType apiReleaseType;
   private final ExampleResolver exampleResolver;
   private final Map<String, ConnectDatatype> dtypes = new TreeMap<>();
   private final Map<String, ConnectEnum> enums = new TreeMap<>();
   private final List<ConnectEndpoint> endpoints = new ArrayList<>();
 
-  public ProtoIndex(ApiReleaseType apiReleaseType, ExampleResolver exampleResolver) {
+  ProtoIndex(ApiReleaseType apiReleaseType, ExampleResolver exampleResolver) {
     this.apiReleaseType = checkNotNull(apiReleaseType);
     this.exampleResolver = checkNotNull(exampleResolver);
   }
 
-  public void populate(List<ConnectType> types, List<ConnectService> services)
+  void populate(List<ConnectType> types, List<ConnectService> services)
       throws IllegalArgumentException, AnnotationException {
     // This does datatypes + enums, need to do endpoints
     for (ConnectType type : types) {
@@ -58,33 +58,33 @@ public class ProtoIndex {
     }
   }
 
-  public Map<String, ConnectDatatype> getDatatypes() {
+  Map<String, ConnectDatatype> getDatatypes() {
     return this.dtypes;
   }
 
-  public Map<String, ConnectEnum> getEnums() {
+  Map<String, ConnectEnum> getEnums() {
     return this.enums;
   }
 
-  public List<ConnectEndpoint> getEndpoints() {
+  List<ConnectEndpoint> getEndpoints() {
     return this.endpoints;
   }
 
-  public Optional<ConnectEnum> getEnumType(String typeName) {
+  Optional<ConnectEnum> getEnumType(String typeName) {
     final String type = Protos.cleanName(typeName);
     final Optional<String> enumType =
         enums.keySet().stream().filter(e -> e.equals(type) || e.endsWith("." + type)).findFirst();
     return enumType.map(enums::get);
   }
 
-  public Optional<ConnectDatatype> getDataType(String typeName) {
+  Optional<ConnectDatatype> getDataType(String typeName) {
     final String type = Protos.cleanName(typeName);
     final Optional<String> dataType =
         dtypes.keySet().stream().filter(d -> d.equals(type) || d.endsWith("." + type)).findFirst();
     return dataType.map(dtypes::get);
   }
 
-  public ApiReleaseType getApiReleaseType() {
+  ApiReleaseType getApiReleaseType() {
     return apiReleaseType;
   }
 }

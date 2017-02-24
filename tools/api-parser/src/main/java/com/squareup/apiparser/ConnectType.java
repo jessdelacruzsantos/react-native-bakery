@@ -13,26 +13,26 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Created by barlow on 2/2/16.
  */
 public class ConnectType {
-  protected final TypeElement rootType;
-  protected final String packageName;
-  protected final Optional<ConnectType> parentType;
-  protected final Map<String, String> docAnnotations;
+  final TypeElement rootType;
+  private final String packageName;
+  private final Optional<ConnectType> parentType;
+  final Map<String, String> docAnnotations;
   private final String name;
   private final String releaseStatusOptionName;
 
-  public static final Map<String, String> TYPE_MAP = ImmutableMap.<String, String>builder()
+  static final Map<String, String> TYPE_MAP = ImmutableMap.<String, String>builder()
       .put("int32", "integer")
       .put("int64", "integer")
       .put("bool", "boolean")
       .put("string", "string")
       .build();
 
-  public static final Map<String, String> FORMAT_MAP = ImmutableMap.<String, String>builder()
+  static final Map<String, String> FORMAT_MAP = ImmutableMap.<String, String>builder()
       .put("int64", "int64")
       .build();
 
-  protected ConnectType(TypeElement rootType, String packageName,
-      Optional<ConnectType> parentType) {
+  ConnectType(TypeElement rootType, String packageName,
+              Optional<ConnectType> parentType) {
     this.rootType = checkNotNull(rootType);
     this.packageName = checkNotNull(packageName);
     this.parentType = checkNotNull(parentType);
@@ -52,15 +52,15 @@ public class ConnectType {
     }
   }
 
-  public TypeElement getRootType() {
+  TypeElement getRootType() {
     return rootType;
   }
 
-  public String getPackageName() {
+  String getPackageName() {
     return packageName;
   }
 
-  public Optional<ConnectType> getParentType() {
+  Optional<ConnectType> getParentType() {
     return parentType;
   }
 
@@ -68,11 +68,11 @@ public class ConnectType {
     return this.name;
   }
 
-  public String getReleaseStatus() {
+  String getReleaseStatus() {
       return ProtoOptions.getReleaseStatus(getRootType().options(), releaseStatusOptionName);
   }
 
-  public String generateName() {
+  String generateName() {
     return getParentType().map(ConnectType::generateName).orElse("") + getRootType().name();
   }
 }

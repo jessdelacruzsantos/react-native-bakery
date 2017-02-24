@@ -22,7 +22,7 @@ public class ConnectField {
   private final Map<String, String> docAnnotations;
   private final Map<String, Object> validations;
 
-  public ConnectField(FieldElement field, Optional<ConnectEnum> enumm) {
+  ConnectField(FieldElement field, Optional<ConnectEnum> enumm) {
     checkNotNull(field);
     checkNotNull(enumm);
     this.name = field.name();
@@ -40,7 +40,7 @@ public class ConnectField {
   }
 
   // This constructor is called ONLY for fields that represent a value of an enum, such as USD.
-  public ConnectField(String name, String type, String documentation) {
+  ConnectField(String name, String type, String documentation) {
     this.name = checkNotNull(name);
     this.type = Protos.cleanName(checkNotNull(type));
     this.required = false;
@@ -59,27 +59,27 @@ public class ConnectField {
     return this.type;
   }
 
-  public String getDescription() {
+  String getDescription() {
     return docAnnotations.getOrDefault("desc", "");
   }
 
-  public Map<String, Object> getValidations() {
+  Map<String, Object> getValidations() {
     return validations;
   }
 
-  public Boolean isRequired() {
+  Boolean isRequired() {
     return required;
   }
 
-  public boolean isPathParam() {
+  boolean isPathParam() {
     return this.isPathParam;
   }
 
-  public Boolean isArray() {
+  Boolean isArray() {
     return this.isArray;
   }
 
-  public List<String> getEnumValues() {
+  List<String> getEnumValues() {
     return enumValues == null ? Collections.emptyList() : enumValues;
   }
 }

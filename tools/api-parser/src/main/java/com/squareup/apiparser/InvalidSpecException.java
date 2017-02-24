@@ -1,11 +1,11 @@
 package com.squareup.apiparser;
 
-public class InvalidSpecException extends RuntimeException {
-  public InvalidSpecException(String message) {
+class InvalidSpecException extends RuntimeException {
+  InvalidSpecException(String message) {
     super(message);
   }
 
-  public InvalidSpecException(String message, Exception cause) {
+  InvalidSpecException(String message, Exception cause) {
     super(message, cause);
   }
 }

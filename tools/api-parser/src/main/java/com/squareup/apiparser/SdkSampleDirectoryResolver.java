@@ -25,7 +25,7 @@ import java.util.function.Function;
  * }
  * </code>
  */
-public class SdkSampleDirectoryResolver {
+class SdkSampleDirectoryResolver {
   /**
    * Returns a function that resolves a sample directory path into an SDK JSON object.
    *
@@ -34,7 +34,7 @@ public class SdkSampleDirectoryResolver {
    * @return A function that takes a sample directory path (e.g. /sdk_samples/Charge) and resolves
    *         it into a JSON object.
    */
-  public static Function<String, ? extends JsonElement> resolveSamplePath(
+  static Function<String, ? extends JsonElement> resolveSamplePath(
       String datatypeName, Iterable<SdkLanguage> supportedLanguages) {
     return (sampleDirPath) -> {
       Map<String, String> samplePaths =
@@ -48,7 +48,7 @@ public class SdkSampleDirectoryResolver {
    * Convenience function for {@link #resolveSamplePath(String, Iterable)} that specifies
    * {@link SdkLanguage#values()} for the {@code supportedLanguages} parameter.
    */
-  public static Function<String, ? extends JsonElement> resolveSamplePath(
+  static Function<String, ? extends JsonElement> resolveSamplePath(
       String datatypeName) {
     return resolveSamplePath(datatypeName, ImmutableList.copyOf(SdkLanguage.values()));
   }

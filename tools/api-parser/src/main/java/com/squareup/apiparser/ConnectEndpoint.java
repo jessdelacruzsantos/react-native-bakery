@@ -28,9 +28,9 @@ public class ConnectEndpoint {
   private final ProtoIndex index;
 
   // See http://swagger.io/specification/#pathItemObject
-  static final ImmutableSet<String> VALID_HTTP_METHODS = ImmutableSet.of("GET", "PUT", "POST", "DELETE", "OPTIONS", "HEAD", "PATCH");
+  private static final ImmutableSet<String> VALID_HTTP_METHODS = ImmutableSet.of("GET", "PUT", "POST", "DELETE", "OPTIONS", "HEAD", "PATCH");
 
-  public ConnectEndpoint(RpcElement rpc, ProtoIndex index) {
+  ConnectEndpoint(RpcElement rpc, ProtoIndex index) {
     this.rootRpc = checkNotNull(rpc);
     this.inputType = rpc.requestType();
     this.outputType = rpc.responseType();
@@ -38,6 +38,7 @@ public class ConnectEndpoint {
     this.docAnnotations = new DocString(rpc.documentation()).getAnnotations();
     Optional<ConnectDatatype> requestType = index.getDataType(inputType);
     checkState(requestType.isPresent());
+    //noinspection OptionalGetWithoutIsPresent
     this.params = ImmutableList.copyOf(requestType.get().getFields());
   }
 
@@ -45,14 +46,14 @@ public class ConnectEndpoint {
     return ProtoOptions.getStringValue(rootRpc.options(), "common.path").orElse("");
   }
 
-  public String getHttpMethod() throws InvalidSpecException {
+  String getHttpMethod() throws InvalidSpecException {
     Optional<String> method = ProtoOptions.getStringValue(rootRpc.options(), "common.http_method");
     if (!method.isPresent()) {
       throw new InvalidSpecException("No common.http_method option found");
     }
 
     if (!VALID_HTTP_METHODS.contains(method.get())) {
-      throw new InvalidSpecException(String.format("Unrecognized HTTP method '%s'", method.get(), VALID_HTTP_METHODS.asList()));
+      throw new InvalidSpecException(String.format("Unrecognized HTTP method '%s'", method.get()));
     }
 
     return method.get();
@@ -62,12 +63,12 @@ public class ConnectEndpoint {
     return this.rootRpc.name();
   }
 
-  public String getReleaseStatus() {
+  String getReleaseStatus() {
     return ProtoOptions.getReleaseStatus(rootRpc.options(), "common.method_status");
   }
 
   // Builds out endpoint JSON in the format expected by the Swagger 2.0 specification.
-  public JsonObject toJson() throws InvalidSpecException {
+  JsonObject toJson() throws InvalidSpecException {
     JsonObject root = new JsonObject();
 
     Optional<String> entityOptional =

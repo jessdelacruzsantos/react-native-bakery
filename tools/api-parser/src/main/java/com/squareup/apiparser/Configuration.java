@@ -17,19 +17,19 @@ class Configuration {
   @Parameter(description = "Locations of protobufs")
   private List<String> protobufLocations = new ArrayList<>();
 
-  public List<String> getProtobufLocations() {
+  List<String> getProtobufLocations() {
     return protobufLocations;
   }
 
-  public String getHost() {
+  String getHost() {
     return host;
   }
 
-  public String getTitle() {
+  String getTitle() {
     return title;
   }
 
-  public String getVersion() {
+  String getVersion() {
     return version;
   }
 }

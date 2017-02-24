@@ -89,7 +89,7 @@ public class ConnectAPIParser {
         .build();
   }
 
-  public JsonAPI parseAPI(ProtoIndex index, Configuration configuration) throws InvalidSpecException {
+  JsonAPI parseAPI(ProtoIndex index, Configuration configuration) throws InvalidSpecException {
     // Transform all the symbols to JSON and write out to file
     JsonObject root = GSON.toJsonTree(swaggerBase(configuration)).getAsJsonObject();
     root.add("securityDefinitions", GSON.toJsonTree(securityDefinitions()));

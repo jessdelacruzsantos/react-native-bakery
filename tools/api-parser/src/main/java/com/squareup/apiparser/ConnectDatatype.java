@@ -14,7 +14,7 @@ import java.util.function.Consumer;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.squareup.apiparser.Json.GSON;
 
-public class ConnectDatatype extends ConnectType {
+class ConnectDatatype extends ConnectType {
   private static final String SDK_SAMPLE_FIELD_NAME = "x-sq-sdk-sample-code";
 
   private final List<ConnectField> fields = new ArrayList<>();
@@ -33,15 +33,15 @@ public class ConnectDatatype extends ConnectType {
         .map(SdkSampleDirectoryResolver.resolveSamplePath(rootType.name()));
   }
 
-  public List<ConnectField> getFields() {
+  List<ConnectField> getFields() {
     return this.fields;
   }
 
-  public boolean hasBodyParameters() {
+  boolean hasBodyParameters() {
     return fields.stream().anyMatch(f -> !f.isPathParam());
   }
 
-  public void populateFields(ProtoIndex index) throws IllegalUseOfOneOfException {
+  void populateFields(ProtoIndex index) throws IllegalUseOfOneOfException {
     MessageElement rootMessage = (MessageElement) this.rootType;
     final Consumer<FieldElement> addField =
         f -> fields.add(new ConnectField(f, index.getEnumType(f.type())));
@@ -55,7 +55,7 @@ public class ConnectDatatype extends ConnectType {
   }
 
   // Converts the Datatype to a format that conforms to the Swagger 2.0 specification
-  public JsonObject toJson() {
+  JsonObject toJson() {
     JsonObject root = new JsonObject();
     root.addProperty("type", "object");
     JsonObject properties = new JsonObject();
@@ -112,9 +112,9 @@ public class ConnectDatatype extends ConnectType {
       return json;
     }
 
-    final String type = field.getType();
-    final String value = TYPE_MAP.getOrDefault(type, "#/definitions/" + type);
-    final String key = (TYPE_MAP.containsKey(type)) ? "type" : "$ref";
+    String type = field.getType();
+    String value = TYPE_MAP.getOrDefault(type, "#/definitions/" + type);
+    String key = (TYPE_MAP.containsKey(type)) ? "type" : "$ref";
     json.addProperty(key, value);
     if (key.equals("type") && FORMAT_MAP.containsKey(type)) {
       json.addProperty("format", FORMAT_MAP.get(type));

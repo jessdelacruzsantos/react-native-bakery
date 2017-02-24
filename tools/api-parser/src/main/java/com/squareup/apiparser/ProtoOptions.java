@@ -24,12 +24,12 @@ import static com.google.common.base.Preconditions.checkState;
  * See https://stash.corp.squareup.com/projects/SQ/repos/java/browse/common-protos/src/main/proto/squareup/common/validation.proto
  * for supported validations.
  */
-public class ProtoOptions {
+class ProtoOptions {
 
-  public static final String RELEASE_STATUS_PUBLIC = "PUBLIC";
-  public static final String RELEASE_STATUS_BETA = "BETA";
-  public static final String RELEASE_STATUS_UPCOMING = "UPCOMING";
-  public static final String RELEASE_STATUS_INTERNAL = "INTERNAL";
+  static final String RELEASE_STATUS_PUBLIC = "PUBLIC";
+  static final String RELEASE_STATUS_BETA = "BETA";
+  static final String RELEASE_STATUS_UPCOMING = "UPCOMING";
+  static final String RELEASE_STATUS_INTERNAL = "INTERNAL";
 
   private static final Map<String, Function<OptionElement, Optional<Pair<String, Object>>>>
       TRANSFORMERS = ImmutableMap.of(
@@ -41,7 +41,7 @@ public class ProtoOptions {
       // required is a special case; see isRequired method
       "squareup.validation.required", option -> Optional.empty());
 
-  public static Optional<String> exampleFilename(Collection<OptionElement> options) {
+  static Optional<String> exampleFilename(Collection<OptionElement> options) {
     return getStringValue(options, "common.json_example_path");
   }
 
@@ -49,11 +49,11 @@ public class ProtoOptions {
     return getStringValue(options, "common.json_example_type");
   }
 
-  public static Optional<String> sdkSampleDirectory(Collection<OptionElement> options) {
+  static Optional<String> sdkSampleDirectory(Collection<OptionElement> options) {
     return getStringValue(options, "common.sdk_sample_directory");
   }
 
-  public static Map<String, Object> validations(Collection<OptionElement> options) {
+  static Map<String, Object> validations(Collection<OptionElement> options) {
     ImmutableMap.Builder<String, Object> validations = ImmutableMap.builder();
     options.stream()
         .map(ProtoOptions::validation)
@@ -63,7 +63,7 @@ public class ProtoOptions {
     return validations.build();
   }
 
-  public static boolean isRequired(FieldElement field) {
+  static boolean isRequired(FieldElement field) {
     if (field.label() == Field.Label.REQUIRED) {
       return true;
     }
@@ -72,11 +72,11 @@ public class ProtoOptions {
         || getIntegerValue(field.options(), "(squareup.validation.length).min").orElse(0) > 0;
   }
 
-  public static boolean isPathParam(FieldElement field) {
+  static boolean isPathParam(FieldElement field) {
     return getBooleanValueOrDefault(field.options(), "common.path_param", false);
   }
 
-  public static boolean getBooleanValueOrDefault(Collection<OptionElement> options, String optionName, Boolean defaultIfMissing) {
+  static boolean getBooleanValueOrDefault(Collection<OptionElement> options, String optionName, Boolean defaultIfMissing) {
     return options.stream()
         .filter(option -> optionName.endsWith(option.name()))
         .findFirst()
@@ -84,27 +84,27 @@ public class ProtoOptions {
         .orElse(defaultIfMissing);
   }
 
-  public static Optional<String> getStringValue(Collection<OptionElement> options,
-      String optionName) {
+  static Optional<String> getStringValue(Collection<OptionElement> options,
+                                         String optionName) {
     return options.stream()
         .filter(option -> optionName.endsWith(option.name()))
         .findFirst()
         .map(option -> (String) option.value());
   }
 
-  public static Optional<Integer> getIntegerValue(Collection<OptionElement> options,
-      String optionName) {
+  private static Optional<Integer> getIntegerValue(Collection<OptionElement> options,
+                                                   String optionName) {
     return options.stream()
         .filter(option -> optionName.endsWith(option.name()))
         .findFirst()
         .map(option -> Integer.parseInt((String) option.value()));
   }
 
-  public static String getReleaseStatus(Collection<OptionElement> options, String optionName) {
+  static String getReleaseStatus(Collection<OptionElement> options, String optionName) {
       return getStringValue(options, optionName).orElse(RELEASE_STATUS_PUBLIC);
   }
 
-  public static Set<String> getOAuthPermissions(RpcElement rpcElement) {
+  static Set<String> getOAuthPermissions(RpcElement rpcElement) {
     return rpcElement.options().stream()
         .filter(option -> option.name().endsWith("common.oauth_permissions"))
         .findFirst()
@@ -122,7 +122,7 @@ public class ProtoOptions {
    *
    * @return the Swagger validation name and value, if the option represents a supported validation.
    */
-  public static Optional<Pair<String, Object>> validation(OptionElement option) {
+  private static Optional<Pair<String, Object>> validation(OptionElement option) {
     if (!option.name().startsWith("squareup.validation.")) {
       return Optional.empty();
     }

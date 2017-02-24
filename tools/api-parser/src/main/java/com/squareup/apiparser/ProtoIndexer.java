@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
-public class ProtoIndexer {
+class ProtoIndexer {
 
   private static final ImmutableList<String> IGNORED_PROTOS = ImmutableList.of(
       "squareup/connect/v2/common/options.proto");
@@ -30,7 +30,7 @@ public class ProtoIndexer {
   private final List<ConnectType> protoTypes = new ArrayList<>();
   private final List<ConnectService> protoServices = new ArrayList<>();
 
-  public ProtoIndex indexProtos(ApiReleaseType apiReleaseType, List<String> protoPaths)
+  ProtoIndex indexProtos(ApiReleaseType apiReleaseType, List<String> protoPaths)
       throws IOException, AnnotationException {
     final ProtoIndex index = new ProtoIndex(apiReleaseType, new ExampleResolver(protoPaths));
     for (String path : protoPaths) {
@@ -60,7 +60,7 @@ public class ProtoIndexer {
         return;
       }
 
-      proto.types().stream()
+      proto.types()
           .forEach(t -> addType(apiReleaseType, t, proto.packageName(), Optional.empty()));
 
       for (ServiceElement service : proto.services()) {
