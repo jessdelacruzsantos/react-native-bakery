@@ -89,7 +89,7 @@ public class ConnectAPIParser {
         .build();
   }
 
-  public JsonAPI parseAPI(ProtoIndex index, Configuration configuration) {
+  public JsonAPI parseAPI(ProtoIndex index, Configuration configuration) throws InvalidSpecException {
     // Transform all the symbols to JSON and write out to file
     JsonObject root = GSON.toJsonTree(swaggerBase(configuration)).getAsJsonObject();
     root.add("securityDefinitions", GSON.toJsonTree(securityDefinitions()));
@@ -104,7 +104,7 @@ public class ConnectAPIParser {
           jsonEndpoints.add(endpoint.getPath(), new JsonObject());
         }
         jsonEndpoints.getAsJsonObject(endpoint.getPath())
-            .add(endpoint.getHttpmethod().toLowerCase(), endpoint.toJson());
+            .add(endpoint.getHttpMethod().toLowerCase(), endpoint.toJson());
       }
     }
     root.add("paths", jsonEndpoints);

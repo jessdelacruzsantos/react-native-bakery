@@ -1,7 +1,6 @@
 package com.squareup.apiparser;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.squareup.wire.schema.internal.parser.RpcElement;
@@ -42,7 +41,7 @@ public class ConnectEndpoint {
     return ProtoOptions.getStringValue(rootRpc.options(), "common.path").orElse("");
   }
 
-  public String getHttpmethod() {
+  public String getHttpMethod() {
     return ProtoOptions.getStringValue(rootRpc.options(), "common.http_method").orElse("");
   }
 
@@ -55,7 +54,7 @@ public class ConnectEndpoint {
   }
 
   // Builds out endpoint JSON in the format expected by the Swagger 2.0 specification.
-  public JsonObject toJson() {
+  public JsonObject toJson() throws InvalidSpecException {
     JsonObject root = new JsonObject();
 
     Optional<String> entityOptional =
@@ -70,23 +69,33 @@ public class ConnectEndpoint {
     root.addProperty("operationId", this.getName());
     root.addProperty("description", docAnnotations.getOrDefault("desc", ""));
 
-    // Endpoints should either specify OAuth permissions or mark that they don't use OAuth. Anything
-    // else is an assert.
-    // NOTE(killpack) - This is pure speculation on my part, which is why the exception is there.
-    // This also assumes that OAuth is the only authentication mechanism available, reasonable at
-    // this time.
-    List<String> oauthPermissions = ProtoOptions.getOAuthPermissions(rootRpc);
+    Set<String> oauthPermissions = ProtoOptions.getOAuthPermissions(rootRpc);
     JsonArray permissionsArray = new JsonArray();
-    if (!oauthPermissions.isEmpty()) {
+
+    // OAuth permission rules
+    // If the endpoint has OAuth enabled (default) then the OAuth permissions must be a non-empty set
+    // If the endpoint has disabled OAuth via common.oauth_credential_required = false then
+    //   - It must be an INTERNAL endpoint, AND
+    //   - The OAuth permissions set is empty
+    Boolean oauthEnabled = ProtoOptions.getBooleanValueOrDefault(rootRpc.options(), "common.oauth_credential_required", true);
+    if (oauthEnabled) {
+      if (oauthPermissions.isEmpty()) {
+        throw new InvalidSpecException("Empty OAuth permissions on an OAuth enabled endpoint");
+      }
+
       for (String permission : oauthPermissions) {
         permissionsArray.add(permission);
       }
     } else {
-      if (ProtoOptions.getBooleanValue(rootRpc.options(), "common.oauth_credential_required")) {
-        throw new RuntimeException(String.format("Endpoint %s requires OAuth but has not set permissions", this.getName()));
+      if (!getReleaseStatus().equals(ProtoOptions.RELEASE_STATUS_INTERNAL)) {
+        throw new InvalidSpecException("OAuth can only be disabled on INTERNAL endpoints");
       }
 
-      // Use empty permissions array to disable oauth security on the endpoint
+      if (!oauthPermissions.isEmpty()) {
+        throw new InvalidSpecException("Cannot specify OAuth permissions with common.oauth_credential_required = false");
+      }
+
+      // Use empty permissions array further down to disable oauth security on the endpoint
     }
 
     // Add the swagger OAuth2 security section that specifies required OAuth permissions
@@ -124,7 +133,7 @@ public class ConnectEndpoint {
         swaggerParameter.addProperty("in", "path");
         swaggerParameter.addProperty("required", true);
         swaggerParameters.add(swaggerParameter);
-      } else if (this.getHttpmethod().equals("GET") || this.getHttpmethod().equals("DELETE")) {
+      } else if (this.getHttpMethod().equals("GET") || this.getHttpMethod().equals("DELETE")) {
         swaggerParameter.addProperty("in", "query");
         swaggerParameter.addProperty("required", param.isRequired());
         swaggerParameters.add(swaggerParameter);
@@ -133,7 +142,7 @@ public class ConnectEndpoint {
 
     // POST and PUT requests list a single "body" parameter in Swagger, regardless
     // of how many fields that body parameter includes.
-    if (this.getHttpmethod().equals("POST") || this.getHttpmethod().equals("PUT")) {
+    if (this.getHttpMethod().equals("POST") || this.getHttpMethod().equals("PUT")) {
       Optional<ConnectDatatype> requestDataType = this.index.getDataType(this.inputType);
       if (requestDataType.map(ConnectDatatype::hasBodyParameters).orElse(false)) {
         JsonObject paramJson = new JsonObject();

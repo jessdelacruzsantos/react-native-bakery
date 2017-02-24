@@ -2,6 +2,7 @@ package com.squareup.apiparser;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.squareup.wire.schema.Field;
 import com.squareup.wire.schema.internal.parser.FieldElement;
 import com.squareup.wire.schema.internal.parser.OptionElement;
@@ -10,6 +11,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.tuple.Pair;
@@ -63,21 +65,21 @@ public class ProtoOptions {
     if (field.label() == Field.Label.REQUIRED) {
       return true;
     }
-    return getBooleanValue(field.options(), "squareup.validation.required")
-        || getBooleanValue(field.options(), "squareup.validation.not_empty")
-        || getIntegerValue(field.options(), "(squareup.validation.legnth).min_length").orElse(0) > 0;
+    return getBooleanValueOrDefault(field.options(), "squareup.validation.required", false)
+        || getBooleanValueOrDefault(field.options(), "squareup.validation.not_empty", false)
+        || getIntegerValue(field.options(), "(squareup.validation.length).min_length").orElse(0) > 0;
   }
 
   public static boolean isPathParam(FieldElement field) {
-    return getBooleanValue(field.options(), "common.path_param");
+    return getBooleanValueOrDefault(field.options(), "common.path_param", false);
   }
 
-  public static boolean getBooleanValue(Collection<OptionElement> options, String optionName) {
+  public static boolean getBooleanValueOrDefault(Collection<OptionElement> options, String optionName, Boolean defaultIfMissing) {
     return options.stream()
         .filter(option -> optionName.endsWith(option.name()))
         .findFirst()
         .map(option -> Boolean.parseBoolean((String) option.value()))
-        .orElse(false);
+        .orElse(defaultIfMissing);
   }
 
   public static Optional<String> getStringValue(Collection<OptionElement> options,
@@ -100,7 +102,7 @@ public class ProtoOptions {
       return getStringValue(options, optionName).orElse(RELEASE_STATUS_PUBLIC);
   }
 
-  public static List<String> getOAuthPermissions(RpcElement rpcElement) {
+  public static Set<String> getOAuthPermissions(RpcElement rpcElement) {
     return rpcElement.options().stream()
         .filter(option -> option.name().endsWith("common.oauth_permissions"))
         .findFirst()
@@ -108,9 +110,9 @@ public class ProtoOptions {
           @SuppressWarnings("unchecked")
           List<Object> permissions = (List<Object>) ((Map<String, Object>) option.value())
               .getOrDefault("value", ImmutableList.of());
-          return permissions.stream().map(Object::toString).collect(Collectors.toList());
+          return permissions.stream().map(Object::toString).collect(Collectors.toSet());
         })
-        .orElse(ImmutableList.of());
+        .orElse(ImmutableSet.of());
   }
 
   /**
