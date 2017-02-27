@@ -31,9 +31,9 @@ The parser will look for single or multiline comment blocks _above_ a proto defi
 
 Currently annotation text is not addressable and some annotations names have specific meaning.
 
-annotation | Description
--|-
-`@desc` | The endpoint description. This is stored in the `description` property of the endpoint in the Swagger document.
+| annotation | Description |
+| ---------- | ----------- |
+| `@desc`    | The endpoint description. This is stored in the `description` property of the endpoint in the Swagger document. |
 
 ## Endpoints
 
@@ -57,14 +57,14 @@ The endpoint request parameters, validations and response schema are defined as 
 
 ### Endpoint proto options
 
-proto option | Description | Affected Swagger endpoint property | Example
--|-|-|-
-`common.entity` | The entity type operated on by this endpoint | `tag` | `option (common.entity) = "Refund";`
-`common.http_method` | The HTTP method used on this endpoint | Endpoint method property: `head`, `get`, etc | `option (common.http_method) = POST;`
-`common.method_status` | API visibility of endpoint | See below | `option (common.method_status) = INTERNAL;`
-`common.oauth_credential_required` | Explicitly disable OAuth authentication. Use with caution, avoid on public endpoints | `security`, `x-oauthpermissions` | `option (common.oauth_credential_required) = false;`
-`common.oauth_permissions` | The OAuth permissions required to access this endpoint | `security`, `x-oauthpermissions` | `option (common.oauth_permissions) = { value: [PAYMENTS_WRITE] };`
-`common.path` | The HTTP relative path to the endpoint | Path is a property of `paths` object | `option (common.path) = "/v2/locations";`
+| proto option | Description | Affected Swagger endpoint property | Example |
+| ------------ | ----------- | ---------------------------------- | ------- |
+| `common.entity` | The entity type operated on by this endpoint | `tag` | `option (common.entity) = "Refund";` |
+| `common.http_method` | The HTTP method used on this endpoint | Endpoint method property: `head`, `get`, etc | `option (common.http_method) = POST;` |
+| `common.method_status` | API visibility of endpoint | See below | `option (common.method_status) = INTERNAL;` |
+| `common.oauth_credential_required` | Explicitly disable OAuth authentication. Use with caution, avoid on public endpoints | `security`, `x-oauthpermissions` | `option (common.oauth_credential_required) = false;` |
+| `common.oauth_permissions` | The OAuth permissions required to access this endpoint | `security`, `x-oauthpermissions` | `option (common.oauth_permissions) = { value: [PAYMENTS_WRITE] };` |
+| `common.path` | The HTTP relative path to the endpoint | Path is a property of `paths` object | `option (common.path) = "/v2/locations";` |
 
 #### `common.http_method`
 
@@ -72,14 +72,14 @@ Required. Can be any of `GET, PUT, POST, DELETE, OPTIONS, HEAD, PATCH`. Case-sen
 
 #### `common.method_status`
 
-** Default ** `PUBLIC`
+**Default** `PUBLIC`
 
-Value | Exported to | Description
--|-|-
-`PUBLIC` | `api.json` | Part of the public API for external developers
-`BETA` | `api_beta.json` | The endpoint is in beta and available to select partners
-`UPCOMING` | `api_upcoming.json` | The endpoint is in development but pre-beta, i.e. not exposed to partners
-`INTERNAL` | `api_internal.json` | A private endpoint only to be used with Square
+| Value | Exported to | Description |
+| ----- | ----------- | ----------- |
+| `PUBLIC` | `api.json` | Part of the public API for external developers |
+| `BETA` | `api_beta.json` | The endpoint is in beta and available to select partners |
+| `UPCOMING` | `api_upcoming.json` | The endpoint is in development but pre-beta, i.e. not exposed to partners |
+| `INTERNAL` | `api_internal.json` | A private endpoint only to be used with Square |
 
 Controls which Swagger set the endpoint is exported to. The tool generates multiple versions of `api.json` under `api.json.d/` and this option controls which sets the endpoint is included in. A concrete example: `api_upcoming.json` includes all `UPCOMING`, `BETA` and `PUBLIC` endpoints.
 
@@ -87,7 +87,7 @@ Controls which Swagger set the endpoint is exported to. The tool generates multi
 
 #### `common.oauth_credential_required`
 
-** Default ** `true`
+**Default** `true`
 
 Set this option to `false` when the endpoint does not use OAuth authentication. This option can only be used on endpoints with `method_status` of `INTERNAL` and should be used sparingly. If this is set to `false` it is invalid to specify any OAuth permissions, e.g. the following is considered invalid by the parser
 
@@ -99,7 +99,7 @@ Set this option to `false` when the endpoint does not use OAuth authentication. 
 
 #### `common.oauth_permissions`
 
-** Default ** `[]`
+**Default** `[]`
 
 The set of OAuth permissions on this endpoint. It is invalid to have this as an empty array unless `common.oauth_credential_required = false`, in which case it is required that this be empty. NOTE: At this time the parser does _not_ validate the OAuth permissions, it will accept any string put here. It is currently your responsibility to make sure the permissions are valid.
 
@@ -132,10 +132,10 @@ message ChargeRequest {
 
 ### Datatype proto options
 
-proto option | Description | Affected Swagger datatype property | Example
--|-|-|-
-`common.json_example_path` | Relative path to a JSON example | `example` | `option (common.json_example_path) = "/examples/actions/charge_request.json"`
-`common.sdk_sample_directory` | Relative path to code samples | `x-sq-sdk-sample-code` | `option (common.sdk_sample_directory) = "/sdk_samples/Charge"`
+| proto option | Description | Affected Swagger datatype property | Example |
+| ------------ | ----------- | ---------------------------------- | ------- |
+| `common.json_example_path` | Relative path to a JSON example | `example` | `option (common.json_example_path) = "/examples/actions/charge_request.json"` |
+| `common.sdk_sample_directory` | Relative path to code samples | `x-sq-sdk-sample-code` | `option (common.sdk_sample_directory) = "/sdk_samples/Charge"` |
 
 #### `common.json_example_path`
 
@@ -198,28 +198,28 @@ Currently the only languages supported by the pipeline are PHP and Ruby although
 
 ### Field proto options
 
-proto option | Description | Affected Swagger datatype property | Example
--|-|-|-
-`common.field_status` | API visibility of field | See below | `(common.field_status) = INTERNAL`
-`common.path_param` | Indicates that the parameter is in the URL path | `parameters` | `(common.path_param) = true`
-`squareup.validation.required` | The field must be set | `required` | `(squareup.validation.required) = true`
-`squareup.validation.not_empty` | The field must be set to a 'non-empty' value | `required`, field property | `(squareup.validation.not_empty) = true
-`(squareup.validation.length).min` | The length of the field contents must be >= this value | `required`, field property | `(squareup.validation.length).min = 10`
-`(squareup.validation.length).max` | The length of the field contents must be <= this value | field property | `(squareup.validation.length).max = 20`
-`(squareup.validation.range).min` | The value of the field must be >= this value | field property | `(squareup.validation.range).min = 10`
-`(squareup.validation.range).max` | The value of the field must be <= this value | field property | `(squareup.validation.range).max = 100`
-`squareup.validation.matches_pattern` | A regex pattern that the field contents must match | field property | `(squareup.validation.matches_pattern) = "a+b?"`
+| proto option | Description | Affected Swagger datatype property | Example |
+| ------------ | ----------- | ---------------------------------- | ------- |
+| `common.field_status` | API visibility of field | See below | `(common.field_status) = INTERNAL` |
+| `common.path_param` | Indicates that the parameter is in the URL path | `parameters` | `(common.path_param) = true` |
+| `squareup.validation.required` | The field must be set | `required` | `(squareup.validation.required) = true` |
+| `squareup.validation.not_empty` | The field must be set to a 'non-empty' value | `required`, field property | `(squareup.validation.not_empty) = true |
+| `(squareup.validation.length).min` | The length of the field contents must be >= this value | `required`, field property | `(squareup.validation.length).min = 10` |
+| `(squareup.validation.length).max` | The length of the field contents must be <= this value | field property | `(squareup.validation.length).max = 20` |
+| `(squareup.validation.range).min` | The value of the field must be >= this value | field property | `(squareup.validation.range).min = 10` |
+| `(squareup.validation.range).max` | The value of the field must be <= this value | field property | `(squareup.validation.range).max = 100` |
+| `squareup.validation.matches_pattern` | A regex pattern that the field contents must match | field property | `(squareup.validation.matches_pattern) = "a+b?"` |
 
 #### `common.field_status`
 
-** Default ** `PUBLIC`
+**Default** `PUBLIC`
 
-Value | Exported to | Description
--|-|-
-`PUBLIC` | `api.json` | Part of the public API for external developers
-`BETA` | `api_beta.json` | The field is in beta and available to select partners
-`UPCOMING` | `api_upcoming.json` | The field is in development but pre-beta, i.e. not exposed to partners
-`INTERNAL` | `api_internal.json` | A private field only to be used with Square
+| Value | Exported to | Description |
+| ----- | ----------- | ----------- |
+| `PUBLIC` | `api.json` | Part of the public API for external developers |
+| `BETA` | `api_beta.json` | The field is in beta and available to select partners |
+| `UPCOMING` | `api_upcoming.json` | The field is in development but pre-beta, i.e. not exposed to partners |
+| `INTERNAL` | `api_internal.json` | A private field only to be used with Square |
 
 Controls which Swagger set the field is exported to. The tool generates multiple versions of `api.json` under `api.json.d/` and this option controls which sets the field is included in. A concrete example: `api_upcoming.json` includes all `UPCOMING`, `BETA` and `PUBLIC` endpoints.
 
@@ -227,7 +227,7 @@ Controls which Swagger set the field is exported to. The tool generates multiple
 
 #### `common.path_param`
 
-** Default ** `false`
+**Default** `false`
 
 Setting this parameter to `true` indicates the parameter is defined as part of the HTTP path to the endpoint. This only makes sense on request objects. The parameter's place in the path is specified by a path segment wrapped in `{}` with the same name as the parameter. This allows multiple request parameters to be in the path. For example the path `/v2/{location_id}/transactions/{transaction_id}` would have two fields in the request datatype with `common.path_param` set to `true`:
 
@@ -240,30 +240,30 @@ Setting this parameter to `true` indicates the parameter is defined as part of t
 
 #### `squareup.validation.required`
 
-** Default ** `false`
+**Default** `false`
 
 The field must be set. In the Swagger doc the field name will be added under the datatype's `required` property.
 
 #### `(squareup.validation.length).min`
 
-** Default ** 0
+**Default** 0
 
 If present the field's property will include a `minLength` property field name. This is used in SDK generation to enforce a minimum length on the contents. If the value >=0 the field will be added under the datatype's `required` property.
 
 #### `(squareup.validation.length).max`
 
-** Default ** N/A
+**Default** N/A
 
 If present the field's property will include a `maxLength` property field name. This is used in SDK generation to enforce a maximum length on the contents.
 
 #### `(squareup.validation.range).min`
 
-** Default ** N/A
+**Default** N/A
 
 If present the field's property will include a `minimum` property. This is used in SDK generation to enforce a minimum value validation.
 
 #### `(squareup.validation.range).max`
 
-** Default ** N/A
+**Default** N/A
 
 If present the field's property will include a `maximimum` property. This is used in SDK generation to enforce a maximum value validation.
