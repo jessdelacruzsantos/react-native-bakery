@@ -49,11 +49,15 @@ public class ConnectEndpoint {
   String getHttpMethod() throws InvalidSpecException {
     Optional<String> method = ProtoOptions.getStringValue(rootRpc.options(), "common.http_method");
     if (!method.isPresent()) {
-      throw new InvalidSpecException("No common.http_method option found");
+      throw new InvalidSpecException.Builder("No common.http_method option found")
+        .setContext(this.rootRpc)
+        .build();
     }
 
     if (!VALID_HTTP_METHODS.contains(method.get())) {
-      throw new InvalidSpecException(String.format("Unrecognized HTTP method '%s'", method.get()));
+      throw new InvalidSpecException.Builder(String.format("Unrecognized HTTP method '%s'", method.get()))
+        .setContext(this.rootRpc)
+        .build();
     }
 
     return method.get();
@@ -94,7 +98,8 @@ public class ConnectEndpoint {
     Boolean oauthEnabled = ProtoOptions.getBooleanValueOrDefault(rootRpc.options(), "common.oauth_credential_required", true);
     if (oauthEnabled) {
       if (oauthPermissions.isEmpty()) {
-        throw new InvalidSpecException("Empty OAuth permissions on an OAuth enabled endpoint");
+        throw new InvalidSpecException.Builder("Empty OAuth permissions on an OAuth enabled endpoint")
+          .build();
       }
 
       for (String permission : oauthPermissions) {
@@ -102,11 +107,13 @@ public class ConnectEndpoint {
       }
     } else {
       if (!getReleaseStatus().equals(ProtoOptions.RELEASE_STATUS_INTERNAL)) {
-        throw new InvalidSpecException("OAuth can only be disabled on INTERNAL endpoints");
+        throw new InvalidSpecException.Builder("OAuth can only be disabled on INTERNAL endpoints")
+          .build();
       }
 
       if (!oauthPermissions.isEmpty()) {
-        throw new InvalidSpecException("Cannot specify OAuth permissions with common.oauth_credential_required = false");
+        throw new InvalidSpecException.Builder("Cannot specify OAuth permissions with common.oauth_credential_required = false")
+          .build();
       }
 
       // Use empty permissions array further down to disable oauth security on the endpoint

@@ -142,7 +142,8 @@ class ProtoOptions {
     } else if ("min".equals(actual.name())) {
       return Optional.of(Pair.of("minLength", Integer.parseInt((String) actual.value())));
     } else {
-      throw new IllegalStateException("Unsupported length validation " + actual.name());
+      throw new InvalidSpecException.Builder("Unsupported length validation " + actual.name())
+          .build();
     }
   }
 
@@ -162,7 +163,8 @@ class ProtoOptions {
     } else if ("min".equals(actual.name())) {
       return Optional.of(Pair.of("minimum", Integer.parseInt((String) actual.value())));
     } else {
-      throw new IllegalStateException("Unsupported range validation " + actual.name());
+      throw new InvalidSpecException.Builder("Unsupported range validation " + actual.name())
+          .build();
     }
   }
 
@@ -174,7 +176,9 @@ class ProtoOptions {
       //noinspection ResultOfMethodCallIgnored
       Pattern.compile(regex);
     } catch(PatternSyntaxException e) {
-      throw new InvalidSpecException(String.format("Regular expression pattern '%s' is not valid", regex), e);
+      throw new InvalidSpecException.Builder(String.format("Regular expression pattern '%s' is not valid", regex))
+          .setCause(e)
+          .build();
     }
 
     return Optional.of(Pair.of("pattern", regex));

@@ -8,7 +8,11 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonObject;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
+import java.util.Optional;
 import javax.annotation.Nullable;
 
 import static com.squareup.apiparser.Json.GSON;
@@ -130,8 +134,8 @@ public class ConnectAPIParser {
     return new JsonAPI(root, map);
   }
 
-  private static void writeJson(String json, String path) {
-    try (PrintWriter writer = new PrintWriter(path, "UTF-8")) {
+  private static void writeJson(String json, Path path) {
+    try (PrintWriter writer = new PrintWriter(path.toString(), "UTF-8")) {
       writer.println(json);
     } catch (Exception e) {
       throw Throwables.propagate(e);
@@ -147,20 +151,46 @@ public class ConnectAPIParser {
 
       ImmutableList<String> protoPaths = ImmutableList.copyOf(configuration.getProtobufLocations());
 
-      String allAPIOutputPath = System.getProperty("user.dir") + "/api_internal.json";
-      String enumOutputPath = System.getProperty("user.dir") + "/enum_mapping.json";
+      Optional<Path> outputArg = configuration.getOutputPath();
+      Path outputPath;
+      if (!outputArg.isPresent()) {
+        outputPath = Paths.get(System.getProperty("user.dir"));
+      } else {
+        outputPath = outputArg.get();
+        if (!outputPath.isAbsolute()) {
+          outputPath = Paths.get(System.getProperty("user.dir")).resolve(outputArg.get());
+        }
+      }
+      if (!Files.exists(outputPath)) {
+        if (!outputPath.toFile().mkdirs()) {
+          throw new RuntimeException("Unable to create output directory " + outputPath.toString());
+        }
+      }
+
+      Path allAPIOutputPath = outputPath.resolve("api_internal.json");
+      Path enumOutputPath = outputPath.resolve("enum_mapping.json");
       generateJsonAPI(configuration, protoPaths, ApiReleaseType.ALL, allAPIOutputPath, enumOutputPath);
 
-      String publicAPIOutputPath = System.getProperty("user.dir") + "/api.json";
+      Path publicAPIOutputPath = outputPath.resolve("api.json");
       generateJsonAPI(configuration, protoPaths, ApiReleaseType.PUBLIC, publicAPIOutputPath, null);
 
-      String betaAPIOutputPath = System.getProperty("user.dir") + "/api_beta.json";
+      Path betaAPIOutputPath = outputPath.resolve("api_beta.json");
       generateJsonAPI(configuration, protoPaths, ApiReleaseType.BETA, betaAPIOutputPath, null);
 
-      String upcomingAPIOutputPath = System.getProperty("user.dir") + "/api_upcoming.json";
+      Path upcomingAPIOutputPath = outputPath.resolve("api_upcoming.json");
       generateJsonAPI(
           configuration, protoPaths, ApiReleaseType.UPCOMING, upcomingAPIOutputPath, null);
+    } catch (InvalidSpecException e) {
+      String errorMsg;
+      if (e.getContext().isPresent()) {
+        errorMsg = String.format("Error occurred in %s: %s", e.getContext().get().location().toString(), e.getMessage());
+      } else {
+        errorMsg = e.getMessage();
+      }
+      System.out.println(errorMsg);
+      System.exit(2);
     } catch (Exception e) {
+      System.out.println(e.getMessage());
       e.printStackTrace();
       System.out.println("Failed to generate JSON APIs!");
       System.exit(2);
@@ -168,7 +198,7 @@ public class ConnectAPIParser {
   }
 
   private static void generateJsonAPI(Configuration configuration, ImmutableList<String> protoPaths,
-      ApiReleaseType apiReleaseType, String apiOutputPath, @Nullable String enumOutputPath)
+      ApiReleaseType apiReleaseType, Path apiOutputPath, @Nullable Path enumOutputPath)
       throws Exception {
     ProtoIndex index = new ProtoIndexer().indexProtos(apiReleaseType, protoPaths);
     JsonAPI api = new ConnectAPIParser().parseAPI(index, configuration);

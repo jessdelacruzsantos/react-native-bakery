@@ -1,8 +1,11 @@
 package com.squareup.apiparser;
 
 import com.beust.jcommander.Parameter;
+import com.beust.jcommander.converters.PathConverter;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 class Configuration {
   @Parameter(names = "-version", description = "Your API version")
@@ -16,6 +19,9 @@ class Configuration {
 
   @Parameter(description = "Locations of protobufs")
   private List<String> protobufLocations = new ArrayList<>();
+
+  @Parameter(names = {"--output", "-o"}, description = "Output path, defaults to current directory", converter = PathConverter.class)
+  private Path outputPath;
 
   List<String> getProtobufLocations() {
     return protobufLocations;
@@ -31,5 +37,9 @@ class Configuration {
 
   String getVersion() {
     return version;
+  }
+
+  Optional<Path> getOutputPath() {
+    return Optional.ofNullable(outputPath);
   }
 }
