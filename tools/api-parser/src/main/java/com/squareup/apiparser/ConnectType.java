@@ -13,7 +13,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Created by barlow on 2/2/16.
  */
 public class ConnectType {
-  final TypeElement rootType;
+  protected final TypeElement rootType;
   private final String packageName;
   private final Optional<ConnectType> parentType;
   final Map<String, String> docAnnotations;

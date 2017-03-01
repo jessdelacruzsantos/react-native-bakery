@@ -5,7 +5,7 @@ import com.squareup.wire.schema.internal.parser.RpcElement;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 class InvalidSpecException extends RuntimeException {
-  private RpcElement element;
+  private final RpcElement element;
 
   private InvalidSpecException(String message, RpcElement element, Exception cause) {
     super(message, cause);

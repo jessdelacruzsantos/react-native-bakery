@@ -47,20 +47,16 @@ public class ConnectEndpoint {
   }
 
   String getHttpMethod() throws InvalidSpecException {
-    Optional<String> method = ProtoOptions.getStringValue(rootRpc.options(), "common.http_method");
-    if (!method.isPresent()) {
-      throw new InvalidSpecException.Builder("No common.http_method option found")
+    String method = ProtoOptions.getStringValue(rootRpc.options(), "common.http_method")
+        .orElseThrow(() -> new InvalidSpecException.Builder("No common.http_method option found").setContext(this.rootRpc).build());
+
+    if (!VALID_HTTP_METHODS.contains(method)) {
+      throw new InvalidSpecException.Builder(String.format("Unrecognized HTTP method '%s'", method))
         .setContext(this.rootRpc)
         .build();
     }
 
-    if (!VALID_HTTP_METHODS.contains(method.get())) {
-      throw new InvalidSpecException.Builder(String.format("Unrecognized HTTP method '%s'", method.get()))
-        .setContext(this.rootRpc)
-        .build();
-    }
-
-    return method.get();
+    return method;
   }
 
   public String getName() {
