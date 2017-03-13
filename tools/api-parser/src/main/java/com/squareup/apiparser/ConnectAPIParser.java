@@ -180,9 +180,9 @@ public class ConnectAPIParser {
       writeJson(GSON.toJson(api.enumMap), enumOutputPath);
 
       api = generateJsonAPI(configuration, protoPaths, ApiReleaseType.ALL);
-      if (!configuration.getV1APISchemaFile().equals("")) {
+      if (!configuration.getV1APISchemaFile().isEmpty()) {
         // Because the incoming api.json lacks visibility information we only merge it into the
-        // public definitions. This is not the way to handle v1 endpoints.
+        // public definitions. This is not the best way to handle v1 endpoints.
         JsonParser parser = new JsonParser();
         JsonObject v1API = parser.parse(new FileReader(configuration.getV1APISchemaFile())).getAsJsonObject();
 
@@ -229,15 +229,11 @@ public class ConnectAPIParser {
       return;
     }
 
-    Set<Map.Entry<String,JsonElement>> aElems = a.entrySet();
-    Iterator<Map.Entry<String,JsonElement>> iter = aElems.iterator();
-    while (iter.hasNext()) {
-      Map.Entry<String,JsonElement> v1Endpoint = iter.next();
+    for (Map.Entry<String, JsonElement> v1Endpoint : a.entrySet()) {
       String path = v1Endpoint.getKey();
-      if (b.has(path)) {
-        // Emit a warning and move to the next
-        System.out.format("WARN: Skipping duplicate key '%s' in v2 schema\n", path);
-        continue;
+      // If the same key exists in the v2 schema with a different value then halt with error
+      if (b.has(path) && !b.equals(v1Endpoint.getValue())) {
+        throw new InvalidSpecException.Builder(String.format("Key '%s' exists in both schemas with a different value", path)).build();
       }
 
       b.add(path, v1Endpoint.getValue());
@@ -245,7 +241,7 @@ public class ConnectAPIParser {
   }
 
   private static JsonAPI generateJsonAPI(Configuration configuration, ImmutableList<String> protoPaths,
-      ApiReleaseType apiReleaseType) throws Exception {
+                                         ApiReleaseType apiReleaseType) throws Exception {
     ProtoIndex index = new ProtoIndexer().indexProtos(apiReleaseType, protoPaths);
     return new ConnectAPIParser().parseAPI(index, configuration);
   }
