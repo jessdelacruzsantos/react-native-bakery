@@ -65,7 +65,7 @@ public class ConnectEndpointTest {
     ConnectEndpoint endpoint = createEndpoint(publicEndpointDisabledOauth());
     assertThatThrownBy(endpoint::toJson)
         .isInstanceOf(InvalidSpecException.class)
-        .hasMessage("OAuth can only be disabled on INTERNAL endpoints");
+        .hasMessageStartingWith("OAuth can only be disabled on INTERNAL endpoints");
   }
 
   @Test
@@ -73,7 +73,7 @@ public class ConnectEndpointTest {
     ConnectEndpoint endpoint = createEndpoint(publicEndpointMissingOAuthPermissions());
     assertThatThrownBy(endpoint::toJson)
         .isInstanceOf(InvalidSpecException.class)
-        .hasMessage("Empty OAuth permissions on an OAuth enabled endpoint");
+        .hasMessageStartingWith("Empty OAuth permissions on OAuth enabled endpoint");
   }
 
   @Test

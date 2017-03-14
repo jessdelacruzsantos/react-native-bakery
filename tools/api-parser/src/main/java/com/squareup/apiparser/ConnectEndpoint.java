@@ -94,7 +94,7 @@ public class ConnectEndpoint {
     Boolean oauthEnabled = ProtoOptions.getBooleanValueOrDefault(rootRpc.options(), "common.oauth_credential_required", true);
     if (oauthEnabled) {
       if (oauthPermissions.isEmpty()) {
-        throw new InvalidSpecException.Builder("Empty OAuth permissions on an OAuth enabled endpoint")
+        throw new InvalidSpecException.Builder(String.format("Empty OAuth permissions on OAuth enabled endpoint '%s'", this.getPath()))
           .build();
       }
 
@@ -103,12 +103,12 @@ public class ConnectEndpoint {
       }
     } else {
       if (!getReleaseStatus().equals(ProtoOptions.RELEASE_STATUS_INTERNAL)) {
-        throw new InvalidSpecException.Builder("OAuth can only be disabled on INTERNAL endpoints")
+        throw new InvalidSpecException.Builder(String.format("OAuth can only be disabled on INTERNAL endpoints, endpoint '%s'", this.getPath()))
           .build();
       }
 
       if (!oauthPermissions.isEmpty()) {
-        throw new InvalidSpecException.Builder("Cannot specify OAuth permissions with common.oauth_credential_required = false")
+        throw new InvalidSpecException.Builder(String.format("Cannot specify OAuth permissions with common.oauth_credential_required = false, endpoint '%s'", this.getPath()))
           .build();
       }
 
