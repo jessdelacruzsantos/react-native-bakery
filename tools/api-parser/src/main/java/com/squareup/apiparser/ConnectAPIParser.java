@@ -179,7 +179,7 @@ public class ConnectAPIParser {
       Path enumOutputPath = outputPath.resolve("enum_mapping.json");
       writeJson(GSON.toJson(api.enumMap), enumOutputPath);
 
-      api = generateJsonAPI(configuration, protoPaths, ApiReleaseType.ALL);
+      api = generateJsonAPI(configuration, protoPaths, ApiReleaseType.PUBLIC);
       if (!configuration.getV1APISchemaFile().isEmpty()) {
         // Because the incoming api.json lacks visibility information we only merge it into the
         // public definitions. This is not the best way to handle v1 endpoints.
