@@ -39,5 +39,10 @@ fi
 # Output commands being run
 set -o xtrace
 
+OUTPUT_DIR="$BASE_DIR/api.json.d"
+if [ ! -d "$OUTPUT_DIR" ]; then
+    mkdir -p "$OUTPUT_DIR"
+fi
+
 mv "$BASE_DIR"/tools/api-parser/*.json "$BASE_DIR/api.json.d"
 cat "$BASE_DIR"/api.json.d/README.md
