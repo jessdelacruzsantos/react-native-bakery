@@ -4,7 +4,7 @@
         "/v1/me": {
             "get": {
                 "tags": [
-                    "V1Location"
+                    "V1Locations"
                 ],
                 "summary": "Get a business's information.",
                 "operationId": "RetrieveBusiness",
@@ -32,7 +32,7 @@
         "/v1/me/locations": {
             "get": {
                 "tags": [
-                    "V1Location"
+                    "V1Locations"
                 ],
                 "summary": "Provides details for a business's locations, including their IDs.",
                 "operationId": "ListLocations",
