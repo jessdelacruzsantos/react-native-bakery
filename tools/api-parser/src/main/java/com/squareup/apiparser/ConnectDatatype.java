@@ -19,6 +19,7 @@ public class ConnectDatatype extends ConnectType {
 
   private final List<ConnectField> fields = new ArrayList<>();
   private final Optional<JsonObject> example;
+  private final Optional<String> exampleType;
   private final Optional<JsonElement> sdkSamples;
 
   ConnectDatatype(TypeElement rootType, String packageName, Optional<ConnectType> parentType,
@@ -27,6 +28,7 @@ public class ConnectDatatype extends ConnectType {
 
     this.example = ProtoOptions.exampleFilename(rootType.options())
         .map(exampleResolver::loadExample);
+    this.exampleType = ProtoOptions.exampleType(rootType.options());
     this.sdkSamples = ProtoOptions.sdkSampleDirectory(rootType.options())
         .map(SdkSampleDirectoryResolver.resolveSamplePath(rootType.name()));
   }
@@ -82,6 +84,8 @@ public class ConnectDatatype extends ConnectType {
     root.addProperty("description", docAnnotations.getOrDefault("desc", ""));
 
     this.example.ifPresent(e -> root.add("example", e));
+    this.exampleType.ifPresent(e -> root.addProperty("example_type", e));
+
     this.sdkSamples.ifPresent(e -> root.add(SDK_SAMPLE_FIELD_NAME, e));
 
     return root;

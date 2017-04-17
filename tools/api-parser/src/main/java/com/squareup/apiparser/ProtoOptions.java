@@ -41,6 +41,10 @@ public class ProtoOptions {
     return getStringValue(options, "common.json_example_path");
   }
 
+  public static Optional<String> exampleType(Collection<OptionElement> options) {
+    return getStringValue(options, "common.json_example_type");
+  }
+
   public static Optional<String> sdkSampleDirectory(Collection<OptionElement> options) {
     return getStringValue(options, "common.sdk_sample_directory");
   }
