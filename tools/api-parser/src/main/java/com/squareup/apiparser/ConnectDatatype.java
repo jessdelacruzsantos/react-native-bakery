@@ -84,6 +84,7 @@ public class ConnectDatatype extends ConnectType {
     root.addProperty("description", docAnnotations.getOrDefault("desc", ""));
 
     this.example.ifPresent(e -> root.add("example", e));
+
     this.exampleType.ifPresent(e -> root.addProperty("example_type", e));
 
     this.sdkSamples.ifPresent(e -> root.add(SDK_SAMPLE_FIELD_NAME, e));
