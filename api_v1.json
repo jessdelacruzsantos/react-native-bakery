@@ -4522,8 +4522,8 @@
                     "description": "The ID of the variation's associated item."
                 },
                 "ordinal": {
-                    "type": "string",
-                    "description": "ndicates the variation's list position when displayed in Square Register and the merchant dashboard. If more than one variation for the same item has the same ordinal value, those variations are displayed in alphabetical order"
+                    "type": "interger",
+                    "description": "Indicates the variation's list position when displayed in Square Register and the merchant dashboard. If more than one variation for the same item has the same ordinal value, those variations are displayed in alphabetical order"
                 },
                 "pricing_type": {
                     "type": "string",
@@ -4619,7 +4619,7 @@
                     "description": "Indicates whether the item is viewable from the merchant's online store (PUBLIC) or PRIVATE."
                 },
                 "available_online": {
-                    "type": "string",
+                    "type": "boolean",
                     "description": "If true, the item can be added to shipping orders from the merchant's online store."
                 },
                 "master_image": {
