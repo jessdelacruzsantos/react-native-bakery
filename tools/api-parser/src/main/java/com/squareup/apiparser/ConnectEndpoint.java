@@ -27,9 +27,10 @@ public class ConnectEndpoint {
   private final RpcElement rootRpc;
   private final ProtoIndex index;
 
-  private static final Set<String> NO_AUTH_REQUIRED = ImmutableSet.of("CreateCardNonce");
+  // See http://swagger.io/specification/#pathItemObject
+  private static final ImmutableSet<String> VALID_HTTP_METHODS = ImmutableSet.of("GET", "PUT", "POST", "DELETE", "OPTIONS", "HEAD", "PATCH");
 
-  public ConnectEndpoint(RpcElement rpc, ProtoIndex index) {
+  ConnectEndpoint(RpcElement rpc, ProtoIndex index) {
     this.rootRpc = checkNotNull(rpc);
     this.inputType = rpc.requestType();
     this.outputType = rpc.responseType();
@@ -37,6 +38,7 @@ public class ConnectEndpoint {
     this.docAnnotations = new DocString(rpc.documentation()).getAnnotations();
     Optional<ConnectDatatype> requestType = index.getDataType(inputType);
     checkState(requestType.isPresent());
+    //noinspection OptionalGetWithoutIsPresent
     this.params = ImmutableList.copyOf(requestType.get().getFields());
   }
 
@@ -44,20 +46,29 @@ public class ConnectEndpoint {
     return ProtoOptions.getStringValue(rootRpc.options(), "common.path").orElse("");
   }
 
-  public String getHttpmethod() {
-    return ProtoOptions.getStringValue(rootRpc.options(), "common.http_method").orElse("");
+  String getHttpMethod() throws InvalidSpecException {
+    String method = ProtoOptions.getStringValue(rootRpc.options(), "common.http_method")
+        .orElseThrow(() -> new InvalidSpecException.Builder("No common.http_method option found").setContext(this.rootRpc).build());
+
+    if (!VALID_HTTP_METHODS.contains(method)) {
+      throw new InvalidSpecException.Builder(String.format("Unrecognized HTTP method '%s'", method))
+        .setContext(this.rootRpc)
+        .build();
+    }
+
+    return method;
   }
 
   public String getName() {
     return this.rootRpc.name();
   }
 
-  public String getReleaseStatus() {
+  String getReleaseStatus() {
     return ProtoOptions.getReleaseStatus(rootRpc.options(), "common.method_status");
   }
 
   // Builds out endpoint JSON in the format expected by the Swagger 2.0 specification.
-  public JsonObject toJson() {
+  JsonObject toJson() throws InvalidSpecException {
     JsonObject root = new JsonObject();
 
     Optional<String> entityOptional =
@@ -72,30 +83,52 @@ public class ConnectEndpoint {
     root.addProperty("operationId", this.getName());
     root.addProperty("description", docAnnotations.getOrDefault("desc", ""));
 
-    // Split the required OAuth permissions listed in the proto declaration into a JSON array
-    List<String> oauthPermissions = ProtoOptions.getOAuthPermissions(rootRpc);
-    if (!oauthPermissions.isEmpty()) {
-      JsonArray permissionsArray = new JsonArray();
-      for (String permission : oauthPermissions){
+    Set<String> oauthPermissions = ProtoOptions.getOAuthPermissions(rootRpc);
+    JsonArray permissionsArray = new JsonArray();
+
+    // OAuth permission rules
+    // If the endpoint has OAuth enabled (default) then the OAuth permissions must be a non-empty set
+    // If the endpoint has disabled OAuth via common.oauth_credential_required = false then
+    //   - It must be an INTERNAL endpoint, AND
+    //   - The OAuth permissions set is empty
+    Boolean oauthEnabled = ProtoOptions.getBooleanValueOrDefault(rootRpc.options(), "common.oauth_credential_required", true);
+    if (oauthEnabled) {
+      if (oauthPermissions.isEmpty()) {
+        throw new InvalidSpecException.Builder(String.format("Empty OAuth permissions on OAuth enabled endpoint '%s'", this.getPath()))
+          .build();
+      }
+
+      for (String permission : oauthPermissions) {
         permissionsArray.add(permission);
       }
+    } else {
+      if (!getReleaseStatus().equals(ProtoOptions.RELEASE_STATUS_INTERNAL)) {
+        throw new InvalidSpecException.Builder(String.format("OAuth can only be disabled on INTERNAL endpoints, endpoint '%s'", this.getPath()))
+          .build();
+      }
+
+      if (!oauthPermissions.isEmpty()) {
+        throw new InvalidSpecException.Builder(String.format("Cannot specify OAuth permissions with common.oauth_credential_required = false, endpoint '%s'", this.getPath()))
+          .build();
+      }
+
+      // Use empty permissions array further down to disable oauth security on the endpoint
+    }
+
+    // Add the swagger OAuth2 security section that specifies required OAuth permissions
+    JsonArray secList = new JsonArray();
+    if (!oauthPermissions.isEmpty()) {
+      JsonObject oauth2 = new JsonObject();
+      oauth2.add("oauth2", permissionsArray);
+      secList.add(oauth2);
+
+      // TODO(killpack) - Remove 'x-oauthpermissions' once documentation generation pipeline is
+      // parsing the security section
       root.add("x-oauthpermissions", permissionsArray);
     }
+    root.add("security", secList);
 
     JsonArray swaggerParameters = new JsonArray();
-
-    if (!NO_AUTH_REQUIRED.contains(this.getName())) {
-      JsonObject authorizationParameter = new JsonObject();
-      authorizationParameter.addProperty("name", "Authorization");
-      authorizationParameter.addProperty("in", "header");
-      authorizationParameter.addProperty("type", "string");
-      authorizationParameter.addProperty("required", true);
-      authorizationParameter.addProperty("description",
-          "The value to provide in the Authorization header of\n"
-              + "your request. This value should follow the format `Bearer YOUR_ACCESS_TOKEN_HERE`.");
-
-      swaggerParameters.add(authorizationParameter);
-    }
 
     for (ConnectField param : this.params) {
       JsonObject swaggerParameter = new JsonObject();
@@ -117,7 +150,7 @@ public class ConnectEndpoint {
         swaggerParameter.addProperty("in", "path");
         swaggerParameter.addProperty("required", true);
         swaggerParameters.add(swaggerParameter);
-      } else if (this.getHttpmethod().equals("GET") || this.getHttpmethod().equals("DELETE")) {
+      } else if (this.getHttpMethod().equals("GET") || this.getHttpMethod().equals("DELETE")) {
         swaggerParameter.addProperty("in", "query");
         swaggerParameter.addProperty("required", param.isRequired());
         swaggerParameters.add(swaggerParameter);
@@ -126,7 +159,7 @@ public class ConnectEndpoint {
 
     // POST and PUT requests list a single "body" parameter in Swagger, regardless
     // of how many fields that body parameter includes.
-    if (this.getHttpmethod().equals("POST") || this.getHttpmethod().equals("PUT")) {
+    if (this.getHttpMethod().equals("POST") || this.getHttpMethod().equals("PUT")) {
       Optional<ConnectDatatype> requestDataType = this.index.getDataType(this.inputType);
       if (requestDataType.map(ConnectDatatype::hasBodyParameters).orElse(false)) {
         JsonObject paramJson = new JsonObject();

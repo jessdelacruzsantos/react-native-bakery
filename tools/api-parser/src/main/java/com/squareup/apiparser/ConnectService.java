@@ -7,14 +7,14 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Created by barlow on 2/2/16.
  */
-public class ConnectService {
+class ConnectService {
   private final ServiceElement rootService;
 
-  public ConnectService(ServiceElement rootService) {
+  ConnectService(ServiceElement rootService) {
     this.rootService = checkNotNull(rootService);
   }
 
-  public ServiceElement getRootService() {
+  ServiceElement getRootService() {
     return this.rootService;
   }
 }

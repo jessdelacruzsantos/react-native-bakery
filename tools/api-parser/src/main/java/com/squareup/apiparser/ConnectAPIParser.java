@@ -6,9 +6,19 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import java.io.FileReader;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Iterator;
+import java.util.Optional;
 import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import javax.annotation.Nullable;
 
 import static com.squareup.apiparser.Json.GSON;
@@ -59,6 +69,7 @@ public class ConnectAPIParser {
   }
 
   private static Map<String, Object> securityDefinitions() {
+    // TODO - These should be extracted from protos directly
     ImmutableMap.Builder<String, String> scopes = ImmutableMap.<String, String>builder()
         .put("MERCHANT_PROFILE_READ", "GET endpoints related to a merchant's business and location entities. Almost all Connect API applications need this permission in order to obtain a merchant's location IDs")
         .put("PAYMENTS_READ", "GET endpoints related to transactions and refunds")
@@ -88,7 +99,7 @@ public class ConnectAPIParser {
         .build();
   }
 
-  public JsonAPI parseAPI(ProtoIndex index, Configuration configuration) {
+  JsonAPI parseAPI(ProtoIndex index, Configuration configuration) throws InvalidSpecException {
     // Transform all the symbols to JSON and write out to file
     JsonObject root = GSON.toJsonTree(swaggerBase(configuration)).getAsJsonObject();
     root.add("securityDefinitions", GSON.toJsonTree(securityDefinitions()));
@@ -103,7 +114,7 @@ public class ConnectAPIParser {
           jsonEndpoints.add(endpoint.getPath(), new JsonObject());
         }
         jsonEndpoints.getAsJsonObject(endpoint.getPath())
-            .add(endpoint.getHttpmethod().toLowerCase(), endpoint.toJson());
+            .add(endpoint.getHttpMethod().toLowerCase(), endpoint.toJson());
       }
     }
     root.add("paths", jsonEndpoints);
@@ -129,8 +140,8 @@ public class ConnectAPIParser {
     return new JsonAPI(root, map);
   }
 
-  private static void writeJson(String json, String path) {
-    try (PrintWriter writer = new PrintWriter(path, "UTF-8")) {
+  private static void writeJson(String json, Path path) {
+    try (PrintWriter writer = new PrintWriter(path.toString(), "UTF-8")) {
       writer.println(json);
     } catch (Exception e) {
       throw Throwables.propagate(e);
@@ -144,36 +155,94 @@ public class ConnectAPIParser {
       Preconditions.checkArgument(!configuration.getProtobufLocations().isEmpty(),
           "At least one protobuf location is required");
 
+      Optional<Path> outputArg = configuration.getOutputPath();
+      Path outputPath;
+      if (!outputArg.isPresent()) {
+        outputPath = Paths.get(System.getProperty("user.dir"));
+      } else {
+        outputPath = outputArg.get();
+        if (!outputPath.isAbsolute()) {
+          outputPath = Paths.get(System.getProperty("user.dir")).resolve(outputArg.get());
+        }
+      }
+      if (!Files.exists(outputPath)) {
+        if (!outputPath.toFile().mkdirs()) {
+          throw new RuntimeException("Unable to create output directory " + outputPath.toString());
+        }
+      }
+
       ImmutableList<String> protoPaths = ImmutableList.copyOf(configuration.getProtobufLocations());
 
-      String allAPIOutputPath = System.getProperty("user.dir") + "/api_internal.json";
-      String enumOutputPath = System.getProperty("user.dir") + "/enum_mapping.json";
-      generateJsonAPI(configuration, protoPaths, ApiReleaseType.ALL, allAPIOutputPath, enumOutputPath);
+      JsonAPI api = generateJsonAPI(configuration, protoPaths, ApiReleaseType.ALL);
+      Path allAPIOutputPath = outputPath.resolve("api_internal.json");
+      writeJson(GSON.toJson(api.swagger), allAPIOutputPath);
+      Path enumOutputPath = outputPath.resolve("enum_mapping.json");
+      writeJson(GSON.toJson(api.enumMap), enumOutputPath);
 
-      String publicAPIOutputPath = System.getProperty("user.dir") + "/api.json";
-      generateJsonAPI(configuration, protoPaths, ApiReleaseType.PUBLIC, publicAPIOutputPath, null);
+      api = generateJsonAPI(configuration, protoPaths, ApiReleaseType.PUBLIC);
+      if (!configuration.getV1APISchemaFile().isEmpty()) {
+        // Because the incoming api.json lacks visibility information we only merge it into the
+        // public definitions. This is not the best way to handle v1 endpoints.
+        JsonParser parser = new JsonParser();
+        JsonObject v1API = parser.parse(new FileReader(configuration.getV1APISchemaFile())).getAsJsonObject();
 
-      String betaAPIOutputPath = System.getProperty("user.dir") + "/api_beta.json";
-      generateJsonAPI(configuration, protoPaths, ApiReleaseType.BETA, betaAPIOutputPath, null);
+        JsonObject v2API = api.swagger;
 
-      String upcomingAPIOutputPath = System.getProperty("user.dir") + "/api_upcoming.json";
-      generateJsonAPI(
-          configuration, protoPaths, ApiReleaseType.UPCOMING, upcomingAPIOutputPath, null);
+        // Merge v1 endpoints into v2 schema
+        mergeJsonObjectsUnderKey(v1API, v2API, "paths");
+
+        // Merge v1 definitions into v2 definitions
+        mergeJsonObjectsUnderKey(v1API, v2API, "definitions");
+      }
+      Path publicAPIOutputPath = outputPath.resolve("api.json");
+      writeJson(GSON.toJson(api.swagger), publicAPIOutputPath);
+
+      api = generateJsonAPI(configuration, protoPaths, ApiReleaseType.BETA);
+      Path betaAPIOutputPath = outputPath.resolve("api_beta.json");
+      writeJson(GSON.toJson(api.swagger), betaAPIOutputPath);
+
+      generateJsonAPI(configuration, protoPaths, ApiReleaseType.UPCOMING);
+      Path upcomingAPIOutputPath = outputPath.resolve("api_upcoming.json");
+      writeJson(GSON.toJson(api.swagger), upcomingAPIOutputPath);
+    } catch (InvalidSpecException e) {
+      String errorMsg;
+      if (e.getContext().isPresent()) {
+        errorMsg = String.format("Error occurred in %s: %s", e.getContext().get().location().toString(), e.getMessage());
+      } else {
+        errorMsg = e.getMessage();
+      }
+      System.out.println(errorMsg);
+      System.exit(2);
     } catch (Exception e) {
+      System.out.println(e.getMessage());
       e.printStackTrace();
       System.out.println("Failed to generate JSON APIs!");
       System.exit(2);
     }
   }
 
-  private static void generateJsonAPI(Configuration configuration, ImmutableList<String> protoPaths,
-      ApiReleaseType apiReleaseType, String apiOutputPath, @Nullable String enumOutputPath)
-      throws Exception {
-    ProtoIndex index = new ProtoIndexer().indexProtos(apiReleaseType, protoPaths);
-    JsonAPI api = new ConnectAPIParser().parseAPI(index, configuration);
-    writeJson(GSON.toJson(api.swagger), apiOutputPath);
-    if (enumOutputPath != null) {
-      writeJson(GSON.toJson(api.enumMap), enumOutputPath);
+  // Merges all elements in a into b
+  private static void mergeJsonObjectsUnderKey(JsonObject objA, JsonObject objB, String key) {
+    JsonObject a = objA.getAsJsonObject(key);
+    JsonObject b = objB.getAsJsonObject(key);
+    if (a == null || b == null) {
+      return;
     }
+
+    for (Map.Entry<String, JsonElement> v1Endpoint : a.entrySet()) {
+      String path = v1Endpoint.getKey();
+      // If the same key exists in the v2 schema with a different value then halt with error
+      if (b.has(path) && !b.equals(v1Endpoint.getValue())) {
+        throw new InvalidSpecException.Builder(String.format("Key '%s' exists in both schemas with a different value", path)).build();
+      }
+
+      b.add(path, v1Endpoint.getValue());
+    }
+  }
+
+  private static JsonAPI generateJsonAPI(Configuration configuration, ImmutableList<String> protoPaths,
+                                         ApiReleaseType apiReleaseType) throws Exception {
+    ProtoIndex index = new ProtoIndexer().indexProtos(apiReleaseType, protoPaths);
+    return new ConnectAPIParser().parseAPI(index, configuration);
   }
 }

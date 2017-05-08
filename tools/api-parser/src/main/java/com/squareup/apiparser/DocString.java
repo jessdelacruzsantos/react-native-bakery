@@ -9,7 +9,7 @@ import java.util.List;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
-public class DocString {
+class DocString {
   private static final Splitter BODY_SPLITTER = Splitter.on("--").omitEmptyStrings().trimResults();
   private static final Splitter AT_SPLITTER = Splitter.on("@").omitEmptyStrings().trimResults();
   private static final Splitter SPACE_SPLITTER =
@@ -17,7 +17,7 @@ public class DocString {
 
   private final ImmutableMap<String, String> annotations;
 
-  public DocString(String docString) {
+  DocString(String docString) {
     checkNotNull(docString);
 
     String parseableDocString = Iterables.getLast(
@@ -40,7 +40,7 @@ public class DocString {
     annotations = annotationsBuilder.build();
   }
 
-  public ImmutableMap<String, String> getAnnotations() {
+  ImmutableMap<String, String> getAnnotations() {
     return annotations;
   }
 }

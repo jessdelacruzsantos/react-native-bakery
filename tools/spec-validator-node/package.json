@@ -1,0 +1,14 @@
+{
+    "name": "spec-validator",
+    "preferGlobal": true,
+    "version": "0.0.1",
+    "author": "Chris Killpack <killpack@squareup.com>",
+    "description": "a simple command line tool that validates a Swagger spec file",
+    "license": "MIT",
+    "engines": {
+        "node": ">=4.4.3"
+    },
+    "dependencies": {
+        "sway": "^1.0.0"
+    }
+}

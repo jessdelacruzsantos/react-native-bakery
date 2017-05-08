@@ -9,11 +9,11 @@ import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
-public class ConnectEnum extends ConnectType {
+class ConnectEnum extends ConnectType {
   private final List<ConnectField> values;
 
-  public ConnectEnum(ApiReleaseType apiReleaseType, EnumElement enumm, String packageName,
-      Optional<ConnectType> parentType) throws AnnotationException {
+  ConnectEnum(ApiReleaseType apiReleaseType, EnumElement enumm, String packageName,
+              Optional<ConnectType> parentType) throws AnnotationException {
     super(enumm, packageName, parentType);
     this.values = ImmutableList.copyOf(enumm.constants()
         .stream()
@@ -22,11 +22,11 @@ public class ConnectEnum extends ConnectType {
         .collect(toList()));
   }
 
-  public List<ConnectField> getValues() {
+  List<ConnectField> getValues() {
     return values;
   }
 
-  public JsonObject toJson() {
+  JsonObject toJson() {
     JsonArray enumValues = new JsonArray();
     this.values.stream().map(ConnectField::getName).forEach(enumValues::add);
 
@@ -37,7 +37,7 @@ public class ConnectEnum extends ConnectType {
     return json;
   }
 
-  public String getDescription() {
+  private String getDescription() {
     return docAnnotations.getOrDefault("desc", "");
   }
 }

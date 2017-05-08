@@ -14,10 +14,10 @@ import okio.Okio;
 import static com.squareup.apiparser.Json.GSON;
 import static java.lang.String.format;
 
-public class ExampleResolver {
+class ExampleResolver {
   private final List<String> rootPaths;
 
-  public ExampleResolver(List<String> rootPaths) {
+  ExampleResolver(List<String> rootPaths) {
     this.rootPaths = ImmutableList.copyOf(rootPaths);
   }
 
@@ -29,7 +29,7 @@ public class ExampleResolver {
    * any of the root paths
    * @throws JsonSyntaxException thrown if the example file cannot be parsed as a JSON object
    */
-  public JsonObject loadExample(String examplePath) {
+  JsonObject loadExample(String examplePath) {
     File exampleFile = rootPaths.stream()
         .map(rootPath -> Paths.get(rootPath, examplePath).toFile())
         .filter(File::exists)

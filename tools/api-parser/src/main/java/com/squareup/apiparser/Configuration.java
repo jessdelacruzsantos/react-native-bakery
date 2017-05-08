@@ -1,8 +1,11 @@
 package com.squareup.apiparser;
 
 import com.beust.jcommander.Parameter;
+import com.beust.jcommander.converters.PathConverter;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 class Configuration {
   @Parameter(names = "-version", description = "Your API version")
@@ -17,19 +20,33 @@ class Configuration {
   @Parameter(description = "Locations of protobufs")
   private List<String> protobufLocations = new ArrayList<>();
 
-  public List<String> getProtobufLocations() {
+  @Parameter(names = {"--output", "-o"}, description = "Output path, defaults to current directory", converter = PathConverter.class)
+  private Path outputPath;
+
+  @Parameter(names = "-mergev1", description = "Location of v1 api.json to merge in")
+  private String v1APISchemaFile = "";
+
+  List<String> getProtobufLocations() {
     return protobufLocations;
   }
 
-  public String getHost() {
+  String getHost() {
     return host;
   }
 
-  public String getTitle() {
+  String getTitle() {
     return title;
   }
 
-  public String getVersion() {
+  String getVersion() {
     return version;
+  }
+
+  Optional<Path> getOutputPath() {
+    return Optional.ofNullable(outputPath);
+  }
+
+  String getV1APISchemaFile() {
+    return v1APISchemaFile;
   }
 }

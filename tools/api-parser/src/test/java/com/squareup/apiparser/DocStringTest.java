@@ -11,29 +11,26 @@ import static org.junit.Assert.assertThat;
 public class DocStringTest {
   @Test
   public void testParseNoComments() throws Exception {
-    final String doc = "";
-    final ImmutableMap<String, String> actual = new DocString(doc).getAnnotations();
-    final Map<String, String> expected = Collections.emptyMap();
-    assertThat(actual, equalTo(expected));
+    ImmutableMap<String, String> actual = new DocString("").getAnnotations();
+    assertThat(actual, equalTo(Collections.emptyMap()));
   }
 
   @Test
-  public void testParsePathParam() throws Exception {
-    final String doc = "  //@pathparam\n";
-    final ImmutableMap<String, String> actual = new DocString(doc).getAnnotations();
-    final ImmutableMap<String, String> expected = ImmutableMap.of("pathparam", "");
-    assertThat(actual, equalTo(expected));
+  public void testParseSingleline() throws Exception {
+    String doc = "  //@pathparam\n";
+    ImmutableMap<String, String> expected = ImmutableMap.of("pathparam", "");
+    assertThat(new DocString(doc).getAnnotations(), equalTo(expected));
   }
 
   @Test
   public void testParseMultiline() throws Exception {
-    final String doc = "  /*--\n"
-        + "    @foo Bar\n"
+    String doc = "  /*--\n"
+        + "    @foo Bar\nSome\n\nmore\ntext\n\n\n   "
         + "    @desc Description here.\n"
         + "  --*/";
-    final ImmutableMap<String, String> actual = new DocString(doc).getAnnotations();
-    final Map<String, String> expected = ImmutableMap.<String, String>builder()
-        .put("foo", "Bar")
+    ImmutableMap<String, String> actual = new DocString(doc).getAnnotations();
+    Map<String, String> expected = ImmutableMap.<String, String>builder()
+        .put("foo", "Bar\nSome\n\nmore\ntext")
         .put("desc", "Description here.")
         .build();
     assertThat(actual, equalTo(expected));
@@ -41,9 +38,9 @@ public class DocStringTest {
 
   @Test
   public void testParseSingleLine() throws Exception {
-    final String doc = "  //@desc Description here. @foo Bar \n";
-    final ImmutableMap<String, String> actual = new DocString(doc).getAnnotations();
-    final Map<String, String> expected = ImmutableMap.of("desc", "Description here.", "foo", "Bar");
+    String doc = "  //@desc Description here. @foo Bar \n";
+    ImmutableMap<String, String> actual = new DocString(doc).getAnnotations();
+    Map<String, String> expected = ImmutableMap.of("desc", "Description here.", "foo", "Bar");
     assertThat(actual, equalTo(expected));
   }
 }
