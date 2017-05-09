@@ -1,6 +1,7 @@
 package com.squareup.apiparser;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -9,6 +10,7 @@ import com.squareup.wire.schema.internal.parser.FieldElement;
 import com.squareup.wire.schema.internal.parser.MessageElement;
 import com.squareup.wire.schema.internal.parser.OneOfElement;
 import com.squareup.wire.schema.internal.parser.OptionElement;
+import com.squareup.wire.schema.internal.parser.TypeElement;
 import java.util.Optional;
 import org.junit.Test;
 
@@ -59,6 +61,49 @@ public class ConnectDatatypeTest {
     assertThat(datatype.toJson().get("properties"), isA(JsonElement.class));
     JsonArray required = datatype.toJson().get("required").getAsJsonArray();
     assertThat(required.get(0).getAsString(), equalTo("FakeField"));
+  }
+
+  @Test
+  public void testPopulateField_withNestedObject() {
+    MessageElement e = stubMessage("@desc a mock");
+
+    OptionElement o = OptionElement.create("squareup.validation.required", OptionElement.Kind.STRING, "true");
+
+    final FieldElement fe1 = mock(FieldElement.class);
+    when(fe1.name()).thenReturn("fake");
+    when(fe1.documentation()).thenReturn("i should be required");
+    String fakeFieldType = "squareup.connect.v2.fakes.service.FakeRequest.Fake";
+    when(fe1.type()).thenReturn(fakeFieldType);
+    when(fe1.options()).thenReturn(ImmutableList.of(o));
+    when(e.fields()).thenReturn(ImmutableList.of(fe1));
+    when(e.options()).thenReturn(ImmutableList.of());
+
+    final TypeElement fakeTypeElement = mock(MessageElement.class);
+    when(fakeTypeElement.documentation()).thenReturn("doc");
+    when(fakeTypeElement.options()).thenReturn(ImmutableList.of());
+    when(fakeTypeElement.name()).thenReturn("Fake");
+    final TypeElement fakeParentTypeElement = mock(MessageElement.class);
+    when(fakeParentTypeElement.documentation()).thenReturn("doc");
+    when(fakeParentTypeElement.options()).thenReturn(ImmutableList.of());
+    when(fakeParentTypeElement.name()).thenReturn("FakeRequest");
+
+    final ConnectDatatype fakeDataType = new ConnectDatatype(fakeTypeElement,
+            "squareup.connect.v2.fakes.service",
+            Optional.of(new ConnectDatatype(fakeParentTypeElement, "squareup.connect.v2.fakes.service", Optional.empty(), resolver)),
+            resolver);
+
+    final ConnectDatatype datatype =
+            new ConnectDatatype(e, "packageName", Optional.empty(), resolver);
+    final ProtoIndex index = mock(ProtoIndex.class);
+    when(index.getEnumType(fakeFieldType)).thenReturn(Optional.empty());
+    when(index.getDatatypes()).thenReturn(ImmutableMap.of("FakeRequestFake", fakeDataType));
+    when(index.getApiReleaseType()).thenReturn(ApiReleaseType.ALL);
+
+    datatype.populateFields(index);
+    assertThat(datatype.toJson().get("properties"), isA(JsonElement.class));
+    String fakeType = datatype.toJson().get("properties").getAsJsonObject().get("fake").getAsJsonObject().get("$ref").getAsString();
+
+    assertThat(fakeType, equalTo("#/definitions/FakeRequestFake"));
   }
 
   @Test

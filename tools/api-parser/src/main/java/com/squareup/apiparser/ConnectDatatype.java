@@ -44,7 +44,9 @@ class ConnectDatatype extends ConnectType {
   void populateFields(ProtoIndex index) throws IllegalUseOfOneOfException {
     MessageElement rootMessage = (MessageElement) this.rootType;
     final Consumer<FieldElement> addField =
-        f -> fields.add(new ConnectField(f, index.getEnumType(f.type())));
+        f -> fields.add(new ConnectField(f,
+                getType(index, f),
+                index.getEnumType(f.type())));
     rootMessage.fields().stream()
         .filter(f -> index.getApiReleaseType().shouldInclude(f.options(), "common.field_status"))
         .forEach(addField);
@@ -52,6 +54,14 @@ class ConnectDatatype extends ConnectType {
     if (!rootMessage.oneOfs().isEmpty()) {
       throw new IllegalUseOfOneOfException(rootMessage);
     }
+  }
+
+  private String getType(ProtoIndex index, FieldElement f) {
+    return index.getDatatypes().values().stream()
+            .filter(connectDatatype -> connectDatatype.getType().equals(f.type()))
+            .findFirst()
+            .map(ConnectType::getName)
+            .orElse(Protos.cleanName(f.type()));
   }
 
   // Converts the Datatype to a format that conforms to the Swagger 2.0 specification
