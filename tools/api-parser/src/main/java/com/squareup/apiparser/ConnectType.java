@@ -75,4 +75,9 @@ public class ConnectType {
   String generateName() {
     return getParentType().map(ConnectType::generateName).orElse("") + getRootType().name();
   }
+
+  String getType() {
+    String prefixType = this.parentType.map(ConnectType::getType).orElse(packageName);
+    return String.format("%s.%s", prefixType, this.rootType.name());
+  }
 }

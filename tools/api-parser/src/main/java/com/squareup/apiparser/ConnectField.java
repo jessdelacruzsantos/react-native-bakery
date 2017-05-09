@@ -22,20 +22,20 @@ public class ConnectField {
   private final Map<String, String> docAnnotations;
   private final Map<String, Object> validations;
 
-  ConnectField(FieldElement field, Optional<ConnectEnum> enumm) {
+  ConnectField(FieldElement field, String type, Optional<ConnectEnum> enumm) {
     checkNotNull(field);
     checkNotNull(enumm);
     this.name = field.name();
-    this.type = Protos.cleanName(field.type());
+    this.type = type;
     this.isArray = field.label() == Field.Label.REPEATED;
     this.required = field.label() == Field.Label.REQUIRED || ProtoOptions.isRequired(field);
     this.isPathParam = ProtoOptions.isPathParam(field);
     this.docAnnotations = new DocString(field.documentation()).getAnnotations();
     final List<ConnectField> values =
-        enumm.map(ConnectEnum::getValues).orElse(Collections.emptyList());
+            enumm.map(ConnectEnum::getValues).orElse(Collections.emptyList());
     this.enumValues = ImmutableList.copyOf(values.stream()
-        .map(ConnectField::getName)
-        .collect(toList()));
+            .map(ConnectField::getName)
+            .collect(toList()));
     this.validations = ImmutableMap.copyOf(ProtoOptions.validations(field.options()));
   }
 
