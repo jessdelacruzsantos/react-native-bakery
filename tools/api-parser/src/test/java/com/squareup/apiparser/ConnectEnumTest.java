@@ -3,9 +3,8 @@ package com.squareup.apiparser;
 import com.google.common.collect.ImmutableList;
 import com.squareup.wire.schema.internal.parser.EnumConstantElement;
 import com.squareup.wire.schema.internal.parser.EnumElement;
-import org.junit.Test;
-
 import java.util.Optional;
+import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
@@ -23,6 +22,6 @@ public class ConnectEnumTest {
     when(element.options()).thenReturn(ImmutableList.of());
     ConnectEnum connectEnum = new ConnectEnum(
         ApiReleaseType.ALL, element, "packageName", Optional.empty());
-    assertThat(connectEnum.toJson().get("type").getAsString(), equalTo("string"));
+    assertThat(connectEnum.toJson(ApiReleaseType.ALL).get("type").getAsString(), equalTo("string"));
   }
 }

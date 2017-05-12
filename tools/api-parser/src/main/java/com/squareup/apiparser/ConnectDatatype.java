@@ -9,7 +9,7 @@ import com.squareup.wire.schema.internal.parser.TypeElement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.squareup.apiparser.Json.GSON;
@@ -17,14 +17,15 @@ import static com.squareup.apiparser.Json.GSON;
 class ConnectDatatype extends ConnectType {
   private static final String SDK_SAMPLE_FIELD_NAME = "x-sq-sdk-sample-code";
 
-  private final List<ConnectField> fields = new ArrayList<>();
+  private List<ConnectField> fields = new ArrayList<>();
   private final Optional<JsonObject> example;
   private final Optional<String> exampleType;
   private final Optional<JsonElement> sdkSamples;
 
-  ConnectDatatype(TypeElement rootType, String packageName, Optional<ConnectType> parentType,
+  ConnectDatatype(ApiReleaseType releaseType, TypeElement rootType, String packageName,
+      Optional<ConnectType> parentType,
       ExampleResolver exampleResolver) {
-    super(rootType, packageName, parentType);
+    super(releaseType, rootType, packageName, parentType);
 
     this.example = ProtoOptions.exampleFilename(rootType.options())
         .map(exampleResolver::loadExample);
@@ -43,17 +44,24 @@ class ConnectDatatype extends ConnectType {
 
   void populateFields(ProtoIndex index) throws IllegalUseOfOneOfException {
     MessageElement rootMessage = (MessageElement) this.rootType;
-    final Consumer<FieldElement> addField =
-        f -> fields.add(new ConnectField(f,
-                getType(index, f),
-                index.getEnumType(f.type())));
-    rootMessage.fields().stream()
-        .filter(f -> index.getApiReleaseType().shouldInclude(f.options(), "common.field_status"))
-        .forEach(addField);
+
+    this.fields = rootMessage.fields()
+        .stream()
+        .map(f -> new ConnectField(
+            getApiReleaseType(f),
+            f,
+            getType(index, f),
+            index.getEnumType(f.type())))
+        .collect(Collectors.toList());
 
     if (!rootMessage.oneOfs().isEmpty()) {
       throw new IllegalUseOfOneOfException(rootMessage);
     }
+  }
+
+  private ApiReleaseType getApiReleaseType(FieldElement f) {
+    return ProtoOptions.getExplicitReleaseType(f.options(), "common.field_status")
+        .orElse(this.getReleaseType());
   }
 
   private String getType(ProtoIndex index, FieldElement f) {
@@ -65,17 +73,18 @@ class ConnectDatatype extends ConnectType {
   }
 
   // Converts the Datatype to a format that conforms to the Swagger 2.0 specification
-  JsonObject toJson() {
+  JsonObject toJson(ApiReleaseType releaseType) {
     JsonObject root = new JsonObject();
     root.addProperty("type", "object");
     JsonObject properties = new JsonObject();
 
     fields.stream()
         .filter(f -> !f.isPathParam())
+        .filter(f -> releaseType.shouldInclude(f.getReleaseType()))
         .forEach(f -> {
           JsonObject property = f.isArray()
-              ? handleArray(f)
-              : handleProperty(f);
+              ? handleArray(f, releaseType)
+              : handleProperty(f, releaseType);
           property.addProperty("description", f.getDescription());
           properties.add(f.getName(), property);
         });
@@ -102,23 +111,24 @@ class ConnectDatatype extends ConnectType {
     return root;
   }
 
-  private JsonObject handleArray(ConnectField field) {
+  private JsonObject handleArray(ConnectField field, ApiReleaseType releaseType) {
     checkNotNull(field);
 
     JsonObject json = new JsonObject();
     json.addProperty("type", "array");
-    json.add("items", handleProperty(field));
+    json.add("items", handleProperty(field, releaseType));
     return json;
   }
 
-  private JsonObject handleProperty(ConnectField field) {
+  private JsonObject handleProperty(ConnectField field, ApiReleaseType releaseType) {
     checkNotNull(field);
     JsonObject json = GSON.toJsonTree(field.getValidations()).getAsJsonObject();
 
     // We need to declare enums locally to work around swagger-codegen
-    if (!field.getEnumValues().isEmpty()) {
+    List<String> enumValues = field.getEnumValues(releaseType);
+    if (!enumValues.isEmpty()) {
       json.addProperty("type", "string");
-      json.add("enum", GSON.toJsonTree(field.getEnumValues()));
+      json.add("enum", GSON.toJsonTree(enumValues));
       return json;
     }
 

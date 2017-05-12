@@ -104,6 +104,16 @@ class ProtoOptions {
       return getStringValue(options, optionName).orElse(RELEASE_STATUS_PUBLIC);
   }
 
+  static Optional<String> getExplicitReleaseStatus(Collection<OptionElement> options,
+      String optionName) {
+    return getStringValue(options, optionName);
+  }
+
+  static Optional<ApiReleaseType> getExplicitReleaseType(Collection<OptionElement> options,
+      String optionName) {
+    return getStringValue(options, optionName).map(ApiReleaseType::from);
+  }
+
   static Set<String> getOAuthPermissions(RpcElement rpcElement) {
     return rpcElement.options().stream()
         .filter(option -> option.name().endsWith("common.oauth_permissions"))

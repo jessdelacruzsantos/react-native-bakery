@@ -5,7 +5,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.squareup.wire.schema.internal.parser.RpcElement;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -26,16 +25,18 @@ public class ConnectEndpoint {
   private final Map<String, String> docAnnotations;
   private final RpcElement rootRpc;
   private final ProtoIndex index;
+  private final ApiReleaseType releaseType;
 
   // See http://swagger.io/specification/#pathItemObject
   private static final ImmutableSet<String> VALID_HTTP_METHODS = ImmutableSet.of("GET", "PUT", "POST", "DELETE", "OPTIONS", "HEAD", "PATCH");
 
-  ConnectEndpoint(RpcElement rpc, ProtoIndex index) {
+  ConnectEndpoint(RpcElement rpc, ProtoIndex index, ApiReleaseType releaseType) {
     this.rootRpc = checkNotNull(rpc);
     this.inputType = rpc.requestType();
     this.outputType = rpc.responseType();
     this.index = checkNotNull(index);
     this.docAnnotations = new DocString(rpc.documentation()).getAnnotations();
+    this.releaseType = releaseType;
     Optional<ConnectDatatype> requestType = index.getDataType(inputType);
     checkState(requestType.isPresent());
     //noinspection OptionalGetWithoutIsPresent
@@ -134,9 +135,10 @@ public class ConnectEndpoint {
       JsonObject swaggerParameter = new JsonObject();
       swaggerParameter.addProperty("name", param.getName());
       swaggerParameter.addProperty("description", param.getDescription());
-      if (!param.getEnumValues().isEmpty()) {
+      List<String> enumValues = param.getEnumValues(releaseType);
+      if (!enumValues.isEmpty()) {
         JsonArray enumArray = new JsonArray();
-        param.getEnumValues().forEach(enumArray::add);
+        enumValues.forEach(enumArray::add);
         swaggerParameter.add("enum", enumArray);
         swaggerParameter.addProperty("type", "string");
       } else {
@@ -200,5 +202,9 @@ public class ConnectEndpoint {
     root.add("responses", swaggerResponses);
 
     return root;
+  }
+
+  public ApiReleaseType getReleaseType() {
+    return releaseType;
   }
 }

@@ -14,12 +14,8 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Iterator;
-import java.util.Optional;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
-import javax.annotation.Nullable;
 
 import static com.squareup.apiparser.Json.GSON;
 
@@ -99,7 +95,8 @@ public class ConnectAPIParser {
         .build();
   }
 
-  JsonAPI parseAPI(ProtoIndex index, Configuration configuration) throws InvalidSpecException {
+  JsonAPI parseAPI(ProtoIndex index, ApiReleaseType apiReleaseType, Configuration configuration)
+      throws InvalidSpecException {
     // Transform all the symbols to JSON and write out to file
     JsonObject root = GSON.toJsonTree(swaggerBase(configuration)).getAsJsonObject();
     root.add("securityDefinitions", GSON.toJsonTree(securityDefinitions()));
@@ -109,7 +106,7 @@ public class ConnectAPIParser {
     JsonObject jsonEndpoints = new JsonObject();
 
     for (ConnectEndpoint endpoint : index.getEndpoints()) {
-      if (index.getApiReleaseType().shouldInclude(endpoint.getReleaseStatus())) {
+      if (apiReleaseType.shouldInclude(endpoint.getReleaseType())) {
         if (!jsonEndpoints.has(endpoint.getPath())) {
           jsonEndpoints.add(endpoint.getPath(), new JsonObject());
         }
@@ -122,16 +119,19 @@ public class ConnectAPIParser {
     JsonObject jsonTypes = new JsonObject();
     final Joiner join = Joiner.on(".");
     for (ConnectEnum enumm : index.getEnums().values()) {
-      if (index.getApiReleaseType().shouldInclude(enumm.getReleaseStatus())) {
-        jsonTypes.add(enumm.getName(), enumm.toJson());
-        enumm.getValues().forEach(v ->
+      if (apiReleaseType.shouldInclude(enumm.getReleaseType())) {
+        jsonTypes.add(enumm.getName(), enumm.toJson(apiReleaseType));
+        enumm.getValues()
+            .stream()
+            .filter(e -> apiReleaseType.shouldInclude(e.getReleaseType()))
+            .forEach(v ->
             enumMapBuilder.put(join.join(enumm.getName(), v.getName()), v.getDescription()));
       }
     }
 
     for (ConnectDatatype datatype : index.getDatatypes().values()) {
-      if (index.getApiReleaseType().shouldInclude(datatype.getReleaseStatus())) {
-        jsonTypes.add(datatype.getName(), datatype.toJson());
+      if (apiReleaseType.shouldInclude(datatype.getReleaseType())) {
+        jsonTypes.add(datatype.getName(), datatype.toJson(apiReleaseType));
       }
     }
     root.add("definitions", jsonTypes);
@@ -173,13 +173,15 @@ public class ConnectAPIParser {
 
       ImmutableList<String> protoPaths = ImmutableList.copyOf(configuration.getProtobufLocations());
 
-      JsonAPI api = generateJsonAPI(configuration, protoPaths, ApiReleaseType.ALL);
+      ProtoIndex index = new ProtoIndexer().indexProtos(protoPaths);
+
+      JsonAPI api = getJsonAPI(configuration, ApiReleaseType.ALL, index);
       Path allAPIOutputPath = outputPath.resolve("api_internal.json");
       writeJson(GSON.toJson(api.swagger), allAPIOutputPath);
       Path enumOutputPath = outputPath.resolve("enum_mapping.json");
       writeJson(GSON.toJson(api.enumMap), enumOutputPath);
 
-      api = generateJsonAPI(configuration, protoPaths, ApiReleaseType.PUBLIC);
+      api = getJsonAPI(configuration, ApiReleaseType.PUBLIC, index);
       if (!configuration.getV1APISchemaFile().isEmpty()) {
         // Because the incoming api.json lacks visibility information we only merge it into the
         // public definitions. This is not the best way to handle v1 endpoints.
@@ -197,11 +199,11 @@ public class ConnectAPIParser {
       Path publicAPIOutputPath = outputPath.resolve("api.json");
       writeJson(GSON.toJson(api.swagger), publicAPIOutputPath);
 
-      api = generateJsonAPI(configuration, protoPaths, ApiReleaseType.BETA);
+      api = getJsonAPI(configuration, ApiReleaseType.BETA, index);
       Path betaAPIOutputPath = outputPath.resolve("api_beta.json");
       writeJson(GSON.toJson(api.swagger), betaAPIOutputPath);
 
-      generateJsonAPI(configuration, protoPaths, ApiReleaseType.UPCOMING);
+      api = getJsonAPI(configuration, ApiReleaseType.UPCOMING, index);
       Path upcomingAPIOutputPath = outputPath.resolve("api_upcoming.json");
       writeJson(GSON.toJson(api.swagger), upcomingAPIOutputPath);
     } catch (InvalidSpecException e) {
@@ -240,9 +242,8 @@ public class ConnectAPIParser {
     }
   }
 
-  private static JsonAPI generateJsonAPI(Configuration configuration, ImmutableList<String> protoPaths,
-                                         ApiReleaseType apiReleaseType) throws Exception {
-    ProtoIndex index = new ProtoIndexer().indexProtos(apiReleaseType, protoPaths);
-    return new ConnectAPIParser().parseAPI(index, configuration);
+  private static JsonAPI getJsonAPI(Configuration configuration,
+      ApiReleaseType apiReleaseType, ProtoIndex index) {
+    return new ConnectAPIParser().parseAPI(index, apiReleaseType, configuration);
   }
 }

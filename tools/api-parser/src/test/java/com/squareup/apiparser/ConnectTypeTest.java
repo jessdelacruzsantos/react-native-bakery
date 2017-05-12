@@ -5,9 +5,8 @@ import com.squareup.wire.schema.internal.parser.EnumConstantElement;
 import com.squareup.wire.schema.internal.parser.EnumElement;
 import com.squareup.wire.schema.internal.parser.MessageElement;
 import com.squareup.wire.schema.internal.parser.TypeElement;
-import org.junit.Test;
-
 import java.util.Optional;
+import org.junit.Test;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
@@ -39,8 +38,9 @@ public class ConnectTypeTest {
     when(cardDetails.documentation()).thenReturn("");
     when(cardDetails.options()).thenReturn(ImmutableList.of());
 
-    ConnectType root = new ConnectType(tender, "actions.", Optional.empty());
-    ConnectType parent = new ConnectType(cardDetails, "actions.", Optional.of(root));
+    ConnectType root = new ConnectType(ApiReleaseType.ALL, tender, "actions.", Optional.empty());
+    ConnectType parent =
+        new ConnectType(ApiReleaseType.ALL, cardDetails, "actions.", Optional.of(root));
     ConnectEnum child = new ConnectEnum(
         ApiReleaseType.ALL, status, "actions.", Optional.of(parent));
     assertThat(parent.generateName(), equalTo("TenderCardDetails"));
