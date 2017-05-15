@@ -3,6 +3,7 @@ package com.squareup.apiparser;
 import com.google.common.collect.ImmutableList;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.squareup.wire.schema.internal.parser.EnumConstantElement;
 import com.squareup.wire.schema.internal.parser.EnumElement;
 import java.util.List;
 import java.util.Optional;
@@ -14,21 +15,30 @@ class ConnectEnum extends ConnectType {
 
   ConnectEnum(ApiReleaseType apiReleaseType, EnumElement enumm, String packageName,
               Optional<ConnectType> parentType) throws AnnotationException {
-    super(enumm, packageName, parentType);
+    super(apiReleaseType, enumm, packageName, parentType);
     this.values = ImmutableList.copyOf(enumm.constants()
         .stream()
-        .filter(v -> apiReleaseType.shouldInclude(v.options(), "common.enum_value_status"))
-        .map(v -> new ConnectField(v.name(), "", v.documentation()))
+        .map(v -> new ConnectField(
+            getApiReleaseType(apiReleaseType, v),
+            v.name(), "", v.documentation()))
         .collect(toList()));
+  }
+
+  private ApiReleaseType getApiReleaseType(ApiReleaseType apiReleaseType, EnumConstantElement v) {
+    return ProtoOptions.getExplicitReleaseType(v.options(), "common.enum_value_status")
+        .orElse(apiReleaseType);
   }
 
   List<ConnectField> getValues() {
     return values;
   }
 
-  JsonObject toJson() {
+  JsonObject toJson(ApiReleaseType apiReleaseType) {
     JsonArray enumValues = new JsonArray();
-    this.values.stream().map(ConnectField::getName).forEach(enumValues::add);
+    this.values.stream()
+        .filter(v -> apiReleaseType.shouldInclude(v.getReleaseType()))
+        .map(ConnectField::getName)
+        .forEach(enumValues::add);
 
     JsonObject json = new JsonObject();
     json.addProperty("type", "string");

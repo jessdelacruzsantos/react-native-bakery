@@ -30,10 +30,12 @@ public class ConnectDatatypeTest {
   public void testToJson() throws Exception {
     MessageElement e = stubMessage("@desc a mock");
     when(e.options()).thenReturn(ImmutableList.of());
-    ConnectDatatype datatype = new ConnectDatatype(e, "packageName", Optional.empty(), resolver);
-    assertThat(datatype.toJson().get("description").getAsString(), equalTo("a mock"));
-    assertThat(datatype.toJson().get("type").getAsString(), equalTo("object"));
-    assertThat(datatype.toJson().get("properties"), isA(JsonElement.class));
+    ConnectDatatype datatype =
+        new ConnectDatatype(ApiReleaseType.ALL, e, "packageName", Optional.empty(), resolver);
+    assertThat(datatype.toJson(ApiReleaseType.ALL).get("description").getAsString(),
+        equalTo("a mock"));
+    assertThat(datatype.toJson(ApiReleaseType.ALL).get("type").getAsString(), equalTo("object"));
+    assertThat(datatype.toJson(ApiReleaseType.ALL).get("properties"), isA(JsonElement.class));
   }
 
   @Test
@@ -51,15 +53,15 @@ public class ConnectDatatypeTest {
     when(e.options()).thenReturn(ImmutableList.of());
 
     final ConnectDatatype datatype =
-        new ConnectDatatype(e, "packageName", Optional.empty(), resolver);
+        new ConnectDatatype(ApiReleaseType.ALL, e, "packageName", Optional.empty(), resolver);
     final ProtoIndex index = mock(ProtoIndex.class);
     when(index.getEnumType("string")).thenReturn(Optional.empty());
-    when(index.getApiReleaseType()).thenReturn(ApiReleaseType.ALL);
     datatype.populateFields(index);
-    assertThat(datatype.toJson().get("description").getAsString(), equalTo("a mock"));
-    assertThat(datatype.toJson().get("type").getAsString(), equalTo("object"));
-    assertThat(datatype.toJson().get("properties"), isA(JsonElement.class));
-    JsonArray required = datatype.toJson().get("required").getAsJsonArray();
+    assertThat(datatype.toJson(ApiReleaseType.ALL).get("description").getAsString(),
+        equalTo("a mock"));
+    assertThat(datatype.toJson(ApiReleaseType.ALL).get("type").getAsString(), equalTo("object"));
+    assertThat(datatype.toJson(ApiReleaseType.ALL).get("properties"), isA(JsonElement.class));
+    JsonArray required = datatype.toJson(ApiReleaseType.ALL).get("required").getAsJsonArray();
     assertThat(required.get(0).getAsString(), equalTo("FakeField"));
   }
 
@@ -87,21 +89,27 @@ public class ConnectDatatypeTest {
     when(fakeParentTypeElement.options()).thenReturn(ImmutableList.of());
     when(fakeParentTypeElement.name()).thenReturn("FakeRequest");
 
-    final ConnectDatatype fakeDataType = new ConnectDatatype(fakeTypeElement,
+    final ConnectDatatype fakeDataType = new ConnectDatatype(ApiReleaseType.ALL, fakeTypeElement,
             "squareup.connect.v2.fakes.service",
-            Optional.of(new ConnectDatatype(fakeParentTypeElement, "squareup.connect.v2.fakes.service", Optional.empty(), resolver)),
+        Optional.of(new ConnectDatatype(ApiReleaseType.ALL, fakeParentTypeElement,
+            "squareup.connect.v2.fakes.service", Optional.empty(), resolver)),
             resolver);
 
     final ConnectDatatype datatype =
-            new ConnectDatatype(e, "packageName", Optional.empty(), resolver);
+        new ConnectDatatype(ApiReleaseType.ALL, e, "packageName", Optional.empty(), resolver);
     final ProtoIndex index = mock(ProtoIndex.class);
     when(index.getEnumType(fakeFieldType)).thenReturn(Optional.empty());
     when(index.getDatatypes()).thenReturn(ImmutableMap.of("FakeRequestFake", fakeDataType));
-    when(index.getApiReleaseType()).thenReturn(ApiReleaseType.ALL);
 
     datatype.populateFields(index);
-    assertThat(datatype.toJson().get("properties"), isA(JsonElement.class));
-    String fakeType = datatype.toJson().get("properties").getAsJsonObject().get("fake").getAsJsonObject().get("$ref").getAsString();
+    assertThat(datatype.toJson(ApiReleaseType.ALL).get("properties"), isA(JsonElement.class));
+    String fakeType = datatype.toJson(ApiReleaseType.ALL)
+        .get("properties")
+        .getAsJsonObject()
+        .get("fake")
+        .getAsJsonObject()
+        .get("$ref")
+        .getAsString();
 
     assertThat(fakeType, equalTo("#/definitions/FakeRequestFake"));
   }
@@ -115,8 +123,10 @@ public class ConnectDatatypeTest {
     when(e.documentation()).thenReturn("");
     when(e.options()).thenReturn(ImmutableList.of(o));
 
-    ConnectDatatype datatype = new ConnectDatatype(e, "packageName", Optional.empty(), resolver);
-    JsonObject sdkSamples = datatype.toJson().get("x-sq-sdk-sample-code").getAsJsonObject();
+    ConnectDatatype datatype =
+        new ConnectDatatype(ApiReleaseType.ALL, e, "packageName", Optional.empty(), resolver);
+    JsonObject sdkSamples =
+        datatype.toJson(ApiReleaseType.ALL).get("x-sq-sdk-sample-code").getAsJsonObject();
     assertThat(sdkSamples.getAsJsonPrimitive("ruby").getAsString(),
         equalTo("/samples/Endpoint/Message.ruby"));
   }
@@ -128,8 +138,9 @@ public class ConnectDatatypeTest {
     when(e.documentation()).thenReturn("");
     when(e.options()).thenReturn(ImmutableList.of());
 
-    ConnectDatatype datatype = new ConnectDatatype(e, "packageName", Optional.empty(), resolver);
-    assertNull(datatype.toJson().get("x-sq-sdk-sample-code"));
+    ConnectDatatype datatype =
+        new ConnectDatatype(ApiReleaseType.ALL, e, "packageName", Optional.empty(), resolver);
+    assertNull(datatype.toJson(ApiReleaseType.ALL).get("x-sq-sdk-sample-code"));
   }
 
   @Test
@@ -139,7 +150,8 @@ public class ConnectDatatypeTest {
     when(e.documentation()).thenReturn("");
     when(e.options()).thenReturn(ImmutableList.of());
 
-    ConnectDatatype dataType = new ConnectDatatype(e, "packageName", Optional.empty(), resolver);
+    ConnectDatatype dataType =
+        new ConnectDatatype(ApiReleaseType.ALL, e, "packageName", Optional.empty(), resolver);
     assertFalse(dataType.hasBodyParameters());
   }
 
@@ -150,8 +162,9 @@ public class ConnectDatatypeTest {
     when(me.fields()).thenReturn(ImmutableList.of(fe));
     when(me.options()).thenReturn(ImmutableList.of());
 
-    ConnectDatatype dataType = new ConnectDatatype(me, "packageName", Optional.empty(), resolver);
-    dataType.populateFields(new ProtoIndex(ApiReleaseType.ALL, resolver));
+    ConnectDatatype dataType =
+        new ConnectDatatype(ApiReleaseType.ALL, me, "packageName", Optional.empty(), resolver);
+    dataType.populateFields(new ProtoIndex(resolver));
     assertFalse(dataType.hasBodyParameters());
   }
 
@@ -163,8 +176,9 @@ public class ConnectDatatypeTest {
     when(me.fields()).thenReturn(ImmutableList.of(fe1, fe2));
     when(me.options()).thenReturn(ImmutableList.of());
 
-    ConnectDatatype dataType = new ConnectDatatype(me, "packageName", Optional.empty(), resolver);
-    dataType.populateFields(new ProtoIndex(ApiReleaseType.ALL, resolver));
+    ConnectDatatype dataType =
+        new ConnectDatatype(ApiReleaseType.ALL, me, "packageName", Optional.empty(), resolver);
+    dataType.populateFields(new ProtoIndex(resolver));
     assertTrue(dataType.hasBodyParameters());
   }
 
@@ -179,8 +193,8 @@ public class ConnectDatatypeTest {
     when(m.oneOfs()).thenReturn(ImmutableList.of(oe));
 
     final ConnectDatatype datatype =
-        new ConnectDatatype(m, "packageName", Optional.empty(), resolver);
-    datatype.populateFields(new ProtoIndex(ApiReleaseType.ALL, resolver));
+        new ConnectDatatype(ApiReleaseType.ALL, m, "packageName", Optional.empty(), resolver);
+    datatype.populateFields(new ProtoIndex(resolver));
   }
 
   private FieldElement stubField(String documentation, boolean isPathParam) {

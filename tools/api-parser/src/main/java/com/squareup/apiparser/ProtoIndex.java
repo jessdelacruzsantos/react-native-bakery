@@ -3,7 +3,6 @@ package com.squareup.apiparser;
 import com.squareup.wire.schema.internal.parser.EnumElement;
 import com.squareup.wire.schema.internal.parser.MessageElement;
 import com.squareup.wire.schema.internal.parser.TypeElement;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -15,14 +14,12 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 class ProtoIndex {
-  private final ApiReleaseType apiReleaseType;
   private final ExampleResolver exampleResolver;
   private final Map<String, ConnectDatatype> dtypes = new TreeMap<>();
   private final Map<String, ConnectEnum> enums = new TreeMap<>();
   private final List<ConnectEndpoint> endpoints = new ArrayList<>();
 
-  ProtoIndex(ApiReleaseType apiReleaseType, ExampleResolver exampleResolver) {
-    this.apiReleaseType = checkNotNull(apiReleaseType);
+  ProtoIndex(ExampleResolver exampleResolver) {
     this.exampleResolver = checkNotNull(exampleResolver);
   }
 
@@ -33,11 +30,13 @@ class ProtoIndex {
       TypeElement rootType = type.getRootType();
       if (rootType instanceof EnumElement) {
         ConnectEnum ce = new ConnectEnum(
-            apiReleaseType, (EnumElement) rootType, type.getPackageName(), type.getParentType());
+            type.getReleaseType(), (EnumElement) rootType, type.getPackageName(),
+            type.getParentType());
         checkArgument(!enums.containsKey(ce.getName()), "Already seen %s", ce.getName());
         this.enums.put(type.getName(), ce);
       } else if (rootType instanceof MessageElement) {
         ConnectDatatype cd = new ConnectDatatype(
+            type.getReleaseType(),
             rootType, type.getPackageName(), type.getParentType(), exampleResolver);
         checkArgument(!dtypes.containsKey(cd.getName()), "Already seen %s", cd.getName());
         this.dtypes.put(type.getName(), cd);
@@ -47,13 +46,14 @@ class ProtoIndex {
     }
 
     // After done creating entities for every symbol, populate datatypes
-    dtypes.values().stream().forEach(d -> d.populateFields(this));
+    dtypes.values().forEach(d -> d.populateFields(this));
     for (final ConnectService service : services) {
       endpoints.addAll(service.getRootService()
           .rpcs()
           .stream()
-          .filter(rpc -> apiReleaseType.shouldInclude(rpc.options(), "common.method_status"))
-          .map(rpc -> new ConnectEndpoint(rpc, this))
+          .map(rpc -> new ConnectEndpoint(rpc, this,
+              ProtoOptions.getExplicitReleaseType(rpc.options(), "common.method_status")
+                  .orElse(service.getReleaseType())))
           .collect(Collectors.toList()));
     }
   }
@@ -82,9 +82,5 @@ class ProtoIndex {
     final Optional<String> dataType =
         dtypes.keySet().stream().filter(d -> d.equals(type) || d.endsWith("." + type)).findFirst();
     return dataType.map(dtypes::get);
-  }
-
-  ApiReleaseType getApiReleaseType() {
-    return apiReleaseType;
   }
 }

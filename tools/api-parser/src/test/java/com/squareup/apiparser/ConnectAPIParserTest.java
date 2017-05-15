@@ -3,17 +3,16 @@ package com.squareup.apiparser;
 import com.google.common.collect.ImmutableList;
 import com.google.common.io.Resources;
 import com.google.gson.JsonObject;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import okio.BufferedSink;
 import okio.BufferedSource;
 import okio.ByteString;
 import okio.Okio;
 import org.junit.Ignore;
 import org.junit.Test;
-
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
@@ -25,9 +24,10 @@ public class ConnectAPIParserTest {
   @Test
   public void testSwaggerAndInfoObjects() throws Exception {
     ExampleResolver resolver = new ExampleResolver(ImmutableList.of(""));
-    ProtoIndex index = new ProtoIndex(ApiReleaseType.ALL, resolver);
+    ProtoIndex index = new ProtoIndex(resolver);
     Configuration config = new Configuration();
-    ConnectAPIParser.JsonAPI api = new ConnectAPIParser().parseAPI(index, config);
+    ConnectAPIParser.JsonAPI api =
+        new ConnectAPIParser().parseAPI(index, ApiReleaseType.ALL, config);
 
     JsonObject swagger = api.swagger;
     assertThat(swagger.get("swagger").getAsString(), equalTo("2.0"));
@@ -36,8 +36,10 @@ public class ConnectAPIParserTest {
     assertThat(info, not(nullValue()));
     assertThat(info.get("version").getAsString(), equalTo(config.getVersion()));
     assertThat(info.get("title").getAsString(), equalTo(config.getTitle()));
-    assertThat(info.get("description").getAsString(), equalTo("Client library for accessing the Square Connect APIs"));
-    assertThat(info.get("termsOfService").getAsString(), equalTo("https://connect.squareup.com/tos"));
+    assertThat(info.get("description").getAsString(),
+        equalTo("Client library for accessing the Square Connect APIs"));
+    assertThat(info.get("termsOfService").getAsString(),
+        equalTo("https://connect.squareup.com/tos"));
 
     JsonObject contact = info.getAsJsonObject("contact");
     assertThat(contact, not(nullValue()));
@@ -48,11 +50,13 @@ public class ConnectAPIParserTest {
     JsonObject license = info.getAsJsonObject("license");
     assertThat(license, not(nullValue()));
     assertThat(license.get("name").getAsString(), equalTo("Apache 2.0"));
-    assertThat(license.get("url").getAsString(), equalTo("http://www.apache.org/licenses/LICENSE-2.0.html"));
+    assertThat(license.get("url").getAsString(),
+        equalTo("http://www.apache.org/licenses/LICENSE-2.0.html"));
 
     JsonObject docs = swagger.getAsJsonObject("externalDocs");
     assertThat(docs, not(nullValue()));
-    assertThat(docs.get("description").getAsString(), equalTo("Read the official documentation here:"));
+    assertThat(docs.get("description").getAsString(),
+        equalTo("Read the official documentation here:"));
     assertThat(docs.get("url").getAsString(), equalTo("https://docs.connect.squareup.com/"));
 
     assertThat(api.swagger.get("host").getAsString(), equalTo(config.getHost()));
@@ -64,9 +68,10 @@ public class ConnectAPIParserTest {
   @Test
   public void testSecurityDefinitions() throws Exception {
     ExampleResolver resolver = new ExampleResolver(ImmutableList.of(""));
-    ProtoIndex index = new ProtoIndex(ApiReleaseType.ALL, resolver);
+    ProtoIndex index = new ProtoIndex(resolver);
     Configuration config = new Configuration();
-    ConnectAPIParser.JsonAPI api = new ConnectAPIParser().parseAPI(index, config);
+    ConnectAPIParser.JsonAPI api =
+        new ConnectAPIParser().parseAPI(index, ApiReleaseType.ALL, config);
 
     JsonObject secDef = api.swagger.getAsJsonObject("securityDefinitions");
     assertThat(secDef, not(nullValue()));
@@ -84,16 +89,16 @@ public class ConnectAPIParserTest {
     ProtoIndexer indexer = new ProtoIndexer();
     URL url = Resources.getResource("actions.proto");
     Path path = Paths.get(url.getFile());
-    ProtoIndex index = indexer.indexProtos(
-        ApiReleaseType.ALL, ImmutableList.of(path.getParent().toString()));
+    ProtoIndex index = indexer.indexProtos(ImmutableList.of(path.getParent().toString()));
 
     ConnectAPIParser.JsonAPI api =
-        new ConnectAPIParser().parseAPI(index, new Configuration());
+        new ConnectAPIParser().parseAPI(index, ApiReleaseType.ALL, new Configuration());
     JsonObject json = api.swagger;
     JsonObject paths = json.getAsJsonObject("paths");
     JsonObject definitions = json.getAsJsonObject("definitions");
 
-    assertThat(paths.getAsJsonObject("/v2/locations/{location_id}/transactions/{transaction_id}"), not(nullValue()));
+    assertThat(paths.getAsJsonObject("/v2/locations/{location_id}/transactions/{transaction_id}"),
+        not(nullValue()));
     assertThat(definitions.getAsJsonObject("RetrieveTransactionResponse"), not(nullValue()));
 
     Path tmp = Files.createTempFile("swagger", ".json");

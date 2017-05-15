@@ -1,8 +1,7 @@
 package com.squareup.apiparser;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import com.squareup.wire.schema.internal.parser.OptionElement;
-import java.util.Collection;
 
 enum ApiReleaseType {
   PUBLIC(ProtoOptions.RELEASE_STATUS_PUBLIC),
@@ -15,7 +14,13 @@ enum ApiReleaseType {
   /** Allowed release status set. Allow all if it's empty. */
   private final ImmutableSet<String> allowedStatusSet;
 
-  private ApiReleaseType(String... releaseStatuses) {
+  public static ApiReleaseType from(String status) {
+    return ImmutableList.of(PUBLIC, BETA, UPCOMING, ALL).stream()
+        .filter(apiReleaseType -> apiReleaseType.shouldInclude(status))
+        .findFirst().orElse(ALL);
+  }
+
+  ApiReleaseType(String... releaseStatuses) {
     this.allowedStatusSet = ImmutableSet.copyOf(releaseStatuses);
   }
 
@@ -23,7 +28,7 @@ enum ApiReleaseType {
     return allowedStatusSet.isEmpty() || allowedStatusSet.contains(releaseStatus);
   }
 
-  public boolean shouldInclude(Collection<OptionElement> options, String optionName) {
-    return shouldInclude(ProtoOptions.getReleaseStatus(options, optionName));
+  public boolean shouldInclude(ApiReleaseType releaseStatus) {
+    return allowedStatusSet.isEmpty() || allowedStatusSet.contains(releaseStatus.toString());
   }
 }

@@ -9,12 +9,18 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 class ConnectService {
   private final ServiceElement rootService;
+  private final ApiReleaseType releaseType;
 
-  ConnectService(ServiceElement rootService) {
+  ConnectService(ApiReleaseType releaseType, ServiceElement rootService) {
+    this.releaseType = releaseType;
     this.rootService = checkNotNull(rootService);
   }
 
   ServiceElement getRootService() {
     return this.rootService;
+  }
+
+  public ApiReleaseType getReleaseType() {
+    return releaseType;
   }
 }

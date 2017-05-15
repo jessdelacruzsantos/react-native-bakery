@@ -6,9 +6,6 @@ import com.squareup.wire.schema.internal.parser.ProtoFileElement;
 import com.squareup.wire.schema.internal.parser.ProtoParser;
 import com.squareup.wire.schema.internal.parser.ServiceElement;
 import com.squareup.wire.schema.internal.parser.TypeElement;
-import okio.BufferedSource;
-import okio.Okio;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
@@ -21,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
+import okio.BufferedSource;
+import okio.Okio;
 
 class ProtoIndexer {
 
@@ -30,9 +29,9 @@ class ProtoIndexer {
   private final List<ConnectType> protoTypes = new ArrayList<>();
   private final List<ConnectService> protoServices = new ArrayList<>();
 
-  ProtoIndex indexProtos(ApiReleaseType apiReleaseType, List<String> protoPaths)
+  ProtoIndex indexProtos(List<String> protoPaths)
       throws IOException, AnnotationException {
-    final ProtoIndex index = new ProtoIndex(apiReleaseType, new ExampleResolver(protoPaths));
+    final ProtoIndex index = new ProtoIndex(new ExampleResolver(protoPaths));
     for (String path : protoPaths) {
       Files.walkFileTree(Paths.get(path), new SimpleFileVisitor<Path>() {
         @Override public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
@@ -41,7 +40,7 @@ class ProtoIndexer {
             return FileVisitResult.CONTINUE;
           }
           if (Pattern.matches(".*\\.proto\\Z", file.toString())) {
-            addProtoFile(apiReleaseType, file.toFile());
+            addProtoFile(file.toFile());
           }
           return FileVisitResult.CONTINUE;
         }
@@ -51,30 +50,27 @@ class ProtoIndexer {
     return index;
   }
 
-  private void addProtoFile(ApiReleaseType apiReleaseType, File file) throws IOException {
+  private void addProtoFile(File file) throws IOException {
     try (BufferedSource buffer = Okio.buffer(Okio.source(file))) {
       final Location l = Location.get(file.getCanonicalPath());
       final ProtoFileElement proto = ProtoParser.parse(l, buffer.readUtf8());
 
-      if (!apiReleaseType.shouldInclude(proto.options(), "common.file_status")) {
-        return;
-      }
+      ApiReleaseType releaseType =
+          ApiReleaseType.from(ProtoOptions.getReleaseStatus(proto.options(), "common.file_status"));
 
       proto.types()
-          .forEach(t -> addType(apiReleaseType, t, proto.packageName(), Optional.empty()));
+          .forEach(t -> addType(releaseType, t, proto.packageName(), Optional.empty()));
 
       for (ServiceElement service : proto.services()) {
-        this.protoServices.add(new ConnectService(service));
+        this.protoServices.add(new ConnectService(releaseType, service));
       }
     }
   }
 
   private void addType(ApiReleaseType apiReleaseType, TypeElement datatype, String packageName,
       Optional<ConnectType> parent) {
-    ConnectType ct = new ConnectType(datatype, packageName, parent);
-    if (!apiReleaseType.shouldInclude(ct.getReleaseStatus())) {
-      return;
-    }
+    ConnectType ct = new ConnectType(apiReleaseType, datatype, packageName, parent);
+
     this.protoTypes.add(ct);
     for (TypeElement subType : datatype.nestedTypes()) {
       addType(apiReleaseType, subType, packageName, Optional.of(ct));

@@ -7,6 +7,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.squareup.wire.schema.internal.parser.OptionElement;
 import com.squareup.wire.schema.internal.parser.RpcElement;
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -14,15 +17,11 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import org.junit.Test;
 
-import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -107,8 +106,8 @@ public class ConnectEndpointTest {
     ProtoIndexer indexer = new ProtoIndexer();
     URL url = Resources.getResource("actions.proto");
     Path path = Paths.get(url.getFile());
-    ProtoIndex index = indexer.indexProtos(ApiReleaseType.ALL, ImmutableList.of(path.getParent().toString()));
-    return new ConnectEndpoint(rpc, index);
+    ProtoIndex index = indexer.indexProtos(ImmutableList.of(path.getParent().toString()));
+    return new ConnectEndpoint(rpc, index, ApiReleaseType.ALL);
   }
 
   private List<OptionElement> baseOptions() {
