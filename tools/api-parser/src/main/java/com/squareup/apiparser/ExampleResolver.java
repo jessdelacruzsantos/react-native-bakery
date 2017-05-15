@@ -1,8 +1,8 @@
 package com.squareup.apiparser;
 
-import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
 import java.io.File;
 import java.io.IOException;
@@ -39,8 +39,8 @@ class ExampleResolver {
 
     try (BufferedSource buffer = Okio.buffer(Okio.source(exampleFile))) {
       return GSON.fromJson(buffer.readUtf8(), JsonObject.class);
-    } catch (IOException e) {
-      throw Throwables.propagate(e);
+    } catch (JsonParseException | IOException e) {
+      throw new RuntimeException(String.format("Error loading %s", examplePath), e);
     }
   }
 }
