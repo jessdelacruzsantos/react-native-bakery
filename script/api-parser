@@ -45,4 +45,9 @@ if [ ! -d "$OUTPUT_DIR" ]; then
 fi
 
 mv "$BASE_DIR"/tools/api-parser/*.json "$BASE_DIR/api.json.d"
-cat "$BASE_DIR"/api.json.d/README.md
+
+# Print the README unless API_PARSER_QUIET is defined.
+if [ -z "${API_PARSER_QUIET-}" ]
+then
+    cat "$BASE_DIR"/api.json.d/README.md
+fi
