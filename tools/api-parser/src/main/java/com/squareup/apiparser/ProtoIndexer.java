@@ -73,7 +73,7 @@ class ProtoIndexer {
 
     this.protoTypes.add(ct);
     for (TypeElement subType : datatype.nestedTypes()) {
-      addType(apiReleaseType, subType, packageName, Optional.of(ct));
+      addType(ct.getReleaseType(), subType, packageName, Optional.of(ct));
     }
   }
 
