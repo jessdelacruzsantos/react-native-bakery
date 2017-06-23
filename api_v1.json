@@ -155,6 +155,12 @@
                     "description": "The maximum integer number of employee entities to return in a single response. Default 100, maximum 200.",
                     "type": "integer",
                     "maximum": 200
+                }, {
+                    "name": "batch_token",
+                    "description": "A pagination cursor to retrieve the next set of results for your\noriginal query to the endpoint.",
+                    "type": "string",
+                    "in": "query",
+                    "required": false
                 }],
                 "security": [{
                     "oauth2": ["EMPLOYEES_READ"]
@@ -314,7 +320,7 @@
                     "type": "integer",
                     "maximum": 200
                 }, {
-                    "name": "cursor",
+                    "name": "batch_token",
                     "description": "A pagination cursor to retrieve the next set of results for your\noriginal query to the endpoint.",
                     "type": "string",
                     "in": "query",
@@ -437,6 +443,12 @@
                     "schema": {
                         "$ref": "#/definitions/v1Timecard"
                     }
+                }, {
+                    "name": "batch_token",
+                    "description": "A pagination cursor to retrieve the next set of results for your\noriginal query to the endpoint.",
+                    "type": "string",
+                    "in": "query",
+                    "required": false
                 }],
                 "security": [{
                     "oauth2": ["TIMECARDS_WRITE"]
@@ -855,6 +867,12 @@
                     "description": "The maximum number of payments to return in a single response. This value cannot exceed 200.",
                     "type": "integer",
                     "maximum": 200
+                }, {
+                    "name": "batch_token",
+                    "description": "A pagination cursor to retrieve the next set of results for your\noriginal query to the endpoint.",
+                    "type": "string",
+                    "in": "query",
+                    "required": false
                 }],
                 "security": [{
                     "oauth2": ["PAYMENTS_READ"]
@@ -977,6 +995,12 @@
                         "FAILED"
                     ],
                     "required": false
+                }, {
+                    "name": "batch_token",
+                    "description": "A pagination cursor to retrieve the next set of results for your\noriginal query to the endpoint.",
+                    "type": "string",
+                    "in": "query",
+                    "required": false
                 }],
                 "security": [{
                     "oauth2": ["SETTLEMENTS_READ"]
@@ -1089,6 +1113,12 @@
                     "maximum": 200,
                     "required": false
 
+                }, {
+                    "name": "batch_token",
+                    "description": "A pagination cursor to retrieve the next set of results for your\noriginal query to the endpoint.",
+                    "type": "string",
+                    "in": "query",
+                    "required": false
                 }],
                 "security": [{
                     "oauth2": ["PAYMENTS_READ"]
@@ -1189,6 +1219,12 @@
                     "maximum": 200,
                     "required": false
 
+                }, {
+                    "name": "batch_token",
+                    "description": "A pagination cursor to retrieve the next set of results for your\noriginal query to the endpoint.",
+                    "type": "string",
+                    "in": "query",
+                    "required": false
                 }],
                 "security": [{
                     "oauth2": ["ORDERS_READ"]
@@ -1402,6 +1438,12 @@
                     "schema": {
                         "$ref": "#/definitions/v1Item"
                     }
+                }, {
+                    "name": "batch_token",
+                    "description": "A pagination cursor to retrieve the next set of results for your\noriginal query to the endpoint.",
+                    "type": "string",
+                    "in": "query",
+                    "required": false
                 }],
                 "security": [{
                     "oauth2": ["ITEMS_WRITE"]
@@ -1751,6 +1793,12 @@
                     "description": "The maximum number of inventory entries to return in a single response. This value cannot exceed 1000.",
                     "type": "integer",
                     "maximum": 1000,
+                    "in": "query",
+                    "required": false
+                }, {
+                    "name": "batch_token",
+                    "description": "A pagination cursor to retrieve the next set of results for your\noriginal query to the endpoint.",
+                    "type": "string",
                     "in": "query",
                     "required": false
                 }],
