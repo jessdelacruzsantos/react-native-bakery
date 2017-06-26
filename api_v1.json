@@ -443,12 +443,6 @@
                     "schema": {
                         "$ref": "#/definitions/v1Timecard"
                     }
-                }, {
-                    "name": "batch_token",
-                    "description": "A pagination cursor to retrieve the next set of results for your\noriginal query to the endpoint.",
-                    "type": "string",
-                    "in": "query",
-                    "required": false
                 }],
                 "security": [{
                     "oauth2": ["TIMECARDS_WRITE"]
@@ -540,7 +534,7 @@
                     "type": "integer",
                     "maximum": 200
                 }, {
-                    "name": "cursor",
+                    "name": "batch_token",
                     "description": "A pagination cursor to retrieve the next set of results for your\noriginal query to the endpoint.",
                     "type": "string",
                     "in": "query",
@@ -1438,12 +1432,6 @@
                     "schema": {
                         "$ref": "#/definitions/v1Item"
                     }
-                }, {
-                    "name": "batch_token",
-                    "description": "A pagination cursor to retrieve the next set of results for your\noriginal query to the endpoint.",
-                    "type": "string",
-                    "in": "query",
-                    "required": false
                 }],
                 "security": [{
                     "oauth2": ["ITEMS_WRITE"]
@@ -1476,6 +1464,12 @@
                     "description": "The ID of the location to list items for.",
                     "type": "string",
                     "required": true
+                }, {
+                    "name": "batch_token",
+                    "description": "A pagination cursor to retrieve the next set of results for your\noriginal query to the endpoint.",
+                    "type": "string",
+                    "in": "query",
+                    "required": false
                 }],
                 "security": [{
                     "oauth2": ["ITEMS_READ"]
