@@ -4564,7 +4564,7 @@
                     "description": "The ID of the variation's associated item."
                 },
                 "ordinal": {
-                    "type": "interger",
+                    "type": "integer",
                     "description": "Indicates the variation's list position when displayed in Square Register and the merchant dashboard. If more than one variation for the same item has the same ordinal value, those variations are displayed in alphabetical order"
                 },
                 "pricing_type": {
