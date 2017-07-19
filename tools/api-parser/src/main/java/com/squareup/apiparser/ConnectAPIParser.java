@@ -85,7 +85,7 @@ public class ConnectAPIParser {
 
     ImmutableMap.Builder<String, Object> oauth = ImmutableMap.<String, Object>builder()
         .put("type", "oauth2")
-        .put("authorizationUrl", "https://connect.squareup.com/oauth2/authorize?<PARAMETERS>")
+        .put("authorizationUrl", "https://connect.squareup.com/oauth2/authorize")
         .put("flow", "accessCode")
         .put("tokenUrl", "https://connect.squareup.com/oauth2/token")
         .put("scopes", scopes.build());
