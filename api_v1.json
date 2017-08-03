@@ -4111,7 +4111,7 @@
                     "description": "The name of the item's merchant-defined category, if any."
                 },
                 "sku": {
-                    "type": "number",
+                    "type": "string",
                     "description": " The item's merchant-defined SKU, if any."
                 },
                 "item_id": {
