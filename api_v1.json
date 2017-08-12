@@ -3946,13 +3946,16 @@
                     "description": "The total of all refunds applied to the payment."
                 },
                 "swedish_rounding_money": {
-                    "$ref": "#/definitions/v1Money"
+                    "$ref": "#/definitions/v1Money",
+                    "description": "The total of money rounded on the payment."
                 },
                 "gross_sales_money": {
-                    "$ref": "#/definitions/v1Money"
+                    "$ref": "#/definitions/v1Money",
+                    "description": "The total of all sales."
                 },
                 "net_sales_money": {
-                    "$ref": "#/definitions/v1Money"
+                    "$ref": "#/definitions/v1Money",
+                    "description": "The total of all sales net taxes."
                 },
                 "inclusive_tax": {
                     "type": "array",
