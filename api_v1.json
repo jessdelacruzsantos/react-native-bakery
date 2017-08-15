@@ -3951,11 +3951,11 @@
                 },
                 "gross_sales_money": {
                     "$ref": "#/definitions/v1Money",
-                    "description": "The total of all sales."
+                    "description": "The total of all sales, including any applicable taxes."
                 },
                 "net_sales_money": {
                     "$ref": "#/definitions/v1Money",
-                    "description": "The total of all sales net taxes."
+                    "description": "The total of all sales, minus any applicable taxes."
                 },
                 "inclusive_tax": {
                     "type": "array",
