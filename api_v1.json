@@ -3947,7 +3947,7 @@
                 },
                 "swedish_rounding_money": {
                     "$ref": "#/definitions/v1Money",
-                    "description": "The total of money rounded on the payment."
+                    "description": "The total of all sales, including any applicable taxes, rounded to the smallest legal unit of currency (e.g., the nearest penny in USD, the nearest nickel in CAD)"
                 },
                 "gross_sales_money": {
                     "$ref": "#/definitions/v1Money",
