@@ -93,8 +93,9 @@ public class ConnectEndpoint {
     //   - It must be an INTERNAL endpoint, AND
     //   - The OAuth permissions set is empty
     Boolean oauthEnabled = ProtoOptions.getBooleanValueOrDefault(rootRpc.options(), "common.oauth_credential_required", true);
+    Boolean oauthScopeRequired = ProtoOptions.getBooleanValueOrDefault(rootRpc.options(), "common.oauth_scope_required", true);
     if (oauthEnabled) {
-      if (oauthPermissions.isEmpty()) {
+      if (oauthPermissions.isEmpty() && oauthScopeRequired) {
         throw new InvalidSpecException.Builder(String.format("Empty OAuth permissions on OAuth enabled endpoint '%s'", this.getPath()))
           .build();
       }
