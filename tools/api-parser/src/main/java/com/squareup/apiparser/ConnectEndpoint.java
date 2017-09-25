@@ -119,7 +119,7 @@ public class ConnectEndpoint {
 
     // Add the swagger OAuth2 security section that specifies required OAuth permissions
     JsonArray secList = new JsonArray();
-    if (!oauthPermissions.isEmpty()) {
+    if (oauthEnabled) {
       JsonObject oauth2 = new JsonObject();
       oauth2.add("oauth2", permissionsArray);
       secList.add(oauth2);
