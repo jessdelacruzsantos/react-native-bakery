@@ -3370,13 +3370,11 @@
             "properties": {
                 "calling_code": {
                     "type": "string",
-                    "description": "The phone number's international calling code. For US phone numbers, this value is +1.",
-                    "readOnly": false
+                    "description": "The phone number's international calling code. For US phone numbers, this value is +1."
                 },
                 "number": {
                     "type": "string",
-                    "description": "The phone number.",
-                    "readOnly": false
+                    "description": "The phone number."
                 }
             }
         },
@@ -3525,8 +3523,7 @@
             "properties": {
                 "id": {
                     "type": "string",
-                    "description": "The employee's unique ID.",
-                    "readOnly": true
+                    "description": "The employee's unique ID."
                 },
                 "first_name": {
                     "type": "string",
@@ -3548,8 +3545,7 @@
                     "items": {
                         "type": "string"
                     },
-                    "description": "The IDs of the locations the employee is allowed to clock in at.",
-                    "readOnly": true
+                    "description": "The IDs of the locations the employee is allowed to clock in at."
                 },
                 "email": {
                     "type": "string",
@@ -3561,23 +3557,19 @@
                         "ACTIVE",
                         "INACTIVE"
                     ],
-                    "description": "CWhether the employee is ACTIVE or INACTIVE. Inactive employees cannot sign in to Square Register.Merchants update this field from the Square Dashboard. ",
-                    "readOnly": true
+                    "description": "CWhether the employee is ACTIVE or INACTIVE. Inactive employees cannot sign in to Square Register.Merchants update this field from the Square Dashboard. "
                 },
                 "external_id": {
                     "type": "string",
-                    "description": "An ID the merchant can set to associate the employee with an entity in another system.",
-                    "readOnly": true
+                    "description": "An ID the merchant can set to associate the employee with an entity in another system."
                 },
                 "created_at": {
                     "type": "string",
-                    "description": "The time when the employee entity was created, in ISO 8601 format.",
-                    "readOnly": true
+                    "description": "The time when the employee entity was created, in ISO 8601 format."
                 },
                 "updated_at": {
                     "type": "string",
-                    "description": "The time when the employee entity was most recently updated, in ISO 8601 format.",
-                    "readOnly": true
+                    "description": "The time when the employee entity was most recently updated, in ISO 8601 format."
                 }
             }
         },
@@ -3594,8 +3586,7 @@
             "properties": {
                 "id": {
                     "type": "string",
-                    "description": "The role's unique ID, Can only be set by Square.",
-                    "readOnly": true
+                    "description": "The role's unique ID, Can only be set by Square."
                 },
                 "name": {
                     "type": "string",
@@ -3623,13 +3614,11 @@
                 },
                 "created_at": {
                     "type": "string",
-                    "description": "The time when the employee entity was created, in ISO 8601 format. Is set by Square when the Role is created.",
-                    "readOnly": true
+                    "description": "The time when the employee entity was created, in ISO 8601 format. Is set by Square when the Role is created."
                 },
                 "updated_at": {
                     "type": "string",
-                    "description": "The time when the employee entity was most recently updated, in ISO 8601 format. Is set by Square when the Role updated.",
-                    "readOnly": true
+                    "description": "The time when the employee entity was most recently updated, in ISO 8601 format. Is set by Square when the Role updated."
                 }
             }
         },
@@ -3646,8 +3635,7 @@
             "properties": {
                 "id": {
                     "type": "string",
-                    "description": "The timecard's unique ID.",
-                    "readOnly": true
+                    "description": "The timecard's unique ID."
                 },
                 "employee_id": {
                     "type": "string",
@@ -3655,8 +3643,7 @@
                 },
                 "deleted": {
                     "type": "boolean",
-                    "description": "If true, the timecard was deleted by the merchant, and it is no longer valid.",
-                    "readOnly": true
+                    "description": "If true, the timecard was deleted by the merchant, and it is no longer valid."
                 },
                 "clockin_time": {
                     "type": "string",
@@ -3676,13 +3663,11 @@
                 },
                 "created_at": {
                     "type": "string",
-                    "description": "The time when the timecard was created, in ISO 8601 format.",
-                    "readOnly": true
+                    "description": "The time when the timecard was created, in ISO 8601 format."
                 },
                 "updated_at": {
                     "type": "string",
-                    "description": "The time when the timecard was most recently updated, in ISO 8601 format.",
-                    "readOnly": true
+                    "description": "The time when the timecard was most recently updated, in ISO 8601 format."
                 }
             }
         },
