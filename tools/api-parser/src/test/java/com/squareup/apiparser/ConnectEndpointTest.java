@@ -60,11 +60,9 @@ public class ConnectEndpointTest {
   }
 
   @Test
-  public void testOnlyInternalCanDisableOAuth() throws Exception {
+  public void testPublicEndpointCanDisableOAuth() throws Exception {
     ConnectEndpoint endpoint = createEndpoint(publicEndpointDisabledOauth());
-    assertThatThrownBy(endpoint::toJson)
-        .isInstanceOf(InvalidSpecException.class)
-        .hasMessageStartingWith("OAuth can only be disabled on INTERNAL endpoints");
+    endpoint.toJson();
   }
 
   @Test
