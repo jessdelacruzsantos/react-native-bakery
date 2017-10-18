@@ -90,7 +90,6 @@ public class ConnectEndpoint {
     // OAuth permission rules
     // If the endpoint has OAuth enabled (default) then the OAuth permissions must be a non-empty set
     // If the endpoint has disabled OAuth via common.oauth_credential_required = false then
-    //   - It must be an INTERNAL endpoint, AND
     //   - The OAuth permissions set is empty
     Boolean oauthEnabled = ProtoOptions.getBooleanValueOrDefault(rootRpc.options(), "common.oauth_credential_required", true);
     Boolean oauthScopeRequired = ProtoOptions.getBooleanValueOrDefault(rootRpc.options(), "common.oauth_scope_required", true);
@@ -104,11 +103,6 @@ public class ConnectEndpoint {
         permissionsArray.add(permission);
       }
     } else {
-      if (!getReleaseStatus().equals(ProtoOptions.RELEASE_STATUS_INTERNAL)) {
-        throw new InvalidSpecException.Builder(String.format("OAuth can only be disabled on INTERNAL endpoints, endpoint '%s'", this.getPath()))
-          .build();
-      }
-
       if (!oauthPermissions.isEmpty()) {
         throw new InvalidSpecException.Builder(String.format("Cannot specify OAuth permissions with common.oauth_credential_required = false, endpoint '%s'", this.getPath()))
           .build();
