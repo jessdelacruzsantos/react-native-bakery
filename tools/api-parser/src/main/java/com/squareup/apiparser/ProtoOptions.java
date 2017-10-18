@@ -1,5 +1,6 @@
 package com.squareup.apiparser;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -78,7 +79,7 @@ class ProtoOptions {
 
   static boolean getBooleanValueOrDefault(Collection<OptionElement> options, String optionName, Boolean defaultIfMissing) {
     return options.stream()
-        .filter(option -> optionName.endsWith(option.name()))
+        .filter(option -> option.name().endsWith(optionName))
         .findFirst()
         .map(option -> Boolean.parseBoolean((String) option.value()))
         .orElse(defaultIfMissing);
@@ -87,15 +88,15 @@ class ProtoOptions {
   static Optional<String> getStringValue(Collection<OptionElement> options,
                                          String optionName) {
     return options.stream()
-        .filter(option -> optionName.endsWith(option.name()))
+        .filter(option -> option.name().endsWith(optionName))
         .findFirst()
         .map(option -> (String) option.value());
   }
 
-  private static Optional<Integer> getIntegerValue(Collection<OptionElement> options,
+  @VisibleForTesting static Optional<Integer> getIntegerValue(Collection<OptionElement> options,
                                                    String optionName) {
     return options.stream()
-        .filter(option -> optionName.endsWith(option.name()))
+        .filter(option -> option.name().endsWith(optionName))
         .findFirst()
         .map(option -> Integer.parseInt((String) option.value()));
   }
