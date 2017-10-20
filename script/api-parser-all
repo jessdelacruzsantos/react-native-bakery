@@ -1,0 +1,17 @@
+#!/bin/sh
+# See tools/api-parser/README.md for full usage notes.
+
+# Abort script at first error, when a command exits with non-zero status
+set -o errexit
+
+# Attempt to use undefined variable outputs error message, and forces an exit
+set -o nounset
+
+# If set, the return value of a pipeline is the value of the last (rightmost)
+# command to exit with a non-zero status, or zero if all commands in the
+# pipeline exit suc
+set -o pipefail
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+$DIR/api-parser $GOPATH/src/square/up/xp/connect-public-protos/protos/squareup/connect/v2/ $GOPATH/src/square/up/oauth/protos/squareup/oauth/v1
