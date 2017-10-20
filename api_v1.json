@@ -4593,7 +4593,8 @@
                 },
                 "user_data": {
                     "type": "string",
-                    "description": "Arbitrary metadata associated with the variation. Cannot exceed 255 characters."
+                    "description": "Arbitrary metadata associated with the variation. Cannot exceed 255 characters.",
+                    "required": false
                 }
             }
         },
