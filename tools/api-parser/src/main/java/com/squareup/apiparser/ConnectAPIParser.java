@@ -81,7 +81,8 @@ public class ConnectAPIParser {
         .put("EMPLOYEES_READ", "GET endpoints related to employee management")
         .put("EMPLOYEES_WRITE", "POST, PUT, and DELETE endpoints related to employee management")
         .put("TIMECARDS_READ", "GET endpoints related to employee timecards")
-        .put("TIMECARDS_WRITE", "POST, PUT, and DELETE endpoints related to employee timecards");
+        .put("TIMECARDS_WRITE", "POST, PUT, and DELETE endpoints related to employee timecards")
+        .put("PAYMENTS_WRITE_ADDITIONAL_RECIPIENTS", "Allow third party applications to deduct a portion of each transaction amount.");
 
     ImmutableMap.Builder<String, Object> oauth = ImmutableMap.<String, Object>builder()
         .put("type", "oauth2")
