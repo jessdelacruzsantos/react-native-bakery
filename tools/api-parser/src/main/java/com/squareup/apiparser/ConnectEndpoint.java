@@ -28,7 +28,17 @@ public class ConnectEndpoint {
   private final ApiReleaseType releaseType;
 
   // See http://swagger.io/specification/#pathItemObject
-  private static final ImmutableSet<String> VALID_HTTP_METHODS = ImmutableSet.of("GET", "PUT", "POST", "DELETE", "OPTIONS", "HEAD", "PATCH");
+  private static final ImmutableSet<String> VALID_HTTP_METHODS =
+      ImmutableSet.of("GET", "PUT", "POST", "DELETE", "OPTIONS", "HEAD", "PATCH");
+
+  private static final String AUTHENTICATION_METHOD_NONE = "NONE";
+  private static final String AUTHENTICATION_METHOD_OAUTH2_ACCESS_TOKEN = "OAUTH2_ACCESS_TOKEN";
+  private static final String AUTHENTICATION_METHOD_OAUTH2_CLIENT_SECRET = "OAUTH2_CLIENT_SECRET";
+  private static final Set<String> validAuthenticationMethods = ImmutableSet.of(
+      AUTHENTICATION_METHOD_NONE,
+      AUTHENTICATION_METHOD_OAUTH2_ACCESS_TOKEN,
+      AUTHENTICATION_METHOD_OAUTH2_CLIENT_SECRET
+  );
 
   ConnectEndpoint(RpcElement rpc, ProtoIndex index, ApiReleaseType releaseType) {
     this.rootRpc = checkNotNull(rpc);
@@ -49,12 +59,14 @@ public class ConnectEndpoint {
 
   String getHttpMethod() throws InvalidSpecException {
     String method = ProtoOptions.getStringValue(rootRpc.options(), "common.http_method")
-        .orElseThrow(() -> new InvalidSpecException.Builder("No common.http_method option found").setContext(this.rootRpc).build());
+        .orElseThrow(
+            () -> new InvalidSpecException.Builder("No common.http_method option found").setContext(
+                this.rootRpc).build());
 
     if (!VALID_HTTP_METHODS.contains(method)) {
       throw new InvalidSpecException.Builder(String.format("Unrecognized HTTP method '%s'", method))
-        .setContext(this.rootRpc)
-        .build();
+          .setContext(this.rootRpc)
+          .build();
     }
 
     return method;
@@ -66,6 +78,22 @@ public class ConnectEndpoint {
 
   String getReleaseStatus() {
     return ProtoOptions.getReleaseStatus(rootRpc.options(), "common.method_status");
+  }
+
+  String getAuthenticationMethod() throws InvalidSpecException {
+    String method = ProtoOptions.getStringValue(rootRpc.options(), "common.authentication_method")
+        .orElseThrow(() ->
+            new InvalidSpecException.Builder("No common.authentication_method option found")
+                .setContext(this.rootRpc)
+                .build()
+        );
+    if (!validAuthenticationMethods.contains(method)) {
+      throw new InvalidSpecException.Builder(
+          String.format("Unrecognized authentication method '%s'", method))
+          .setContext(this.rootRpc)
+          .build();
+    }
+    return method;
   }
 
   // Builds out endpoint JSON in the format expected by the Swagger 2.0 specification.
@@ -84,19 +112,22 @@ public class ConnectEndpoint {
     root.addProperty("operationId", this.getName());
     root.addProperty("description", docAnnotations.getOrDefault("desc", ""));
 
+    String authenticationMethod = getAuthenticationMethod();
     Set<String> oauthPermissions = ProtoOptions.getOAuthPermissions(rootRpc);
     JsonArray permissionsArray = new JsonArray();
 
     // OAuth permission rules
-    // If the endpoint has OAuth enabled (default) then the OAuth permissions must be a non-empty set
-    // If the endpoint has disabled OAuth via common.oauth_credential_required = false then
-    //   - The OAuth permissions set is empty
-    Boolean oauthEnabled = ProtoOptions.getBooleanValueOrDefault(rootRpc.options(), "common.oauth_credential_required", true);
-    Boolean oauthScopeRequired = ProtoOptions.getBooleanValueOrDefault(rootRpc.options(), "common.oauth_scope_required", true);
+    // If the endpoint has OAuth as the authentication method, then the OAuth permissions must be a non-empty set.
+    // Otherwise the OAuth permissions must be empty.
+    Boolean oauthEnabled = authenticationMethod.equals(AUTHENTICATION_METHOD_OAUTH2_ACCESS_TOKEN);
+    Boolean oauthScopeRequired =
+        ProtoOptions.getBooleanValueOrDefault(rootRpc.options(), "common.oauth_scope_required",
+            true);
     if (oauthEnabled) {
       if (oauthPermissions.isEmpty() && oauthScopeRequired) {
-        throw new InvalidSpecException.Builder(String.format("Empty OAuth permissions on OAuth enabled endpoint '%s'", this.getPath()))
-          .build();
+        throw new InvalidSpecException.Builder(
+            String.format("Empty OAuth permissions on OAuth enabled endpoint '%s'", this.getPath()))
+            .build();
       }
 
       for (String permission : oauthPermissions) {
@@ -104,14 +135,21 @@ public class ConnectEndpoint {
       }
     } else {
       if (!oauthPermissions.isEmpty()) {
-        throw new InvalidSpecException.Builder(String.format("Cannot specify OAuth permissions with common.oauth_credential_required = false, endpoint '%s'", this.getPath()))
-          .build();
+        throw new InvalidSpecException.Builder(String.format(
+            "Cannot specify OAuth permissions with common.oauth_credential_required = false, endpoint '%s'",
+            this.getPath()))
+            .build();
       }
 
       // Use empty permissions array further down to disable oauth security on the endpoint
     }
 
-    // Add the swagger OAuth2 security section that specifies required OAuth permissions
+    // OAuth client secret.
+    // This is the auth method for some endpoints in OAuth flow.
+    Boolean oauthClientSecretEnabled = authenticationMethod.equals(
+        AUTHENTICATION_METHOD_OAUTH2_CLIENT_SECRET);
+
+    // Add security sections.
     JsonArray secList = new JsonArray();
     if (oauthEnabled) {
       JsonObject oauth2 = new JsonObject();
@@ -122,6 +160,13 @@ public class ConnectEndpoint {
       // parsing the security section
       root.add("x-oauthpermissions", permissionsArray);
     }
+
+    if (oauthClientSecretEnabled) {
+      JsonObject clientAuth = new JsonObject();
+      clientAuth.add("oauth2ClientSecret", new JsonArray());
+      secList.add(clientAuth);
+    }
+
     root.add("security", secList);
 
     JsonArray swaggerParameters = new JsonArray();

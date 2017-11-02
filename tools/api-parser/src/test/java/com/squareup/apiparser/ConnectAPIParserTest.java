@@ -81,6 +81,12 @@ public class ConnectAPIParserTest {
 
     assertThat(oauth.get("type").getAsString(), equalTo("oauth2"));
     // TODO - Complete this
+
+    JsonObject clientAuth = secDef.getAsJsonObject("oauth2ClientSecret");
+    assertThat(clientAuth, not(nullValue()));
+    assertThat(clientAuth.get("type").getAsString(), equalTo("apiKey"));
+    assertThat(clientAuth.get("in").getAsString(), equalTo("header"));
+    assertThat(clientAuth.get("name").getAsString(), equalTo("Authorization"));
   }
 
   @Ignore

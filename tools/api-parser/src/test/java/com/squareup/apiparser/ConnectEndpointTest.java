@@ -91,6 +91,39 @@ public class ConnectEndpointTest {
         .hasMessage("Unrecognized HTTP method 'INVALID'");
   }
 
+  @Test
+  public void testMissingAuthenticationMethod() throws Exception {
+    ConnectEndpoint endpoint = createEndpoint(missingAuthenticationMethod());
+    assertThatThrownBy(endpoint::toJson)
+        .isInstanceOf(InvalidSpecException.class)
+        .hasMessage("No common.authentication_method option found");
+  }
+
+  @Test
+  public void testInvalidAuthenticationMethod() throws Exception {
+    ConnectEndpoint endpoint = createEndpoint(invalidAuthenticationMethod());
+    assertThatThrownBy(endpoint::toJson)
+        .isInstanceOf(InvalidSpecException.class)
+        .hasMessage("Unrecognized authentication method 'INVALID'");
+  }
+
+  @Test
+  public void testOAuth2ClientSecret() throws Exception {
+    ConnectEndpoint endpoint = createEndpoint(publicEndpointOAuth2ClientSecret());
+    JsonObject json = endpoint.toJson();
+
+    JsonArray security = json.getAsJsonArray("security");
+    assertThat(security, notNullValue());
+    boolean foundAuth = false;
+    for (int i = 0; i < security.size(); i++) {
+      JsonObject section = security.get(i).getAsJsonObject();
+      if (section.has("oauth2ClientSecret")) {
+        foundAuth = true;
+      }
+    }
+    assertTrue(foundAuth);
+  }
+
   private ConnectEndpoint createEndpoint(ImmutableList<OptionElement> options) throws Exception {
     String doc = "  /*--\n"
         + "    @desc For executing delayed capture.\n"
@@ -118,6 +151,7 @@ public class ConnectEndpointTest {
 
   private ImmutableList<OptionElement> defaultOptions() {
     List<OptionElement> opts = baseOptions();
+    opts.add(OptionElement.create("common.authentication_method", OptionElement.Kind.STRING, "OAUTH2_ACCESS_TOKEN"));
     opts.add(OptionElement.create("common.oauth_permissions", OptionElement.Kind.MAP,
         ImmutableMap.of("value", ImmutableList.of("PAYMENTS_WRITE"))));
     opts.add(OptionElement.create("common.method_status", OptionElement.Kind.STRING, "PUBLIC"));
@@ -126,6 +160,7 @@ public class ConnectEndpointTest {
 
   private ImmutableList<OptionElement> publicEndpointMissingOAuthPermissions() {
     List<OptionElement> opts = baseOptions();
+    opts.add(OptionElement.create("common.authentication_method", OptionElement.Kind.STRING, "OAUTH2_ACCESS_TOKEN"));
     opts.add(OptionElement.create("common.oauth_permissions", OptionElement.Kind.MAP,
         ImmutableMap.of("value", ImmutableList.of())));
     opts.add(OptionElement.create("common.method_status", OptionElement.Kind.STRING, "PUBLIC"));
@@ -134,29 +169,50 @@ public class ConnectEndpointTest {
 
   private ImmutableList<OptionElement> publicEndpointDisabledOauth() {
     List<OptionElement> opts = baseOptions();
+    opts.add(OptionElement.create("common.authentication_method", OptionElement.Kind.STRING, "NONE"));
     opts.add(OptionElement.create("common.oauth_permissions", OptionElement.Kind.MAP,
         ImmutableMap.of("value", ImmutableList.of())));
     opts.add(OptionElement.create("common.method_status", OptionElement.Kind.STRING, "PUBLIC"));
-    opts.add(OptionElement.create("common.oauth_credential_required", OptionElement.Kind.STRING, "false"));
     return ImmutableList.copyOf(opts);
   }
 
   private ImmutableList<OptionElement> internalEndpointDisabledOauth() {
     List<OptionElement> opts = baseOptions();
+    opts.add(OptionElement.create("common.authentication_method", OptionElement.Kind.STRING, "NONE"));
     opts.add(OptionElement.create("common.oauth_permissions", OptionElement.Kind.MAP,
         ImmutableMap.of("value", ImmutableList.of())));
     opts.add(OptionElement.create("common.method_status", OptionElement.Kind.STRING, "INTERNAL"));
-    opts.add(OptionElement.create("common.oauth_credential_required", OptionElement.Kind.STRING, "false"));
     return ImmutableList.copyOf(opts);
   }
 
   private ImmutableList<OptionElement> invalidHttpMethodOptions() {
     List<OptionElement> opts = new ArrayList<>();
+    opts.add(OptionElement.create("common.authentication_method", OptionElement.Kind.STRING, "OAUTH2_ACCESS_TOKEN"));
     opts.add(OptionElement.create("common.oauth_permissions", OptionElement.Kind.MAP,
         ImmutableMap.of("value", ImmutableList.of("PAYMENTS_WRITE"))));
     opts.add(OptionElement.create("common.entity", OptionElement.Kind.STRING, "Transaction"));
     opts.add(OptionElement.create("common.path", OptionElement.Kind.STRING, "/v2/locations/{location_id}/transactions/{transaction_id}/capture"));
     opts.add(OptionElement.create("common.http_method", OptionElement.Kind.STRING, "INVALID"));
+    opts.add(OptionElement.create("common.method_status", OptionElement.Kind.STRING, "PUBLIC"));
+    return ImmutableList.copyOf(opts);
+  }
+
+  private ImmutableList<OptionElement> missingAuthenticationMethod() {
+    List<OptionElement> opts = baseOptions();
+    opts.add(OptionElement.create("common.method_status", OptionElement.Kind.STRING, "PUBLIC"));
+    return ImmutableList.copyOf(opts);
+  }
+
+  private ImmutableList<OptionElement> invalidAuthenticationMethod() {
+    List<OptionElement> opts = baseOptions();
+    opts.add(OptionElement.create("common.method_status", OptionElement.Kind.STRING, "PUBLIC"));
+    opts.add(OptionElement.create("common.authentication_method", OptionElement.Kind.STRING, "INVALID"));
+    return ImmutableList.copyOf(opts);
+  }
+
+  private ImmutableList<OptionElement> publicEndpointOAuth2ClientSecret() {
+    List<OptionElement> opts = baseOptions();
+    opts.add(OptionElement.create("common.authentication_method", OptionElement.Kind.STRING, "OAUTH2_CLIENT_SECRET"));
     opts.add(OptionElement.create("common.method_status", OptionElement.Kind.STRING, "PUBLIC"));
     return ImmutableList.copyOf(opts);
   }
