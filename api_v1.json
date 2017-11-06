@@ -4958,16 +4958,13 @@
                     "description": "The column of the cell. Always an integer between 0 and 4, inclusive."
                 },
                 "object_type": {
-                    "type": "array",
-                    "items": {
-                        "type": "string",
-                        "enum": [
-                            "ITEM",
-                            "DISCOUNT",
-                            "CATEGORY",
-                            "PLACEHOLDER"
-                        ]
-                    },
+                    "type": "string",
+                    "enum": [
+                        "ITEM",
+                        "DISCOUNT",
+                        "CATEGORY",
+                        "PLACEHOLDER"
+                    ],
                     "description": "The type of entity represented in the cell (ITEM, DISCOUNT, CATEGORY, or PLACEHOLDER)."
                 },
                 "object_id": {
@@ -4975,15 +4972,12 @@
                     "description": "The unique identifier of the entity represented in the cell. Not present for cells with an object_type of PLACEHOLDER."
                 },
                 "placeholder_type": {
-                    "type": "array",
-                    "items": {
-                        "type": "string",
-                        "enum": [
-                            "ALL_ITEMS",
-                            "DISCOUNTS_CATEGORY",
-                            "REWARDS_FINDER"
-                        ]
-                    },
+                    "type": "string",
+                    "enum": [
+                        "ALL_ITEMS",
+                        "DISCOUNTS_CATEGORY",
+                        "REWARDS_FINDER"
+                    ],
                     "description": "For a cell with an object_type of PLACEHOLDER, this value indicates the cell's special behavior."
                 }
             }
