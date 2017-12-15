@@ -4,5 +4,6 @@ public enum SdkLanguage {
   RUBY,
   PHP,
   PYTHON,
-  CSHARP
+  CSHARP,
+  JAVASCRIPT
 }
