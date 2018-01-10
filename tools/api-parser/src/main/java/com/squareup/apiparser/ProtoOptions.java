@@ -4,6 +4,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
 import com.squareup.wire.schema.Field;
 import com.squareup.wire.schema.internal.parser.FieldElement;
 import com.squareup.wire.schema.internal.parser.OptionElement;
@@ -85,12 +86,20 @@ class ProtoOptions {
         .orElse(defaultIfMissing);
   }
 
-  static Optional<String> getStringValue(Collection<OptionElement> options,
-                                         String optionName) {
+  static Optional<String> getStringValue(Collection<OptionElement> options, String optionName) {
     return options.stream()
         .filter(option -> option.name().endsWith(optionName))
         .findFirst()
         .map(option -> (String) option.value());
+  }
+
+  static Optional<List<String>> getStringListValue(Collection<OptionElement> options, String optionName) {
+    return options.stream()
+        .filter(option -> option.name().endsWith(optionName))
+        .findFirst()
+        .map(option -> (Map<String, List<String>>) option.value())
+        .map(option -> Iterables.<List<String>>getOnlyElement(option.values(), ImmutableList.of()))
+        .map(ImmutableList::copyOf);
   }
 
   @VisibleForTesting static Optional<Integer> getIntegerValue(Collection<OptionElement> options,
