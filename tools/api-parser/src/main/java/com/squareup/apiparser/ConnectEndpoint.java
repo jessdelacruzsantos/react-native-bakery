@@ -2,6 +2,7 @@ package com.squareup.apiparser;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.squareup.wire.schema.internal.parser.RpcElement;
@@ -32,12 +33,15 @@ public class ConnectEndpoint {
       ImmutableSet.of("GET", "PUT", "POST", "DELETE", "OPTIONS", "HEAD", "PATCH");
 
   private static final String AUTHENTICATION_METHOD_NONE = "NONE";
+      // TODO(alec): Delete after removing authentication_method
   private static final String AUTHENTICATION_METHOD_OAUTH2_ACCESS_TOKEN = "OAUTH2_ACCESS_TOKEN";
   private static final String AUTHENTICATION_METHOD_OAUTH2_CLIENT_SECRET = "OAUTH2_CLIENT_SECRET";
-  private static final Set<String> validAuthenticationMethods = ImmutableSet.of(
+  private static final String AUTHENTICATION_METHOD_MULTIPASS = "MULTIPASS";
+  private static final Set<String> VALID_AUTHENTICATION_METHODS = ImmutableSet.of(
       AUTHENTICATION_METHOD_NONE,
       AUTHENTICATION_METHOD_OAUTH2_ACCESS_TOKEN,
-      AUTHENTICATION_METHOD_OAUTH2_CLIENT_SECRET
+      AUTHENTICATION_METHOD_OAUTH2_CLIENT_SECRET,
+      AUTHENTICATION_METHOD_MULTIPASS
   );
 
   ConnectEndpoint(RpcElement rpc, ProtoIndex index, ApiReleaseType releaseType) {
@@ -80,20 +84,68 @@ public class ConnectEndpoint {
     return ProtoOptions.getReleaseStatus(rootRpc.options(), "common.method_status");
   }
 
-  String getAuthenticationMethod() throws InvalidSpecException {
-    String method = ProtoOptions.getStringValue(rootRpc.options(), "common.authentication_method")
-        .orElseThrow(() ->
-            new InvalidSpecException.Builder("No common.authentication_method option found")
-                .setContext(this.rootRpc)
-                .build()
-        );
-    if (!validAuthenticationMethods.contains(method)) {
+  // TODO: delete this method once authentication_method is removed.
+  @Deprecated private Optional<String> getOldAuthenticationMethod() throws InvalidSpecException {
+    Optional<String> method =
+        ProtoOptions.getStringValue(rootRpc.options(), "common.authentication_method");
+
+    method.ifPresent(m -> {
+      if (!VALID_AUTHENTICATION_METHODS.contains(m)) {
+        throw new InvalidSpecException.Builder(
+            String.format("Unrecognized authentication method '%s'", m))
+            .setContext(this.rootRpc)
+            .build();
+      }
+    });
+
+    return method;
+  }
+
+  // TODO: after authentication_method is removed, have this return Set<String>
+  private Optional<Set<String>> getNewAuthenticationMethods() throws InvalidSpecException {
+    Optional<Set<String>> methods =
+        ProtoOptions.getStringListValue(rootRpc.options(), "common.authentication_methods")
+            .map(ImmutableSet::copyOf);
+
+    methods.ifPresent(m -> {
+      Set<String> invalidMethods = Sets.difference(m, VALID_AUTHENTICATION_METHODS);
+      if (!invalidMethods.isEmpty()) {
+        throw new InvalidSpecException.Builder(
+            String.format("Unrecognized authentication methods: %s",
+                String.join(",", invalidMethods)))
+            .setContext(this.rootRpc)
+            .build();
+      }
+    });
+
+    return methods;
+  }
+
+  Set<String> getAuthenticationMethods() throws InvalidSpecException {
+    Optional<String> oldMethod = getOldAuthenticationMethod();
+    Optional<Set<String>> methods = getNewAuthenticationMethods();
+
+    if (!oldMethod.isPresent() && !methods.isPresent()) {
       throw new InvalidSpecException.Builder(
-          String.format("Unrecognized authentication method '%s'", method))
+          "No common.authentication_method or common.authentication_methods option found")
+          .setContext(this.rootRpc)
+          .build();
+    } else if (!methods.isPresent()) {
+      return ImmutableSet.of(oldMethod.get());
+    } else if (!oldMethod.isPresent()) {
+      return methods.get();
+    }
+
+    if (!methods.get().contains(oldMethod.get())) {
+      throw new InvalidSpecException.Builder(
+          String.format(
+              "common.authentication_methods must contain common.authentication_method `%s`",
+              oldMethod.get()))
           .setContext(this.rootRpc)
           .build();
     }
-    return method;
+
+    return methods.get();
   }
 
   // Builds out endpoint JSON in the format expected by the Swagger 2.0 specification.
@@ -112,14 +164,15 @@ public class ConnectEndpoint {
     root.addProperty("operationId", this.getName());
     root.addProperty("description", docAnnotations.getOrDefault("desc", ""));
 
-    String authenticationMethod = getAuthenticationMethod();
+    Set<String> authenticationMethods = getAuthenticationMethods();
     Set<String> oauthPermissions = ProtoOptions.getOAuthPermissions(rootRpc);
     JsonArray permissionsArray = new JsonArray();
 
     // OAuth permission rules
     // If the endpoint has OAuth as the authentication method, then the OAuth permissions must be a non-empty set.
     // Otherwise the OAuth permissions must be empty.
-    Boolean oauthEnabled = authenticationMethod.equals(AUTHENTICATION_METHOD_OAUTH2_ACCESS_TOKEN);
+    Boolean oauthEnabled =
+        authenticationMethods.contains(AUTHENTICATION_METHOD_OAUTH2_ACCESS_TOKEN);
     Boolean oauthScopeRequired =
         ProtoOptions.getBooleanValueOrDefault(rootRpc.options(), "common.oauth_scope_required",
             true);
@@ -146,7 +199,7 @@ public class ConnectEndpoint {
 
     // OAuth client secret.
     // This is the auth method for some endpoints in OAuth flow.
-    Boolean oauthClientSecretEnabled = authenticationMethod.equals(
+    Boolean oauthClientSecretEnabled = authenticationMethods.contains(
         AUTHENTICATION_METHOD_OAUTH2_CLIENT_SECRET);
 
     // Add security sections.
