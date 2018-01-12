@@ -32,13 +32,10 @@ public class ConnectEndpoint {
   private static final ImmutableSet<String> VALID_HTTP_METHODS =
       ImmutableSet.of("GET", "PUT", "POST", "DELETE", "OPTIONS", "HEAD", "PATCH");
 
-  private static final String AUTHENTICATION_METHOD_NONE = "NONE";
-      // TODO(alec): Delete after removing authentication_method
   private static final String AUTHENTICATION_METHOD_OAUTH2_ACCESS_TOKEN = "OAUTH2_ACCESS_TOKEN";
   private static final String AUTHENTICATION_METHOD_OAUTH2_CLIENT_SECRET = "OAUTH2_CLIENT_SECRET";
   private static final String AUTHENTICATION_METHOD_MULTIPASS = "MULTIPASS";
   private static final Set<String> VALID_AUTHENTICATION_METHODS = ImmutableSet.of(
-      AUTHENTICATION_METHOD_NONE,
       AUTHENTICATION_METHOD_OAUTH2_ACCESS_TOKEN,
       AUTHENTICATION_METHOD_OAUTH2_CLIENT_SECRET,
       AUTHENTICATION_METHOD_MULTIPASS
@@ -84,68 +81,25 @@ public class ConnectEndpoint {
     return ProtoOptions.getReleaseStatus(rootRpc.options(), "common.method_status");
   }
 
-  // TODO: delete this method once authentication_method is removed.
-  @Deprecated private Optional<String> getOldAuthenticationMethod() throws InvalidSpecException {
-    Optional<String> method =
-        ProtoOptions.getStringValue(rootRpc.options(), "common.authentication_method");
-
-    method.ifPresent(m -> {
-      if (!VALID_AUTHENTICATION_METHODS.contains(m)) {
-        throw new InvalidSpecException.Builder(
-            String.format("Unrecognized authentication method '%s'", m))
-            .setContext(this.rootRpc)
-            .build();
-      }
-    });
-
-    return method;
-  }
-
-  // TODO: after authentication_method is removed, have this return Set<String>
-  private Optional<Set<String>> getNewAuthenticationMethods() throws InvalidSpecException {
-    Optional<Set<String>> methods =
+  Set<String> getAuthenticationMethods() throws InvalidSpecException {
+    Set<String> methods =
         ProtoOptions.getStringListValue(rootRpc.options(), "common.authentication_methods")
-            .map(ImmutableSet::copyOf);
+            .map(ImmutableSet::copyOf)
+            .orElseThrow(() -> new InvalidSpecException.Builder(
+                "No common.authentication_methods option found")
+                .setContext(this.rootRpc)
+                .build());
 
-    methods.ifPresent(m -> {
-      Set<String> invalidMethods = Sets.difference(m, VALID_AUTHENTICATION_METHODS);
-      if (!invalidMethods.isEmpty()) {
-        throw new InvalidSpecException.Builder(
-            String.format("Unrecognized authentication methods: %s",
-                String.join(",", invalidMethods)))
-            .setContext(this.rootRpc)
-            .build();
-      }
-    });
+    Set<String> invalidMethods = Sets.difference(methods, VALID_AUTHENTICATION_METHODS);
+    if (!invalidMethods.isEmpty()) {
+      throw new InvalidSpecException.Builder(
+          String.format("Unrecognized authentication methods: %s",
+              String.join(",", invalidMethods)))
+          .setContext(this.rootRpc)
+          .build();
+    }
 
     return methods;
-  }
-
-  Set<String> getAuthenticationMethods() throws InvalidSpecException {
-    Optional<String> oldMethod = getOldAuthenticationMethod();
-    Optional<Set<String>> methods = getNewAuthenticationMethods();
-
-    if (!oldMethod.isPresent() && !methods.isPresent()) {
-      throw new InvalidSpecException.Builder(
-          "No common.authentication_method or common.authentication_methods option found")
-          .setContext(this.rootRpc)
-          .build();
-    } else if (!methods.isPresent()) {
-      return ImmutableSet.of(oldMethod.get());
-    } else if (!oldMethod.isPresent()) {
-      return methods.get();
-    }
-
-    if (!methods.get().contains(oldMethod.get())) {
-      throw new InvalidSpecException.Builder(
-          String.format(
-              "common.authentication_methods must contain common.authentication_method `%s`",
-              oldMethod.get()))
-          .setContext(this.rootRpc)
-          .build();
-    }
-
-    return methods.get();
   }
 
   // Builds out endpoint JSON in the format expected by the Swagger 2.0 specification.

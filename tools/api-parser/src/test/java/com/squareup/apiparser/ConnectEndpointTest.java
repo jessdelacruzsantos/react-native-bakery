@@ -60,28 +60,6 @@ public class ConnectEndpointTest {
     assertThat(perms.getAsString(), equalTo("PAYMENTS_WRITE"));
   }
 
-  // TODO: delete this test once authentication_method is removed.
-  @Test
-  public void testToJsonIncludingDeprecatedAuthenticationMethod() throws Exception {
-    ConnectEndpoint endpoint = createEndpoint(defaultOptionsWithDeprecatedAuthenticationMethod());
-    JsonObject json = endpoint.toJson();
-
-    JsonObject responses = json.get("responses").getAsJsonObject();
-    assertThat(responses.get("200"), notNullValue());
-
-    assertThat(json.get("description").getAsString(), equalTo("For executing delayed capture."));
-
-    JsonArray params = json.get("parameters").getAsJsonArray();
-    List<String> names = StreamSupport.stream(params.getAsJsonArray().spliterator(), false)
-        .map(o -> o.getAsJsonObject().get("name").getAsString())
-        .collect(Collectors.toList());
-    assertThat(names, equalTo(Arrays.asList("location_id", "transaction_id", "body")));
-
-    JsonArray perms = json.get("x-oauthpermissions").getAsJsonArray();
-    assertThat(perms.size(), equalTo(1));
-    assertThat(perms.getAsString(), equalTo("PAYMENTS_WRITE"));
-  }
-
   @Test
   public void testPublicEndpointCanDisableOAuth() throws Exception {
     ConnectEndpoint endpoint = createEndpoint(publicEndpointDisabledOauth());
@@ -120,31 +98,16 @@ public class ConnectEndpointTest {
     assertThatThrownBy(endpoint::toJson)
         .isInstanceOf(InvalidSpecException.class)
         .hasMessage(
-            "No common.authentication_method or common.authentication_methods option found");
+            "No common.authentication_methods option found");
   }
 
   @Test
-  public void testInvalidAuthenticationMethod() throws Exception {
-    ConnectEndpoint endpoint = createEndpoint(invalidAuthenticationMethod());
-    assertThatThrownBy(endpoint::toJson)
-        .isInstanceOf(InvalidSpecException.class)
-        .hasMessage("Unrecognized authentication method 'INVALID'");
-  }
-
-  @Test public void testInvalidAuthenticationMethods() throws Exception {
+  public void testInvalidAuthenticationMethods() throws Exception {
     ConnectEndpoint endpoint = createEndpoint(authenticationMethods(
         Optional.of(ImmutableList.of("MULTIPASS", "INVALID"))));
     assertThatThrownBy(endpoint::toJson)
         .isInstanceOf(InvalidSpecException.class)
         .hasMessage("Unrecognized authentication methods: INVALID");
-  }
-
-  @Test public void testAuthenticationMethodsContainsAuthenticationMethod() throws Exception {
-    ConnectEndpoint endpoint = createEndpoint(authenticationMethodsMissingAuthenticationMethod());
-    assertThatThrownBy(endpoint::toJson)
-        .isInstanceOf(InvalidSpecException.class)
-        .hasMessage(
-            "common.authentication_methods must contain common.authentication_method `OAUTH2_ACCESS_TOKEN`");
   }
 
   @Test
@@ -210,8 +173,9 @@ public class ConnectEndpointTest {
 
   private ImmutableList<OptionElement> publicEndpointMissingOAuthPermissions() {
     List<OptionElement> opts = baseOptions();
-    opts.add(OptionElement.create("common.authentication_method", OptionElement.Kind.STRING,
-        "OAUTH2_ACCESS_TOKEN"));
+    opts.add(OptionElement.create(
+        "common.authentication_methods", OptionElement.Kind.MAP, ImmutableMap.of(
+            "value", ImmutableList.of("OAUTH2_ACCESS_TOKEN"))));
     opts.add(OptionElement.create("common.oauth_permissions", OptionElement.Kind.MAP,
         ImmutableMap.of("value", ImmutableList.of())));
     opts.add(OptionElement.create("common.method_status", OptionElement.Kind.STRING, "PUBLIC"));
@@ -220,8 +184,8 @@ public class ConnectEndpointTest {
 
   private ImmutableList<OptionElement> publicEndpointDisabledOauth() {
     List<OptionElement> opts = baseOptions();
-    opts.add(
-        OptionElement.create("common.authentication_method", OptionElement.Kind.STRING, "NONE"));
+    opts.add(OptionElement.create(
+        "common.authentication_methods", OptionElement.Kind.MAP, ImmutableMap.of()));
     opts.add(OptionElement.create("common.oauth_permissions", OptionElement.Kind.MAP,
         ImmutableMap.of("value", ImmutableList.of())));
     opts.add(OptionElement.create("common.method_status", OptionElement.Kind.STRING, "PUBLIC"));
@@ -230,8 +194,8 @@ public class ConnectEndpointTest {
 
   private ImmutableList<OptionElement> internalEndpointDisabledOauth() {
     List<OptionElement> opts = baseOptions();
-    opts.add(
-        OptionElement.create("common.authentication_method", OptionElement.Kind.STRING, "NONE"));
+    opts.add(OptionElement.create(
+        "common.authentication_methods", OptionElement.Kind.MAP, ImmutableMap.of()));
     opts.add(OptionElement.create("common.oauth_permissions", OptionElement.Kind.MAP,
         ImmutableMap.of("value", ImmutableList.of())));
     opts.add(OptionElement.create("common.method_status", OptionElement.Kind.STRING, "INTERNAL"));
@@ -240,8 +204,9 @@ public class ConnectEndpointTest {
 
   private ImmutableList<OptionElement> invalidHttpMethodOptions() {
     List<OptionElement> opts = new ArrayList<>();
-    opts.add(OptionElement.create("common.authentication_method", OptionElement.Kind.STRING,
-        "OAUTH2_ACCESS_TOKEN"));
+    opts.add(OptionElement.create(
+        "common.authentication_methods", OptionElement.Kind.MAP, ImmutableMap.of(
+            "value", ImmutableList.of("OAUTH2_ACCESS_TOKEN"))));
     opts.add(OptionElement.create("common.oauth_permissions", OptionElement.Kind.MAP,
         ImmutableMap.of("value", ImmutableList.of("PAYMENTS_WRITE"))));
     opts.add(OptionElement.create("common.entity", OptionElement.Kind.STRING, "Transaction"));
@@ -258,24 +223,6 @@ public class ConnectEndpointTest {
     return ImmutableList.copyOf(opts);
   }
 
-  private ImmutableList<OptionElement> invalidAuthenticationMethod() {
-    List<OptionElement> opts = baseOptions();
-    opts.add(OptionElement.create("common.method_status", OptionElement.Kind.STRING, "PUBLIC"));
-    opts.add(
-        OptionElement.create("common.authentication_method", OptionElement.Kind.STRING, "INVALID"));
-    return ImmutableList.copyOf(opts);
-  }
-
-  private ImmutableList<OptionElement> authenticationMethodsMissingAuthenticationMethod() {
-    List<OptionElement> opts = baseOptions();
-    opts.add(OptionElement.create("common.method_status", OptionElement.Kind.STRING, "PUBLIC"));
-    opts.add(OptionElement.create("common.authentication_method", OptionElement.Kind.STRING,
-        "OAUTH2_ACCESS_TOKEN"));
-    opts.add(OptionElement.create("common.authentication_methods", OptionElement.Kind.MAP,
-        ImmutableMap.of("value", ImmutableList.of("MULTIPASS"))));
-    return ImmutableList.copyOf(opts);
-  }
-
   private ImmutableList<OptionElement> authenticationMethods(
       Optional<List<String>> maybeAuthMethods) {
     ImmutableList.Builder<OptionElement> opts = ImmutableList.<OptionElement>builder()
@@ -283,16 +230,17 @@ public class ConnectEndpointTest {
     opts.add(OptionElement.create("common.method_status", OptionElement.Kind.STRING, "PUBLIC"));
 
     maybeAuthMethods.ifPresent(authMethods ->
-        opts.add(OptionElement.create("common.authentication_methods", OptionElement.Kind.MAP,
-            ImmutableMap.of("value", ImmutableList.copyOf(authMethods)))));
+        opts.add(OptionElement.create("common.authentication_methods",
+            OptionElement.Kind.MAP, ImmutableMap.of("value", ImmutableList.copyOf(authMethods)))));
 
     return opts.build();
   }
 
   private ImmutableList<OptionElement> publicEndpointOAuth2ClientSecret() {
     List<OptionElement> opts = baseOptions();
-    opts.add(OptionElement.create("common.authentication_method", OptionElement.Kind.STRING,
-        "OAUTH2_CLIENT_SECRET"));
+    opts.add(OptionElement.create(
+        "common.authentication_methods", OptionElement.Kind.MAP, ImmutableMap.of(
+            "value", ImmutableList.of("OAUTH2_CLIENT_SECRET"))));
     opts.add(OptionElement.create("common.method_status", OptionElement.Kind.STRING, "PUBLIC"));
     return ImmutableList.copyOf(opts);
   }
