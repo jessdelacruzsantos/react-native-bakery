@@ -6,6 +6,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Ordering;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -14,12 +15,19 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import static com.squareup.apiparser.Json.GSON;
 
 public class ConnectAPIParser {
+
+  // Compound ordering of ConnectEndpoint by (path, method).
+  private static final Ordering<ConnectEndpoint> ENDPOINT_ORDERING = Ordering.natural()
+      .onResultOf(ConnectEndpoint::getPath)
+      .compound(Ordering.natural()
+          .onResultOf(ConnectEndpoint::getHttpMethod));
 
   static class JsonAPI {
     final JsonObject swagger;
@@ -112,7 +120,8 @@ public class ConnectAPIParser {
 
     JsonObject jsonEndpoints = new JsonObject();
 
-    for (ConnectEndpoint endpoint : index.getEndpoints()) {
+    List<ConnectEndpoint> endpoints = ENDPOINT_ORDERING.sortedCopy(index.getEndpoints());
+    for (ConnectEndpoint endpoint : endpoints) {
       if (apiReleaseType.shouldInclude(endpoint.getReleaseType())) {
         if (!jsonEndpoints.has(endpoint.getPath())) {
           jsonEndpoints.add(endpoint.getPath(), new JsonObject());
