@@ -15,7 +15,7 @@ service SquareConnectV3 {
     option (common.entity) = "Transaction";
     option (common.path) = "/v2/locations/{location_id}/transactions/{transaction_id}";
     option (common.http_method) = POST;
-    option (common.authentication_method) = OAUTH2_ACCESS_TOKEN;
+    option (common.authentication_methods) = { value: [OAUTH2_ACCESS_TOKEN] };
     option (common.oauth_permissions) = { value: [PAYMENTS_WRITE] };
   }
 
@@ -26,7 +26,7 @@ service SquareConnectV3 {
     option (common.entity) = "Transaction";
     option (common.path) = "/v2/locations/{location_id}/transactions/{transaction_id}";
     option (common.http_method) = GET;
-    option (common.authentication_method) = OAUTH2_ACCESS_TOKEN;
+    option (common.authentication_methods) = { value: [OAUTH2_ACCESS_TOKEN] };
     option (common.oauth_permissions) = { value: [PAYMENTS_READ] };
   };
 }
