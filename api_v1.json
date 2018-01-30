@@ -4214,6 +4214,7 @@
                         "SQUARE_CAPITAL_REVERSED_PAYMENT",
                         "SUBSCRIPTION_FEE",
                         "SUBSCRIPTION_FEE_REFUND",
+                        "OTHER",
                         "INCENTED_PAYMENT",
                         "RETURNED_ACH_ENTRY",
                         "RETURNED_SQUARE_275",
