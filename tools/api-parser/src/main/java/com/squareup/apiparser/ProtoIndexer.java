@@ -28,10 +28,19 @@ class ProtoIndexer {
 
   private final List<ConnectType> protoTypes = new ArrayList<>();
   private final List<ConnectService> protoServices = new ArrayList<>();
+  private final boolean ignoreOneofs;
+
+  ProtoIndexer(boolean ignoreOneofs) {
+    this.ignoreOneofs = ignoreOneofs;
+  }
+
+  ProtoIndexer() {
+    this(false);
+  }
 
   ProtoIndex indexProtos(List<String> protoPaths)
       throws IOException, AnnotationException {
-    final ProtoIndex index = new ProtoIndex(new ExampleResolver(protoPaths));
+    final ProtoIndex index = new ProtoIndex(new ExampleResolver(protoPaths), ignoreOneofs);
     for (String path : protoPaths) {
       Files.walkFileTree(Paths.get(path), new SimpleFileVisitor<Path>() {
         @Override public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)

@@ -157,6 +157,7 @@ public class ConnectAPIParser {
   }
 
   private static void writeJson(String json, Path path) {
+    System.out.println("Writing " + path);
     try (PrintWriter writer = new PrintWriter(path.toString(), "UTF-8")) {
       writer.println(json);
     } catch (Exception e) {
@@ -189,7 +190,7 @@ public class ConnectAPIParser {
 
       ImmutableList<String> protoPaths = ImmutableList.copyOf(configuration.getProtobufLocations());
 
-      ProtoIndex index = new ProtoIndexer().indexProtos(protoPaths);
+      ProtoIndex index = new ProtoIndexer(configuration.isIgnoreOneofs()).indexProtos(protoPaths);
 
       JsonAPI api = getJsonAPI(configuration, ApiReleaseType.ALL, index);
       Path allAPIOutputPath = outputPath.resolve("api_internal.json");

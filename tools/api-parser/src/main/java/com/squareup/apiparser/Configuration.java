@@ -26,6 +26,11 @@ class Configuration {
   @Parameter(names = "-mergev1", description = "Location of v1 api.json to merge in")
   private String v1APISchemaFile = "";
 
+  // This option is only to support development of unreleased features.
+  // No protos for released APIs should contain oneofs.
+  @Parameter(names = "--ignoreoneofs", description = "If set, ignore oneofs instead of failing to create a specification")
+  private boolean ignoreOneofs = false;
+
   List<String> getProtobufLocations() {
     return protobufLocations;
   }
@@ -48,5 +53,9 @@ class Configuration {
 
   String getV1APISchemaFile() {
     return v1APISchemaFile;
+  }
+
+  boolean isIgnoreOneofs() {
+    return ignoreOneofs;
   }
 }

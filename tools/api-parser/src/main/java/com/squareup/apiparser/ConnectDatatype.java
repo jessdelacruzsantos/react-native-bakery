@@ -21,10 +21,15 @@ class ConnectDatatype extends ConnectType {
   private final Optional<JsonObject> example;
   private final Optional<String> exampleType;
   private final Optional<JsonElement> sdkSamples;
+  private final boolean ignoreOneofs;
 
-  ConnectDatatype(ApiReleaseType releaseType, TypeElement rootType, String packageName,
+  ConnectDatatype(
+      ApiReleaseType releaseType,
+      TypeElement rootType,
+      String packageName,
       Optional<ConnectType> parentType,
-      ExampleResolver exampleResolver) {
+      ExampleResolver exampleResolver,
+      boolean ignoreOneofs) {
     super(releaseType, rootType, packageName, parentType);
 
     this.example = ProtoOptions.exampleFilename(rootType.options())
@@ -32,6 +37,7 @@ class ConnectDatatype extends ConnectType {
     this.exampleType = ProtoOptions.exampleType(rootType.options());
     this.sdkSamples = ProtoOptions.sdkSampleDirectory(rootType.options())
         .map(SdkSampleDirectoryResolver.resolveSamplePath(rootType.name()));
+    this.ignoreOneofs = ignoreOneofs;
   }
 
   List<ConnectField> getFields() {
@@ -54,7 +60,7 @@ class ConnectDatatype extends ConnectType {
             index.getEnumType(f.type())))
         .collect(Collectors.toList());
 
-    if (!rootMessage.oneOfs().isEmpty()) {
+    if (!ignoreOneofs && !rootMessage.oneOfs().isEmpty()) {
       throw new IllegalUseOfOneOfException(rootMessage);
     }
   }

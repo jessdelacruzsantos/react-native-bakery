@@ -24,7 +24,7 @@ public class ConnectAPIParserTest {
   @Test
   public void testSwaggerAndInfoObjects() throws Exception {
     ExampleResolver resolver = new ExampleResolver(ImmutableList.of(""));
-    ProtoIndex index = new ProtoIndex(resolver);
+    ProtoIndex index = new ProtoIndex(resolver, false);
     Configuration config = new Configuration();
     ConnectAPIParser.JsonAPI api =
         new ConnectAPIParser().parseAPI(index, ApiReleaseType.ALL, config);
@@ -68,7 +68,7 @@ public class ConnectAPIParserTest {
   @Test
   public void testSecurityDefinitions() throws Exception {
     ExampleResolver resolver = new ExampleResolver(ImmutableList.of(""));
-    ProtoIndex index = new ProtoIndex(resolver);
+    ProtoIndex index = new ProtoIndex(resolver, false);
     Configuration config = new Configuration();
     ConnectAPIParser.JsonAPI api =
         new ConnectAPIParser().parseAPI(index, ApiReleaseType.ALL, config);

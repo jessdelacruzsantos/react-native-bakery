@@ -18,9 +18,11 @@ class ProtoIndex {
   private final Map<String, ConnectDatatype> dtypes = new TreeMap<>();
   private final Map<String, ConnectEnum> enums = new TreeMap<>();
   private final List<ConnectEndpoint> endpoints = new ArrayList<>();
+  private final boolean ignoreOneofs;
 
-  ProtoIndex(ExampleResolver exampleResolver) {
+  ProtoIndex(ExampleResolver exampleResolver, boolean ignoreOneofs) {
     this.exampleResolver = checkNotNull(exampleResolver);
+    this.ignoreOneofs = ignoreOneofs;
   }
 
   void populate(List<ConnectType> types, List<ConnectService> services)
@@ -37,7 +39,7 @@ class ProtoIndex {
       } else if (rootType instanceof MessageElement) {
         ConnectDatatype cd = new ConnectDatatype(
             type.getReleaseType(),
-            rootType, type.getPackageName(), type.getParentType(), exampleResolver);
+            rootType, type.getPackageName(), type.getParentType(), exampleResolver, ignoreOneofs);
         checkArgument(!dtypes.containsKey(cd.getName()), "Already seen %s", cd.getName());
         this.dtypes.put(type.getName(), cd);
       } else {
