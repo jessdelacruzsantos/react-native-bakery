@@ -72,10 +72,10 @@ class ConnectDatatype extends ConnectType {
 
   private String getType(ProtoIndex index, FieldElement f) {
     return index.getDatatypes().values().stream()
-            .filter(connectDatatype -> connectDatatype.getType().equals(f.type()))
-            .findFirst()
-            .map(ConnectType::getName)
-            .orElse(Protos.cleanName(f.type()));
+        .filter(connectDatatype -> connectDatatype.getType().equals(f.type()))
+        .findFirst()
+        .map(ConnectType::getName)
+        .orElse(Protos.cleanName(f.type()));
   }
 
   // Converts the Datatype to a format that conforms to the Swagger 2.0 specification
@@ -94,6 +94,24 @@ class ConnectDatatype extends ConnectType {
           property.addProperty("description", f.getDescription());
           properties.add(f.getName(), property);
         });
+
+    List<ConnectField> requiredFields = fields.stream()
+        .filter(f -> !f.isPathParam() && f.isRequired())
+        .collect(Collectors.toList());
+
+    // Check that only visible fields can be required
+    List<ConnectField> requiredInvisibleFields = requiredFields.stream()
+        .filter(f -> !this.getReleaseStatus().shouldInclude(f.getReleaseStatus()))
+        .collect(Collectors.toList());
+    if (!requiredInvisibleFields.isEmpty()) {
+      String message =
+          String.format("%s types cannot have required fields with less visibility: %s",
+              this.getReleaseStatus(),
+              String.join(", ", requiredInvisibleFields.stream()
+                  .map(f -> String.format("%s (%s)", f.getName(), f.getReleaseStatus()))
+                  .collect(Collectors.toList())));
+      throw new InvalidSpecException.Builder(message).build();
+    }
 
     JsonArray requiredNames = new JsonArray();
     fields.stream()
