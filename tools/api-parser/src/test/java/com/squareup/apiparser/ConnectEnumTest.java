@@ -21,7 +21,7 @@ public class ConnectEnumTest {
     when(element.documentation()).thenReturn("");
     when(element.options()).thenReturn(ImmutableList.of());
     ConnectEnum connectEnum = new ConnectEnum(
-        ApiReleaseType.ALL, element, "packageName", Optional.empty());
-    assertThat(connectEnum.toJson(ApiReleaseType.ALL).get("type").getAsString(), equalTo("string"));
+        ReleaseStatus.INTERNAL, element, "packageName", Optional.empty());
+    assertThat(connectEnum.toJson(ReleaseStatus.INTERNAL).get("type").getAsString(), equalTo("string"));
   }
 }

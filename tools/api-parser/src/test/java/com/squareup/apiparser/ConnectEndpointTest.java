@@ -141,7 +141,7 @@ public class ConnectEndpointTest {
     URL url = Resources.getResource("actions.proto");
     Path path = Paths.get(url.getFile());
     ProtoIndex index = indexer.indexProtos(ImmutableList.of(path.getParent().toString()));
-    return new ConnectEndpoint(rpc, index, ApiReleaseType.ALL);
+    return new ConnectEndpoint(rpc, index, ReleaseStatus.INTERNAL);
   }
 
   private List<OptionElement> baseOptions() {

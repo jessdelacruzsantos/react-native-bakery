@@ -21,13 +21,13 @@ public class ConnectField {
   private final List<ConnectField> enumValues;
   private final Map<String, String> docAnnotations;
   private final Map<String, Object> validations;
-  private ApiReleaseType releaseType;
+  private ReleaseStatus releaseStatus;
 
-  ConnectField(ApiReleaseType apiReleaseType, FieldElement field, String type,
+  ConnectField(ReleaseStatus releaseStatus, FieldElement field, String type,
       Optional<ConnectEnum> enumm) {
     checkNotNull(field);
     checkNotNull(enumm);
-    this.releaseType = apiReleaseType;
+    this.releaseStatus = releaseStatus;
     this.name = field.name();
     this.type = type;
     this.isArray = field.label() == Field.Label.REPEATED;
@@ -41,8 +41,8 @@ public class ConnectField {
   }
 
   // This constructor is called ONLY for fields that represent a value of an enum, such as USD.
-  ConnectField(ApiReleaseType apiReleaseType, String name, String type, String documentation) {
-    this.releaseType = checkNotNull(apiReleaseType);
+  ConnectField(ReleaseStatus releaseStatus, String name, String type, String documentation) {
+    this.releaseStatus = checkNotNull(releaseStatus);
     this.name = checkNotNull(name);
     this.type = Protos.cleanName(checkNotNull(type));
     this.required = false;
@@ -51,7 +51,6 @@ public class ConnectField {
     this.validations = ImmutableMap.of();
     this.docAnnotations = new DocString(checkNotNull(documentation)).getAnnotations();
     this.isPathParam = false;
-    this.releaseType = apiReleaseType;
   }
 
   public String getName() {
@@ -82,14 +81,14 @@ public class ConnectField {
     return this.isArray;
   }
 
-  List<String> getEnumValues(ApiReleaseType releaseType) {
-    return this.enumValues.stream().filter(v -> releaseType.shouldInclude(v.getReleaseType()))
+  List<String> getEnumValues(ReleaseStatus releaseStatus) {
+    return this.enumValues.stream().filter(v -> releaseStatus.shouldInclude(v.getReleaseStatus()))
         .map(ConnectField::getName)
         .collect(Collectors.toList());
 
   }
 
-  public ApiReleaseType getReleaseType() {
-    return releaseType;
+  public ReleaseStatus getReleaseStatus() {
+    return releaseStatus;
   }
 }

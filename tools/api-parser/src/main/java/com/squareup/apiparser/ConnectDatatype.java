@@ -24,13 +24,13 @@ class ConnectDatatype extends ConnectType {
   private final boolean ignoreOneofs;
 
   ConnectDatatype(
-      ApiReleaseType releaseType,
+      ReleaseStatus releaseStatus,
       TypeElement rootType,
       String packageName,
       Optional<ConnectType> parentType,
       ExampleResolver exampleResolver,
       boolean ignoreOneofs) {
-    super(releaseType, rootType, packageName, parentType);
+    super(releaseStatus, rootType, packageName, parentType);
 
     this.example = ProtoOptions.exampleFilename(rootType.options())
         .map(exampleResolver::loadExample);
@@ -54,7 +54,7 @@ class ConnectDatatype extends ConnectType {
     this.fields = rootMessage.fields()
         .stream()
         .map(f -> new ConnectField(
-            getApiReleaseType(f),
+            getApireleaseStatus(f),
             f,
             getType(index, f),
             index.getEnumType(f.type())))
@@ -65,9 +65,9 @@ class ConnectDatatype extends ConnectType {
     }
   }
 
-  private ApiReleaseType getApiReleaseType(FieldElement f) {
-    return ProtoOptions.getExplicitReleaseType(f.options(), "common.field_status")
-        .orElse(this.getReleaseType());
+  private ReleaseStatus getApireleaseStatus(FieldElement f) {
+    return ProtoOptions.getExplicitReleaseStatus(f.options(), "common.field_status")
+        .orElse(this.getReleaseStatus());
   }
 
   private String getType(ProtoIndex index, FieldElement f) {
@@ -79,18 +79,18 @@ class ConnectDatatype extends ConnectType {
   }
 
   // Converts the Datatype to a format that conforms to the Swagger 2.0 specification
-  JsonObject toJson(ApiReleaseType releaseType) {
+  JsonObject toJson(ReleaseStatus releaseStatus) {
     JsonObject root = new JsonObject();
     root.addProperty("type", "object");
     JsonObject properties = new JsonObject();
 
     fields.stream()
         .filter(f -> !f.isPathParam())
-        .filter(f -> releaseType.shouldInclude(f.getReleaseType()))
+        .filter(f -> releaseStatus.shouldInclude(f.getReleaseStatus()))
         .forEach(f -> {
           JsonObject property = f.isArray()
-              ? handleArray(f, releaseType)
-              : handleProperty(f, releaseType);
+              ? handleArray(f, releaseStatus)
+              : handleProperty(f, releaseStatus);
           property.addProperty("description", f.getDescription());
           properties.add(f.getName(), property);
         });
@@ -117,21 +117,21 @@ class ConnectDatatype extends ConnectType {
     return root;
   }
 
-  private JsonObject handleArray(ConnectField field, ApiReleaseType releaseType) {
+  private JsonObject handleArray(ConnectField field, ReleaseStatus releaseStatus) {
     checkNotNull(field);
 
     JsonObject json = new JsonObject();
     json.addProperty("type", "array");
-    json.add("items", handleProperty(field, releaseType));
+    json.add("items", handleProperty(field, releaseStatus));
     return json;
   }
 
-  private JsonObject handleProperty(ConnectField field, ApiReleaseType releaseType) {
+  private JsonObject handleProperty(ConnectField field, ReleaseStatus releaseStatus) {
     checkNotNull(field);
     JsonObject json = GSON.toJsonTree(field.getValidations()).getAsJsonObject();
 
     // We need to declare enums locally to work around swagger-codegen
-    List<String> enumValues = field.getEnumValues(releaseType);
+    List<String> enumValues = field.getEnumValues(releaseStatus);
     if (!enumValues.isEmpty()) {
       json.addProperty("type", "string");
       json.add("enum", GSON.toJsonTree(enumValues));

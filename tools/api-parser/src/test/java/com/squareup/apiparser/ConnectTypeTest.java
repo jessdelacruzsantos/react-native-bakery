@@ -38,11 +38,11 @@ public class ConnectTypeTest {
     when(cardDetails.documentation()).thenReturn("");
     when(cardDetails.options()).thenReturn(ImmutableList.of());
 
-    ConnectType root = new ConnectType(ApiReleaseType.ALL, tender, "actions.", Optional.empty());
+    ConnectType root = new ConnectType(ReleaseStatus.INTERNAL, tender, "actions.", Optional.empty());
     ConnectType parent =
-        new ConnectType(ApiReleaseType.ALL, cardDetails, "actions.", Optional.of(root));
+        new ConnectType(ReleaseStatus.INTERNAL, cardDetails, "actions.", Optional.of(root));
     ConnectEnum child = new ConnectEnum(
-        ApiReleaseType.ALL, status, "actions.", Optional.of(parent));
+        ReleaseStatus.INTERNAL, status, "actions.", Optional.of(parent));
     assertThat(parent.generateName(), equalTo("TenderCardDetails"));
     assertThat(child.generateName(), equalTo("TenderCardDetailsStatus"));
   }
