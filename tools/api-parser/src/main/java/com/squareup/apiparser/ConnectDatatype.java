@@ -21,17 +21,23 @@ class ConnectDatatype extends ConnectType {
   private final Optional<JsonObject> example;
   private final Optional<String> exampleType;
   private final Optional<JsonElement> sdkSamples;
+  private final boolean ignoreOneofs;
 
-  ConnectDatatype(ApiReleaseType releaseType, TypeElement rootType, String packageName,
+  ConnectDatatype(
+      ReleaseStatus releaseStatus,
+      TypeElement rootType,
+      String packageName,
       Optional<ConnectType> parentType,
-      ExampleResolver exampleResolver) {
-    super(releaseType, rootType, packageName, parentType);
+      ExampleResolver exampleResolver,
+      boolean ignoreOneofs) {
+    super(releaseStatus, rootType, packageName, parentType);
 
     this.example = ProtoOptions.exampleFilename(rootType.options())
         .map(exampleResolver::loadExample);
     this.exampleType = ProtoOptions.exampleType(rootType.options());
     this.sdkSamples = ProtoOptions.sdkSampleDirectory(rootType.options())
         .map(SdkSampleDirectoryResolver.resolveSamplePath(rootType.name()));
+    this.ignoreOneofs = ignoreOneofs;
   }
 
   List<ConnectField> getFields() {
@@ -48,46 +54,64 @@ class ConnectDatatype extends ConnectType {
     this.fields = rootMessage.fields()
         .stream()
         .map(f -> new ConnectField(
-            getApiReleaseType(f),
+            getApireleaseStatus(f),
             f,
             getType(index, f),
             index.getEnumType(f.type())))
         .collect(Collectors.toList());
 
-    if (!rootMessage.oneOfs().isEmpty()) {
+    if (!ignoreOneofs && !rootMessage.oneOfs().isEmpty()) {
       throw new IllegalUseOfOneOfException(rootMessage);
     }
   }
 
-  private ApiReleaseType getApiReleaseType(FieldElement f) {
-    return ProtoOptions.getExplicitReleaseType(f.options(), "common.field_status")
-        .orElse(this.getReleaseType());
+  private ReleaseStatus getApireleaseStatus(FieldElement f) {
+    return ProtoOptions.getExplicitReleaseStatus(f.options(), "common.field_status")
+        .orElse(this.getReleaseStatus());
   }
 
   private String getType(ProtoIndex index, FieldElement f) {
     return index.getDatatypes().values().stream()
-            .filter(connectDatatype -> connectDatatype.getType().equals(f.type()))
-            .findFirst()
-            .map(ConnectType::getName)
-            .orElse(Protos.cleanName(f.type()));
+        .filter(connectDatatype -> connectDatatype.getType().equals(f.type()))
+        .findFirst()
+        .map(ConnectType::getName)
+        .orElse(Protos.cleanName(f.type()));
   }
 
   // Converts the Datatype to a format that conforms to the Swagger 2.0 specification
-  JsonObject toJson(ApiReleaseType releaseType) {
+  JsonObject toJson(ReleaseStatus releaseStatus) {
     JsonObject root = new JsonObject();
     root.addProperty("type", "object");
     JsonObject properties = new JsonObject();
 
     fields.stream()
         .filter(f -> !f.isPathParam())
-        .filter(f -> releaseType.shouldInclude(f.getReleaseType()))
+        .filter(f -> releaseStatus.shouldInclude(f.getReleaseStatus()))
         .forEach(f -> {
           JsonObject property = f.isArray()
-              ? handleArray(f, releaseType)
-              : handleProperty(f, releaseType);
+              ? handleArray(f, releaseStatus)
+              : handleProperty(f, releaseStatus);
           property.addProperty("description", f.getDescription());
           properties.add(f.getName(), property);
         });
+
+    List<ConnectField> requiredFields = fields.stream()
+        .filter(f -> !f.isPathParam() && f.isRequired())
+        .collect(Collectors.toList());
+
+    // Check that only visible fields can be required
+    List<ConnectField> requiredInvisibleFields = requiredFields.stream()
+        .filter(f -> !this.getReleaseStatus().shouldInclude(f.getReleaseStatus()))
+        .collect(Collectors.toList());
+    if (!requiredInvisibleFields.isEmpty()) {
+      String message =
+          String.format("%s types cannot have required fields with less visibility: %s",
+              this.getReleaseStatus(),
+              String.join(", ", requiredInvisibleFields.stream()
+                  .map(f -> String.format("%s (%s)", f.getName(), f.getReleaseStatus()))
+                  .collect(Collectors.toList())));
+      throw new InvalidSpecException.Builder(message).build();
+    }
 
     JsonArray requiredNames = new JsonArray();
     fields.stream()
@@ -111,21 +135,21 @@ class ConnectDatatype extends ConnectType {
     return root;
   }
 
-  private JsonObject handleArray(ConnectField field, ApiReleaseType releaseType) {
+  private JsonObject handleArray(ConnectField field, ReleaseStatus releaseStatus) {
     checkNotNull(field);
 
     JsonObject json = new JsonObject();
     json.addProperty("type", "array");
-    json.add("items", handleProperty(field, releaseType));
+    json.add("items", handleProperty(field, releaseStatus));
     return json;
   }
 
-  private JsonObject handleProperty(ConnectField field, ApiReleaseType releaseType) {
+  private JsonObject handleProperty(ConnectField field, ReleaseStatus releaseStatus) {
     checkNotNull(field);
     JsonObject json = GSON.toJsonTree(field.getValidations()).getAsJsonObject();
 
     // We need to declare enums locally to work around swagger-codegen
-    List<String> enumValues = field.getEnumValues(releaseType);
+    List<String> enumValues = field.getEnumValues(releaseStatus);
     if (!enumValues.isEmpty()) {
       json.addProperty("type", "string");
       json.add("enum", GSON.toJsonTree(enumValues));

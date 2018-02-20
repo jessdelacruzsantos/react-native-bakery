@@ -26,7 +26,7 @@ public class ConnectEndpoint {
   private final Map<String, String> docAnnotations;
   private final RpcElement rootRpc;
   private final ProtoIndex index;
-  private final ApiReleaseType releaseType;
+  private final ReleaseStatus releaseStatus;
 
   // See http://swagger.io/specification/#pathItemObject
   private static final ImmutableSet<String> VALID_HTTP_METHODS =
@@ -41,13 +41,13 @@ public class ConnectEndpoint {
       AUTHENTICATION_METHOD_MULTIPASS
   );
 
-  ConnectEndpoint(RpcElement rpc, ProtoIndex index, ApiReleaseType releaseType) {
+  ConnectEndpoint(RpcElement rpc, ProtoIndex index, ReleaseStatus releaseStatus) {
     this.rootRpc = checkNotNull(rpc);
     this.inputType = rpc.requestType();
     this.outputType = rpc.responseType();
     this.index = checkNotNull(index);
     this.docAnnotations = new DocString(rpc.documentation()).getAnnotations();
-    this.releaseType = releaseType;
+    this.releaseStatus = releaseStatus;
     Optional<ConnectDatatype> requestType = index.getDataType(inputType);
     checkState(requestType.isPresent());
     //noinspection OptionalGetWithoutIsPresent
@@ -75,10 +75,6 @@ public class ConnectEndpoint {
 
   public String getName() {
     return this.rootRpc.name();
-  }
-
-  String getReleaseStatus() {
-    return ProtoOptions.getReleaseStatus(rootRpc.options(), "common.method_status");
   }
 
   Set<String> getAuthenticationMethods() throws InvalidSpecException {
@@ -182,7 +178,7 @@ public class ConnectEndpoint {
       JsonObject swaggerParameter = new JsonObject();
       swaggerParameter.addProperty("name", param.getName());
       swaggerParameter.addProperty("description", param.getDescription());
-      List<String> enumValues = param.getEnumValues(releaseType);
+      List<String> enumValues = param.getEnumValues(releaseStatus);
       if (!enumValues.isEmpty()) {
         JsonArray enumArray = new JsonArray();
         enumValues.forEach(enumArray::add);
@@ -251,7 +247,7 @@ public class ConnectEndpoint {
     return root;
   }
 
-  public ApiReleaseType getReleaseType() {
-    return releaseType;
+  public ReleaseStatus getReleaseStatus() {
+    return releaseStatus;
   }
 }

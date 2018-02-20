@@ -18,9 +18,11 @@ class ProtoIndex {
   private final Map<String, ConnectDatatype> dtypes = new TreeMap<>();
   private final Map<String, ConnectEnum> enums = new TreeMap<>();
   private final List<ConnectEndpoint> endpoints = new ArrayList<>();
+  private final boolean ignoreOneofs;
 
-  ProtoIndex(ExampleResolver exampleResolver) {
+  ProtoIndex(ExampleResolver exampleResolver, boolean ignoreOneofs) {
     this.exampleResolver = checkNotNull(exampleResolver);
+    this.ignoreOneofs = ignoreOneofs;
   }
 
   void populate(List<ConnectType> types, List<ConnectService> services)
@@ -30,14 +32,14 @@ class ProtoIndex {
       TypeElement rootType = type.getRootType();
       if (rootType instanceof EnumElement) {
         ConnectEnum ce = new ConnectEnum(
-            type.getReleaseType(), (EnumElement) rootType, type.getPackageName(),
+            type.getReleaseStatus(), (EnumElement) rootType, type.getPackageName(),
             type.getParentType());
         checkArgument(!enums.containsKey(ce.getName()), "Already seen %s", ce.getName());
         this.enums.put(type.getName(), ce);
       } else if (rootType instanceof MessageElement) {
         ConnectDatatype cd = new ConnectDatatype(
-            type.getReleaseType(),
-            rootType, type.getPackageName(), type.getParentType(), exampleResolver);
+            type.getReleaseStatus(),
+            rootType, type.getPackageName(), type.getParentType(), exampleResolver, ignoreOneofs);
         checkArgument(!dtypes.containsKey(cd.getName()), "Already seen %s", cd.getName());
         this.dtypes.put(type.getName(), cd);
       } else {
@@ -52,8 +54,8 @@ class ProtoIndex {
           .rpcs()
           .stream()
           .map(rpc -> new ConnectEndpoint(rpc, this,
-              ProtoOptions.getExplicitReleaseType(rpc.options(), "common.method_status")
-                  .orElse(service.getReleaseType())))
+              ProtoOptions.getExplicitReleaseStatus(rpc.options(), "common.method_status")
+                  .orElse(service.getReleaseStatus())))
           .collect(Collectors.toList()));
     }
   }

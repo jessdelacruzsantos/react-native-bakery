@@ -18,7 +18,7 @@ public class ConnectType {
   private final Optional<ConnectType> parentType;
   final Map<String, String> docAnnotations;
   private final String name;
-  private ApiReleaseType releaseType;
+  private ReleaseStatus releaseStatus;
 
   static final Map<String, String> TYPE_MAP = ImmutableMap.<String, String>builder()
       .put("int32", "integer")
@@ -31,19 +31,19 @@ public class ConnectType {
       .put("int64", "int64")
       .build();
 
-  ConnectType(ApiReleaseType releaseType,
-      TypeElement rootType, String packageName,
-              Optional<ConnectType> parentType) {
-
+  ConnectType(
+      ReleaseStatus releaseStatus,
+      TypeElement rootType,
+      String packageName,
+      Optional<ConnectType> parentType) {
     this.rootType = checkNotNull(rootType);
     this.packageName = checkNotNull(packageName);
     this.parentType = checkNotNull(parentType);
     this.docAnnotations = new DocString(rootType.documentation()).getAnnotations();
     this.name = this.generateName();
-    this.releaseType =
-        ProtoOptions.getExplicitReleaseStatus(getRootType().options(),
-            getReleaseStatusOptionName(rootType))
-            .map(ApiReleaseType::from).orElse(releaseType);
+    this.releaseStatus = ProtoOptions.getExplicitReleaseStatus(
+        getRootType().options(), getReleaseStatusOptionName(rootType))
+        .orElse(releaseStatus);
   }
 
   private static String getReleaseStatusOptionName(TypeElement rootType) {
@@ -82,7 +82,7 @@ public class ConnectType {
     return String.format("%s.%s", prefixType, this.rootType.name());
   }
 
-  public ApiReleaseType getReleaseType() {
-    return releaseType;
+  public ReleaseStatus getReleaseStatus() {
+    return releaseStatus;
   }
 }

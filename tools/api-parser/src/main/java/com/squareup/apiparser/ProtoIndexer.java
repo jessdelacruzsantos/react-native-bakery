@@ -28,10 +28,19 @@ class ProtoIndexer {
 
   private final List<ConnectType> protoTypes = new ArrayList<>();
   private final List<ConnectService> protoServices = new ArrayList<>();
+  private final boolean ignoreOneofs;
+
+  ProtoIndexer(boolean ignoreOneofs) {
+    this.ignoreOneofs = ignoreOneofs;
+  }
+
+  ProtoIndexer() {
+    this(false);
+  }
 
   ProtoIndex indexProtos(List<String> protoPaths)
       throws IOException, AnnotationException {
-    final ProtoIndex index = new ProtoIndex(new ExampleResolver(protoPaths));
+    final ProtoIndex index = new ProtoIndex(new ExampleResolver(protoPaths), ignoreOneofs);
     for (String path : protoPaths) {
       Files.walkFileTree(Paths.get(path), new SimpleFileVisitor<Path>() {
         @Override public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
@@ -55,25 +64,25 @@ class ProtoIndexer {
       final Location l = Location.get(file.getCanonicalPath());
       final ProtoFileElement proto = ProtoParser.parse(l, buffer.readUtf8());
 
-      ApiReleaseType releaseType =
-          ApiReleaseType.from(ProtoOptions.getReleaseStatus(proto.options(), "common.file_status"));
+      ReleaseStatus releaseStatus =
+          ProtoOptions.getReleaseStatus(proto.options(), "common.file_status");
 
       proto.types()
-          .forEach(t -> addType(releaseType, t, proto.packageName(), Optional.empty()));
+          .forEach(t -> addType(releaseStatus, t, proto.packageName(), Optional.empty()));
 
       for (ServiceElement service : proto.services()) {
-        this.protoServices.add(new ConnectService(releaseType, service));
+        this.protoServices.add(new ConnectService(releaseStatus, service));
       }
     }
   }
 
-  private void addType(ApiReleaseType apiReleaseType, TypeElement datatype, String packageName,
+  private void addType(ReleaseStatus releaseStatus, TypeElement datatype, String packageName,
       Optional<ConnectType> parent) {
-    ConnectType ct = new ConnectType(apiReleaseType, datatype, packageName, parent);
+    ConnectType ct = new ConnectType(releaseStatus, datatype, packageName, parent);
 
     this.protoTypes.add(ct);
     for (TypeElement subType : datatype.nestedTypes()) {
-      addType(ct.getReleaseType(), subType, packageName, Optional.of(ct));
+      addType(ct.getReleaseStatus(), subType, packageName, Optional.of(ct));
     }
   }
 

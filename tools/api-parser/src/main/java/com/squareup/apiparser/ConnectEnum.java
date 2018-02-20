@@ -13,30 +13,30 @@ import static java.util.stream.Collectors.toList;
 class ConnectEnum extends ConnectType {
   private final List<ConnectField> values;
 
-  ConnectEnum(ApiReleaseType apiReleaseType, EnumElement enumm, String packageName,
+  ConnectEnum(ReleaseStatus releaseStatus, EnumElement enumm, String packageName,
               Optional<ConnectType> parentType) throws AnnotationException {
-    super(apiReleaseType, enumm, packageName, parentType);
+    super(releaseStatus, enumm, packageName, parentType);
     this.values = ImmutableList.copyOf(enumm.constants()
         .stream()
         .map(v -> new ConnectField(
-            getApiReleaseType(apiReleaseType, v),
+            getApiReleaseStatus(releaseStatus, v),
             v.name(), "", v.documentation()))
         .collect(toList()));
   }
 
-  private ApiReleaseType getApiReleaseType(ApiReleaseType apiReleaseType, EnumConstantElement v) {
-    return ProtoOptions.getExplicitReleaseType(v.options(), "common.enum_value_status")
-        .orElse(apiReleaseType);
+  private ReleaseStatus getApiReleaseStatus(ReleaseStatus releaseStatus, EnumConstantElement v) {
+    return ProtoOptions.getExplicitReleaseStatus(v.options(), "common.enum_value_status")
+        .orElse(releaseStatus);
   }
 
   List<ConnectField> getValues() {
     return values;
   }
 
-  JsonObject toJson(ApiReleaseType apiReleaseType) {
+  JsonObject toJson(ReleaseStatus releaseStatus) {
     JsonArray enumValues = new JsonArray();
     this.values.stream()
-        .filter(v -> apiReleaseType.shouldInclude(v.getReleaseType()))
+        .filter(v -> releaseStatus.shouldInclude(v.getReleaseStatus()))
         .map(ConnectField::getName)
         .forEach(enumValues::add);
 

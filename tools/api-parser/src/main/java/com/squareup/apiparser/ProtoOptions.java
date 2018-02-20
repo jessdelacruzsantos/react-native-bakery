@@ -28,11 +28,6 @@ import static com.google.common.base.Preconditions.checkState;
  */
 class ProtoOptions {
 
-  static final String RELEASE_STATUS_PUBLIC = "PUBLIC";
-  static final String RELEASE_STATUS_BETA = "BETA";
-  static final String RELEASE_STATUS_UPCOMING = "UPCOMING";
-  static final String RELEASE_STATUS_INTERNAL = "INTERNAL";
-
   private static final Map<String, Function<OptionElement, Optional<Pair<String, Object>>>>
       TRANSFORMERS = ImmutableMap.of(
       "squareup.validation.length", ProtoOptions::length,
@@ -110,18 +105,13 @@ class ProtoOptions {
         .map(option -> Integer.parseInt((String) option.value()));
   }
 
-  static String getReleaseStatus(Collection<OptionElement> options, String optionName) {
-      return getStringValue(options, optionName).orElse(RELEASE_STATUS_PUBLIC);
+  static ReleaseStatus getReleaseStatus(Collection<OptionElement> options, String optionName) {
+    return getExplicitReleaseStatus(options, optionName).orElse(ReleaseStatus.PUBLIC);
   }
 
-  static Optional<String> getExplicitReleaseStatus(Collection<OptionElement> options,
-      String optionName) {
-    return getStringValue(options, optionName);
-  }
-
-  static Optional<ApiReleaseType> getExplicitReleaseType(Collection<OptionElement> options,
-      String optionName) {
-    return getStringValue(options, optionName).map(ApiReleaseType::from);
+  static Optional<ReleaseStatus> getExplicitReleaseStatus(
+      Collection<OptionElement> options, String optionName) {
+    return getStringValue(options, optionName).map(ReleaseStatus::valueOf);
   }
 
   static Set<String> getOAuthPermissions(RpcElement rpcElement) {
