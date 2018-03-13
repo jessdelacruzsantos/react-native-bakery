@@ -14,19 +14,19 @@ public class ProtoOptionsTest {
 
   //TODO (da3mon) - add tests for the option validation parsing
   @Test @Ignore
-  public void testValidations() throws Exception {
+  public void testValidations() {
   }
 
   @Test @Ignore
-  public void testIsRequired() throws Exception {
+  public void testIsRequired() {
   }
 
   @Test @Ignore
-  public void testValidation() throws Exception {
+  public void testValidation() {
   }
 
   @Test
-  public void testGetBooleanValueOrDefault() throws Exception {
+  public void testGetBooleanValueOrDefault() {
     List<OptionElement> options = ImmutableList.of(
         OptionElement.create("common.boolean", OptionElement.Kind.BOOLEAN, "true"),
         OptionElement.create("common.string", OptionElement.Kind.STRING, "string"),
@@ -41,7 +41,7 @@ public class ProtoOptionsTest {
   }
 
   @Test
-  public void testGetStringValue() throws Exception {
+  public void testGetStringValue() {
     List<OptionElement> options = ImmutableList.of(
         OptionElement.create("common.boolean", OptionElement.Kind.BOOLEAN, "true"),
         OptionElement.create("common.string", OptionElement.Kind.STRING, "string"),
@@ -57,7 +57,7 @@ public class ProtoOptionsTest {
   }
 
   @Test
-  public void testGetIntegerValue() throws Exception {
+  public void testGetIntegerValue() {
     List<OptionElement> options = ImmutableList.of(
         OptionElement.create("common.integer", OptionElement.Kind.NUMBER, "1"),
         OptionElement.create("common.string", OptionElement.Kind.STRING, "string"),

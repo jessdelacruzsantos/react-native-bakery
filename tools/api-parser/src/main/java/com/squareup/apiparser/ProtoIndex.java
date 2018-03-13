@@ -15,7 +15,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 class ProtoIndex {
   private final ExampleResolver exampleResolver;
-  private final Map<String, ConnectDatatype> dtypes = new TreeMap<>();
+  private final Map<String, ConnectDatatype> datatypes = new TreeMap<>();
   private final Map<String, ConnectEnum> enums = new TreeMap<>();
   private final List<ConnectEndpoint> endpoints = new ArrayList<>();
   private final boolean ignoreOneofs;
@@ -26,7 +26,7 @@ class ProtoIndex {
   }
 
   void populate(List<ConnectType> types, List<ConnectService> services)
-      throws IllegalArgumentException, AnnotationException {
+      throws IllegalArgumentException {
     // This does datatypes + enums, need to do endpoints
     for (ConnectType type : types) {
       TypeElement rootType = type.getRootType();
@@ -40,15 +40,15 @@ class ProtoIndex {
         ConnectDatatype cd = new ConnectDatatype(
             type.getReleaseStatus(),
             rootType, type.getPackageName(), type.getParentType(), exampleResolver, ignoreOneofs);
-        checkArgument(!dtypes.containsKey(cd.getName()), "Already seen %s", cd.getName());
-        this.dtypes.put(type.getName(), cd);
+        checkArgument(!datatypes.containsKey(cd.getName()), "Already seen %s", cd.getName());
+        this.datatypes.put(type.getName(), cd);
       } else {
         throw new IllegalArgumentException("Encountered a malformed proto");
       }
     }
 
     // After done creating entities for every symbol, populate datatypes
-    dtypes.values().forEach(d -> d.populateFields(this));
+    datatypes.values().forEach(d -> d.populateFields(this));
     for (final ConnectService service : services) {
       endpoints.addAll(service.getRootService()
           .rpcs()
@@ -61,7 +61,7 @@ class ProtoIndex {
   }
 
   Map<String, ConnectDatatype> getDatatypes() {
-    return this.dtypes;
+    return this.datatypes;
   }
 
   Map<String, ConnectEnum> getEnums() {
@@ -81,8 +81,10 @@ class ProtoIndex {
 
   Optional<ConnectDatatype> getDataType(String typeName) {
     final String type = Protos.cleanName(typeName);
-    final Optional<String> dataType =
-        dtypes.keySet().stream().filter(d -> d.equals(type) || d.endsWith("." + type)).findFirst();
-    return dataType.map(dtypes::get);
+    final Optional<String> dataType = datatypes.keySet()
+        .stream()
+        .filter(d -> d.equals(type) || d.endsWith("." + type))
+        .findFirst();
+    return dataType.map(datatypes::get);
   }
 }

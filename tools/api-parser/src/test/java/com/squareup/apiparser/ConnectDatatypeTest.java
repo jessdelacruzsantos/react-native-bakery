@@ -27,7 +27,7 @@ public class ConnectDatatypeTest {
   private final ExampleResolver resolver = new ExampleResolver(ImmutableList.of());
 
   @Test
-  public void testToJson() throws Exception {
+  public void testToJson() {
     MessageElement e = stubMessage("@desc a mock");
     when(e.options()).thenReturn(ImmutableList.of());
     ConnectDatatype datatype =
@@ -39,7 +39,7 @@ public class ConnectDatatypeTest {
   }
 
   @Test
-  public void testToJson_requiredField() throws Exception {
+  public void testToJson_requiredField() {
     MessageElement e = stubMessage("@desc a mock");
 
     OptionElement o = OptionElement.create("squareup.validation.required", OptionElement.Kind.STRING, "true");
@@ -115,7 +115,7 @@ public class ConnectDatatypeTest {
   }
 
   @Test
-  public void testToJson_sdkSampleCode() throws Exception {
+  public void testToJson_sdkSampleCode() {
     OptionElement o = OptionElement.create("common.sdk_sample_directory", OptionElement.Kind.STRING, "/samples/Endpoint");
 
     MessageElement e = mock(MessageElement.class);
@@ -132,7 +132,7 @@ public class ConnectDatatypeTest {
   }
 
   @Test
-  public void testToJson_noSdkSampleCode() throws Exception {
+  public void testToJson_noSdkSampleCode() {
     MessageElement e = mock(MessageElement.class);
     when(e.name()).thenReturn("Message");
     when(e.documentation()).thenReturn("");
@@ -144,7 +144,7 @@ public class ConnectDatatypeTest {
   }
 
   @Test
-  public void testHasBodyParameters_NoFields() throws Exception {
+  public void testHasBodyParameters_NoFields() {
     MessageElement e = mock(MessageElement.class);
     when(e.name()).thenReturn("Name");
     when(e.documentation()).thenReturn("");
@@ -156,7 +156,7 @@ public class ConnectDatatypeTest {
   }
 
   @Test
-  public void testHasBodyParameters_OneField() throws Exception {
+  public void testHasBodyParameters_OneField() {
     MessageElement me = stubMessage("");
     FieldElement fe = stubField(" //@desc a random path element field\n", true);
     when(me.fields()).thenReturn(ImmutableList.of(fe));
@@ -169,7 +169,7 @@ public class ConnectDatatypeTest {
   }
 
   @Test
-  public void testHasBodyParameters_TwoFields() throws Exception {
+  public void testHasBodyParameters_TwoFields() {
     MessageElement me = stubMessage("");
     FieldElement fe1 = stubField(" //@desc a ramdom path param\n", true);
     FieldElement fe2 = stubField(" //@required\n", false);
@@ -183,7 +183,7 @@ public class ConnectDatatypeTest {
   }
 
   @Test(expected = IllegalUseOfOneOfException.class)
-  public void testOneOfInProtosFailsGeneration() throws Exception {
+  public void testOneOfInProtosFailsGeneration() {
     MessageElement m = stubMessage("I have a oneOf");
     when(m.fields()).thenReturn(ImmutableList.of());
     when(m.options()).thenReturn(ImmutableList.of());
