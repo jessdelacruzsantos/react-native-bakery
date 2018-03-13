@@ -23,6 +23,8 @@ public class ConnectType {
   static final Map<String, String> TYPE_MAP = ImmutableMap.<String, String>builder()
       .put("int32", "integer")
       .put("int64", "integer")
+      .put("uint32", "integer")
+      .put("uint64", "integer")
       .put("bool", "boolean")
       .put("string", "string")
       .build();
