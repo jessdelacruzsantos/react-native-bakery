@@ -22,7 +22,7 @@ import static org.junit.Assert.fail;
 
 public class ConnectAPIParserTest {
   @Test
-  public void testSwaggerAndInfoObjects() throws Exception {
+  public void testSwaggerAndInfoObjects() {
     ExampleResolver resolver = new ExampleResolver(ImmutableList.of(""));
     ProtoIndex index = new ProtoIndex(resolver, false);
     Configuration config = new Configuration();
@@ -66,7 +66,7 @@ public class ConnectAPIParserTest {
   }
 
   @Test
-  public void testSecurityDefinitions() throws Exception {
+  public void testSecurityDefinitions() {
     ExampleResolver resolver = new ExampleResolver(ImmutableList.of(""));
     ProtoIndex index = new ProtoIndex(resolver, false);
     Configuration config = new Configuration();

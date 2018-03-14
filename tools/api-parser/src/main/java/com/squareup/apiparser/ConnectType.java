@@ -13,12 +13,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Created by barlow on 2/2/16.
  */
 public class ConnectType {
-  protected final TypeElement rootType;
-  private final String packageName;
-  private final Optional<ConnectType> parentType;
-  final Map<String, String> docAnnotations;
-  private final String name;
-  private ReleaseStatus releaseStatus;
 
   static final Map<String, String> TYPE_MAP = ImmutableMap.<String, String>builder()
       .put("int32", "integer")
@@ -32,6 +26,14 @@ public class ConnectType {
   static final Map<String, String> FORMAT_MAP = ImmutableMap.<String, String>builder()
       .put("int64", "int64")
       .build();
+
+  final Map<String, String> docAnnotations;
+  final TypeElement rootType;
+
+  private final String packageName;
+  private final Optional<ConnectType> parentType;
+  private final String name;
+  private ReleaseStatus releaseStatus;
 
   ConnectType(
       ReleaseStatus releaseStatus,

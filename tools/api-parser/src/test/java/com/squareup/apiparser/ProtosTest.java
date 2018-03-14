@@ -1,6 +1,7 @@
 package com.squareup.apiparser;
 
 import org.junit.Test;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
@@ -11,7 +12,8 @@ public class ProtosTest {
 
     // Top-level groupings
     assertThat(Protos.cleanName("squareup.connect.v2.actions.Thing"), equalTo("Thing"));
-    assertThat(Protos.cleanName("squareup.connect.v2.actions.Thing.Is.Nested"), equalTo("ThingIsNested"));
+    assertThat(Protos.cleanName("squareup.connect.v2.actions.Thing.Is.Nested"),
+        equalTo("ThingIsNested"));
     assertThat(Protos.cleanName("squareup.connect.v2.common.Thing"), equalTo("Thing"));
     assertThat(Protos.cleanName("squareup.connect.v2.resources.Thing"), equalTo("Thing"));
     assertThat(Protos.cleanName("squareup.connect.v2.resources_internal.Thing"), equalTo("Thing"));
@@ -19,6 +21,7 @@ public class ProtosTest {
 
     // Product groupings
     assertThat(Protos.cleanName("squareup.connect.v2.someproduct.service.Thing"), equalTo("Thing"));
-    assertThat(Protos.cleanName("squareup.connect.v2.someproduct.service.Thing.Is.Nested"), equalTo("ThingIsNested"));
+    assertThat(Protos.cleanName("squareup.connect.v2.someproduct.service.Thing.Is.Nested"),
+        equalTo("ThingIsNested"));
   }
 }

@@ -10,20 +10,20 @@ import static org.junit.Assert.assertThat;
 
 public class DocStringTest {
   @Test
-  public void testParseNoComments() throws Exception {
+  public void testParseNoComments() {
     ImmutableMap<String, String> actual = new DocString("").getAnnotations();
     assertThat(actual, equalTo(Collections.emptyMap()));
   }
 
   @Test
-  public void testParseSingleline() throws Exception {
+  public void testParseSingleline() {
     String doc = "  //@pathparam\n";
     ImmutableMap<String, String> expected = ImmutableMap.of("pathparam", "");
     assertThat(new DocString(doc).getAnnotations(), equalTo(expected));
   }
 
   @Test
-  public void testParseMultiline() throws Exception {
+  public void testParseMultiline() {
     String doc = "  /*--\n"
         + "    @foo Bar\nSome\n\nmore\ntext\n\n\n   "
         + "    @desc Description here.\n"
@@ -37,7 +37,7 @@ public class DocStringTest {
   }
 
   @Test
-  public void testParseSingleLine() throws Exception {
+  public void testParseSingleLine() {
     String doc = "  //@desc Description here. @foo Bar \n";
     ImmutableMap<String, String> actual = new DocString(doc).getAnnotations();
     Map<String, String> expected = ImmutableMap.of("desc", "Description here.", "foo", "Bar");

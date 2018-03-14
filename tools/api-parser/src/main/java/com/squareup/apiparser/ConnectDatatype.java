@@ -54,7 +54,7 @@ class ConnectDatatype extends ConnectType {
     this.fields = rootMessage.fields()
         .stream()
         .map(f -> new ConnectField(
-            getApireleaseStatus(f),
+            getApiReleaseStatus(f),
             f,
             getType(index, f),
             index.getEnumType(f.type())))
@@ -65,7 +65,7 @@ class ConnectDatatype extends ConnectType {
     }
   }
 
-  private ReleaseStatus getApireleaseStatus(FieldElement f) {
+  private ReleaseStatus getApiReleaseStatus(FieldElement f) {
     return ProtoOptions.getExplicitReleaseStatus(f.options(), "common.field_status")
         .orElse(this.getReleaseStatus());
   }

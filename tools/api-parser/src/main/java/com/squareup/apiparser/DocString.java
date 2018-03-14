@@ -22,8 +22,7 @@ class DocString {
 
     String parseableDocString = Iterables.getLast(
         Iterables.limit(BODY_SPLITTER.split(docString), 2), "");
-    ImmutableMap.Builder<String, String> annotationsBuilder =
-        ImmutableMap.<String, String>builder();
+    ImmutableMap.Builder<String, String> annotationsBuilder = ImmutableMap.builder();
 
     int firstIndex = parseableDocString.indexOf("@");
     if (firstIndex >= 0) {

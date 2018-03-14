@@ -14,7 +14,7 @@ class ConnectEnum extends ConnectType {
   private final List<ConnectField> values;
 
   ConnectEnum(ReleaseStatus releaseStatus, EnumElement enumm, String packageName,
-              Optional<ConnectType> parentType) throws AnnotationException {
+              Optional<ConnectType> parentType) {
     super(releaseStatus, enumm, packageName, parentType);
     this.values = ImmutableList.copyOf(enumm.constants()
         .stream()
