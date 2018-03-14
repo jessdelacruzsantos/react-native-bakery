@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
+import org.assertj.core.api.Assertions;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -27,6 +29,15 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class ConnectEndpointTest {
+  private String rpcRequestType;
+  private String rpcResponseType;
+
+  @Before
+  public void setUp() {
+    rpcRequestType = "actions.CaptureTransactionRequest";
+    rpcResponseType = "actions.CaptureTransactionResponse";
+  }
+
   @Test
   public void testSecurity() throws Exception {
     ConnectEndpoint endpoint = createEndpoint(defaultOptions());
@@ -49,6 +60,10 @@ public class ConnectEndpointTest {
 
     assertThat(json.get("description").getAsString(), equalTo("For executing delayed capture."));
 
+    JsonObject successSchema = responses.getAsJsonObject("200").getAsJsonObject("schema");
+    Assertions.assertThat(successSchema.get("$ref").getAsString())
+        .isEqualTo("#/definitions/CaptureTransactionResponse");
+
     JsonArray params = json.get("parameters").getAsJsonArray();
     List<String> names = StreamSupport.stream(params.getAsJsonArray().spliterator(), false)
         .map(o -> o.getAsJsonObject().get("name").getAsString())
@@ -58,6 +73,22 @@ public class ConnectEndpointTest {
     JsonArray perms = json.get("x-oauthpermissions").getAsJsonArray();
     assertThat(perms.size(), equalTo(1));
     assertThat(perms.getAsString(), equalTo("PAYMENTS_WRITE"));
+  }
+
+  @Test
+  public void testToJson_stripsResources() throws Exception {
+    // NB: "actions" in "transactions" is not affected
+    rpcRequestType = "resources.ListTransactionsRequest";
+    rpcResponseType = "resources.ListTransactionsResponse";
+    ConnectEndpoint endpoint = createEndpoint(defaultOptions());
+    JsonObject json = endpoint.toJson();
+
+    JsonObject responses = json.get("responses").getAsJsonObject();
+    assertThat(responses.get("200"), notNullValue());
+
+    JsonObject successSchema = responses.getAsJsonObject("200").getAsJsonObject("schema");
+    Assertions.assertThat(successSchema.get("$ref").getAsString())
+        .isEqualTo("#/definitions/ListTransactionsResponse");
   }
 
   @Test
@@ -133,8 +164,8 @@ public class ConnectEndpointTest {
         + "  --*/\n";
     RpcElement rpc = mock(RpcElement.class);
     when(rpc.documentation()).thenReturn(doc);
-    when(rpc.requestType()).thenReturn("actions.CaptureTransactionRequest");
-    when(rpc.responseType()).thenReturn("actions.CaptureTransactionResponse");
+    when(rpc.requestType()).thenReturn(rpcRequestType);
+    when(rpc.responseType()).thenReturn(rpcResponseType);
     when(rpc.options()).thenReturn(options);
 
     ProtoIndexer indexer = new ProtoIndexer();

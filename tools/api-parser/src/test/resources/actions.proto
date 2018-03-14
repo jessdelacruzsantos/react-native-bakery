@@ -79,3 +79,8 @@ message Error {
   optional string field = 3;
 }
 
+message ListTransactionsRequest {
+}
+
+message ListTransactionsResponse {
+}
