@@ -231,8 +231,8 @@ public class ConnectEndpoint {
     String typeName = this.outputType;
 
     // When specifying the name of the resource, get rid of pointless proto prefixes
-    typeName = typeName.replaceFirst("resources.", "");
-    typeName = typeName.replaceFirst("actions.", "");
+    typeName = typeName.replaceFirst("resources\\.", "");
+    typeName = typeName.replaceFirst("actions\\.", "");
 
     JsonObject swaggerSuccessResponseSchema = new JsonObject();
     swaggerSuccessResponseSchema.addProperty("$ref", "#/definitions/" + typeName);
