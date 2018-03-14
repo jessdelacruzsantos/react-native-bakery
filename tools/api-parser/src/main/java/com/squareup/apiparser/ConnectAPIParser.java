@@ -18,6 +18,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.squareup.apiparser.Json.GSON;
 
@@ -75,9 +76,11 @@ public class ConnectAPIParser {
   private static Map<String, Object> securityDefinitions() {
     // TODO - These should be extracted from protos directly
     ImmutableMap.Builder<String, String> scopes = ImmutableMap.<String, String>builder()
-        .put("MERCHANT_PROFILE_READ", "GET endpoints related to a merchant's business and location entities. Almost all Connect API applications need this permission in order to obtain a merchant's location IDs")
+        .put("MERCHANT_PROFILE_READ",
+            "GET endpoints related to a merchant's business and location entities. Almost all Connect API applications need this permission in order to obtain a merchant's location IDs")
         .put("PAYMENTS_READ", "GET endpoints related to transactions and refunds")
-        .put("PAYMENTS_WRITE", "POST, PUT, and DELETE endpoints related to transactions and refunds. E-commerce applications must request this permission")
+        .put("PAYMENTS_WRITE",
+            "POST, PUT, and DELETE endpoints related to transactions and refunds. E-commerce applications must request this permission")
         .put("CUSTOMERS_READ", " GET endpoints related to customer management")
         .put("CUSTOMERS_WRITE", "POST, PUT, and DELETE endpoints related to customer management")
         .put("SETTLEMENTS_READ", "GET endpoints related to settlements (deposits)")
@@ -90,7 +93,8 @@ public class ConnectAPIParser {
         .put("EMPLOYEES_WRITE", "POST, PUT, and DELETE endpoints related to employee management")
         .put("TIMECARDS_READ", "GET endpoints related to employee timecards")
         .put("TIMECARDS_WRITE", "POST, PUT, and DELETE endpoints related to employee timecards")
-        .put("PAYMENTS_WRITE_ADDITIONAL_RECIPIENTS", "Allow third party applications to deduct a portion of each transaction amount.");
+        .put("PAYMENTS_WRITE_ADDITIONAL_RECIPIENTS",
+            "Allow third party applications to deduct a portion of each transaction amount.");
 
     ImmutableMap.Builder<String, Object> oauth = ImmutableMap.<String, Object>builder()
         .put("type", "oauth2")
@@ -120,16 +124,16 @@ public class ConnectAPIParser {
 
     JsonObject jsonEndpoints = new JsonObject();
 
-    List<ConnectEndpoint> endpoints = ENDPOINT_ORDERING.sortedCopy(index.getEndpoints());
-    for (ConnectEndpoint endpoint : endpoints) {
-      if (releaseStatus.shouldInclude(endpoint.getReleaseStatus())) {
-        if (!jsonEndpoints.has(endpoint.getPath())) {
-          jsonEndpoints.add(endpoint.getPath(), new JsonObject());
-        }
-        jsonEndpoints.getAsJsonObject(endpoint.getPath())
-            .add(endpoint.getHttpMethod().toLowerCase(), endpoint.toJson());
-      }
-    }
+    index.getEndpoints().stream()
+        .filter(connectEndpoint -> releaseStatus.shouldInclude(connectEndpoint.getReleaseStatus()))
+        .sorted(ENDPOINT_ORDERING)
+        .forEach(endpoint -> {
+          if (!jsonEndpoints.has(endpoint.getPath())) {
+            jsonEndpoints.add(endpoint.getPath(), new JsonObject());
+          }
+          jsonEndpoints.getAsJsonObject(endpoint.getPath())
+              .add(endpoint.getHttpMethod().toLowerCase(), endpoint.toJson());
+        });
     root.add("paths", jsonEndpoints);
 
     JsonObject jsonTypes = new JsonObject();
@@ -141,7 +145,7 @@ public class ConnectAPIParser {
             .stream()
             .filter(e -> releaseStatus.shouldInclude(e.getReleaseStatus()))
             .forEach(v ->
-            enumMapBuilder.put(join.join(enumm.getName(), v.getName()), v.getDescription()));
+                enumMapBuilder.put(join.join(enumm.getName(), v.getName()), v.getDescription()));
       }
     }
 
@@ -203,7 +207,8 @@ public class ConnectAPIParser {
         // Because the incoming api.json lacks visibility information we only merge it into the
         // public definitions. This is not the best way to handle v1 endpoints.
         JsonParser parser = new JsonParser();
-        JsonObject v1API = parser.parse(new FileReader(configuration.getV1APISchemaFile())).getAsJsonObject();
+        JsonObject v1API =
+            parser.parse(new FileReader(configuration.getV1APISchemaFile())).getAsJsonObject();
 
         JsonObject v2API = api.swagger;
 
@@ -226,7 +231,9 @@ public class ConnectAPIParser {
     } catch (InvalidSpecException e) {
       String errorMsg;
       if (e.getContext().isPresent()) {
-        errorMsg = String.format("Error occurred in %s: %s", e.getContext().get().location().toString(), e.getMessage());
+        errorMsg =
+            String.format("Error occurred in %s: %s", e.getContext().get().location().toString(),
+                e.getMessage());
       } else {
         errorMsg = e.getMessage();
       }
@@ -252,7 +259,8 @@ public class ConnectAPIParser {
       String path = v1Endpoint.getKey();
       // If the same key exists in the v2 schema with a different value then halt with error
       if (b.has(path) && !b.equals(v1Endpoint.getValue())) {
-        throw new InvalidSpecException.Builder(String.format("Key '%s' exists in both schemas with a different value", path)).build();
+        throw new InvalidSpecException.Builder(
+            String.format("Key '%s' exists in both schemas with a different value", path)).build();
       }
 
       b.add(path, v1Endpoint.getValue());
