@@ -114,8 +114,7 @@ class ConnectDatatype extends ConnectType {
     }
 
     JsonArray requiredNames = new JsonArray();
-    fields.stream()
-        .filter(f -> !f.isPathParam() && f.isRequired())
+    requiredFields.stream()
         .map(ConnectField::getName)
         .forEach(requiredNames::add);
 
