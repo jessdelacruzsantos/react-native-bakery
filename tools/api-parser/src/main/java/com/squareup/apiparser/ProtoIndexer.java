@@ -27,7 +27,7 @@ class ProtoIndexer {
   // are deleted.
   private static final ImmutableList<String> IGNORED_PROTOS = ImmutableList.of(
       "squareup/connect/v2/common/options.proto",
-      "squareup/connect/v2/orders/resources/resources.proto",
+      "squareup/connect/v2/orders/resources/order.proto",
       "squareup/connect/v2/orders/service/batch_retrieve_orders.proto",
       "squareup/connect/v2/orders/service/create_order.proto",
       "squareup/connect/v2/orders/service/orders_service.proto");
