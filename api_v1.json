@@ -912,7 +912,7 @@
                 }, {
                     "name": "payment_id",
                     "in": "path",
-                    "description": "The payment's Square-issued ID. You obtain this value from Payment objects returned by the List Payments endpoint, or Settlement objects returned by the List Settlements endpoint.",
+                    "description": "The Square-issued payment ID. payment_id comes from Payment objects returned by the List Payments endpoint, Settlement objects returned by the List Settlements endpoint, or Refund objects returned by the List Refunds endpoint.",
                     "type": "string",
                     "required": true
                 }],
@@ -1102,7 +1102,7 @@
                 }, {
                     "name": "limit",
                     "in": "query",
-                    "description": "The maximum number of payments to return in a single response. This value cannot exceed 200.",
+                    "description": "The approximate number of refunds to return in a single response. Default: 100. Max: 200. Response may contain more results than the prescribed limit when refunds are made simultaneously to multiple tenders in a payment or when refunds are generated in an exchange to account for the value of returned goods.",
                     "type": "integer",
                     "maximum": 200,
                     "required": false
@@ -3968,7 +3968,7 @@
                     "items": {
                         "$ref": "#/definitions/v1Refund"
                     },
-                    "description": "All of the refunds applied to the payment."
+                    "description": "All of the refunds applied to the payment. Note that the value of all refunds on a payment can exceed the value of all tenders if a merchant chooses to refund money to a tender after previously accepting returned goods as part of an exchange."
                 },
                 "itemizations": {
                     "type": "array",
@@ -4133,7 +4133,7 @@
                 },
                 "created_at": {
                     "type": "string",
-                    "description": "The time when the merchant initiated the refund for Square to process, in ISO 8601 format.."
+                    "description": "The time when the merchant initiated the refund for Square to process, in ISO 8601 format."
                 },
                 "processed_at": {
                     "type": "string",
@@ -4141,11 +4141,15 @@
                 },
                 "payment_id": {
                     "type": "string",
-                    "description": "The Square-issued ID of the payment the refund is applied to."
+                    "description": "A Square-issued ID associated with the refund. For single-tender refunds, payment_id is the ID of the original payment ID. For split-tender refunds, payment_id is the ID of the original tender. For exchange-based refunds (is_exchange == true), payment_id is the ID of the original payment ID even if the payment includes other tenders."
                 },
                 "merchant_id": {
                     "type": "string",
                     "description": ""
+                },
+                "is_exchange": {
+                    "type": "boolean",
+                    "description": "Indicates whether or not the refund is associated with an exchange. If is_exchange is true, the refund reflects the value of goods returned in the exchange not the total money refunded."
                 }
             }
         },
@@ -4312,6 +4316,10 @@
                 "refunded_money": {
                     "$ref": "#/definitions/v1Money",
                     "description": "The total of all refunds applied to this tender. This amount is always negative or zero."
+                },
+                "is_exchange": {
+                    "type": "boolean",
+                    "description": "Indicates whether or not the tender is associated with an exchange. If is_exchange is true, the tender represents the value of goods returned in an exchange not the actual money paid. The exchange value reduces the tender amounts needed to pay for items purchased in the exchange."
                 }
             }
         },
