@@ -4146,10 +4146,6 @@
                 "merchant_id": {
                     "type": "string",
                     "description": ""
-                },
-                "is_exchange": {
-                    "type": "boolean",
-                    "description": "Indicates whether or not the refund is associated with an exchange."
                 }
             }
         },
@@ -4316,10 +4312,6 @@
                 "refunded_money": {
                     "$ref": "#/definitions/v1Money",
                     "description": "The total of all refunds applied to this tender. This amount is always negative or zero."
-                },
-                "is_exchange": {
-                    "type": "boolean",
-                    "description": "Indicates whether or not the tender is associated with an exchange."
                 }
             }
         },
