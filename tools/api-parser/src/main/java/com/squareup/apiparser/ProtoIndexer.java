@@ -23,14 +23,9 @@ import okio.Okio;
 
 class ProtoIndexer {
 
-  // TODO OMG-471: Remove the orders protos from this blacklist once the GO version of the protos
-  // are deleted.
   private static final ImmutableList<String> IGNORED_PROTOS = ImmutableList.of(
-      "squareup/connect/v2/common/options.proto",
-      "squareup/connect/v2/orders/resources/order.proto",
-      "squareup/connect/v2/orders/service/batch_retrieve_orders.proto",
-      "squareup/connect/v2/orders/service/create_order.proto",
-      "squareup/connect/v2/orders/service/orders_service.proto");
+      "squareup/connect/v2/common/options.proto"
+  );
 
   private final List<ConnectType> protoTypes = new ArrayList<>();
   private final List<ConnectService> protoServices = new ArrayList<>();
