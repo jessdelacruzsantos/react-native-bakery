@@ -4940,7 +4940,9 @@
                 },
                 "page_index": {
                     "type": "integer",
-                    "description": "The page's position in the merchant's list of pages. Always an integer between 0 and 4, inclusive."
+                    "description": "The page's position in the merchant's list of pages. Always an integer between 0 and 6, inclusive.",
+                    "maximum": 6,
+                    "minimum": 0
                 },
                 "cells": {
                     "type": "array",
