@@ -4694,6 +4694,14 @@
                 "taxable": {
                     "type": "boolean",
                     "description": "Deprecated. This field is not used."
+                },
+                "category_id": {
+                    "type": "string",
+                    "description": "The ID of the item's category, if any."
+                },
+                "available_for_pickup": {
+                    "type": "boolean",
+                    "description": "If true, the item can be added to pickup orders from the merchant's online store. Default value: false"
                 }
             }
         },
