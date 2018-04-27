@@ -3668,6 +3668,18 @@
                 "updated_at": {
                     "type": "string",
                     "description": "The time when the timecard was most recently updated, in ISO 8601 format."
+                },
+                "regular_seconds_worked": {
+                    "type": "number",
+                    "description": "The total number of regular (non-overtime) seconds worked in the timecard."
+                },
+                "overtime_seconds_worked": {
+                    "type": "number",
+                    "description": "The total number of overtime seconds worked in the timecard."
+                },
+                "doubletime_seconds_worked": {
+                    "type": "number",
+                    "description": "The total number of doubletime seconds worked in the timecard."
                 }
             }
         },
