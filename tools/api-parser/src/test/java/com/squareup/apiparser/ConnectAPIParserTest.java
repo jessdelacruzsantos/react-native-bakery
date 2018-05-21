@@ -24,7 +24,7 @@ public class ConnectAPIParserTest {
   @Test
   public void testSwaggerAndInfoObjects() {
     ExampleResolver resolver = new ExampleResolver(ImmutableList.of(""));
-    ProtoIndex index = new ProtoIndex(resolver, false);
+    ProtoIndex index = new ProtoIndex(resolver, false, "2018-05-01");
     Configuration config = new Configuration();
     ConnectAPIParser.JsonAPI api =
         new ConnectAPIParser().parseAPI(index, ReleaseStatus.INTERNAL, config);
@@ -68,7 +68,7 @@ public class ConnectAPIParserTest {
   @Test
   public void testSecurityDefinitions() {
     ExampleResolver resolver = new ExampleResolver(ImmutableList.of(""));
-    ProtoIndex index = new ProtoIndex(resolver, false);
+    ProtoIndex index = new ProtoIndex(resolver, false, "2018-05-01");
     Configuration config = new Configuration();
     ConnectAPIParser.JsonAPI api =
         new ConnectAPIParser().parseAPI(index, ReleaseStatus.INTERNAL, config);
@@ -92,7 +92,7 @@ public class ConnectAPIParserTest {
   @Ignore
   @Test
   public void testParseAPI() throws Exception {
-    ProtoIndexer indexer = new ProtoIndexer();
+    ProtoIndexer indexer = new ProtoIndexer(false, "2018-05-01");
     URL url = Resources.getResource("actions.proto");
     Path path = Paths.get(url.getFile());
     ProtoIndex index = indexer.indexProtos(ImmutableList.of(path.getParent().toString()));

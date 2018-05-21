@@ -6,9 +6,11 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
 class Configuration {
-  @Parameter(names = "-version", description = "Your API version")
+  @Parameter(names = "-version", description = "The Connect API Major version - in the URI and used for vast, breaking changes")
   private String version = "2.0";
 
   @Parameter(names = "-title", description = "Title of your API")
@@ -31,6 +33,9 @@ class Configuration {
   @Parameter(names = "--ignoreoneofs", description = "If set, ignore oneofs instead of failing to create a specification")
   private boolean ignoreOneofs = false;
 
+  @Parameter(names = "-sqversion", description = "Square Connect V2 API Version in YYYY-MM-DD. It is in a HTTP header and used for changes within a major version.")
+  private String sqVersion = new SimpleDateFormat("yyyy-mm-dd").format(new Date());
+
   List<String> getProtobufLocations() {
     return protobufLocations;
   }
@@ -45,6 +50,10 @@ class Configuration {
 
   String getVersion() {
     return version;
+  }
+
+  String getSqVersion() {
+    return sqVersion;
   }
 
   Optional<Path> getOutputPath() {

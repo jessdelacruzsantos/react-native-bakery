@@ -31,6 +31,7 @@ import static org.mockito.Mockito.when;
 public class ConnectEndpointTest {
   private String rpcRequestType;
   private String rpcResponseType;
+  private final String sqVersion = "2018-05-01";
 
   @Before
   public void setUp() {
@@ -73,6 +74,7 @@ public class ConnectEndpointTest {
     JsonArray perms = json.get("x-oauthpermissions").getAsJsonArray();
     assertThat(perms.size(), equalTo(1));
     assertThat(perms.getAsString(), equalTo("PAYMENTS_WRITE"));
+    assertThat(json.get("x-sq-version").getAsString(), equalTo(sqVersion));
   }
 
   @Test
@@ -168,7 +170,7 @@ public class ConnectEndpointTest {
     when(rpc.responseType()).thenReturn(rpcResponseType);
     when(rpc.options()).thenReturn(options);
 
-    ProtoIndexer indexer = new ProtoIndexer();
+    ProtoIndexer indexer = new ProtoIndexer(false, sqVersion);
     URL url = Resources.getResource("actions.proto");
     Path path = Paths.get(url.getFile());
     ProtoIndex index = indexer.indexProtos(ImmutableList.of(path.getParent().toString()));

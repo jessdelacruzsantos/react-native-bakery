@@ -25,6 +25,7 @@ import static org.mockito.Mockito.when;
 
 public class ConnectDatatypeTest {
   private final ExampleResolver resolver = new ExampleResolver(ImmutableList.of());
+  private final String sqVersion = "2018-05-01";
 
   @Test
   public void testToJson() {
@@ -164,7 +165,7 @@ public class ConnectDatatypeTest {
 
     ConnectDatatype dataType =
         new ConnectDatatype(ReleaseStatus.INTERNAL, me, "packageName", Optional.empty(), resolver, false);
-    dataType.populateFields(new ProtoIndex(resolver, false));
+    dataType.populateFields(new ProtoIndex(resolver, false, sqVersion));
     assertFalse(dataType.hasBodyParameters());
   }
 
@@ -178,7 +179,7 @@ public class ConnectDatatypeTest {
 
     ConnectDatatype dataType =
         new ConnectDatatype(ReleaseStatus.INTERNAL, me, "packageName", Optional.empty(), resolver, false);
-    dataType.populateFields(new ProtoIndex(resolver, false));
+    dataType.populateFields(new ProtoIndex(resolver, false, sqVersion));
     assertTrue(dataType.hasBodyParameters());
   }
 
@@ -194,7 +195,7 @@ public class ConnectDatatypeTest {
 
     final ConnectDatatype datatype =
         new ConnectDatatype(ReleaseStatus.INTERNAL, m, "packageName", Optional.empty(), resolver, false);
-    datatype.populateFields(new ProtoIndex(resolver, false));
+    datatype.populateFields(new ProtoIndex(resolver, false, sqVersion));
   }
 
   private FieldElement stubField(String documentation, boolean isPathParam) {

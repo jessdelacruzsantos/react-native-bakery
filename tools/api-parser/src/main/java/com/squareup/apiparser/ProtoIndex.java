@@ -19,10 +19,16 @@ class ProtoIndex {
   private final Map<String, ConnectEnum> enums = new TreeMap<>();
   private final List<ConnectEndpoint> endpoints = new ArrayList<>();
   private final boolean ignoreOneofs;
+  private final String sqVersion;
 
-  ProtoIndex(ExampleResolver exampleResolver, boolean ignoreOneofs) {
+  ProtoIndex(ExampleResolver exampleResolver, boolean ignoreOneofs, String sqVersion) {
     this.exampleResolver = checkNotNull(exampleResolver);
     this.ignoreOneofs = ignoreOneofs;
+    this.sqVersion = sqVersion;
+  }
+
+  String getSqVersion() {
+    return sqVersion;
   }
 
   void populate(List<ConnectType> types, List<ConnectService> services)
@@ -55,7 +61,7 @@ class ProtoIndex {
           .stream()
           .map(rpc -> new ConnectEndpoint(rpc, this,
               ProtoOptions.getExplicitReleaseStatus(rpc.options(), "common.method_status")
-                  .orElse(service.getReleaseStatus())))
+              .orElse(service.getReleaseStatus())))
           .collect(Collectors.toList()));
     }
   }

@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
 
 import static com.squareup.apiparser.Json.GSON;
 
@@ -176,6 +178,17 @@ public class ConnectAPIParser {
       Preconditions.checkArgument(!configuration.getProtobufLocations().isEmpty(),
           "At least one protobuf location is required");
 
+      String sqVersion = configuration.getSqVersion();
+      // Validate Square Version. Date format has to be YYYY-MM-DD.
+      SimpleDateFormat sdfrmt = new SimpleDateFormat("yyyy-mm-dd");
+      sdfrmt.setLenient(false);
+      try{
+        sdfrmt.parse(sqVersion);
+      }
+      catch (ParseException e){
+        throw new RuntimeException(sqVersion + " is an invalid date format");
+      }
+
       Optional<Path> outputArg = configuration.getOutputPath();
       Path outputPath;
       if (!outputArg.isPresent()) {
@@ -194,7 +207,7 @@ public class ConnectAPIParser {
 
       ImmutableList<String> protoPaths = ImmutableList.copyOf(configuration.getProtobufLocations());
 
-      ProtoIndex index = new ProtoIndexer(configuration.isIgnoreOneofs()).indexProtos(protoPaths);
+      ProtoIndex index = new ProtoIndexer(configuration.isIgnoreOneofs(), sqVersion).indexProtos(protoPaths);
 
       JsonAPI api = getJsonAPI(configuration, ReleaseStatus.INTERNAL, index);
       Path allAPIOutputPath = outputPath.resolve("api_internal.json");
