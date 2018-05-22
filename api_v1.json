@@ -3976,6 +3976,17 @@
                         "$ref": "#/definitions/v1PaymentItemization"
                     },
                     "description": "The items purchased in the payment."
+                },
+                "surcharge_money": {
+                    "$ref": "#/definitions/v1Money",
+                    "description": "The total of all surcharges applied to the payment."
+                },
+                "surcharges": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#definitions/v1PaymentSurcharge"
+                    },
+                    "description": "A list of all surcharges associated with the payment."
                 }
             }
         },
@@ -4109,6 +4120,47 @@
                 "item_variation_id": {
                     "type": "string",
                     "description": "The unique ID of the item variation purchased, if any."
+                }
+            }
+        },
+        "v1PaymentSurcharge": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "The name of the surcharge."
+                },
+                "applied_money": {
+                    "$ref": "#/definitions/v1Money",
+                    "description": "The amount of money applied to the order as a result of the surcharge."
+                },
+                "rate": {
+                    "type": "string",
+                    "description": "The amount of the surcharge as a percentage. The percentage is provided as a string representing the decimal equivalent of the percentage. For example, \"0.7\" corresponds to a 7% surcharge. Exactly one of rate or amount_money should be set."
+                },
+                "amount_money": {
+                    "$ref": "#/definitions/v1Money",
+                    "description": "The amount of the surcharge as a Money object. Exactly one of rate or amount_money should be set."
+                },
+                "type": {
+                    "type": "string",
+                    "enum": ["UNKNOWN", "AUTO_GRATUITY", "CUSTOM"],
+                    "description": "Indicates the source of the surcharge. For example, if it was applied as an automatic gratuity for a large group."
+                },
+                "taxable": {
+                    "type": "boolean",
+                    "description": "Indicates whether the surcharge is taxable."
+                },
+                "taxes": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/v1PaymentTax"
+                    },
+                    "description": "The list of taxes that should be applied to the surcharge."
+                },
+                "surcharge_id": {
+                    "type": "string",
+                    "descrption": "A Square-issued unique identifier associated with the surcharge."
                 }
             }
         },
