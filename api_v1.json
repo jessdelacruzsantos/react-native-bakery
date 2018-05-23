@@ -3984,7 +3984,7 @@
                 "surcharges": {
                     "type": "array",
                     "items": {
-                        "$ref": "#definitions/v1PaymentSurcharge"
+                        "$ref": "#/definitions/v1PaymentSurcharge"
                     },
                     "description": "A list of all surcharges associated with the payment."
                 }
