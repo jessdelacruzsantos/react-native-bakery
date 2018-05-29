@@ -85,6 +85,8 @@ public class ConnectEndpointTest {
     ConnectEndpoint endpoint = createEndpoint(defaultOptions());
     JsonObject json = endpoint.toJson();
 
+    assertThat(json.get("x-release-status").getAsString(), equalTo("BETA"));
+
     JsonObject responses = json.get("responses").getAsJsonObject();
     assertThat(responses.get("200"), notNullValue());
 
@@ -174,7 +176,7 @@ public class ConnectEndpointTest {
     URL url = Resources.getResource("actions.proto");
     Path path = Paths.get(url.getFile());
     ProtoIndex index = indexer.indexProtos(ImmutableList.of(path.getParent().toString()));
-    return new ConnectEndpoint(rpc, index, ReleaseStatus.INTERNAL);
+    return new ConnectEndpoint(rpc, index, ReleaseStatus.BETA);
   }
 
   private List<OptionElement> baseOptions() {

@@ -44,6 +44,8 @@ class ConnectEnum extends ConnectType {
     json.addProperty("type", "string");
     json.add("enum", enumValues);
     json.addProperty("description", this.getDescription());
+    json.addProperty("x-release-status", this.getReleaseStatus().name());
+
     return json;
   }
 

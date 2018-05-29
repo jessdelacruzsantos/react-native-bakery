@@ -115,6 +115,7 @@ public class ConnectEndpoint {
     root.addProperty("summary", this.getName());
     root.addProperty("operationId", this.getName());
     root.addProperty("description", docAnnotations.getOrDefault("desc", ""));
+    root.addProperty("x-release-status", this.getReleaseStatus().name());
 
     Set<String> authenticationMethods = getAuthenticationMethods();
     Set<String> oauthPermissions = ProtoOptions.getOAuthPermissions(rootRpc);
