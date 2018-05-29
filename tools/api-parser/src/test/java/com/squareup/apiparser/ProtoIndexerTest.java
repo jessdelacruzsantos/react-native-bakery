@@ -13,7 +13,7 @@ import static org.junit.Assert.assertThat;
 public class ProtoIndexerTest {
   @Test
   public void testProtoLoading() throws Exception {
-    ProtoIndexer indexer = new ProtoIndexer();
+    ProtoIndexer indexer = new ProtoIndexer(false, "2015-07-01");
     URL url = Resources.getResource("actions.proto");
     Path path = Paths.get(url.getFile());
     ProtoIndex index = indexer.indexProtos(ImmutableList.of(path.getParent().toString()));

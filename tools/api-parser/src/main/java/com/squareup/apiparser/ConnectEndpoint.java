@@ -27,6 +27,7 @@ public class ConnectEndpoint {
   private final RpcElement rootRpc;
   private final ProtoIndex index;
   private final ReleaseStatus releaseStatus;
+  private final String sqVersion;
 
   // See http://swagger.io/specification/#pathItemObject
   private static final ImmutableSet<String> VALID_HTTP_METHODS =
@@ -52,6 +53,7 @@ public class ConnectEndpoint {
     checkState(requestType.isPresent());
     //noinspection OptionalGetWithoutIsPresent
     this.params = ImmutableList.copyOf(requestType.get().getFields());
+    this.sqVersion = index.getSqVersion();
   }
 
   public String getPath() {
@@ -163,6 +165,9 @@ public class ConnectEndpoint {
       // parsing the security section
       root.add("x-oauthpermissions", permissionsArray);
     }
+
+    // Add API version (Square Version)
+    root.addProperty("x-sq-version", sqVersion);
 
     if (oauthClientSecretEnabled) {
       JsonObject clientAuth = new JsonObject();
