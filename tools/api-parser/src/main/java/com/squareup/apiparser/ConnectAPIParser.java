@@ -180,7 +180,7 @@ public class ConnectAPIParser {
 
       String sqVersion = configuration.getSqVersion();
       // Validate Square Version. Date format has to be YYYY-MM-DD.
-      SimpleDateFormat sdfrmt = new SimpleDateFormat("yyyy-mm-dd");
+      SimpleDateFormat sdfrmt = new SimpleDateFormat("yyyy-MM-dd");
       sdfrmt.setLenient(false);
       try{
         sdfrmt.parse(sqVersion);

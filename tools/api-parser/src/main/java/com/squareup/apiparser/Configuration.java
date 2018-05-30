@@ -34,7 +34,7 @@ class Configuration {
   private boolean ignoreOneofs = false;
 
   @Parameter(names = "-sqversion", description = "Square Connect V2 API Version in YYYY-MM-DD. It is in a HTTP header and used for changes within a major version.")
-  private String sqVersion = new SimpleDateFormat("yyyy-mm-dd").format(new Date());
+  private String sqVersion = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
   List<String> getProtobufLocations() {
     return protobufLocations;
