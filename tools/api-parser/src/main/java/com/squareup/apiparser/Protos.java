@@ -11,7 +11,7 @@ import java.util.Set;
 class Protos {
 
   private static final Set<String> PACKAGE_SEPARATORS = ImmutableSet.of(
-      "actions", "catalog_v1", "common", "model", "resources", "resources_internal", "service");
+      "actions", "catalog_v1", "common", "model", "resources", "resources_internal", "service", "v1");
 
   static String cleanName(String name) {
     Preconditions.checkNotNull(name);

@@ -19,6 +19,7 @@ public class ProtosTest {
     assertThat(Protos.cleanName("squareup.connect.v2.resources_internal.Thing"), equalTo("Thing"));
     assertThat(Protos.cleanName("squareup.connect.v2.service.Thing"), equalTo("Thing"));
     assertThat(Protos.cleanName("squareup.connect.v2.model.Thing"), equalTo("Thing"));
+    assertThat(Protos.cleanName("squareup.connect.v1.Thing"), equalTo("Thing"));
 
     // Product groupings
     assertThat(Protos.cleanName("squareup.connect.v2.someproduct.service.Thing"), equalTo("Thing"));
