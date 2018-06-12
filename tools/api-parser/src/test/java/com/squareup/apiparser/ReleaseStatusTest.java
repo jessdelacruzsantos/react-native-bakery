@@ -8,7 +8,7 @@ public class ReleaseStatusTest {
 
   @Test public void shouldInclude() {
     assertThat(ReleaseStatus.PUBLIC.shouldInclude(ReleaseStatus.PUBLIC)).isTrue();
-    assertThat(ReleaseStatus.PUBLIC.shouldInclude(ReleaseStatus.BETA)).isFalse();
+    assertThat(ReleaseStatus.PUBLIC.shouldInclude(ReleaseStatus.BETA)).isTrue();
     assertThat(ReleaseStatus.PUBLIC.shouldInclude(ReleaseStatus.UPCOMING)).isFalse();
     assertThat(ReleaseStatus.PUBLIC.shouldInclude(ReleaseStatus.INTERNAL)).isFalse();
     assertThat(ReleaseStatus.PUBLIC.shouldInclude(ReleaseStatus.EXCLUDED)).isFalse();

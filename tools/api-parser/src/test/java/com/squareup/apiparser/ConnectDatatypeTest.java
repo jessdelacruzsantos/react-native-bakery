@@ -37,6 +37,7 @@ public class ConnectDatatypeTest {
         equalTo("a mock"));
     assertThat(datatype.toJson(ReleaseStatus.INTERNAL).get("type").getAsString(), equalTo("object"));
     assertThat(datatype.toJson(ReleaseStatus.INTERNAL).get("properties"), isA(JsonElement.class));
+    assertThat(datatype.toJson(ReleaseStatus.INTERNAL).get("x-release-status").getAsString(), equalTo("INTERNAL"));
   }
 
   @Test
@@ -219,4 +220,3 @@ public class ConnectDatatypeTest {
     return me;
   }
 }
-

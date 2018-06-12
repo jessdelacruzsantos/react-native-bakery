@@ -234,10 +234,16 @@ public class ConnectAPIParser {
       Path publicAPIOutputPath = outputPath.resolve("api.json");
       writeJson(GSON.toJson(api.swagger), publicAPIOutputPath);
 
+      // (TODO) (DF-157) remove it once migrate beta to tags in api.json
       api = getJsonAPI(configuration, ReleaseStatus.BETA, index);
       Path betaAPIOutputPath = outputPath.resolve("api_beta.json");
       writeJson(GSON.toJson(api.swagger), betaAPIOutputPath);
 
+      api = getJsonAPI(configuration, ReleaseStatus.ALPHA, index);
+      Path alphaAPIOutputPath = outputPath.resolve("api_alpha.json");
+      writeJson(GSON.toJson(api.swagger), alphaAPIOutputPath);
+
+      // (TODO) (DF-157) remove it once migrate upcoming to alpha
       api = getJsonAPI(configuration, ReleaseStatus.UPCOMING, index);
       Path upcomingAPIOutputPath = outputPath.resolve("api_upcoming.json");
       writeJson(GSON.toJson(api.swagger), upcomingAPIOutputPath);

@@ -23,5 +23,7 @@ public class ConnectEnumTest {
         ReleaseStatus.INTERNAL, element, "packageName", Optional.empty());
     assertThat(connectEnum.toJson(ReleaseStatus.INTERNAL).get("type").getAsString(),
         equalTo("string"));
+    assertThat(connectEnum.toJson(ReleaseStatus.INTERNAL).get("x-release-status").getAsString(),
+            equalTo("INTERNAL"));
   }
 }

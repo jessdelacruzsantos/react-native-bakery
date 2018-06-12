@@ -72,18 +72,20 @@ Required. Can be any of `GET, PUT, POST, DELETE, OPTIONS, HEAD, PATCH`. Case-sen
 
 #### `common.method_status`
 
+After introducing versioning, a standard release process for a big feature release (e.g. exposing a new endpoint.) should be `ALPHA` -> `BETA` -> `PUBLIC`. By ending life of a feature, the status goes from `BETA` or `PUBLIC` to `DEPRECATED`.
+See [go/buildapis](https://pages.corp.squareup.com/pages/XP/internal-docs/master/browse/build/index.html) for more details.
+
 **Default** `PUBLIC`
 
 | Value | Exported to | Description |
 | ----- | ----------- | ----------- |
-| `PUBLIC` | `api.json` | Part of the public API for external developers |
-| `BETA` | `api_beta.json` | The endpoint is in beta and available to select partners |
-| `UPCOMING` | `api_upcoming.json` | The endpoint is in development but pre-beta, i.e. not exposed to partners |
+| `PUBLIC`, `BETA` | `api.json` | Part of the public API for external developers while `BETA` features will be denoted as `BETA`|
+| `ALPHA` | `api_alpha.json` | The endpoint is in development but pre-beta, i.e. not exposed to partners |
 | `INTERNAL` | `api_internal.json` | A private endpoint only to be used with Square |
 
-Controls which Swagger set the endpoint is exported to. The tool generates multiple versions of `api.json` under `api.json.d/` and this option controls which sets the endpoint is included in. A concrete example: `api_upcoming.json` includes all `UPCOMING`, `BETA` and `PUBLIC` endpoints.
+Controls which Swagger set the endpoint is exported to. The tool generates multiple versions of `api.json` under `api.json.d/` and this option controls which sets the endpoint is included in. A concrete example: `api_alpha.json` includes all `ALPHA`, `BETA` and `PUBLIC` endpoints.
 
-`PUBLIC` < `BETA` < `UPCOMING` < `INTERNAL`
+`PUBLIC` == `BETA` < `ALPHA` < `INTERNAL`
 
 #### `common.oauth_credential_required`
 
@@ -216,14 +218,13 @@ Currently the only languages supported by the pipeline are PHP and Ruby although
 
 | Value | Exported to | Description |
 | ----- | ----------- | ----------- |
-| `PUBLIC` | `api.json` | Part of the public API for external developers |
-| `BETA` | `api_beta.json` | The field is in beta and available to select partners |
-| `UPCOMING` | `api_upcoming.json` | The field is in development but pre-beta, i.e. not exposed to partners |
-| `INTERNAL` | `api_internal.json` | A private field only to be used with Square |
+| `PUBLIC`, `BETA` | `api.json` | Part of the public API for external developers |
+| `ALPHA` | `api_alpha.json` | The endpoint is in development but pre-beta, i.e. not exposed to partners |
+| `INTERNAL` | `api_internal.json` | A private endpoint only to be used with Square |
 
-Controls which Swagger set the field is exported to. The tool generates multiple versions of `api.json` under `api.json.d/` and this option controls which sets the field is included in. A concrete example: `api_upcoming.json` includes all `UPCOMING`, `BETA` and `PUBLIC` endpoints.
+Controls which Swagger set the field is exported to. The tool generates multiple versions of `api.json` under `api.json.d/` and this option controls which sets the field is included in. A concrete example: `api_alpha.json` includes all `ALPHA`, `BETA` and `PUBLIC` endpoints.
 
-`PUBLIC` < `BETA` < `UPCOMING` < `INTERNAL`
+`PUBLIC` == `BETA` < `ALPHA` < `INTERNAL`
 
 #### `common.path_param`
 
