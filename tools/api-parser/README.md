@@ -9,6 +9,8 @@ repo to generate a JSON representation of the Connect API.
 
 This command handles the build, running, and file-moving that the below
 instructions mention. Provided arguments will be passed along to the JAR file.
+`-sqversion` has to be passed in with a valid api version date to generate valid SDKs.
+See [here](https://stash.corp.squareup.com/projects/GO/repos/square/browse/oauth/config/api-versions.yaml)
 
 ## Manually running the tool
 
