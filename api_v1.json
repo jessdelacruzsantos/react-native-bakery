@@ -4924,7 +4924,7 @@
                     "description": "The number to adjust the variation's quantity by."
                 },
                 "adjustment_type": {
-                    "type": "number",
+                    "type": "string",
                     "enum": [
                         "SALE",
                         "RECEIVE_STOCK",
