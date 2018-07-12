@@ -1,5 +1,6 @@
 package com.squareup.apiparser;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.squareup.wire.schema.Field;
@@ -8,7 +9,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -35,8 +40,7 @@ public class ConnectField {
     this.isPathParam = ProtoOptions.isPathParam(field);
     this.docAnnotations = new DocString(field.documentation()).getAnnotations();
     this.enumValues =
-            enumm.map(ConnectEnum::getValues).orElse(Collections.emptyList());
-
+        enumm.map(ConnectEnum::getValues).orElse(Collections.emptyList());
     this.validations = ImmutableMap.copyOf(ProtoOptions.validations(field.options()));
   }
 
@@ -81,14 +85,31 @@ public class ConnectField {
     return this.isArray;
   }
 
+  boolean isMap() {
+    return type.startsWith("map<");
+  }
+
+  String mapValueType() {
+    return findMapKeyAndValueTypes(type).getRight();
+  }
+
   List<String> getEnumValues(ReleaseStatus releaseStatus) {
     return this.enumValues.stream().filter(v -> releaseStatus.shouldInclude(v.getReleaseStatus()))
         .map(ConnectField::getName)
         .collect(Collectors.toList());
-
   }
 
   public ReleaseStatus getReleaseStatus() {
     return releaseStatus;
+  }
+
+  private Pair<String, String> findMapKeyAndValueTypes(String type) {
+    Matcher matcher = Pattern.compile("map<(.*),(.*)>").matcher(type);
+    Preconditions.checkState(matcher.find(), "Type %s did not match map<> pattern.", type);
+    String mapKeyType = StringUtils.strip(matcher.group(1));
+    Preconditions.checkState(mapKeyType.equals("string"),
+        "Only string keys supported in swagger maps, but got %s. full type %s, fieldName=%s",
+        mapKeyType, type, name);
+    return Pair.of(StringUtils.strip(matcher.group(1)), StringUtils.strip(matcher.group(2)));
   }
 }

@@ -38,7 +38,8 @@ class ProtoIndexer {
   }
 
   ProtoIndex indexProtos(List<String> protoPaths) throws IOException {
-    final ProtoIndex index = new ProtoIndex(new ExampleResolver(protoPaths), ignoreOneofs, sqVersion);
+    final ProtoIndex index =
+        new ProtoIndex(new ExampleResolver(protoPaths), ignoreOneofs, sqVersion);
     for (String path : protoPaths) {
       Files.walkFileTree(Paths.get(path), new SimpleFileVisitor<Path>() {
         @Override public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)

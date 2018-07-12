@@ -24,6 +24,13 @@ message Transaction {
   repeated Tender tenders = 6;
 }
 
+message NestedMap {
+  message NestedMapValue {
+    optional string value = 1;
+  }
+  map<string, NestedMapValue> map = 1;
+}
+
 //--@desc Represents a charge against a card taken by a Square merchant.--
 message Tender {
   //--@desc The tender's unique ID.--
@@ -44,6 +51,8 @@ message Tender {
   optional string note = 6;
 
   optional string customer_id = 9;
+
+  optional NestedMap nested_map = 10;
 
   enum Type {
     //--@desc card_details must be populated for CARD type.--

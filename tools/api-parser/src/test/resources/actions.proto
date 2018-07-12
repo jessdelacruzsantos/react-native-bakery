@@ -14,10 +14,16 @@ message RetrieveTransactionRequest {
   required string location_id = 1 [(common.path_param) = true];
 
   required string transaction_id = 2 [(common.path_param) = true];
+
+  optional Metadata metadata = 3;
 }
 message RetrieveTransactionResponse {
   repeated resources.Error errors = 1;
   optional resources.Transaction transaction = 2;
+}
+
+message Metadata {
+  map<string, string> map = 1;
 }
 
 message CaptureTransactionRequest {

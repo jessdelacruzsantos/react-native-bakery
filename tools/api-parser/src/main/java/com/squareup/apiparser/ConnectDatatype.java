@@ -157,6 +157,20 @@ class ConnectDatatype extends ConnectType {
       return json;
     }
 
+    if (field.isMap()) {
+      json.addProperty("type", "object");
+
+      JsonObject nested = new JsonObject();
+
+      String mapValueType = field.mapValueType();
+
+      String propertyKey = (TYPE_MAP.containsKey(mapValueType)) ? "type" : "$ref";
+      String propertyValue = TYPE_MAP.getOrDefault(mapValueType, "#/definitions/" + mapValueType);
+      nested.addProperty(propertyKey, propertyValue);
+      json.add("additionalProperties", nested);
+      return json;
+    }
+
     String type = field.getType();
     String value = TYPE_MAP.getOrDefault(type, "#/definitions/" + type);
     String key = (TYPE_MAP.containsKey(type)) ? "type" : "$ref";
