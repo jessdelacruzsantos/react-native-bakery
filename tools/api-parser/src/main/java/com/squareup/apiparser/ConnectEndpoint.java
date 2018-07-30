@@ -50,7 +50,7 @@ public class ConnectEndpoint {
     this.docAnnotations = new DocString(rpc.documentation()).getAnnotations();
     this.releaseStatus = releaseStatus;
     Optional<ConnectDatatype> requestType = index.getDataType(inputType);
-    checkState(requestType.isPresent());
+    checkState(requestType.isPresent(), "Request type could not be found for rpc=%s.", rpc);
     //noinspection OptionalGetWithoutIsPresent
     this.params = ImmutableList.copyOf(requestType.get().getFields());
     this.sqVersion = index.getSqVersion();
