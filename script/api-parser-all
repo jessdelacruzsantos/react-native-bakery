@@ -1,6 +1,5 @@
 #!/bin/sh
 # See tools/api-parser/README.md for full usage notes.
-
 # Abort script at first error, when a command exits with non-zero status
 set -o errexit
 
@@ -13,5 +12,37 @@ set -o nounset
 set -o pipefail
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+#generate new specification
 
-$DIR/api-parser $GOPATH/src/square/up/xp/connect-public-protos/protos/squareup/connect/v2/ $GOPATH/src/square/up/oauth/protos/squareup/oauth/v1
+LOCAL_GO_REPO=$GOPATH/src/square/up
+LOCAL_JAVA_REPO=$java_dir
+
+usage()
+{
+    echo "usage: script/api-parser-all [-j java_dir] [-g go_dir]"
+}
+PARAMS=""
+while [ $# -gt 0 ]; do
+    case "$1" in
+        -g | --java_dir )       shift
+                                LOCAL_GO_REPO=$1
+                                ;;
+        -j | --go_dir )    		shift
+								LOCAL_JAVA_REPO=$1
+                                ;;
+        -h | --help )           usage
+                                exit
+                                ;;
+        * )                     usage
+                                exit 1
+    esac
+    shift
+done
+echo "GO_DIR: $LOCAL_GO_REPO"
+echo "JAVA_DIR: $LOCAL_JAVA_REPO"
+
+
+api_version_file_path="$LOCAL_GO_REPO/oauth/config/api-versions.yaml"
+api_version=`grep "\- version: [0-9][0-9][0-9][0-9]\-[0-9][0-9]\-[0-9][0-9]" $api_version_file_path|tr -d ' '|tail -1|cut -d ":" -f 2`
+echo "Pulling api version: $api_version from $api_version_file_path"
+$DIR/api-parser -sqversion $api_version --ignoreoneofs $LOCAL_GO_REPO/xp/connect-public-protos/protos/squareup/connect/v2/ $LOCAL_GO_REPO/oauth/protos/squareup/oauth/v1 $LOCAL_JAVA_REPO/orders/orders-proto/src/main/proto/squareup/omg/ $LOCAL_JAVA_REPO/orders/orders-service-proto/src/main/proto/squareup/omg/
