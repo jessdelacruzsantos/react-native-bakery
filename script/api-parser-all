@@ -14,6 +14,15 @@ set -o pipefail
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 #generate new specification
 
+
+if [ -z ${GOPATH+x} ]; then 
+    GOPATH=./
+fi
+
+if [ -z ${java_dir+x} ]; then 
+    java_dir=./
+fi
+
 LOCAL_GO_REPO=$GOPATH/src/square/up
 LOCAL_JAVA_REPO=$java_dir
 
