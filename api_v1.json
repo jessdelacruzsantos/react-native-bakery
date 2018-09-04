@@ -3655,7 +3655,7 @@
                 },
                 "clockin_location_id": {
                     "type": "string",
-                    "description": "The ID of the location the employee clocked in from, if any."
+                    "description": "The ID of the location the employee clocked in from. We strongly reccomend providing a clockin_location_id. Square uses the clockin_location_id to determine a timecard’s timezone and overtime rules."
                 },
                 "clockout_location_id": {
                     "type": "string",
