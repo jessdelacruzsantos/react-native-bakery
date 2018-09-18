@@ -4172,7 +4172,7 @@
                 },
                 "surcharge_id": {
                     "type": "string",
-                    "descrption": "A Square-issued unique identifier associated with the surcharge."
+                    "description": "A Square-issued unique identifier associated with the surcharge."
                 }
             }
         },
@@ -4666,8 +4666,7 @@
                 },
                 "user_data": {
                     "type": "string",
-                    "description": "Arbitrary metadata associated with the variation. Cannot exceed 255 characters.",
-                    "required": false
+                    "description": "Arbitrary metadata associated with the variation. Cannot exceed 255 characters."
                 }
             }
         },
