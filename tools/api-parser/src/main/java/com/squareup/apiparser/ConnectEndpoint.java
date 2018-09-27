@@ -202,9 +202,11 @@ public class ConnectEndpoint {
         swaggerParameter.addProperty("required", true);
         swaggerParameters.add(swaggerParameter);
       } else if (this.getHttpMethod().equals("GET") || this.getHttpMethod().equals("DELETE")) {
-        swaggerParameter.addProperty("in", "query");
-        swaggerParameter.addProperty("required", param.isRequired());
-        swaggerParameters.add(swaggerParameter);
+        if (this.releaseStatus.shouldInclude(param.getReleaseStatus())) {
+          swaggerParameter.addProperty("in", "query");
+          swaggerParameter.addProperty("required", param.isRequired());
+          swaggerParameters.add(swaggerParameter);
+        }
       }
     }
 
