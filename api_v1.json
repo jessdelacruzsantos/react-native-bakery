@@ -4009,7 +4009,7 @@
                 "is_partial": {
                     "type": "boolean",
                     "description": "Indicates whether or not the payment is only partially paid for. If true, this payment will have the tenders collected so far, but the itemizations will be empty until the payment is completed."
-                },
+                }
             }
         },
         "v1PaymentItemization": {
