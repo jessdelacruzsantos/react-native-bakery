@@ -867,6 +867,12 @@
                     "type": "string",
                     "in": "query",
                     "required": false
+                }, {
+                    "name": "include_partial",
+                    "description": "Indicates whether or not to include partial payments in the response. Partial payments will have the tenders collected so far, but the itemizations will be empty until the payment is completed.",
+                    "type": "boolean",
+                    "in": "query",
+                    "required": false
                 }],
                 "security": [{
                     "oauth2": ["PAYMENTS_READ"]
@@ -3999,7 +4005,11 @@
                         "$ref": "#/definitions/v1PaymentSurcharge"
                     },
                     "description": "A list of all surcharges associated with the payment."
-                }
+                },
+                "is_partial": {
+                    "type": "boolean",
+                    "description": "Indicates whether or not the payment is only partially paid for. If true, this payment will have the tenders collected so far, but the itemizations will be empty until the payment is completed."
+                },
             }
         },
         "v1PaymentItemization": {
@@ -4372,6 +4382,14 @@
                 "tendered_money": {
                     "$ref": "#/definitions/v1Money",
                     "description": "The amount of total_money applied to the payment."
+                },
+                "tendered_at": {
+                    "type": "string",
+                    "description": "The time when the tender was created, in ISO 8601 format."
+                },
+                "settled_at": {
+                    "type": "string",
+                    "description": "The time when the tender was settled, in ISO 8601 format."
                 },
                 "change_back_money": {
                     "$ref": "#/definitions/v1Money",
