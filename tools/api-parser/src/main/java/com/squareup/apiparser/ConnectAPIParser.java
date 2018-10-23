@@ -246,11 +246,6 @@ public class ConnectAPIParser {
       api = getJsonAPI(configuration, ReleaseStatus.ALPHA, index);
       Path alphaAPIOutputPath = outputPath.resolve("api_alpha.json");
       writeJson(GSON.toJson(api.swagger), alphaAPIOutputPath);
-
-      // (TODO) (DF-157) remove it once migrate upcoming to alpha
-      api = getJsonAPI(configuration, ReleaseStatus.UPCOMING, index);
-      Path upcomingAPIOutputPath = outputPath.resolve("api_upcoming.json");
-      writeJson(GSON.toJson(api.swagger), upcomingAPIOutputPath);
     } catch (InvalidSpecException e) {
       String errorMsg;
       if (e.getContext().isPresent()) {

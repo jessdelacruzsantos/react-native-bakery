@@ -7,7 +7,6 @@ enum ReleaseStatus {
   DEPRECATED,
   EXCLUDED,
   INTERNAL,
-  UPCOMING, // (TODO) (DF-157) Upcoming will be removed and replaced by ALPHA.
   ALPHA,
   BETA,
   PUBLIC;
