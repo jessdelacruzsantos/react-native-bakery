@@ -38,14 +38,24 @@ class ProtoIndex {
       TypeElement rootType = type.getRootType();
       if (rootType instanceof EnumElement) {
         ConnectEnum ce = new ConnectEnum(
-            type.getReleaseStatus(), (EnumElement) rootType, type.getPackageName(),
+            type.getReleaseStatus(),
+            type.getNamespace(),
+            (EnumElement) rootType,
+            type.getPackageName(),
             type.getParentType());
+
         checkArgument(!enums.containsKey(ce.getName()), "Already seen %s", ce.getName());
         this.enums.put(type.getName(), ce);
       } else if (rootType instanceof MessageElement) {
         ConnectDatatype cd = new ConnectDatatype(
             type.getReleaseStatus(),
-            rootType, type.getPackageName(), type.getParentType(), exampleResolver, ignoreOneofs);
+            type.getNamespace(),
+            rootType,
+            type.getPackageName(),
+            type.getParentType(),
+            exampleResolver,
+            ignoreOneofs);
+
         checkArgument(!datatypes.containsKey(cd.getName()), "Already seen %s", cd.getName());
         this.datatypes.put(type.getName(), cd);
       } else {
@@ -59,9 +69,13 @@ class ProtoIndex {
       endpoints.addAll(service.getRootService()
           .rpcs()
           .stream()
-          .map(rpc -> new ConnectEndpoint(rpc, this,
-              ProtoOptions.getExplicitReleaseStatus(rpc.options(), "common.method_status")
-              .orElse(service.getReleaseStatus())))
+          .map(rpc -> new ConnectEndpoint(
+                  rpc,
+                  this,
+                  ProtoOptions.getExplicitReleaseStatus(rpc.options(), "common.method_status").orElse(service.getReleaseStatus()),
+                  ProtoOptions.getStringValue(rpc.options(), "common.method_namespace").orElse("")
+              )
+          )
           .collect(Collectors.toList()));
     }
   }

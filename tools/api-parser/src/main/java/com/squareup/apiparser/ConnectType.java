@@ -34,9 +34,11 @@ public class ConnectType {
   private final Optional<ConnectType> parentType;
   private final String name;
   private ReleaseStatus releaseStatus;
+  private String namespace;
 
   ConnectType(
       ReleaseStatus releaseStatus,
+      String namespace,
       TypeElement rootType,
       String packageName,
       Optional<ConnectType> parentType) {
@@ -48,6 +50,7 @@ public class ConnectType {
     this.releaseStatus = ProtoOptions.getExplicitReleaseStatus(
         getRootType().options(), getReleaseStatusOptionName(rootType))
         .orElse(releaseStatus);
+    this.namespace = namespace;
   }
 
   private static String getReleaseStatusOptionName(TypeElement rootType) {
@@ -88,5 +91,9 @@ public class ConnectType {
 
   public ReleaseStatus getReleaseStatus() {
     return releaseStatus;
+  }
+
+  public String getNamespace() {
+    return namespace;
   }
 }

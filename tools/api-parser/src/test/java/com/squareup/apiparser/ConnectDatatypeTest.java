@@ -32,7 +32,7 @@ public class ConnectDatatypeTest {
     MessageElement e = stubMessage("@desc a mock");
     when(e.options()).thenReturn(ImmutableList.of());
     ConnectDatatype datatype =
-        new ConnectDatatype(ReleaseStatus.INTERNAL, e, "packageName", Optional.empty(), resolver, false);
+        new ConnectDatatype(ReleaseStatus.INTERNAL, "", e, "packageName", Optional.empty(), resolver, false);
     assertThat(datatype.toJson(ReleaseStatus.INTERNAL).get("description").getAsString(),
         equalTo("a mock"));
     assertThat(datatype.toJson(ReleaseStatus.INTERNAL).get("type").getAsString(), equalTo("object"));
@@ -55,7 +55,7 @@ public class ConnectDatatypeTest {
     when(e.options()).thenReturn(ImmutableList.of());
 
     final ConnectDatatype datatype =
-        new ConnectDatatype(ReleaseStatus.INTERNAL, e, "packageName", Optional.empty(), resolver, false);
+        new ConnectDatatype(ReleaseStatus.INTERNAL, "", e, "packageName", Optional.empty(), resolver, false);
     final ProtoIndex index = mock(ProtoIndex.class);
     when(index.getEnumType("string")).thenReturn(Optional.empty());
     datatype.populateFields(index);
@@ -91,14 +91,14 @@ public class ConnectDatatypeTest {
     when(fakeParentTypeElement.options()).thenReturn(ImmutableList.of());
     when(fakeParentTypeElement.name()).thenReturn("FakeRequest");
 
-    final ConnectDatatype fakeDataType = new ConnectDatatype(ReleaseStatus.INTERNAL, fakeTypeElement,
+    final ConnectDatatype fakeDataType = new ConnectDatatype(ReleaseStatus.INTERNAL, "", fakeTypeElement,
             "squareup.connect.v2.fakes.service",
-        Optional.of(new ConnectDatatype(ReleaseStatus.INTERNAL, fakeParentTypeElement,
+        Optional.of(new ConnectDatatype(ReleaseStatus.INTERNAL, "", fakeParentTypeElement,
             "squareup.connect.v2.fakes.service", Optional.empty(), resolver, false)),
             resolver, false);
 
     final ConnectDatatype datatype =
-        new ConnectDatatype(ReleaseStatus.INTERNAL, e, "packageName", Optional.empty(), resolver, false);
+        new ConnectDatatype(ReleaseStatus.INTERNAL, "", e, "packageName", Optional.empty(), resolver, false);
     final ProtoIndex index = mock(ProtoIndex.class);
     when(index.getEnumType(fakeFieldType)).thenReturn(Optional.empty());
     when(index.getDatatypes()).thenReturn(ImmutableMap.of("FakeRequestFake", fakeDataType));
@@ -126,7 +126,7 @@ public class ConnectDatatypeTest {
     when(e.options()).thenReturn(ImmutableList.of(o));
 
     ConnectDatatype datatype =
-        new ConnectDatatype(ReleaseStatus.INTERNAL, e, "packageName", Optional.empty(), resolver, false);
+        new ConnectDatatype(ReleaseStatus.INTERNAL, "", e, "packageName", Optional.empty(), resolver, false);
     JsonObject sdkSamples =
         datatype.toJson(ReleaseStatus.INTERNAL).get("x-sq-sdk-sample-code").getAsJsonObject();
     assertThat(sdkSamples.getAsJsonPrimitive("ruby").getAsString(),
@@ -141,7 +141,7 @@ public class ConnectDatatypeTest {
     when(e.options()).thenReturn(ImmutableList.of());
 
     ConnectDatatype datatype =
-        new ConnectDatatype(ReleaseStatus.INTERNAL, e, "packageName", Optional.empty(), resolver, false);
+        new ConnectDatatype(ReleaseStatus.INTERNAL, "", e, "packageName", Optional.empty(), resolver, false);
     assertNull(datatype.toJson(ReleaseStatus.INTERNAL).get("x-sq-sdk-sample-code"));
   }
 
@@ -153,7 +153,7 @@ public class ConnectDatatypeTest {
     when(e.options()).thenReturn(ImmutableList.of());
 
     ConnectDatatype dataType =
-        new ConnectDatatype(ReleaseStatus.INTERNAL, e, "packageName", Optional.empty(), resolver, false);
+        new ConnectDatatype(ReleaseStatus.INTERNAL, "", e, "packageName", Optional.empty(), resolver, false);
     assertFalse(dataType.hasBodyParameters());
   }
 
@@ -165,7 +165,7 @@ public class ConnectDatatypeTest {
     when(me.options()).thenReturn(ImmutableList.of());
 
     ConnectDatatype dataType =
-        new ConnectDatatype(ReleaseStatus.INTERNAL, me, "packageName", Optional.empty(), resolver, false);
+        new ConnectDatatype(ReleaseStatus.INTERNAL, "", me, "packageName", Optional.empty(), resolver, false);
     dataType.populateFields(new ProtoIndex(resolver, false, sqVersion));
     assertFalse(dataType.hasBodyParameters());
   }
@@ -179,7 +179,7 @@ public class ConnectDatatypeTest {
     when(me.options()).thenReturn(ImmutableList.of());
 
     ConnectDatatype dataType =
-        new ConnectDatatype(ReleaseStatus.INTERNAL, me, "packageName", Optional.empty(), resolver, false);
+        new ConnectDatatype(ReleaseStatus.INTERNAL, "", me, "packageName", Optional.empty(), resolver, false);
     dataType.populateFields(new ProtoIndex(resolver, false, sqVersion));
     assertTrue(dataType.hasBodyParameters());
   }
@@ -195,7 +195,7 @@ public class ConnectDatatypeTest {
     when(m.oneOfs()).thenReturn(ImmutableList.of(oe));
 
     final ConnectDatatype datatype =
-        new ConnectDatatype(ReleaseStatus.INTERNAL, m, "packageName", Optional.empty(), resolver, false);
+        new ConnectDatatype(ReleaseStatus.INTERNAL, "", m, "packageName", Optional.empty(), resolver, false);
     datatype.populateFields(new ProtoIndex(resolver, false, sqVersion));
   }
 
