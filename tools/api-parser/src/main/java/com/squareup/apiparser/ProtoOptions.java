@@ -50,10 +50,6 @@ class ProtoOptions {
     return getStringValue(options, "common.sdk_sample_directory");
   }
 
-  // static Optional<String> namespace(Collection<OptionElement> options) {
-  //   return getStringValue(options, "common.namespace");
-  // }
-
   static Map<String, Object> validations(Collection<OptionElement> options) {
     ImmutableMap.Builder<String, Object> validations = ImmutableMap.builder();
     options.stream()

@@ -25,6 +25,8 @@ import java.text.ParseException;
 import static com.squareup.apiparser.Json.GSON;
 
 public class ConnectAPIParser {
+  // TODO: ssung to move to a configuration file once we start refactoring/rewriting the generator
+  private static final ImmutableList<String> NAMESPACES = ImmutableList.of("marketplaces");
 
   // Compound ordering of ConnectEndpoint by (path, method).
   private static final Ordering<ConnectEndpoint> ENDPOINT_ORDERING = Ordering.natural()
@@ -120,7 +122,7 @@ public class ConnectAPIParser {
         .build();
   }
 
-  JsonAPI parseAPI(ProtoIndex index, ReleaseStatus releaseStatus, String namespace, Configuration configuration)
+  public static JsonAPI parseAPI(ProtoIndex index, ReleaseStatus releaseStatus, String namespace, Configuration configuration)
       throws InvalidSpecException {
     // Transform all the symbols to JSON and write out to file
     JsonObject root = GSON.toJsonTree(swaggerBase(configuration)).getAsJsonObject();
@@ -132,7 +134,7 @@ public class ConnectAPIParser {
 
     // Endpoint
     index.getEndpoints().stream()
-        .filter(connectEndpoint -> releaseStatus.shouldInclude(connectEndpoint.getReleaseStatus()) && (namespace.equals("") || namespace.equals(connectEndpoint.getNamespace())))
+        .filter(connectEndpoint -> releaseStatus.shouldInclude(connectEndpoint.getReleaseStatus()) && doesNamespaceMatch(namespace, connectEndpoint.getNamespace()))
         .sorted(ENDPOINT_ORDERING)
         .forEach(endpoint -> {
           if (!jsonEndpoints.has(endpoint.getPath())) {
@@ -147,8 +149,7 @@ public class ConnectAPIParser {
     JsonObject jsonTypes = new JsonObject();
     final Joiner join = Joiner.on(".");
     for (ConnectEnum enumm : index.getEnums().values()) {
-      boolean doesNamespaceMatch = namespace.equals("") || namespace.equals(enumm.getNamespace());
-      if (releaseStatus.shouldInclude(enumm.getReleaseStatus()) && doesNamespaceMatch) {
+      if (releaseStatus.shouldInclude(enumm.getReleaseStatus()) && doesNamespaceMatch(namespace, enumm.getNamespace())) {
         jsonTypes.add(enumm.getName(), enumm.toJson(releaseStatus));
         enumm.getValues()
             .stream()
@@ -160,8 +161,7 @@ public class ConnectAPIParser {
 
     //Datatype
     for (ConnectDatatype datatype : index.getDatatypes().values()) {
-      boolean doesNamespaceMatch = namespace.equals("") || namespace.equals(datatype.getNamespace());
-      if (releaseStatus.shouldInclude(datatype.getReleaseStatus()) && doesNamespaceMatch) {
+      if (releaseStatus.shouldInclude(datatype.getReleaseStatus()) && doesNamespaceMatch(namespace, datatype.getNamespace())) {
         jsonTypes.add(datatype.getName(), datatype.toJson(releaseStatus));
       }
     }
@@ -253,10 +253,9 @@ public class ConnectAPIParser {
       writeJson(GSON.toJson(api.swagger), alphaAPIOutputPath);
 
       // alpha json with namespaces
-      String[] namespaces = {"marketplaces"};
-      for (int i=0; i<namespaces.length; i++) {
-        api = getJsonAPI(configuration, ReleaseStatus.ALPHA, namespaces[i], index);
-        alphaAPIOutputPath = outputPath.resolve("api_alpha_" + namespaces[i] + ".json");
+      for (String currentNamespace : NAMESPACES) {
+        api = getJsonAPI(configuration, ReleaseStatus.ALPHA, currentNamespace, index);
+        alphaAPIOutputPath = outputPath.resolve("api_alpha_" + currentNamespace + ".json");
         writeJson(GSON.toJson(api.swagger), alphaAPIOutputPath);
       }
     } catch (InvalidSpecException e) {
@@ -276,6 +275,9 @@ public class ConnectAPIParser {
       System.out.println("Failed to generate JSON APIs!");
       System.exit(2);
     }
+  }
+  private static boolean doesNamespaceMatch(String namespaceSrc, String namespaceDest) {
+    return namespaceSrc.equals("") || namespaceSrc.equals(namespaceDest);
   }
 
   // Merges all elements in a into b
@@ -300,6 +302,6 @@ public class ConnectAPIParser {
 
   private static JsonAPI getJsonAPI(Configuration configuration,
       ReleaseStatus releaseStatus, String namespace, ProtoIndex index) {
-    return new ConnectAPIParser().parseAPI(index, releaseStatus, namespace, configuration);
+    return parseAPI(index, releaseStatus, namespace, configuration);
   }
 }

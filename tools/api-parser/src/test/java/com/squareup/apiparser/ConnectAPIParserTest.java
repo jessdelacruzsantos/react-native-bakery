@@ -27,8 +27,7 @@ public class ConnectAPIParserTest {
     ExampleResolver resolver = new ExampleResolver(ImmutableList.of(""));
     ProtoIndex index = new ProtoIndex(resolver, false, "2018-05-01");
     Configuration config = new Configuration();
-    ConnectAPIParser.JsonAPI api =
-        new ConnectAPIParser().parseAPI(index, ReleaseStatus.INTERNAL, "", config);
+    ConnectAPIParser.JsonAPI api = ConnectAPIParser.parseAPI(index, ReleaseStatus.INTERNAL, "", config);
 
     JsonObject swagger = api.swagger;
     assertThat(swagger.get("swagger").getAsString(), equalTo("2.0"));
@@ -71,8 +70,7 @@ public class ConnectAPIParserTest {
     ExampleResolver resolver = new ExampleResolver(ImmutableList.of(""));
     ProtoIndex index = new ProtoIndex(resolver, false, "2018-05-01");
     Configuration config = new Configuration();
-    ConnectAPIParser.JsonAPI api =
-        new ConnectAPIParser().parseAPI(index, ReleaseStatus.INTERNAL, "", config);
+    ConnectAPIParser.JsonAPI api = ConnectAPIParser.parseAPI(index, ReleaseStatus.INTERNAL, "", config);
 
     JsonObject secDef = api.swagger.getAsJsonObject("securityDefinitions");
     assertThat(secDef, not(nullValue()));
@@ -97,8 +95,7 @@ public class ConnectAPIParserTest {
     Path path = Paths.get(url.getFile());
     ProtoIndex index = indexer.indexProtos(ImmutableList.of(path.getParent().toString()));
 
-    ConnectAPIParser.JsonAPI api =
-        new ConnectAPIParser().parseAPI(index, ReleaseStatus.INTERNAL, "", new Configuration());
+    ConnectAPIParser.JsonAPI api = ConnectAPIParser.parseAPI(index, ReleaseStatus.INTERNAL, "", new Configuration());
     JsonObject json = api.swagger;
     JsonObject paths = json.getAsJsonObject("paths");
     JsonObject definitions = json.getAsJsonObject("definitions");
