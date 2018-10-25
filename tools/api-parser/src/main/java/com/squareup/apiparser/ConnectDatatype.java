@@ -73,7 +73,8 @@ class ConnectDatatype extends ConnectType {
   }
 
   private String getNamespace(FieldElement f) {
-    return ProtoOptions.getStringValue(f.options(), "common.field_namespace").orElse("");
+    return ProtoOptions.getStringValue(f.options(), "common.field_namespace")
+        .orElse(this.getNamespace());
   }
 
   private String getType(ProtoIndex index, FieldElement f) {

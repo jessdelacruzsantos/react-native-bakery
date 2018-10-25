@@ -50,7 +50,9 @@ public class ConnectType {
     this.releaseStatus = ProtoOptions.getExplicitReleaseStatus(
         getRootType().options(), getReleaseStatusOptionName(rootType))
         .orElse(releaseStatus);
-    this.namespace = namespace;
+    this.namespace = ProtoOptions.getStringValue(
+        getRootType().options(), getNamespaceOptionName(rootType))
+        .orElse(namespace);
   }
 
   private static String getReleaseStatusOptionName(TypeElement rootType) {
@@ -58,6 +60,17 @@ public class ConnectType {
       return "common.enum_status";
     } else if (rootType instanceof MessageElement) {
       return "common.message_status";
+    } else {
+      throw new IllegalArgumentException(
+          String.format("Encountered a malformed proto: rootType=%s", rootType));
+    }
+  }
+
+  private static String getNamespaceOptionName(TypeElement rootType) {
+    if (rootType instanceof EnumElement) {
+      return "common.enum_namespace";
+    } else if (rootType instanceof MessageElement) {
+      return "common.message_namespace";
     } else {
       throw new IllegalArgumentException(
           String.format("Encountered a malformed proto: rootType=%s", rootType));
