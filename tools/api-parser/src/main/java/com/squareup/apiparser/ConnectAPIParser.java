@@ -134,7 +134,7 @@ public class ConnectAPIParser {
 
     // Endpoint
     index.getEndpoints().stream()
-        .filter(connectEndpoint -> releaseStatus.shouldInclude(connectEndpoint.getReleaseStatus()) && doesNamespaceMatch(namespace, connectEndpoint.getNamespace()))
+        .filter(connectEndpoint -> releaseStatus.shouldInclude(connectEndpoint.getReleaseStatus()) && doesAlphaNamespaceMatch(releaseStatus, namespace, connectEndpoint.getNamespace()))
         .sorted(ENDPOINT_ORDERING)
         .forEach(endpoint -> {
           if (!jsonEndpoints.has(endpoint.getPath())) {
@@ -149,7 +149,7 @@ public class ConnectAPIParser {
     JsonObject jsonTypes = new JsonObject();
     final Joiner join = Joiner.on(".");
     for (ConnectEnum enumm : index.getEnums().values()) {
-      if (releaseStatus.shouldInclude(enumm.getReleaseStatus()) && doesNamespaceMatch(namespace, enumm.getNamespace())) {
+      if (releaseStatus.shouldInclude(enumm.getReleaseStatus()) && doesAlphaNamespaceMatch(releaseStatus, namespace, enumm.getNamespace())) {
         jsonTypes.add(enumm.getName(), enumm.toJson(releaseStatus));
         enumm.getValues()
             .stream()
@@ -161,7 +161,7 @@ public class ConnectAPIParser {
 
     //Datatype
     for (ConnectDatatype datatype : index.getDatatypes().values()) {
-      if (releaseStatus.shouldInclude(datatype.getReleaseStatus()) && doesNamespaceMatch(namespace, datatype.getNamespace())) {
+      if (releaseStatus.shouldInclude(datatype.getReleaseStatus()) && doesAlphaNamespaceMatch(releaseStatus, namespace, datatype.getNamespace())) {
         jsonTypes.add(datatype.getName(), datatype.toJson(releaseStatus));
       }
     }
@@ -276,8 +276,10 @@ public class ConnectAPIParser {
       System.exit(2);
     }
   }
-  private static boolean doesNamespaceMatch(String namespaceSrc, String namespaceDest) {
-    return namespaceSrc.equals("") || namespaceSrc.equals(namespaceDest);
+
+  // Namespace matching only applies to ALPHA
+  private static boolean doesAlphaNamespaceMatch(ReleaseStatus releaseStatus, String namespaceSrc, String namespaceDest) {
+    return releaseStatus != ReleaseStatus.ALPHA || namespaceSrc.equals("") || namespaceSrc.equals(namespaceDest);
   }
 
   // Merges all elements in a into b
