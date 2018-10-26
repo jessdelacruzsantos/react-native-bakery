@@ -73,7 +73,7 @@ class ProtoIndex {
                   rpc,
                   this,
                   ProtoOptions.getExplicitReleaseStatus(rpc.options(), "common.method_status").orElse(service.getReleaseStatus()),
-                  ProtoOptions.getStringValue(rpc.options(), "common.method_namespace").orElse("")
+                  ProtoOptions.getStringValue(rpc.options(), "common.method_namespace").orElse(service.getNamespace())
               )
           )
           .collect(Collectors.toList()));

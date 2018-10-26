@@ -73,7 +73,7 @@ class ProtoIndexer {
           .forEach(t -> addType(releaseStatus, namespace, t, proto.packageName(), Optional.empty()));
 
       for (ServiceElement service : proto.services()) {
-        this.protoServices.add(new ConnectService(releaseStatus, service));
+        this.protoServices.add(new ConnectService(releaseStatus, namespace, service));
       }
     }
   }
