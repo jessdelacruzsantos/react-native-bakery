@@ -66,22 +66,25 @@ class ProtoIndexer {
       ReleaseStatus releaseStatus =
           ProtoOptions.getReleaseStatus(proto.options(), "common.file_status");
 
+      String namespace =
+          ProtoOptions.getStringValue(proto.options(), "common.file_namespace").orElse("");
+
       proto.types()
-          .forEach(t -> addType(releaseStatus, t, proto.packageName(), Optional.empty()));
+          .forEach(t -> addType(releaseStatus, namespace, t, proto.packageName(), Optional.empty()));
 
       for (ServiceElement service : proto.services()) {
-        this.protoServices.add(new ConnectService(releaseStatus, service));
+        this.protoServices.add(new ConnectService(releaseStatus, namespace, service));
       }
     }
   }
 
-  private void addType(ReleaseStatus releaseStatus, TypeElement datatype, String packageName,
+  private void addType(ReleaseStatus releaseStatus, String namespace, TypeElement datatype, String packageName,
       Optional<ConnectType> parent) {
-    ConnectType ct = new ConnectType(releaseStatus, datatype, packageName, parent);
+    ConnectType ct = new ConnectType(releaseStatus, namespace, datatype, packageName, parent);
 
     this.protoTypes.add(ct);
     for (TypeElement subType : datatype.nestedTypes()) {
-      addType(ct.getReleaseStatus(), subType, packageName, Optional.of(ct));
+      addType(ct.getReleaseStatus(), namespace, subType, packageName, Optional.of(ct));
     }
   }
 

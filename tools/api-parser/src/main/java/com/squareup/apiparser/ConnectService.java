@@ -10,9 +10,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
 class ConnectService {
   private final ServiceElement rootService;
   private final ReleaseStatus releaseStatus;
+  private final String namespace;
 
-  ConnectService(ReleaseStatus releaseStatus, ServiceElement rootService) {
+  ConnectService(ReleaseStatus releaseStatus, String namespace, ServiceElement rootService) {
     this.releaseStatus = releaseStatus;
+    this.namespace = namespace;
     this.rootService = checkNotNull(rootService);
   }
 
@@ -22,5 +24,9 @@ class ConnectService {
 
   public ReleaseStatus getReleaseStatus() {
     return releaseStatus;
+  }
+
+  public String getNamespace() {
+    return namespace;
   }
 }

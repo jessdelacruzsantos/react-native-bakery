@@ -25,6 +25,8 @@ import java.text.ParseException;
 import static com.squareup.apiparser.Json.GSON;
 
 public class ConnectAPIParser {
+  // TODO: ssung to move to a configuration file once we start refactoring/rewriting the generator
+  private static final ImmutableList<String> NAMESPACES = ImmutableList.of("marketplaces");
 
   // Compound ordering of ConnectEndpoint by (path, method).
   private static final Ordering<ConnectEndpoint> ENDPOINT_ORDERING = Ordering.natural()
@@ -120,7 +122,7 @@ public class ConnectAPIParser {
         .build();
   }
 
-  JsonAPI parseAPI(ProtoIndex index, ReleaseStatus releaseStatus, Configuration configuration)
+  public static JsonAPI parseAPI(ProtoIndex index, ReleaseStatus releaseStatus, String namespace, Configuration configuration)
       throws InvalidSpecException {
     // Transform all the symbols to JSON and write out to file
     JsonObject root = GSON.toJsonTree(swaggerBase(configuration)).getAsJsonObject();
@@ -130,8 +132,9 @@ public class ConnectAPIParser {
 
     JsonObject jsonEndpoints = new JsonObject();
 
+    // Endpoint
     index.getEndpoints().stream()
-        .filter(connectEndpoint -> releaseStatus.shouldInclude(connectEndpoint.getReleaseStatus()))
+        .filter(connectEndpoint -> releaseStatus.shouldInclude(connectEndpoint.getReleaseStatus()) && doesAlphaNamespaceMatch(connectEndpoint.getReleaseStatus(), namespace, connectEndpoint.getNamespace()))
         .sorted(ENDPOINT_ORDERING)
         .forEach(endpoint -> {
           if (!jsonEndpoints.has(endpoint.getPath())) {
@@ -142,10 +145,11 @@ public class ConnectAPIParser {
         });
     root.add("paths", jsonEndpoints);
 
+    // Enum
     JsonObject jsonTypes = new JsonObject();
     final Joiner join = Joiner.on(".");
     for (ConnectEnum enumm : index.getEnums().values()) {
-      if (releaseStatus.shouldInclude(enumm.getReleaseStatus())) {
+      if (releaseStatus.shouldInclude(enumm.getReleaseStatus()) && doesAlphaNamespaceMatch(enumm.getReleaseStatus(), namespace, enumm.getNamespace())) {
         jsonTypes.add(enumm.getName(), enumm.toJson(releaseStatus));
         enumm.getValues()
             .stream()
@@ -155,8 +159,9 @@ public class ConnectAPIParser {
       }
     }
 
+    //Datatype
     for (ConnectDatatype datatype : index.getDatatypes().values()) {
-      if (releaseStatus.shouldInclude(datatype.getReleaseStatus())) {
+      if (releaseStatus.shouldInclude(datatype.getReleaseStatus()) && doesAlphaNamespaceMatch(datatype.getReleaseStatus(), namespace, datatype.getNamespace())) {
         jsonTypes.add(datatype.getName(), datatype.toJson(releaseStatus));
       }
     }
@@ -213,13 +218,13 @@ public class ConnectAPIParser {
 
       ProtoIndex index = new ProtoIndexer(configuration.isIgnoreOneofs(), sqVersion).indexProtos(protoPaths);
 
-      JsonAPI api = getJsonAPI(configuration, ReleaseStatus.INTERNAL, index);
+      JsonAPI api = getJsonAPI(configuration, ReleaseStatus.INTERNAL, "", index);
       Path allAPIOutputPath = outputPath.resolve("api_internal.json");
       writeJson(GSON.toJson(api.swagger), allAPIOutputPath);
       Path enumOutputPath = outputPath.resolve("enum_mapping.json");
       writeJson(GSON.toJson(api.enumMap), enumOutputPath);
 
-      api = getJsonAPI(configuration, ReleaseStatus.PUBLIC, index);
+      api = getJsonAPI(configuration, ReleaseStatus.PUBLIC,  "", index);
       if (!configuration.getV1APISchemaFile().isEmpty()) {
         // Because the incoming api.json lacks visibility information we only merge it into the
         // public definitions. This is not the best way to handle v1 endpoints.
@@ -239,13 +244,20 @@ public class ConnectAPIParser {
       writeJson(GSON.toJson(api.swagger), publicAPIOutputPath);
 
       // (TODO) (DF-157) remove it once migrate beta to tags in api.json
-      api = getJsonAPI(configuration, ReleaseStatus.BETA, index);
+      api = getJsonAPI(configuration, ReleaseStatus.BETA,  "", index);
       Path betaAPIOutputPath = outputPath.resolve("api_beta.json");
       writeJson(GSON.toJson(api.swagger), betaAPIOutputPath);
 
-      api = getJsonAPI(configuration, ReleaseStatus.ALPHA, index);
+      api = getJsonAPI(configuration, ReleaseStatus.ALPHA,  "", index);
       Path alphaAPIOutputPath = outputPath.resolve("api_alpha.json");
       writeJson(GSON.toJson(api.swagger), alphaAPIOutputPath);
+
+      // alpha json with namespaces
+      for (String currentNamespace : NAMESPACES) {
+        api = getJsonAPI(configuration, ReleaseStatus.ALPHA, currentNamespace, index);
+        alphaAPIOutputPath = outputPath.resolve("api_alpha_" + currentNamespace + ".json");
+        writeJson(GSON.toJson(api.swagger), alphaAPIOutputPath);
+      }
     } catch (InvalidSpecException e) {
       String errorMsg;
       if (e.getContext().isPresent()) {
@@ -263,6 +275,11 @@ public class ConnectAPIParser {
       System.out.println("Failed to generate JSON APIs!");
       System.exit(2);
     }
+  }
+
+  // Namespace matching only applies to ALPHA
+  private static boolean doesAlphaNamespaceMatch(ReleaseStatus releaseStatus, String namespaceSrc, String namespaceDest) {
+    return releaseStatus != ReleaseStatus.ALPHA || namespaceSrc.equals("") || namespaceSrc.equals(namespaceDest);
   }
 
   // Merges all elements in a into b
@@ -286,7 +303,7 @@ public class ConnectAPIParser {
   }
 
   private static JsonAPI getJsonAPI(Configuration configuration,
-      ReleaseStatus releaseStatus, ProtoIndex index) {
-    return new ConnectAPIParser().parseAPI(index, releaseStatus, configuration);
+      ReleaseStatus releaseStatus, String namespace, ProtoIndex index) {
+    return parseAPI(index, releaseStatus, namespace, configuration);
   }
 }

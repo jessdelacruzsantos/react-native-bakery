@@ -13,14 +13,17 @@ import static java.util.stream.Collectors.toList;
 class ConnectEnum extends ConnectType {
   private final List<ConnectField> values;
 
-  ConnectEnum(ReleaseStatus releaseStatus, EnumElement enumm, String packageName,
+  ConnectEnum(ReleaseStatus releaseStatus, String namespace, EnumElement enumm, String packageName,
               Optional<ConnectType> parentType) {
-    super(releaseStatus, enumm, packageName, parentType);
+    super(releaseStatus, namespace, enumm, packageName, parentType);
     this.values = ImmutableList.copyOf(enumm.constants()
         .stream()
         .map(v -> new ConnectField(
             getApiReleaseStatus(releaseStatus, v),
-            v.name(), "", v.documentation()))
+            namespace,
+            v.name(),
+            "",
+            v.documentation()))
         .collect(toList()));
   }
 

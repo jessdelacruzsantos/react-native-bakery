@@ -27,12 +27,14 @@ public class ConnectField {
   private final Map<String, String> docAnnotations;
   private final Map<String, Object> validations;
   private ReleaseStatus releaseStatus;
+  private String namespace;
 
-  ConnectField(ReleaseStatus releaseStatus, FieldElement field, String type,
+  ConnectField(ReleaseStatus releaseStatus, String namespace, FieldElement field, String type,
       Optional<ConnectEnum> enumm) {
     checkNotNull(field);
     checkNotNull(enumm);
     this.releaseStatus = releaseStatus;
+    this.namespace = namespace;
     this.name = field.name();
     this.type = type;
     this.isArray = field.label() == Field.Label.REPEATED;
@@ -45,8 +47,9 @@ public class ConnectField {
   }
 
   // This constructor is called ONLY for fields that represent a value of an enum, such as USD.
-  ConnectField(ReleaseStatus releaseStatus, String name, String type, String documentation) {
+  ConnectField(ReleaseStatus releaseStatus, String namespace, String name, String type, String documentation) {
     this.releaseStatus = checkNotNull(releaseStatus);
+    this.namespace = namespace;
     this.name = checkNotNull(name);
     this.type = Protos.cleanName(checkNotNull(type));
     this.required = false;

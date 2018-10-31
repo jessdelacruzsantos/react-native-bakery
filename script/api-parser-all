@@ -54,4 +54,13 @@ echo "JAVA_DIR: $LOCAL_JAVA_REPO"
 api_version_file_path="$LOCAL_GO_REPO/oauth/config/api-versions.yaml"
 api_version=`grep "\- version: [0-9][0-9][0-9][0-9]\-[0-9][0-9]\-[0-9][0-9]" $api_version_file_path|tr -d ' '|tail -1|cut -d ":" -f 2`
 echo "Pulling api version: $api_version from $api_version_file_path"
-$DIR/api-parser -sqversion $api_version --ignoreoneofs $LOCAL_GO_REPO/xp/connect-public-protos/protos/squareup/connect/v2/ $LOCAL_GO_REPO/oauth/protos/squareup/oauth/v1 $LOCAL_JAVA_REPO/orders/orders-proto/src/main/proto/squareup/omg/ $LOCAL_JAVA_REPO/orders/orders-service-proto/src/main/proto/squareup/omg/
+
+$DIR/api-parser -sqversion $api_version --ignoreoneofs \
+  $LOCAL_GO_REPO/xp/connect-public-protos/protos/squareup/connect/v2/ \
+  $LOCAL_GO_REPO/oauth/protos/squareup/oauth/v1 \
+  $LOCAL_JAVA_REPO/orders/orders-proto/src/main/proto/squareup/omg/ \
+  $LOCAL_JAVA_REPO/orders/orders-service-proto/src/main/proto/squareup/omg/ \
+  $LOCAL_JAVA_REPO/payments/marketplaces-api/src/main/proto/squareup/payments/external \
+  $LOCAL_JAVA_REPO/roster/frontend/api/src/main/proto/squareup/roster/frontend/external \
+  $LOCAL_JAVA_REPO/pago/pago-proto/src/main/proto/squareup/pago/external
+

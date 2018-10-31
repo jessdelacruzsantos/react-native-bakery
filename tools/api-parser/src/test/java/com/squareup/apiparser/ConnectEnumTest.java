@@ -20,7 +20,7 @@ public class ConnectEnumTest {
     when(element.documentation()).thenReturn("");
     when(element.options()).thenReturn(ImmutableList.of());
     ConnectEnum connectEnum = new ConnectEnum(
-        ReleaseStatus.INTERNAL, element, "packageName", Optional.empty());
+        ReleaseStatus.INTERNAL, "", element, "packageName", Optional.empty());
     assertThat(connectEnum.toJson(ReleaseStatus.INTERNAL).get("type").getAsString(),
         equalTo("string"));
     assertThat(connectEnum.toJson(ReleaseStatus.INTERNAL).get("x-release-status").getAsString(),

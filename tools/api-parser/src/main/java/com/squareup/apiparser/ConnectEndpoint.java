@@ -27,6 +27,7 @@ public class ConnectEndpoint {
   private final RpcElement rootRpc;
   private final ProtoIndex index;
   private final ReleaseStatus releaseStatus;
+  private final String namespace;
   private final String sqVersion;
 
   // See http://swagger.io/specification/#pathItemObject
@@ -42,13 +43,14 @@ public class ConnectEndpoint {
       AUTHENTICATION_METHOD_MULTIPASS
   );
 
-  ConnectEndpoint(RpcElement rpc, ProtoIndex index, ReleaseStatus releaseStatus) {
+  ConnectEndpoint(RpcElement rpc, ProtoIndex index, ReleaseStatus releaseStatus, String namespace) {
     this.rootRpc = checkNotNull(rpc);
     this.inputType = rpc.requestType();
     this.outputType = rpc.responseType();
     this.index = checkNotNull(index);
     this.docAnnotations = new DocString(rpc.documentation()).getAnnotations();
     this.releaseStatus = releaseStatus;
+    this.namespace = namespace;
     Optional<ConnectDatatype> requestType = index.getDataType(inputType);
     checkState(requestType.isPresent(), "Request type could not be found for rpc=%s.", rpc);
     //noinspection OptionalGetWithoutIsPresent
@@ -257,5 +259,9 @@ public class ConnectEndpoint {
 
   public ReleaseStatus getReleaseStatus() {
     return releaseStatus;
+  }
+
+  public String getNamespace() {
+    return namespace;
   }
 }

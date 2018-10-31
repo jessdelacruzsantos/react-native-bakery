@@ -25,12 +25,13 @@ class ConnectDatatype extends ConnectType {
 
   ConnectDatatype(
       ReleaseStatus releaseStatus,
+      String namespace,
       TypeElement rootType,
       String packageName,
       Optional<ConnectType> parentType,
       ExampleResolver exampleResolver,
       boolean ignoreOneofs) {
-    super(releaseStatus, rootType, packageName, parentType);
+    super(releaseStatus, namespace, rootType, packageName, parentType);
 
     this.example = ProtoOptions.exampleFilename(rootType.options())
         .map(exampleResolver::loadExample);
@@ -55,6 +56,7 @@ class ConnectDatatype extends ConnectType {
         .stream()
         .map(f -> new ConnectField(
             getApiReleaseStatus(f),
+            getNamespace(f),
             f,
             getType(index, f),
             index.getEnumType(f.type())))
@@ -68,6 +70,10 @@ class ConnectDatatype extends ConnectType {
   private ReleaseStatus getApiReleaseStatus(FieldElement f) {
     return ProtoOptions.getExplicitReleaseStatus(f.options(), "common.field_status")
         .orElse(this.getReleaseStatus());
+  }
+
+  private String getNamespace(FieldElement f) {
+    return ProtoOptions.getStringValue(f.options(), "common.field_namespace").orElse(this.getNamespace());
   }
 
   private String getType(ProtoIndex index, FieldElement f) {
