@@ -85,14 +85,14 @@ class ConnectDatatype extends ConnectType {
   }
 
   // Converts the Datatype to a format that conforms to the Swagger 2.0 specification
-  JsonObject toJson(ReleaseStatus releaseStatus) {
+  JsonObject toJson(ReleaseStatus releaseStatus, String namespace) {
     JsonObject root = new JsonObject();
     root.addProperty("type", "object");
     JsonObject properties = new JsonObject();
 
     fields.stream()
         .filter(f -> !f.isPathParam())
-        .filter(f -> releaseStatus.shouldInclude(f.getReleaseStatus()))
+        .filter(f -> releaseStatus.shouldInclude(f.getReleaseStatus()) && Namespace.isMatched(f.getReleaseStatus(), namespace, f.getNamespace()))
         .forEach(f -> {
           JsonObject property = f.isArray()
               ? handleArray(f, releaseStatus)

@@ -134,7 +134,7 @@ public class ConnectAPIParser {
 
     // Endpoint
     index.getEndpoints().stream()
-        .filter(connectEndpoint -> releaseStatus.shouldInclude(connectEndpoint.getReleaseStatus()) && doesAlphaNamespaceMatch(connectEndpoint.getReleaseStatus(), namespace, connectEndpoint.getNamespace()))
+        .filter(connectEndpoint -> releaseStatus.shouldInclude(connectEndpoint.getReleaseStatus()) && Namespace.isMatched(connectEndpoint.getReleaseStatus(), namespace, connectEndpoint.getNamespace()))
         .sorted(ENDPOINT_ORDERING)
         .forEach(endpoint -> {
           if (!jsonEndpoints.has(endpoint.getPath())) {
@@ -149,7 +149,7 @@ public class ConnectAPIParser {
     JsonObject jsonTypes = new JsonObject();
     final Joiner join = Joiner.on(".");
     for (ConnectEnum enumm : index.getEnums().values()) {
-      if (releaseStatus.shouldInclude(enumm.getReleaseStatus()) && doesAlphaNamespaceMatch(enumm.getReleaseStatus(), namespace, enumm.getNamespace())) {
+      if (releaseStatus.shouldInclude(enumm.getReleaseStatus()) && Namespace.isMatched(enumm.getReleaseStatus(), namespace, enumm.getNamespace())) {
         jsonTypes.add(enumm.getName(), enumm.toJson(releaseStatus));
         enumm.getValues()
             .stream()
@@ -161,8 +161,8 @@ public class ConnectAPIParser {
 
     //Datatype
     for (ConnectDatatype datatype : index.getDatatypes().values()) {
-      if (releaseStatus.shouldInclude(datatype.getReleaseStatus()) && doesAlphaNamespaceMatch(datatype.getReleaseStatus(), namespace, datatype.getNamespace())) {
-        jsonTypes.add(datatype.getName(), datatype.toJson(releaseStatus));
+      if (releaseStatus.shouldInclude(datatype.getReleaseStatus()) && Namespace.isMatched(datatype.getReleaseStatus(), namespace, datatype.getNamespace())) {
+        jsonTypes.add(datatype.getName(), datatype.toJson(releaseStatus, namespace));
       }
     }
     root.add("definitions", jsonTypes);
@@ -275,11 +275,6 @@ public class ConnectAPIParser {
       System.out.println("Failed to generate JSON APIs!");
       System.exit(2);
     }
-  }
-
-  // Namespace matching only applies to ALPHA
-  private static boolean doesAlphaNamespaceMatch(ReleaseStatus releaseStatus, String namespaceSrc, String namespaceDest) {
-    return releaseStatus != ReleaseStatus.ALPHA || namespaceSrc.equals("") || namespaceSrc.equals(namespaceDest);
   }
 
   // Merges all elements in a into b
