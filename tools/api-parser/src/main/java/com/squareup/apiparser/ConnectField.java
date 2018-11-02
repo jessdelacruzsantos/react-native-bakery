@@ -106,6 +106,10 @@ public class ConnectField {
     return releaseStatus;
   }
 
+  public String getNamespace() {
+    return namespace;
+  }
+
   private Pair<String, String> findMapKeyAndValueTypes(String type) {
     Matcher matcher = Pattern.compile("map<(.*),(.*)>").matcher(type);
     Preconditions.checkState(matcher.find(), "Type %s did not match map<> pattern.", type);

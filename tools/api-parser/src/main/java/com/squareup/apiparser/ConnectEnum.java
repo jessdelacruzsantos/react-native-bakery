@@ -20,7 +20,7 @@ class ConnectEnum extends ConnectType {
         .stream()
         .map(v -> new ConnectField(
             getApiReleaseStatus(releaseStatus, v),
-            namespace,
+            getApiReleaseNamespace(namespace, v),
             v.name(),
             "",
             v.documentation()))
@@ -30,6 +30,10 @@ class ConnectEnum extends ConnectType {
   private ReleaseStatus getApiReleaseStatus(ReleaseStatus releaseStatus, EnumConstantElement v) {
     return ProtoOptions.getExplicitReleaseStatus(v.options(), "common.enum_value_status")
         .orElse(releaseStatus);
+  }
+
+  private String getApiReleaseNamespace(String namespace, EnumConstantElement v) {
+    return ProtoOptions.getStringValue(v.options(), "common.enum_value_namespace").orElse(namespace);
   }
 
   List<ConnectField> getValues() {

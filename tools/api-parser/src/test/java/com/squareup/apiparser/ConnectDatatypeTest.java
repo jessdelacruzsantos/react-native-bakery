@@ -33,11 +33,11 @@ public class ConnectDatatypeTest {
     when(e.options()).thenReturn(ImmutableList.of());
     ConnectDatatype datatype =
         new ConnectDatatype(ReleaseStatus.INTERNAL, "", e, "packageName", Optional.empty(), resolver, false);
-    assertThat(datatype.toJson(ReleaseStatus.INTERNAL).get("description").getAsString(),
+    assertThat(datatype.toJson(ReleaseStatus.INTERNAL,"").get("description").getAsString(),
         equalTo("a mock"));
-    assertThat(datatype.toJson(ReleaseStatus.INTERNAL).get("type").getAsString(), equalTo("object"));
-    assertThat(datatype.toJson(ReleaseStatus.INTERNAL).get("properties"), isA(JsonElement.class));
-    assertThat(datatype.toJson(ReleaseStatus.INTERNAL).get("x-release-status").getAsString(), equalTo("INTERNAL"));
+    assertThat(datatype.toJson(ReleaseStatus.INTERNAL,"").get("type").getAsString(), equalTo("object"));
+    assertThat(datatype.toJson(ReleaseStatus.INTERNAL,"").get("properties"), isA(JsonElement.class));
+    assertThat(datatype.toJson(ReleaseStatus.INTERNAL,"").get("x-release-status").getAsString(), equalTo("INTERNAL"));
   }
 
   @Test
@@ -59,11 +59,11 @@ public class ConnectDatatypeTest {
     final ProtoIndex index = mock(ProtoIndex.class);
     when(index.getEnumType("string")).thenReturn(Optional.empty());
     datatype.populateFields(index);
-    assertThat(datatype.toJson(ReleaseStatus.INTERNAL).get("description").getAsString(),
+    assertThat(datatype.toJson(ReleaseStatus.INTERNAL,"").get("description").getAsString(),
         equalTo("a mock"));
-    assertThat(datatype.toJson(ReleaseStatus.INTERNAL).get("type").getAsString(), equalTo("object"));
-    assertThat(datatype.toJson(ReleaseStatus.INTERNAL).get("properties"), isA(JsonElement.class));
-    JsonArray required = datatype.toJson(ReleaseStatus.INTERNAL).get("required").getAsJsonArray();
+    assertThat(datatype.toJson(ReleaseStatus.INTERNAL,"").get("type").getAsString(), equalTo("object"));
+    assertThat(datatype.toJson(ReleaseStatus.INTERNAL,"").get("properties"), isA(JsonElement.class));
+    JsonArray required = datatype.toJson(ReleaseStatus.INTERNAL,"").get("required").getAsJsonArray();
     assertThat(required.get(0).getAsString(), equalTo("FakeField"));
   }
 
@@ -104,8 +104,8 @@ public class ConnectDatatypeTest {
     when(index.getDatatypes()).thenReturn(ImmutableMap.of("FakeRequestFake", fakeDataType));
 
     datatype.populateFields(index);
-    assertThat(datatype.toJson(ReleaseStatus.INTERNAL).get("properties"), isA(JsonElement.class));
-    String fakeType = datatype.toJson(ReleaseStatus.INTERNAL)
+    assertThat(datatype.toJson(ReleaseStatus.INTERNAL,"").get("properties"), isA(JsonElement.class));
+    String fakeType = datatype.toJson(ReleaseStatus.INTERNAL,"")
         .get("properties")
         .getAsJsonObject()
         .get("fake")
@@ -128,7 +128,7 @@ public class ConnectDatatypeTest {
     ConnectDatatype datatype =
         new ConnectDatatype(ReleaseStatus.INTERNAL, "", e, "packageName", Optional.empty(), resolver, false);
     JsonObject sdkSamples =
-        datatype.toJson(ReleaseStatus.INTERNAL).get("x-sq-sdk-sample-code").getAsJsonObject();
+        datatype.toJson(ReleaseStatus.INTERNAL,"").get("x-sq-sdk-sample-code").getAsJsonObject();
     assertThat(sdkSamples.getAsJsonPrimitive("ruby").getAsString(),
         equalTo("/samples/Endpoint/Message.ruby"));
   }
@@ -142,7 +142,7 @@ public class ConnectDatatypeTest {
 
     ConnectDatatype datatype =
         new ConnectDatatype(ReleaseStatus.INTERNAL, "", e, "packageName", Optional.empty(), resolver, false);
-    assertNull(datatype.toJson(ReleaseStatus.INTERNAL).get("x-sq-sdk-sample-code"));
+    assertNull(datatype.toJson(ReleaseStatus.INTERNAL,"").get("x-sq-sdk-sample-code"));
   }
 
   @Test
