@@ -34,8 +34,8 @@ public class ConnectAPIParserTest {
 
     JsonObject info = api.swagger.getAsJsonObject("info");
     assertThat(info, not(nullValue()));
-    assertThat(info.get("version").getAsString(), equalTo(config.getVersion()));
-    assertThat(info.get("title").getAsString(), equalTo(config.getTitle()));
+    assertThat(info.get("version").getAsString(), equalTo("2.0"));
+    assertThat(info.get("title").getAsString(), equalTo("Square Connect API"));
     assertThat(info.get("description").getAsString(),
         equalTo("Client library for accessing the Square Connect APIs"));
     assertThat(info.get("termsOfService").getAsString(),
@@ -59,7 +59,7 @@ public class ConnectAPIParserTest {
         equalTo("Read the official documentation here:"));
     assertThat(docs.get("url").getAsString(), equalTo("https://docs.connect.squareup.com/"));
 
-    assertThat(api.swagger.get("host").getAsString(), equalTo(config.getHost()));
+    assertThat(api.swagger.get("host").getAsString(), equalTo("connect.squareup.com"));
     assertThat(api.swagger.getAsJsonArray("schemes").getAsString(), equalTo("https"));
     assertThat(api.swagger.getAsJsonArray("consumes").getAsString(), equalTo("application/json"));
     assertThat(api.swagger.getAsJsonArray("produces").getAsString(), equalTo("application/json"));

@@ -44,89 +44,10 @@ public class ConnectAPIParser {
     }
   }
 
-  private static Map<String, Object> swaggerBase(Configuration configuration) {
-    ImmutableMap.Builder<String, String> contact = ImmutableMap.<String, String>builder()
-        .put("name", "Square Developer Platform")
-        .put("email", "developers@squareup.com")
-        .put("url", "https://squareup.com/developers");
-
-    ImmutableMap.Builder<String, String> license = ImmutableMap.<String, String>builder()
-        .put("name", "Apache 2.0")
-        .put("url", "http://www.apache.org/licenses/LICENSE-2.0.html");
-
-    ImmutableMap.Builder<String, Object> info = ImmutableMap.<String, Object>builder()
-        .put("version", configuration.getVersion())
-        .put("title", configuration.getTitle())
-        .put("description", "Client library for accessing the Square Connect APIs")
-        .put("termsOfService", "https://connect.squareup.com/tos")
-        .put("contact", contact.build())
-        .put("license", license.build());
-
-    ImmutableMap.Builder<String, String> docs = ImmutableMap.<String, String>builder()
-        .put("description", "Read the official documentation here:")
-        .put("url", "https://docs.connect.squareup.com/");
-
-    return ImmutableMap.<String, Object>builder()
-        .put("swagger", "2.0")
-        .put("info", info.build())
-        .put("externalDocs", docs.build())
-        .put("host", configuration.getHost())
-        .put("schemes", ImmutableList.of("https"))
-        .put("consumes", ImmutableList.of("application/json"))
-        .put("produces", ImmutableList.of("application/json"))
-        .build();
-  }
-
-  private static Map<String, Object> securityDefinitions() {
-    // TODO - These should be extracted from protos directly
-    ImmutableMap.Builder<String, String> scopes = ImmutableMap.<String, String>builder()
-        .put("MERCHANT_PROFILE_READ",
-            "GET endpoints related to a merchant's business and location entities. Almost all Connect API applications need this permission in order to obtain a merchant's location IDs")
-        .put("PAYMENTS_READ", "GET endpoints related to transactions and refunds")
-        .put("PAYMENTS_WRITE",
-            "POST, PUT, and DELETE endpoints related to transactions and refunds. E-commerce applications must request this permission")
-        .put("CUSTOMERS_READ", " GET endpoints related to customer management")
-        .put("CUSTOMERS_WRITE", "POST, PUT, and DELETE endpoints related to customer management")
-        .put("SETTLEMENTS_READ", "GET endpoints related to settlements (deposits)")
-        .put("BANK_ACCOUNTS_READ", "GET endpoints related to a merchant's bank accounts")
-        .put("ITEMS_READ", "GET endpoints related to a merchant's item library")
-        .put("ITEMS_WRITE", "POST, PUT, and DELETE endpoints related to a merchant's item library")
-        .put("ORDERS_READ", "GET endpoints related to a merchant\u0027s orders")
-        .put("ORDERS_WRITE", "POST, PUT, and DELETE endpoints related to a merchant\u0027s orders")
-        .put("EMPLOYEES_READ", "GET endpoints related to employee management")
-        .put("EMPLOYEES_WRITE", "POST, PUT, and DELETE endpoints related to employee management")
-        .put("TIMECARDS_READ", "GET endpoints related to employee timecards")
-        .put("TIMECARDS_WRITE", "POST, PUT, and DELETE endpoints related to employee timecards")
-        .put("PAYMENTS_WRITE_ADDITIONAL_RECIPIENTS",
-            "Allow third party applications to deduct a portion of each transaction amount.")
-        .put("PAYMENTS_WRITE_IN_PERSON",
-            "POST, PUT, and DELETE endpoints. Grants write access to transaction and refunds information.")
-        .put("INVENTORY_READ", "GET endpoints related to a merchant's inventory")
-        .put("INVENTORY_WRITE", "POST, PUT, and DELETE endpoints related to a merchant's inventory");
-
-    ImmutableMap.Builder<String, Object> oauth = ImmutableMap.<String, Object>builder()
-        .put("type", "oauth2")
-        .put("authorizationUrl", "https://connect.squareup.com/oauth2/authorize")
-        .put("flow", "accessCode")
-        .put("tokenUrl", "https://connect.squareup.com/oauth2/token")
-        .put("scopes", scopes.build());
-
-    ImmutableMap.Builder<String, Object> clientAuth = ImmutableMap.<String, Object>builder()
-        .put("type", "apiKey")
-        .put("in", "header")
-        .put("name", "Authorization");
-
-    return ImmutableMap.<String, Object>builder()
-        .put("oauth2", oauth.build())
-        .put("oauth2ClientSecret", clientAuth.build())
-        .build();
-  }
-
   public static JsonAPI parseAPI(ProtoIndex index, ReleaseStatus releaseStatus, String namespace, Configuration configuration)
       throws InvalidSpecException {
     // Transform all the symbols to JSON and write out to file
-    JsonObject root = GSON.toJsonTree(swaggerBase(configuration)).getAsJsonObject();
-    root.add("securityDefinitions", GSON.toJsonTree(securityDefinitions()));
+    JsonObject root = GSON.toJsonTree(configuration.swaggerBase()).getAsJsonObject();
 
     final ImmutableMap.Builder<String, String> enumMapBuilder = ImmutableMap.builder();
 
