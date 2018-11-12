@@ -10,6 +10,7 @@ sdk-test/
 .classpath
 .project
 .settings
+tmp
 
 # Always copied in from Go repo
 sdk_samples/
