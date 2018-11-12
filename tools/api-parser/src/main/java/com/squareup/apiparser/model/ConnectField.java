@@ -1,4 +1,7 @@
 package com.squareup.apiparser;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
@@ -16,48 +19,37 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.squareup.apiparser.Json.GSON;
+import static com.squareup.apiparser.ConnectType.FORMAT_MAP;
+import static com.squareup.apiparser.ConnectType.TYPE_MAP;
 
 public class ConnectField {
   private final boolean required;
   private final boolean isArray;
+  private final boolean isMap;
   private final boolean isPathParam;
   private final String name;
   private final String type;
-  private final List<ConnectField> enumValues;
-  private final Map<String, String> docAnnotations;
+  private final List<ConnectEnumConstant> enumValues;
   private final Map<String, Object> validations;
-  private ReleaseStatus releaseStatus;
-  private String namespace;
+  private final String description;
+  private Group group = new Group();
 
-  ConnectField(ReleaseStatus releaseStatus, String namespace, FieldElement field, String type,
-      Optional<ConnectEnum> enumm) {
-    checkNotNull(field);
+  ConnectField(FieldElement element, Group defaultGroup, String type, Optional<ConnectEnum> enumm) {
+    checkNotNull(element);
     checkNotNull(enumm);
-    this.releaseStatus = releaseStatus;
-    this.namespace = namespace;
-    this.name = field.name();
+    this.group.status = ProtoOptions.getReleaseStatus(element.options(), "common.field_status", defaultGroup.status);
+    this.group.namespace = ProtoOptions.getStringValue(element.options(), "common.field_namespace").orElse(defaultGroup.namespace);
+    this.description = new DocString(element.documentation()).getAnnotations().getOrDefault("desc", "");
+    this.name = element.name();
     this.type = type;
-    this.isArray = field.label() == Field.Label.REPEATED;
-    this.required = field.label() == Field.Label.REQUIRED || ProtoOptions.isRequired(field);
-    this.isPathParam = ProtoOptions.isPathParam(field);
-    this.docAnnotations = new DocString(field.documentation()).getAnnotations();
+    this.isArray = element.label() == Field.Label.REPEATED;
+    this.isMap = type.startsWith("map<");
+    this.required = element.label() == Field.Label.REQUIRED || ProtoOptions.isRequired(element);
+    this.isPathParam = ProtoOptions.isPathParam(element);
     this.enumValues =
         enumm.map(ConnectEnum::getValues).orElse(Collections.emptyList());
-    this.validations = ImmutableMap.copyOf(ProtoOptions.validations(field.options()));
-  }
-
-  // This constructor is called ONLY for fields that represent a value of an enum, such as USD.
-  ConnectField(ReleaseStatus releaseStatus, String namespace, String name, String type, String documentation) {
-    this.releaseStatus = checkNotNull(releaseStatus);
-    this.namespace = namespace;
-    this.name = checkNotNull(name);
-    this.type = Protos.cleanName(checkNotNull(type));
-    this.required = false;
-    this.isArray = isArray();
-    this.enumValues = ImmutableList.of();
-    this.validations = ImmutableMap.of();
-    this.docAnnotations = new DocString(checkNotNull(documentation)).getAnnotations();
-    this.isPathParam = false;
+    this.validations = ImmutableMap.copyOf(ProtoOptions.validations(element.options()));
   }
 
   public String getName() {
@@ -69,15 +61,15 @@ public class ConnectField {
   }
 
   String getDescription() {
-    return docAnnotations.getOrDefault("desc", "");
+    return this.description;
   }
 
   Map<String, Object> getValidations() {
-    return validations;
+    return this.validations;
   }
 
   Boolean isRequired() {
-    return required;
+    return this.required;
   }
 
   boolean isPathParam() {
@@ -89,25 +81,21 @@ public class ConnectField {
   }
 
   boolean isMap() {
-    return type.startsWith("map<");
+    return this.isMap;
   }
 
   String mapValueType() {
     return findMapKeyAndValueTypes(type).getRight();
   }
 
-  List<String> getEnumValues(ReleaseStatus releaseStatus) {
-    return this.enumValues.stream().filter(v -> releaseStatus.shouldInclude(v.getReleaseStatus()))
-        .map(ConnectField::getName)
+  List<String> getEnumValues(Group group) {
+    return this.enumValues.stream().filter(v -> group.shouldInclude(v.getGroup()))
+        .map(ConnectEnumConstant::getName)
         .collect(Collectors.toList());
   }
 
-  public ReleaseStatus getReleaseStatus() {
-    return releaseStatus;
-  }
-
-  public String getNamespace() {
-    return namespace;
+  public Group getGroup() {
+    return group;
   }
 
   private Pair<String, String> findMapKeyAndValueTypes(String type) {

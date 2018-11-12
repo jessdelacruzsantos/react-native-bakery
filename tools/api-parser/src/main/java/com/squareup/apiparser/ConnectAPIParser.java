@@ -1,12 +1,10 @@
 package com.squareup.apiparser;
 
 import com.beust.jcommander.JCommander;
-import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Ordering;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -25,127 +23,58 @@ import java.text.ParseException;
 import static com.squareup.apiparser.Json.GSON;
 
 public class ConnectAPIParser {
-  // TODO: ssung to move to a configuration file once we start refactoring/rewriting the generator
-  private static final ImmutableList<String> NAMESPACES = ImmutableList.of("marketplaces");
-
-  // Compound ordering of ConnectEndpoint by (path, method).
-  private static final Ordering<ConnectEndpoint> ENDPOINT_ORDERING = Ordering.natural()
-      .onResultOf(ConnectEndpoint::getPath)
-      .compound(Ordering.natural()
-          .onResultOf(ConnectEndpoint::getHttpMethod));
-
-  static class JsonAPI {
-    final JsonObject swagger;
-    final JsonObject enumMap;
-
-    JsonAPI(JsonObject swagger, JsonObject enumMap) {
-      this.swagger = swagger;
-      this.enumMap = enumMap;
-    }
-  }
-
-  public static JsonAPI parseAPI(ProtoIndex index, ReleaseStatus releaseStatus, String namespace, Configuration configuration)
-      throws InvalidSpecException {
-    // Transform all the symbols to JSON and write out to file
-    JsonObject root = GSON.toJsonTree(configuration.swaggerBase()).getAsJsonObject();
-
-    final ImmutableMap.Builder<String, String> enumMapBuilder = ImmutableMap.builder();
-
-    JsonObject jsonEndpoints = new JsonObject();
-
-    // Endpoint
-    index.getEndpoints().stream()
-        .filter(connectEndpoint -> releaseStatus.shouldInclude(connectEndpoint.getReleaseStatus()) && Namespace.isMatched(connectEndpoint.getReleaseStatus(), namespace, connectEndpoint.getNamespace()))
-        .sorted(ENDPOINT_ORDERING)
-        .forEach(endpoint -> {
-          if (!jsonEndpoints.has(endpoint.getPath())) {
-            jsonEndpoints.add(endpoint.getPath(), new JsonObject());
-          }
-          jsonEndpoints.getAsJsonObject(endpoint.getPath())
-              .add(endpoint.getHttpMethod().toLowerCase(), endpoint.toJson());
-        });
-    root.add("paths", jsonEndpoints);
-
-    // Enum
-    JsonObject jsonTypes = new JsonObject();
-    final Joiner join = Joiner.on(".");
-    for (ConnectEnum enumm : index.getEnums().values()) {
-      if (releaseStatus.shouldInclude(enumm.getReleaseStatus()) && Namespace.isMatched(enumm.getReleaseStatus(), namespace, enumm.getNamespace())) {
-        jsonTypes.add(enumm.getName(), enumm.toJson(releaseStatus));
-        enumm.getValues()
-            .stream()
-            .filter(e -> releaseStatus.shouldInclude(e.getReleaseStatus()))
-            .forEach(v ->
-                enumMapBuilder.put(join.join(enumm.getName(), v.getName()), v.getDescription()));
-      }
-    }
-
-    //Datatype
-    for (ConnectDatatype datatype : index.getDatatypes().values()) {
-      if (releaseStatus.shouldInclude(datatype.getReleaseStatus()) && Namespace.isMatched(datatype.getReleaseStatus(), namespace, datatype.getNamespace())) {
-        jsonTypes.add(datatype.getName(), datatype.toJson(releaseStatus, namespace));
-      }
-    }
-    root.add("definitions", jsonTypes);
-
-    final JsonObject map = GSON.toJsonTree(enumMapBuilder.build()).getAsJsonObject();
-    return new JsonAPI(root, map);
-  }
-
-  private static void writeJson(String json, Path path) {
-    System.out.println("Writing " + path);
-    try (PrintWriter writer = new PrintWriter(path.toString(), "UTF-8")) {
-      writer.println(json);
-    } catch (Exception e) {
-      throw Throwables.propagate(e);
-    }
-  }
-
   public static void main(String argv[]) {
+
+    // Validate configurable inputs
+    Configuration configuration = new Configuration();
+    new JCommander(configuration, argv);
+    Preconditions.checkArgument(!configuration.getProtobufLocations().isEmpty(),
+        "At least one protobuf location is required");
+
+    String sqVersion = configuration.getSqVersion();
+    SimpleDateFormat sdfrmt = new SimpleDateFormat("yyyy-MM-dd");
+    sdfrmt.setLenient(false);
+    try{
+      sdfrmt.parse(sqVersion);
+    }
+    catch (ParseException e){
+      throw new RuntimeException(sqVersion + " is an invalid date format");
+    }
+
+    Optional<Path> outputArg = configuration.getOutputPath();
+    Path outputPath;
+    if (!outputArg.isPresent()) {
+      outputPath = Paths.get(System.getProperty("user.dir"));
+    } else {
+      outputPath = outputArg.get();
+      if (!outputPath.isAbsolute()) {
+        outputPath = Paths.get(System.getProperty("user.dir")).resolve(outputArg.get());
+      }
+    }
+    if (!Files.exists(outputPath)) {
+      if (!outputPath.toFile().mkdirs()) {
+        throw new RuntimeException("Unable to create output directory " + outputPath.toString());
+      }
+    }
+
+    // generate all json files
     try {
-      Configuration configuration = new Configuration();
-      new JCommander(configuration, argv);
-      Preconditions.checkArgument(!configuration.getProtobufLocations().isEmpty(),
-          "At least one protobuf location is required");
+      ProtoIndexer index = new ProtoIndexer(configuration);
 
-      String sqVersion = configuration.getSqVersion();
-      // Validate Square Version. Date format has to be YYYY-MM-DD.
-      SimpleDateFormat sdfrmt = new SimpleDateFormat("yyyy-MM-dd");
-      sdfrmt.setLenient(false);
-      try{
-        sdfrmt.parse(sqVersion);
-      }
-      catch (ParseException e){
-        throw new RuntimeException(sqVersion + " is an invalid date format");
-      }
+      // Generate INTERNAL
+      Group group = new Group();
+      group.status = ReleaseStatus.INTERNAL;
+      JsonObject apiSpec = index.toJsonAPISpec(configuration, group);
+      Path allOutputPath = outputPath.resolve("api_internal.json");
+      writeJson(GSON.toJson(apiSpec), allOutputPath);
 
-      Optional<Path> outputArg = configuration.getOutputPath();
-      Path outputPath;
-      if (!outputArg.isPresent()) {
-        outputPath = Paths.get(System.getProperty("user.dir"));
-      } else {
-        outputPath = outputArg.get();
-        if (!outputPath.isAbsolute()) {
-          outputPath = Paths.get(System.getProperty("user.dir")).resolve(outputArg.get());
-        }
-      }
-      if (!Files.exists(outputPath)) {
-        if (!outputPath.toFile().mkdirs()) {
-          throw new RuntimeException("Unable to create output directory " + outputPath.toString());
-        }
-      }
-
-      ImmutableList<String> protoPaths = ImmutableList.copyOf(configuration.getProtobufLocations());
-
-      ProtoIndex index = new ProtoIndexer(configuration.isIgnoreOneofs(), sqVersion).indexProtos(protoPaths);
-
-      JsonAPI api = getJsonAPI(configuration, ReleaseStatus.INTERNAL, "", index);
-      Path allAPIOutputPath = outputPath.resolve("api_internal.json");
-      writeJson(GSON.toJson(api.swagger), allAPIOutputPath);
+      JsonObject enumMap = index.toJsonEnumMap(configuration, group);
       Path enumOutputPath = outputPath.resolve("enum_mapping.json");
-      writeJson(GSON.toJson(api.enumMap), enumOutputPath);
+      writeJson(GSON.toJson(enumMap), enumOutputPath);
 
-      api = getJsonAPI(configuration, ReleaseStatus.PUBLIC,  "", index);
+      // Generate PUBLIC
+      group.status = ReleaseStatus.PUBLIC;
+      apiSpec = index.toJsonAPISpec(configuration, group);
       if (!configuration.getV1APISchemaFile().isEmpty()) {
         // Because the incoming api.json lacks visibility information we only merge it into the
         // public definitions. This is not the best way to handle v1 endpoints.
@@ -153,31 +82,33 @@ public class ConnectAPIParser {
         JsonObject v1API =
             parser.parse(new FileReader(configuration.getV1APISchemaFile())).getAsJsonObject();
 
-        JsonObject v2API = api.swagger;
-
         // Merge v1 endpoints into v2 schema
-        mergeJsonObjectsUnderKey(v1API, v2API, "paths");
+        mergeJsonObjectsUnderKey(v1API, apiSpec, "paths");
 
         // Merge v1 definitions into v2 definitions
-        mergeJsonObjectsUnderKey(v1API, v2API, "definitions");
+        mergeJsonObjectsUnderKey(v1API, apiSpec, "definitions");
       }
-      Path publicAPIOutputPath = outputPath.resolve("api.json");
-      writeJson(GSON.toJson(api.swagger), publicAPIOutputPath);
+      allOutputPath = outputPath.resolve("api.json");
+      writeJson(GSON.toJson(apiSpec), allOutputPath);
 
-      // (TODO) (DF-157) remove it once migrate beta to tags in api.json
-      api = getJsonAPI(configuration, ReleaseStatus.BETA,  "", index);
-      Path betaAPIOutputPath = outputPath.resolve("api_beta.json");
-      writeJson(GSON.toJson(api.swagger), betaAPIOutputPath);
+      // Generate BETA
+      group.status = ReleaseStatus.BETA;
+      apiSpec = index.toJsonAPISpec(configuration, group);
+      allOutputPath = outputPath.resolve("api_beta.json");
+      writeJson(GSON.toJson(apiSpec), allOutputPath);
 
-      api = getJsonAPI(configuration, ReleaseStatus.ALPHA,  "", index);
-      Path alphaAPIOutputPath = outputPath.resolve("api_alpha.json");
-      writeJson(GSON.toJson(api.swagger), alphaAPIOutputPath);
+      // Generate ALPHA
+      group.status = ReleaseStatus.ALPHA;
+      apiSpec = index.toJsonAPISpec(configuration, group);
+      allOutputPath = outputPath.resolve("api_alpha.json");
+      writeJson(GSON.toJson(apiSpec), allOutputPath);
 
-      // alpha json with namespaces
-      for (String currentNamespace : NAMESPACES) {
-        api = getJsonAPI(configuration, ReleaseStatus.ALPHA, currentNamespace, index);
-        alphaAPIOutputPath = outputPath.resolve("api_alpha_" + currentNamespace + ".json");
-        writeJson(GSON.toJson(api.swagger), alphaAPIOutputPath);
+      // Generate ALPHA with namespaces
+      for (String currentNamespace : Configuration.NAMESPACES) {
+        group.namespace = currentNamespace;
+        apiSpec = index.toJsonAPISpec(configuration, group);
+        allOutputPath = outputPath.resolve("api_alpha_" + currentNamespace + ".json");
+        writeJson(GSON.toJson(apiSpec), allOutputPath);
       }
     } catch (InvalidSpecException e) {
       String errorMsg;
@@ -218,8 +149,12 @@ public class ConnectAPIParser {
     }
   }
 
-  private static JsonAPI getJsonAPI(Configuration configuration,
-      ReleaseStatus releaseStatus, String namespace, ProtoIndex index) {
-    return parseAPI(index, releaseStatus, namespace, configuration);
+  private static void writeJson(String json, Path path) {
+    System.out.println("Writing " + path);
+    try (PrintWriter writer = new PrintWriter(path.toString(), "UTF-8")) {
+      writer.println(json);
+    } catch (Exception e) {
+      throw Throwables.propagate(e);
+    }
   }
 }

@@ -14,21 +14,21 @@ import java.util.Map;
 
 class Configuration {
   @Parameter(description = "Locations of protobufs")
-  private List<String> protobufLocations = new ArrayList<>();
+  public List<String> protobufLocations = new ArrayList<>();
 
   @Parameter(names = {"--output", "-o"}, description = "Output path, defaults to current directory", converter = PathConverter.class)
-  private Path outputPath;
+  public Path outputPath;
 
   @Parameter(names = "-mergev1", description = "Location of v1 api.json to merge in")
-  private String v1APISchemaFile = "";
+  public String v1APISchemaFile = "";
 
   // This option is only to support development of unreleased features.
   // No protos for released APIs should contain oneofs.
   @Parameter(names = "--ignoreoneofs", description = "If set, ignore oneofs instead of failing to create a specification")
-  private boolean ignoreOneofs = false;
+  public boolean ignoreOneofs = false;
 
   @Parameter(names = "-sqversion", description = "Square Connect V2 API Version in YYYY-MM-DD. It is in a HTTP header and used for changes within a major version.")
-  private String sqVersion = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+  public String sqVersion = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
   List<String> getProtobufLocations() {
     return protobufLocations;
@@ -49,6 +49,8 @@ class Configuration {
   boolean isIgnoreOneofs() {
     return ignoreOneofs;
   }
+
+  public static final ImmutableList<String> NAMESPACES = ImmutableList.of("marketplaces");
 
   // Hardcoded swaggerBase for all API spec
   Map<String, Object> swaggerBase() {

@@ -33,12 +33,9 @@ public class ConnectType {
   private final String packageName;
   private final Optional<ConnectType> parentType;
   private final String name;
-  private ReleaseStatus releaseStatus;
-  private String namespace;
+  protected Group group = new Group();
 
   ConnectType(
-      ReleaseStatus releaseStatus,
-      String namespace,
       TypeElement rootType,
       String packageName,
       Optional<ConnectType> parentType) {
@@ -47,34 +44,6 @@ public class ConnectType {
     this.parentType = checkNotNull(parentType);
     this.docAnnotations = new DocString(rootType.documentation()).getAnnotations();
     this.name = this.generateName();
-    this.releaseStatus = ProtoOptions.getExplicitReleaseStatus(
-        getRootType().options(), getReleaseStatusOptionName(rootType))
-        .orElse(releaseStatus);
-    this.namespace = ProtoOptions.getStringValue(
-        getRootType().options(), getNamespaceOptionName(rootType))
-        .orElse(namespace);
-  }
-
-  private static String getReleaseStatusOptionName(TypeElement rootType) {
-    if (rootType instanceof EnumElement) {
-      return "common.enum_status";
-    } else if (rootType instanceof MessageElement) {
-      return "common.message_status";
-    } else {
-      throw new IllegalArgumentException(
-          String.format("Encountered a malformed proto: rootType=%s", rootType));
-    }
-  }
-
-  private static String getNamespaceOptionName(TypeElement rootType) {
-    if (rootType instanceof EnumElement) {
-      return "common.enum_namespace";
-    } else if (rootType instanceof MessageElement) {
-      return "common.message_namespace";
-    } else {
-      throw new IllegalArgumentException(
-          String.format("Encountered a malformed proto: rootType=%s", rootType));
-    }
   }
 
   TypeElement getRootType() {
@@ -102,11 +71,7 @@ public class ConnectType {
     return String.format("%s.%s", prefixType, this.rootType.name());
   }
 
-  public ReleaseStatus getReleaseStatus() {
-    return releaseStatus;
-  }
-
-  public String getNamespace() {
-    return namespace;
+  public Group getGroup() {
+    return group;
   }
 }

@@ -11,19 +11,21 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class ConnectEnumTest {
-
   @Test
-  public void testToJson() throws Exception {
+  public void toJson() throws Exception {
     EnumElement element = mock(EnumElement.class);
     when(element.name()).thenReturn("Name");
     when(element.constants()).thenReturn(ImmutableList.of());
     when(element.documentation()).thenReturn("");
     when(element.options()).thenReturn(ImmutableList.of());
-    ConnectEnum connectEnum = new ConnectEnum(
-        ReleaseStatus.INTERNAL, "", element, "packageName", Optional.empty());
-    assertThat(connectEnum.toJson(ReleaseStatus.INTERNAL).get("type").getAsString(),
+
+    Group group = new Group();
+    group.status = ReleaseStatus.INTERNAL;
+
+    ConnectEnum connectEnum = new ConnectEnum(group, element, "packageName", Optional.empty());
+    assertThat(connectEnum.toJson(group).get("type").getAsString(),
         equalTo("string"));
-    assertThat(connectEnum.toJson(ReleaseStatus.INTERNAL).get("x-release-status").getAsString(),
+    assertThat(connectEnum.toJson(group).get("x-release-status").getAsString(),
             equalTo("INTERNAL"));
   }
 }
