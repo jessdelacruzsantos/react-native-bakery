@@ -17,8 +17,8 @@ api_specs=$(ls api.json.d/*.json)
 
 for api_spec in $api_specs
 do
-	echo "diff ${api_spec} ${root}/${api_spec}"
-	diff $api_spec $root/$api_spec
+	echo "diff ${root}/${tmp_repo}/${api_spec} ${root}/${api_spec}"
+	diff $root/$tmp_repo/$api_spec $root/$api_spec
 done
 
-cd  $root
+cd $root
