@@ -58,7 +58,7 @@ echo "Pulling api version: $api_version from $api_version_file_path"
 $DIR/api-parser -sqversion $api_version --ignoreoneofs \
   $LOCAL_GO_REPO/xp/connect-public-protos/protos/squareup/connect/v2/ \
   $LOCAL_GO_REPO/oauth/protos/squareup/oauth/v1 \
-  $LOCAL_GO_REPO/xp/payapi/protos/squareup/payapi/api \
+  $LOCAL_GO_REPO/xp/payapi/protos/api/squareup/payapi \
   $LOCAL_JAVA_REPO/orders/orders-proto/src/main/proto/squareup/omg/ \
   $LOCAL_JAVA_REPO/orders/orders-service-proto/src/main/proto/squareup/omg/ \
   $LOCAL_JAVA_REPO/payments/marketplaces-api/src/main/proto/squareup/payments/external \
