@@ -23,80 +23,18 @@ import static org.junit.Assert.fail;
 
 public class ConnectAPIParserTest {
   @Test
-  public void testSwaggerAndInfoObjects() {
-    ExampleResolver resolver = new ExampleResolver(ImmutableList.of(""));
-    ProtoIndex index = new ProtoIndex(resolver, false, "2018-05-01");
-    Configuration config = new Configuration();
-    ConnectAPIParser.JsonAPI api = ConnectAPIParser.parseAPI(index, ReleaseStatus.INTERNAL, "", config);
-
-    JsonObject swagger = api.swagger;
-    assertThat(swagger.get("swagger").getAsString(), equalTo("2.0"));
-
-    JsonObject info = api.swagger.getAsJsonObject("info");
-    assertThat(info, not(nullValue()));
-    assertThat(info.get("version").getAsString(), equalTo("2.0"));
-    assertThat(info.get("title").getAsString(), equalTo("Square Connect API"));
-    assertThat(info.get("description").getAsString(),
-        equalTo("Client library for accessing the Square Connect APIs"));
-    assertThat(info.get("termsOfService").getAsString(),
-        equalTo("https://connect.squareup.com/tos"));
-
-    JsonObject contact = info.getAsJsonObject("contact");
-    assertThat(contact, not(nullValue()));
-    assertThat(contact.get("name").getAsString(), equalTo("Square Developer Platform"));
-    assertThat(contact.get("email").getAsString(), equalTo("developers@squareup.com"));
-    assertThat(contact.get("url").getAsString(), equalTo("https://squareup.com/developers"));
-
-    JsonObject license = info.getAsJsonObject("license");
-    assertThat(license, not(nullValue()));
-    assertThat(license.get("name").getAsString(), equalTo("Apache 2.0"));
-    assertThat(license.get("url").getAsString(),
-        equalTo("http://www.apache.org/licenses/LICENSE-2.0.html"));
-
-    JsonObject docs = swagger.getAsJsonObject("externalDocs");
-    assertThat(docs, not(nullValue()));
-    assertThat(docs.get("description").getAsString(),
-        equalTo("Read the official documentation here:"));
-    assertThat(docs.get("url").getAsString(), equalTo("https://docs.connect.squareup.com/"));
-
-    assertThat(api.swagger.get("host").getAsString(), equalTo("connect.squareup.com"));
-    assertThat(api.swagger.getAsJsonArray("schemes").getAsString(), equalTo("https"));
-    assertThat(api.swagger.getAsJsonArray("consumes").getAsString(), equalTo("application/json"));
-    assertThat(api.swagger.getAsJsonArray("produces").getAsString(), equalTo("application/json"));
-  }
-
-  @Test
-  public void testSecurityDefinitions() {
-    ExampleResolver resolver = new ExampleResolver(ImmutableList.of(""));
-    ProtoIndex index = new ProtoIndex(resolver, false, "2018-05-01");
-    Configuration config = new Configuration();
-    ConnectAPIParser.JsonAPI api = ConnectAPIParser.parseAPI(index, ReleaseStatus.INTERNAL, "", config);
-
-    JsonObject secDef = api.swagger.getAsJsonObject("securityDefinitions");
-    assertThat(secDef, not(nullValue()));
-
-    JsonObject oauth = secDef.getAsJsonObject("oauth2");
-    assertThat(oauth, not(nullValue()));
-
-    assertThat(oauth.get("type").getAsString(), equalTo("oauth2"));
-    // TODO - Complete this
-
-    JsonObject clientAuth = secDef.getAsJsonObject("oauth2ClientSecret");
-    assertThat(clientAuth, not(nullValue()));
-    assertThat(clientAuth.get("type").getAsString(), equalTo("apiKey"));
-    assertThat(clientAuth.get("in").getAsString(), equalTo("header"));
-    assertThat(clientAuth.get("name").getAsString(), equalTo("Authorization"));
-  }
-
-  @Test
   public void testParseAPI() throws Exception {
-    ProtoIndexer indexer = new ProtoIndexer(false, "2018-05-01");
     URL url = Resources.getResource("actions.proto");
     Path path = Paths.get(url.getFile());
-    ProtoIndex index = indexer.indexProtos(ImmutableList.of(path.getParent().toString()));
+    Configuration config = new Configuration();
+    config.ignoreOneofs = false;
+    config.protobufLocations = ImmutableList.of(path.getParent().toString());
+    config.sqVersion = "2018-05-01";
+    ProtoIndexer indexer = new ProtoIndexer(config);
 
-    ConnectAPIParser.JsonAPI api = ConnectAPIParser.parseAPI(index, ReleaseStatus.INTERNAL, "", new Configuration());
-    JsonObject json = api.swagger;
+    Group group = new Group(ReleaseStatus.INTERNAL, "");
+
+    JsonObject json = indexer.toJsonAPISpec(new Configuration(), group);
     JsonObject paths = json.getAsJsonObject("paths");
     JsonObject definitions = json.getAsJsonObject("definitions");
 

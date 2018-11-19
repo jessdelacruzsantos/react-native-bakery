@@ -20,16 +20,6 @@ import static com.squareup.apiparser.ConnectType.TYPE_MAP;
  * Represents the details of an HTTP endpoint as defined by an rpc in a proto file.
  */
 public class ConnectEndpoint {
-  private final String inputType;
-  private final String outputType;
-  private final List<ConnectField> params;
-  private final Map<String, String> docAnnotations;
-  private final RpcElement rootRpc;
-  private final ProtoIndex index;
-  private final ReleaseStatus releaseStatus;
-  private final String namespace;
-  private final String sqVersion;
-
   // See http://swagger.io/specification/#pathItemObject
   private static final ImmutableSet<String> VALID_HTTP_METHODS =
       ImmutableSet.of("GET", "PUT", "POST", "DELETE", "OPTIONS", "HEAD", "PATCH");
@@ -43,51 +33,68 @@ public class ConnectEndpoint {
       AUTHENTICATION_METHOD_MULTIPASS
   );
 
-  ConnectEndpoint(RpcElement rpc, ProtoIndex index, ReleaseStatus releaseStatus, String namespace) {
-    this.rootRpc = checkNotNull(rpc);
-    this.inputType = rpc.requestType();
-    this.outputType = rpc.responseType();
-    this.index = checkNotNull(index);
-    this.docAnnotations = new DocString(rpc.documentation()).getAnnotations();
-    this.releaseStatus = releaseStatus;
-    this.namespace = namespace;
-    Optional<ConnectDatatype> requestType = index.getDataType(inputType);
-    checkState(requestType.isPresent(), "Request type could not be found for rpc=%s.", rpc);
-    //noinspection OptionalGetWithoutIsPresent
-    this.params = ImmutableList.copyOf(requestType.get().getFields());
-    this.sqVersion = index.getSqVersion();
-  }
+  private final String inputType;
+  private ConnectDatatype inputDataType;
+  private final String outputType;
+  private final Map<String, String> docAnnotations;
+  private final RpcElement element;
+  private ProtoIndexer index;
+  private final Group group = new Group();
+  private String sqVersion;
+  private String httpMethod;
+  private String name;
+  private String path;
 
-  public String getPath() {
-    return ProtoOptions.getStringValue(rootRpc.options(), "common.path").orElse("");
-  }
+  ConnectEndpoint(RpcElement element, Group defaultGroup, String sqVersion) {
+    checkNotNull(defaultGroup);
+    this.sqVersion = sqVersion;
+    this.element = checkNotNull(element);
+    this.inputType = element.requestType();
+    this.outputType = element.responseType();
+    this.docAnnotations = new DocString(element.documentation()).getAnnotations();
+    this.group.status = ProtoOptions.getReleaseStatus(element.options(), "common.method_status", defaultGroup.status);
+    this.group.namespace = ProtoOptions.getStringValue(element.options(), "common.method_namespace").orElse(defaultGroup.namespace);
+    this.httpMethod = ProtoOptions.getStringValue(element.options(), "common.http_method").orElse("");
 
-  String getHttpMethod() throws InvalidSpecException {
-    String method = ProtoOptions.getStringValue(rootRpc.options(), "common.http_method")
-        .orElseThrow(
-            () -> new InvalidSpecException.Builder("No common.http_method option found").setContext(
-                this.rootRpc).build());
-
-    if (!VALID_HTTP_METHODS.contains(method)) {
-      throw new InvalidSpecException.Builder(String.format("Unrecognized HTTP method '%s'", method))
-          .setContext(this.rootRpc)
+    if (!httpMethod.equals("") && !VALID_HTTP_METHODS.contains(httpMethod)){
+      throw new InvalidSpecException.Builder("Unrecognized HTTP method '" + httpMethod +"'")
           .build();
     }
 
-    return method;
+    this.path = ProtoOptions.getStringValue(element.options(), "common.path").orElse("");
+    this.name = this.element.name();
+  }
+
+  public String getPath() {
+    return this.path;
+  }
+
+  public String getHttpMethod(){
+    return this.httpMethod;
   }
 
   public String getName() {
-    return this.rootRpc.name();
+    return this.name;
+  }
+
+  public Group getGroup() {
+    return group;
+  }
+
+  void populateFields(ProtoIndexer index) throws IllegalUseOfOneOfException {
+    Optional<ConnectDatatype> requestType = index.getDataType(inputType);
+    checkState(requestType.isPresent(), "Request type could not be found for rpc=%s.", element);
+    //noinspection OptionalGetWithoutIsPresent
+    this.inputDataType = requestType.get();
   }
 
   Set<String> getAuthenticationMethods() throws InvalidSpecException {
     Set<String> methods =
-        ProtoOptions.getStringListValue(rootRpc.options(), "common.authentication_methods")
+        ProtoOptions.getStringListValue(element.options(), "common.authentication_methods")
             .map(ImmutableSet::copyOf)
             .orElseThrow(() -> new InvalidSpecException.Builder(
                 "No common.authentication_methods option found")
-                .setContext(this.rootRpc)
+                .setContext(this.element)
                 .build());
 
     Set<String> invalidMethods = Sets.difference(methods, VALID_AUTHENTICATION_METHODS);
@@ -95,7 +102,7 @@ public class ConnectEndpoint {
       throw new InvalidSpecException.Builder(
           String.format("Unrecognized authentication methods: %s",
               String.join(",", invalidMethods)))
-          .setContext(this.rootRpc)
+          .setContext(this.element)
           .build();
     }
 
@@ -107,20 +114,20 @@ public class ConnectEndpoint {
     JsonObject root = new JsonObject();
 
     Optional<String> entityOptional =
-        ProtoOptions.getStringValue(rootRpc.options(), "common.entity");
+        ProtoOptions.getStringValue(element.options(), "common.entity");
     if (entityOptional.isPresent()) {
       JsonArray swaggerTags = new JsonArray();
       swaggerTags.add(entityOptional.get());
       root.add("tags", swaggerTags);
     }
 
-    root.addProperty("summary", this.getName());
-    root.addProperty("operationId", this.getName());
+    root.addProperty("summary", this.name);
+    root.addProperty("operationId", this.name);
     root.addProperty("description", docAnnotations.getOrDefault("desc", ""));
-    root.addProperty("x-release-status", this.getReleaseStatus().name());
+    root.addProperty("x-release-status", this.group.status.name());
 
     Set<String> authenticationMethods = getAuthenticationMethods();
-    Set<String> oauthPermissions = ProtoOptions.getOAuthPermissions(rootRpc);
+    Set<String> oauthPermissions = ProtoOptions.getOAuthPermissions(element);
     JsonArray permissionsArray = new JsonArray();
 
     // OAuth permission rules
@@ -129,12 +136,12 @@ public class ConnectEndpoint {
     Boolean oauthEnabled =
         authenticationMethods.contains(AUTHENTICATION_METHOD_OAUTH2_ACCESS_TOKEN);
     Boolean oauthScopeRequired =
-        ProtoOptions.getBooleanValueOrDefault(rootRpc.options(), "common.oauth_scope_required",
+        ProtoOptions.getBooleanValueOrDefault(element.options(), "common.oauth_scope_required",
             true);
     if (oauthEnabled) {
       if (oauthPermissions.isEmpty() && oauthScopeRequired) {
         throw new InvalidSpecException.Builder(
-            String.format("Empty OAuth permissions on OAuth enabled endpoint '%s'", this.getPath()))
+            String.format("Empty OAuth permissions on OAuth enabled endpoint '%s'", this.path))
             .build();
       }
 
@@ -145,7 +152,7 @@ public class ConnectEndpoint {
       if (!oauthPermissions.isEmpty()) {
         throw new InvalidSpecException.Builder(String.format(
             "Cannot specify OAuth permissions with common.oauth_credential_required = false, endpoint '%s'",
-            this.getPath()))
+            this.path))
             .build();
       }
 
@@ -182,11 +189,11 @@ public class ConnectEndpoint {
 
     JsonArray swaggerParameters = new JsonArray();
 
-    for (ConnectField param : this.params) {
+    for (ConnectField param : this.inputDataType.getFields()) {
       JsonObject swaggerParameter = new JsonObject();
       swaggerParameter.addProperty("name", param.getName());
       swaggerParameter.addProperty("description", param.getDescription());
-      List<String> enumValues = param.getEnumValues(releaseStatus);
+      List<String> enumValues = param.getEnumValues(this.group);
       if (!enumValues.isEmpty()) {
         JsonArray enumArray = new JsonArray();
         enumValues.forEach(enumArray::add);
@@ -203,8 +210,8 @@ public class ConnectEndpoint {
         swaggerParameter.addProperty("in", "path");
         swaggerParameter.addProperty("required", true);
         swaggerParameters.add(swaggerParameter);
-      } else if (this.getHttpMethod().equals("GET") || this.getHttpMethod().equals("DELETE")) {
-        if (this.releaseStatus.shouldInclude(param.getReleaseStatus())) {
+      } else if (this.httpMethod.equals("GET") || this.httpMethod.equals("DELETE")) {
+        if (this.group.shouldInclude(param.getGroup())) {
           swaggerParameter.addProperty("in", "query");
           swaggerParameter.addProperty("required", param.isRequired());
           swaggerParameters.add(swaggerParameter);
@@ -214,9 +221,8 @@ public class ConnectEndpoint {
 
     // POST and PUT requests list a single "body" parameter in Swagger, regardless
     // of how many fields that body parameter includes.
-    if (this.getHttpMethod().equals("POST") || this.getHttpMethod().equals("PUT")) {
-      Optional<ConnectDatatype> requestDataType = this.index.getDataType(this.inputType);
-      if (requestDataType.map(ConnectDatatype::hasBodyParameters).orElse(false)) {
+    if (this.httpMethod.equals("POST") || this.httpMethod.equals("PUT")) {
+      if (this.inputDataType.hasBodyParameters()) {
         JsonObject paramJson = new JsonObject();
 
         paramJson.addProperty("name", "body");
@@ -255,13 +261,5 @@ public class ConnectEndpoint {
     root.add("responses", swaggerResponses);
 
     return root;
-  }
-
-  public ReleaseStatus getReleaseStatus() {
-    return releaseStatus;
-  }
-
-  public String getNamespace() {
-    return namespace;
   }
 }

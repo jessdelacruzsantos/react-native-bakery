@@ -85,7 +85,7 @@ public class ConnectEndpointTest {
     ConnectEndpoint endpoint = createEndpoint(defaultOptions());
     JsonObject json = endpoint.toJson();
 
-    assertThat(json.get("x-release-status").getAsString(), equalTo("BETA"));
+    assertThat(json.get("x-release-status").getAsString(), equalTo("PUBLIC"));
 
     JsonObject responses = json.get("responses").getAsJsonObject();
     assertThat(responses.get("200"), notNullValue());
@@ -121,8 +121,8 @@ public class ConnectEndpointTest {
 
   @Test
   public void testUnrecognizedHttpMethod() throws Exception {
-    ConnectEndpoint endpoint = createEndpoint(invalidHttpMethodOptions());
-    assertThatThrownBy(endpoint::toJson)
+    //ConnectEndpoint endpoint = createEndpoint(invalidHttpMethodOptions());
+    assertThatThrownBy(() -> createEndpoint(invalidHttpMethodOptions()))
         .isInstanceOf(InvalidSpecException.class)
         .hasMessage("Unrecognized HTTP method 'INVALID'");
   }
@@ -172,11 +172,17 @@ public class ConnectEndpointTest {
     when(rpc.responseType()).thenReturn(rpcResponseType);
     when(rpc.options()).thenReturn(options);
 
-    ProtoIndexer indexer = new ProtoIndexer(false, sqVersion);
     URL url = Resources.getResource("actions.proto");
     Path path = Paths.get(url.getFile());
-    ProtoIndex index = indexer.indexProtos(ImmutableList.of(path.getParent().toString()));
-    return new ConnectEndpoint(rpc, index, ReleaseStatus.BETA, "");
+
+    Configuration config = new Configuration();
+    config.protobufLocations = ImmutableList.of(path.getParent().toString());
+    config.sqVersion = sqVersion;
+
+    ProtoIndexer indexer = new ProtoIndexer(config);
+    ConnectEndpoint endpoint = new ConnectEndpoint(rpc, new Group(), sqVersion);
+    endpoint.populateFields(indexer);
+    return endpoint;
   }
 
   private List<OptionElement> baseOptions() {

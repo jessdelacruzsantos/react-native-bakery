@@ -15,7 +15,7 @@ import static org.mockito.Mockito.when;
 
 public class ConnectTypeTest {
   @Test
-  public void testGenerateName() throws Exception {
+  public void generateName() throws Exception {
     TypeElement tender = mock(MessageElement.class);
     when(tender.name()).thenReturn("Tender");
     when(tender.documentation()).thenReturn("");
@@ -38,11 +38,10 @@ public class ConnectTypeTest {
     when(cardDetails.documentation()).thenReturn("");
     when(cardDetails.options()).thenReturn(ImmutableList.of());
 
-    ConnectType root = new ConnectType(ReleaseStatus.INTERNAL, "", tender, "actions.", Optional.empty());
+    ConnectType root = new ConnectType(tender, "actions.", Optional.empty());
     ConnectType parent =
-        new ConnectType(ReleaseStatus.INTERNAL, "", cardDetails, "actions.", Optional.of(root));
-    ConnectEnum child = new ConnectEnum(
-        ReleaseStatus.INTERNAL, "", status, "actions.", Optional.of(parent));
+        new ConnectType(cardDetails, "actions.", Optional.of(root));
+    ConnectEnum child = new ConnectEnum(new Group(), status, "actions.", Optional.of(parent));
     assertThat(parent.generateName(), equalTo("TenderCardDetails"));
     assertThat(child.generateName(), equalTo("TenderCardDetailsStatus"));
   }

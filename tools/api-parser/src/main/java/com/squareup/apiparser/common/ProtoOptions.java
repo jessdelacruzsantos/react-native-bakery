@@ -106,12 +106,11 @@ class ProtoOptions {
   }
 
   static ReleaseStatus getReleaseStatus(Collection<OptionElement> options, String optionName) {
-    return getExplicitReleaseStatus(options, optionName).orElse(ReleaseStatus.PUBLIC);
+    return getStringValue(options, optionName).map(ReleaseStatus::valueOf).orElse(ReleaseStatus.PUBLIC);
   }
 
-  static Optional<ReleaseStatus> getExplicitReleaseStatus(
-      Collection<OptionElement> options, String optionName) {
-    return getStringValue(options, optionName).map(ReleaseStatus::valueOf);
+  static ReleaseStatus getReleaseStatus(Collection<OptionElement> options, String optionName, ReleaseStatus defaultValue) {
+    return getStringValue(options, optionName).map(ReleaseStatus::valueOf).orElse(defaultValue);
   }
 
   static Set<String> getOAuthPermissions(RpcElement rpcElement) {
