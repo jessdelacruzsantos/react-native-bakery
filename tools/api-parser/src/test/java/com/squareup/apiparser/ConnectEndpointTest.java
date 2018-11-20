@@ -19,6 +19,7 @@ import java.util.stream.StreamSupport;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.Rule;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -27,6 +28,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import org.junit.rules.ExpectedException;
 
 public class ConnectEndpointTest {
   private String rpcRequestType;
@@ -160,6 +162,51 @@ public class ConnectEndpointTest {
       }
     }
     assertTrue(foundAuth);
+  }
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
+
+  @Test
+  public void testInputTypeExist() throws IllegalStateException {
+    thrown.expect(IllegalStateException.class);
+    thrown.expectMessage("Request type MissingRequestType could not be found for rpc=DeleteLocations.");
+
+    RpcElement rpc = mock(RpcElement.class);
+    when(rpc.documentation()).thenReturn("");
+    when(rpc.requestType()).thenReturn("MissingRequestType");
+    when(rpc.responseType()).thenReturn(rpcResponseType);
+    when(rpc.options()).thenReturn(defaultOptions());
+    when(rpc.name()).thenReturn("DeleteLocations");
+
+    ConnectEndpoint endpoint = new ConnectEndpoint(rpc, new Group(), sqVersion);
+    endpoint.populateFields(createProtoIndexer());
+  }
+
+  @Test
+  public void testOutputTypeExist() throws IllegalStateException {
+    thrown.expect(IllegalStateException.class);
+    thrown.expectMessage("Response type MissingResponseType could not be found for rpc=DeleteLocations.");
+
+    RpcElement rpc = mock(RpcElement.class);
+    when(rpc.documentation()).thenReturn("");
+    when(rpc.requestType()).thenReturn(rpcRequestType);
+    when(rpc.responseType()).thenReturn("MissingResponseType");
+    when(rpc.options()).thenReturn(defaultOptions());
+    when(rpc.name()).thenReturn("DeleteLocations");
+
+    ConnectEndpoint endpoint = new ConnectEndpoint(rpc, new Group(), sqVersion);
+    endpoint.populateFields(createProtoIndexer());
+  }
+
+  private ProtoIndexer createProtoIndexer() {
+    URL url = Resources.getResource("actions.proto");
+    Path path = Paths.get(url.getFile());
+    Configuration config = new Configuration();
+    config.protobufLocations = ImmutableList.of(path.getParent().toString());
+    config.sqVersion = sqVersion;
+
+    return new ProtoIndexer(config);
   }
 
   private ConnectEndpoint createEndpoint(ImmutableList<OptionElement> options) throws Exception {
