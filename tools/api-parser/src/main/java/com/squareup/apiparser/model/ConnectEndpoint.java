@@ -35,6 +35,7 @@ public class ConnectEndpoint {
 
   private final String inputType;
   private ConnectDatatype inputDataType;
+  private ConnectDatatype outputDataType;
   private final String outputType;
   private final Map<String, String> docAnnotations;
   private final RpcElement element;
@@ -81,11 +82,15 @@ public class ConnectEndpoint {
     return group;
   }
 
-  void populateFields(ProtoIndexer index) throws IllegalUseOfOneOfException {
+  void populateFields(ProtoIndexer index) {
     Optional<ConnectDatatype> requestType = index.getDataType(inputType);
-    checkState(requestType.isPresent(), "Request type could not be found for rpc=%s.", element);
+    checkState(requestType.isPresent(), "Request type %s could not be found for rpc=%s.", inputType, name);
     //noinspection OptionalGetWithoutIsPresent
     this.inputDataType = requestType.get();
+
+    Optional<ConnectDatatype> responseType = index.getDataType(outputType);
+    checkState(responseType.isPresent(), "Response type %s could not be found for rpc=%s.", outputType, name);
+    this.outputDataType = responseType.get();
   }
 
   Set<String> getAuthenticationMethods() throws InvalidSpecException {
@@ -244,7 +249,7 @@ public class ConnectEndpoint {
     JsonObject swaggerSuccessResponse = new JsonObject();
     swaggerSuccessResponse.addProperty("description", "Success");
 
-    String typeName = this.outputType;
+    String typeName = this.outputDataType.getName();
 
     // When specifying the name of the resource, get rid of pointless proto prefixes
     typeName = typeName.replaceFirst("resources\\.", "");
