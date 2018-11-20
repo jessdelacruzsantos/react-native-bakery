@@ -33,10 +33,8 @@ public class ConnectEndpoint {
       AUTHENTICATION_METHOD_MULTIPASS
   );
 
-  private final String inputType;
   private ConnectDatatype inputDataType;
   private ConnectDatatype outputDataType;
-  private final String outputType;
   private final Map<String, String> docAnnotations;
   private final RpcElement element;
   private ProtoIndexer index;
@@ -50,8 +48,6 @@ public class ConnectEndpoint {
     checkNotNull(defaultGroup);
     this.sqVersion = sqVersion;
     this.element = checkNotNull(element);
-    this.inputType = element.requestType();
-    this.outputType = element.responseType();
     this.docAnnotations = new DocString(element.documentation()).getAnnotations();
     this.group.status = ProtoOptions.getReleaseStatus(element.options(), "common.method_status", defaultGroup.status);
     this.group.namespace = ProtoOptions.getStringValue(element.options(), "common.method_namespace").orElse(defaultGroup.namespace);
@@ -82,7 +78,11 @@ public class ConnectEndpoint {
     return group;
   }
 
+  //populateFields() has to be called once before toJson() is called
+  //It retreives the request & response types.
   void populateFields(ProtoIndexer index) {
+    String inputType = element.requestType();
+    String outputType = element.responseType();
     Optional<ConnectDatatype> requestType = index.getDataType(inputType);
     checkState(requestType.isPresent(), "Request type %s could not be found for rpc=%s.", inputType, name);
     //noinspection OptionalGetWithoutIsPresent
@@ -238,7 +238,7 @@ public class ConnectEndpoint {
                 + "See the corresponding object definition for field details.");
 
         JsonObject schemaRef = new JsonObject();
-        schemaRef.addProperty("$ref", "#/definitions/" + Protos.cleanName(this.inputType));
+        schemaRef.addProperty("$ref", "#/definitions/" + Protos.cleanName(this.inputDataType.getName()));
         paramJson.add("schema", schemaRef);
         swaggerParameters.add(paramJson);
       }
