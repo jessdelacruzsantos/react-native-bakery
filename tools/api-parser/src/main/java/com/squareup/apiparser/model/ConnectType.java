@@ -31,7 +31,7 @@ public class ConnectType {
 
   private final String packageName;
   private final Optional<ConnectType> parentType;
-  private final String name;
+  protected final String name;
   protected Group group = new Group();
   protected String description;
 

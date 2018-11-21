@@ -20,10 +20,6 @@ import static com.squareup.apiparser.ConnectType.TYPE_MAP;
  * Represents the details of an HTTP endpoint as defined by an rpc in a proto file.
  */
 public class ConnectEndpoint {
-  // See http://swagger.io/specification/#pathItemObject
-  private static final ImmutableSet<String> VALID_HTTP_METHODS =
-      ImmutableSet.of("GET", "PUT", "POST", "DELETE", "OPTIONS", "HEAD", "PATCH");
-
   private static final String AUTHENTICATION_METHOD_OAUTH2_ACCESS_TOKEN = "OAUTH2_ACCESS_TOKEN";
   private static final String AUTHENTICATION_METHOD_OAUTH2_CLIENT_SECRET = "OAUTH2_CLIENT_SECRET";
   private static final String AUTHENTICATION_METHOD_MULTIPASS = "MULTIPASS";
@@ -51,14 +47,15 @@ public class ConnectEndpoint {
     this.group.status = ProtoOptions.getReleaseStatus(element.options(), "common.method_status", defaultGroup.status);
     this.group.namespace = ProtoOptions.getStringValue(element.options(), "common.method_namespace").orElse(defaultGroup.namespace);
     this.httpMethod = ProtoOptions.getStringValue(element.options(), "common.http_method").orElse("");
-
-    if (!httpMethod.equals("") && !VALID_HTTP_METHODS.contains(httpMethod)){
-      throw new InvalidSpecException.Builder("Unrecognized HTTP method '" + httpMethod +"'")
-          .build();
-    }
-
     this.path = ProtoOptions.getStringValue(element.options(), "common.path").orElse("");
     this.name = this.element.name();
+  }
+
+  public void validate() {
+    Validator.validateDescription(this.name, this.description, this.group);
+    Validator.validateHttpMethod(this.httpMethod);
+    Validator.validateRequestType(this.name, this.inputDataType);
+    Validator.validateResponseType(this.name, this.outputDataType);
   }
 
   public String getPath() {

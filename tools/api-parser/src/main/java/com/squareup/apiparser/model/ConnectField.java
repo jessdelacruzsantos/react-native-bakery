@@ -29,13 +29,14 @@ public class ConnectField {
   private final boolean isMap;
   private final boolean isPathParam;
   private final String name;
+  private final String longName;
   private final String type;
   private final List<ConnectEnumConstant> enumValues;
   private final Map<String, Object> validations;
   private final String description;
   private Group group = new Group();
 
-  ConnectField(FieldElement element, Group defaultGroup, String type, Optional<ConnectEnum> enumm) {
+  ConnectField(FieldElement element, Group defaultGroup, String type, Optional<ConnectEnum> enumm, String prefix) {
     checkNotNull(element);
     checkNotNull(enumm);
     this.group.status = ProtoOptions.getReleaseStatus(element.options(), "common.field_status", defaultGroup.status);
@@ -50,6 +51,11 @@ public class ConnectField {
     this.enumValues =
         enumm.map(ConnectEnum::getValues).orElse(Collections.emptyList());
     this.validations = ImmutableMap.copyOf(ProtoOptions.validations(element.options()));
+    this.longName = prefix + '.' + this.name;
+  }
+
+  void validate() {
+    Validator.validateDescription(this.longName, this.description, this.group);
   }
 
   public String getName() {

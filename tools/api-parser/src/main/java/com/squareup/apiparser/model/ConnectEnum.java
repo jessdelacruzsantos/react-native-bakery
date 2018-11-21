@@ -21,8 +21,12 @@ class ConnectEnum extends ConnectType {
 
     this.values = ImmutableList.copyOf(enumm.constants()
         .stream()
-        .map(constantElement -> new ConnectEnumConstant(constantElement, this.group))
+        .map(constantElement -> new ConnectEnumConstant(constantElement, this.group, this.name))
         .collect(toList()));
+  }
+
+  void validate() {
+    Validator.validateDescription(this.name, this.description, this.group);
   }
 
   List<ConnectEnumConstant> getValues() {

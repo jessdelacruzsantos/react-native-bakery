@@ -41,6 +41,10 @@ class ConnectDatatype extends ConnectType {
     this.ignoreOneofs = ignoreOneofs;
   }
 
+  void validate() {
+    Validator.validateDescription(this.name, this.description, this.group);
+  }
+
   List<ConnectField> getFields() {
     return this.fields;
   }
@@ -54,10 +58,12 @@ class ConnectDatatype extends ConnectType {
 
     this.fields = rootMessage.fields()
         .stream()
-        .map(field -> new ConnectField(field,
+        .map(field -> new ConnectField(
+            field,
             this.group,
             getType(index, field),
-            index.getEnumType(field.type())))
+            index.getEnumType(field.type()),
+            this.name))
         .collect(Collectors.toList());
 
     if (!ignoreOneofs && !rootMessage.oneOfs().isEmpty()) {

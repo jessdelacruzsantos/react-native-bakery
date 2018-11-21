@@ -21,16 +21,22 @@ public class ConnectEnumConstant {
   private Group group = new Group();
   private String name;
   private String description;
+  private String longName;
 
-  ConnectEnumConstant(EnumConstantElement element, Group defaultGroup) {
+  ConnectEnumConstant(EnumConstantElement element, Group defaultGroup, String prefix) {
     this.group.status = ProtoOptions.getReleaseStatus(element.options(), "common.enum_value_status", defaultGroup.status);
     this.group.namespace = ProtoOptions.getStringValue(element.options(), "common.enum_value_namespace").orElse(defaultGroup.namespace);
     this.description = new DocString(element.documentation()).getDescription();
     this.name = element.name();
+    this.longName = prefix + '.'+ this.name;
   }
 
   public String getName() {
     return name;
+  }
+
+  void validate() {
+    Validator.validateDescription(this.longName, this.description, this.group);
   }
 
   public String getDescription() {
