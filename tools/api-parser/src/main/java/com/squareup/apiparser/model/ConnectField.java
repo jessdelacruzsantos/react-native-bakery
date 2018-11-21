@@ -40,7 +40,7 @@ public class ConnectField {
     checkNotNull(enumm);
     this.group.status = ProtoOptions.getReleaseStatus(element.options(), "common.field_status", defaultGroup.status);
     this.group.namespace = ProtoOptions.getStringValue(element.options(), "common.field_namespace").orElse(defaultGroup.namespace);
-    this.description = new DocString(element.documentation()).getAnnotations().getOrDefault("desc", "");
+    this.description = new DocString(element.documentation()).getDescription();
     this.name = element.name();
     this.type = type;
     this.isArray = element.label() == Field.Label.REPEATED;

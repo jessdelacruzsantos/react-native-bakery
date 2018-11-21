@@ -44,8 +44,4 @@ class ConnectEnum extends ConnectType {
 
     return json;
   }
-
-  private String getDescription() {
-    return docAnnotations.getOrDefault("desc", "");
-  }
 }

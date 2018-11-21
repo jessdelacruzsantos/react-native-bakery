@@ -25,7 +25,7 @@ public class ConnectEnumConstant {
   ConnectEnumConstant(EnumConstantElement element, Group defaultGroup) {
     this.group.status = ProtoOptions.getReleaseStatus(element.options(), "common.enum_value_status", defaultGroup.status);
     this.group.namespace = ProtoOptions.getStringValue(element.options(), "common.enum_value_namespace").orElse(defaultGroup.namespace);
-    this.description = new DocString(element.documentation()).getAnnotations().getOrDefault("desc", "");
+    this.description = new DocString(element.documentation()).getDescription();
     this.name = element.name();
   }
 

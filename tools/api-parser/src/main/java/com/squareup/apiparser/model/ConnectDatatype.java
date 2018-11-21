@@ -114,7 +114,7 @@ class ConnectDatatype extends ConnectType {
     }
 
     root.add("properties", properties);
-    root.addProperty("description", docAnnotations.getOrDefault("desc", ""));
+    root.addProperty("description", this.description);
     root.addProperty("x-release-status", this.group.status.name());
 
     // (TODO) we may want to add Square-Version header to examples too.
