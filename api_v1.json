@@ -4205,6 +4205,55 @@
                     "$ref": "#/definitions/v1Money",
                     "description": "The amount of money refunded. This amount is always negative."
                 },
+                "refunded_processing_money": {
+                    "$ref": "#/definitions/v1Money",
+                    "description": "The amount of processing fee money refunded. This amount is always positive."
+                },
+                "refunded_tax_money": {
+                    "$ref": "#/definitions/v1Money",
+                    "description": "The total amount of tax money refunded. This amount is always negative."
+                },
+                "refunded_additive_tax_money": {
+                    "$ref": "#/definitions/v1Money",
+                    "description": "The amount of additive tax money refunded. This amount is always negative."
+                },
+                "refunded_additive_tax": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/v1PaymentTax"
+                    },
+                    "description": "All of the additive taxes associated with the refund."
+                },
+                "refunded_inclusive_tax_money": {
+                    "$ref": "#/definitions/v1Money",
+                    "description": "The amount of inclusive tax money refunded. This amount is always negative."
+                },
+                "refunded_inclusive_tax": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/v1PaymentTax"
+                    },
+                    "description": "All of the inclusive taxes associated with the refund."
+                },
+                "refunded_tip_money": {
+                    "$ref": "#/definitions/v1Money",
+                    "description": "The amount of tip money refunded. This amount is always negative."
+                },
+                "refunded_discount_money": {
+                    "$ref": "#/definitions/v1Money",
+                    "description": "The amount of discount money refunded. This amount is always positive."
+                },
+                "refunded_surcharge_money": {
+                    "$ref": "#/definitions/v1Money",
+                    "description": "The amount of surcharge money refunded. This amount is always negative."
+                },
+                "refunded_surcharges": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/v1PaymentSurcharge"
+                    },
+                    "description": "A list of all surcharges associated with the refund."
+                },
                 "created_at": {
                     "type": "string",
                     "description": "The time when the merchant initiated the refund for Square to process, in ISO 8601 format."
