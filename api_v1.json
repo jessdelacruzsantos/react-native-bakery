@@ -4205,7 +4205,7 @@
                     "$ref": "#/definitions/v1Money",
                     "description": "The amount of money refunded. This amount is always negative."
                 },
-                "refunded_processing_money": {
+                "refunded_processing_fee_money": {
                     "$ref": "#/definitions/v1Money",
                     "description": "The amount of processing fee money refunded. This amount is always positive."
                 },
