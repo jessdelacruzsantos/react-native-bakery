@@ -148,6 +148,18 @@ class ProtoIndexer {
     }
     this.datatypes.values().forEach(current -> current.populateFields(this));
     this.endpoints.forEach(current -> current.populateFields(this));
+
+    if(config.validatorEnabled){
+      this.datatypes.values().forEach(current -> {
+        current.validate();
+        current.getFields().forEach(field -> field.validate());
+      });
+      this.enums.values().forEach(current -> {
+        current.validate();
+        current.getValues().forEach(enumValue -> enumValue.validate());
+      });
+      this.endpoints.forEach(current -> current.validate());
+    }
   }
 
   // Index enums, datatypes, and endpoints

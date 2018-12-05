@@ -20,10 +20,6 @@ import static com.squareup.apiparser.ConnectType.TYPE_MAP;
  * Represents the details of an HTTP endpoint as defined by an rpc in a proto file.
  */
 public class ConnectEndpoint {
-  // See http://swagger.io/specification/#pathItemObject
-  private static final ImmutableSet<String> VALID_HTTP_METHODS =
-      ImmutableSet.of("GET", "PUT", "POST", "DELETE", "OPTIONS", "HEAD", "PATCH");
-
   private static final String AUTHENTICATION_METHOD_OAUTH2_ACCESS_TOKEN = "OAUTH2_ACCESS_TOKEN";
   private static final String AUTHENTICATION_METHOD_OAUTH2_CLIENT_SECRET = "OAUTH2_CLIENT_SECRET";
   private static final String AUTHENTICATION_METHOD_MULTIPASS = "MULTIPASS";
@@ -35,31 +31,31 @@ public class ConnectEndpoint {
 
   private ConnectDatatype inputDataType;
   private ConnectDatatype outputDataType;
-  private final Map<String, String> docAnnotations;
   private final RpcElement element;
-  private ProtoIndexer index;
   private final Group group = new Group();
   private String sqVersion;
   private String httpMethod;
   private String name;
   private String path;
+  private String description;
 
   ConnectEndpoint(RpcElement element, Group defaultGroup, String sqVersion) {
     checkNotNull(defaultGroup);
     this.sqVersion = sqVersion;
     this.element = checkNotNull(element);
-    this.docAnnotations = new DocString(element.documentation()).getAnnotations();
+    this.description = new DocString(element.documentation()).getDescription();
     this.group.status = ProtoOptions.getReleaseStatus(element.options(), "common.method_status", defaultGroup.status);
     this.group.namespace = ProtoOptions.getStringValue(element.options(), "common.method_namespace").orElse(defaultGroup.namespace);
     this.httpMethod = ProtoOptions.getStringValue(element.options(), "common.http_method").orElse("");
-
-    if (!httpMethod.equals("") && !VALID_HTTP_METHODS.contains(httpMethod)){
-      throw new InvalidSpecException.Builder("Unrecognized HTTP method '" + httpMethod +"'")
-          .build();
-    }
-
     this.path = ProtoOptions.getStringValue(element.options(), "common.path").orElse("");
     this.name = this.element.name();
+  }
+
+  public void validate() {
+    Validator.validateDescription(this.name, this.description, this.group);
+    Validator.validateHttpMethod(this.httpMethod);
+    Validator.validateRequestType(this.name, this.inputDataType);
+    Validator.validateResponseType(this.name, this.outputDataType);
   }
 
   public String getPath() {
@@ -75,7 +71,7 @@ public class ConnectEndpoint {
   }
 
   public Group getGroup() {
-    return group;
+    return this.group;
   }
 
   //populateFields() has to be called once before toJson() is called
@@ -128,7 +124,7 @@ public class ConnectEndpoint {
 
     root.addProperty("summary", this.name);
     root.addProperty("operationId", this.name);
-    root.addProperty("description", docAnnotations.getOrDefault("desc", ""));
+    root.addProperty("description", this.description);
     root.addProperty("x-release-status", this.group.status.name());
 
     Set<String> authenticationMethods = getAuthenticationMethods();

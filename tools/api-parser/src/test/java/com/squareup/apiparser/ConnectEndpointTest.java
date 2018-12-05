@@ -123,8 +123,8 @@ public class ConnectEndpointTest {
 
   @Test
   public void testUnrecognizedHttpMethod() throws Exception {
-    //ConnectEndpoint endpoint = createEndpoint(invalidHttpMethodOptions());
-    assertThatThrownBy(() -> createEndpoint(invalidHttpMethodOptions()))
+    ConnectEndpoint endpoint = createEndpoint(invalidHttpMethodOptions());
+    assertThatThrownBy(endpoint::validate)
         .isInstanceOf(InvalidSpecException.class)
         .hasMessage("Unrecognized HTTP method 'INVALID'");
   }

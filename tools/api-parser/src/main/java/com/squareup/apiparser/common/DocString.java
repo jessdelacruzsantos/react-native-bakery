@@ -39,6 +39,10 @@ class DocString {
     annotations = annotationsBuilder.build();
   }
 
+  String getDescription() {
+    return annotations.getOrDefault("desc", "");
+  }
+
   ImmutableMap<String, String> getAnnotations() {
     return annotations;
   }

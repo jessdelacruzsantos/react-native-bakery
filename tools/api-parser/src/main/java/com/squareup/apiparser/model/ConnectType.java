@@ -27,13 +27,13 @@ public class ConnectType {
       .put("int64", "int64")
       .build();
 
-  final Map<String, String> docAnnotations;
   final TypeElement rootType;
 
   private final String packageName;
   private final Optional<ConnectType> parentType;
-  private final String name;
+  protected final String name;
   protected Group group = new Group();
+  protected String description;
 
   ConnectType(
       TypeElement rootType,
@@ -42,7 +42,7 @@ public class ConnectType {
     this.rootType = checkNotNull(rootType);
     this.packageName = checkNotNull(packageName);
     this.parentType = checkNotNull(parentType);
-    this.docAnnotations = new DocString(rootType.documentation()).getAnnotations();
+    this.description = new DocString(rootType.documentation()).getDescription();
     this.name = this.generateName();
   }
 
@@ -72,6 +72,10 @@ public class ConnectType {
   }
 
   public Group getGroup() {
-    return group;
+    return this.group;
+  }
+
+  public String getDescription() {
+    return this.description;
   }
 }

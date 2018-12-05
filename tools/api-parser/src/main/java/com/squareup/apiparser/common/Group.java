@@ -24,6 +24,10 @@ class Group {
         this.status = status;
     }
 
+    public boolean isCustomerFacing() {
+        return ReleaseStatus.ALPHA.ordinal() <= status.ordinal();
+    }
+
     public boolean shouldIncludeStatus(ReleaseStatus statusDest) {
         // After introducing versioning, BETA and PUBLIC will both be shown on the
         // API reference site while BETA fields will have a `beta` tag on them.
