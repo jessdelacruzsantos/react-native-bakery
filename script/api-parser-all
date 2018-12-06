@@ -38,17 +38,20 @@ usage()
 PARAMS=""
 while [ $# -gt 0 ]; do
     case "$1" in
-        -g | --java_dir )       shift
-                                LOCAL_GO_REPO=$1
-                                ;;
-        -j | --go_dir )    		shift
-								LOCAL_JAVA_REPO=$1
-                                ;;
-        -h | --help )           usage
-                                exit
-                                ;;
-        * )                     usage
-                                exit 1
+        -g | --java_dir )           shift
+                                    LOCAL_GO_REPO=$1
+                                    ;;
+        -j | --go_dir )    		      shift
+								                    LOCAL_JAVA_REPO=$1
+                                    ;;
+        -s | --secure_profile_dir ) shift
+						                        LOCAL_SECURE_PROFILE_REPO=$1
+                                    ;;
+        -h | --help )               usage
+                                    exit
+                                    ;;
+        * )                         usage
+                                    exit 1
     esac
     shift
 done
