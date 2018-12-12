@@ -7,6 +7,8 @@ package squareup.connect.v3;
 import "actions.proto";
 import "squareup/connect/v2/common/options.proto";
 
+option (common.file_status) = PUBLIC;
+
 service SquareConnectV3 {
   /*--
     @desc For executing delayed capture.

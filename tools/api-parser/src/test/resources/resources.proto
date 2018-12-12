@@ -6,6 +6,8 @@ syntax = "proto2";
 option java_package = "com.squareup.protos.connect.v3.resources";
 option java_multiple_files = true;
 
+option (common.file_status) = PUBLIC;
+
 package squareup.connect.v3.resources;
 
 message Transaction {

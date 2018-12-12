@@ -10,6 +10,8 @@ package squareup.connect.v3.actions;
 
 import "squareup/connect/v2/common/options.proto";
 
+option (common.file_status) = PUBLIC;
+
 message RetrieveTransactionRequest {
   required string location_id = 1 [(common.path_param) = true];
 
