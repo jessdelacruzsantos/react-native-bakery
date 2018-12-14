@@ -106,7 +106,7 @@ class ProtoOptions {
   }
 
   static ReleaseStatus getReleaseStatus(Collection<OptionElement> options, String optionName) {
-    return getStringValue(options, optionName).map(ReleaseStatus::valueOf).orElse(ReleaseStatus.PUBLIC);
+    return getStringValue(options, optionName).map(ReleaseStatus::valueOf).orElse(ReleaseStatus.INTERNAL);
   }
 
   static ReleaseStatus getReleaseStatus(Collection<OptionElement> options, String optionName, ReleaseStatus defaultValue) {

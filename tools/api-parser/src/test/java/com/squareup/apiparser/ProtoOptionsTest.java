@@ -57,6 +57,18 @@ public class ProtoOptionsTest {
   }
 
   @Test
+  public void testGetReleaseStatus() {
+    List<OptionElement> options = ImmutableList.of(
+        OptionElement.create("common.method_status", OptionElement.Kind.STRING, "PUBLIC"),
+        OptionElement.create("common.message_status", OptionElement.Kind.STRING, "ALPHA")
+    );
+    // default status is INTERNAL
+    assertThat(ProtoOptions.getReleaseStatus(options, "common.method_status"), equalTo(ReleaseStatus.PUBLIC));
+    assertThat(ProtoOptions.getReleaseStatus(options, "common.file_status"), equalTo(ReleaseStatus.INTERNAL));
+    assertThat(ProtoOptions.getReleaseStatus(options, "common.message_status"), equalTo(ReleaseStatus.ALPHA));
+  }
+
+  @Test
   public void testGetIntegerValue() {
     List<OptionElement> options = ImmutableList.of(
         OptionElement.create("common.integer", OptionElement.Kind.NUMBER, "1"),
