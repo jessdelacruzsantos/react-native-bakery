@@ -38,6 +38,7 @@ public class ConnectEndpoint {
   private String name;
   private String path;
   private String description;
+  private String identifier;
 
   ConnectEndpoint(RpcElement element, Group defaultGroup, String sqVersion) {
     checkNotNull(defaultGroup);
@@ -49,13 +50,18 @@ public class ConnectEndpoint {
     this.httpMethod = ProtoOptions.getStringValue(element.options(), "common.http_method").orElse("");
     this.path = ProtoOptions.getStringValue(element.options(), "common.path").orElse("");
     this.name = this.element.name();
+    this.identifier = this.name;
   }
 
   public void validate() {
-    Validator.validateDescription(this.name, this.description, this.group);
+    if (!this.group.isCustomerFacing()){
+      return;
+    }
+
+    Validator.validateDescription(this.identifier, this.description);
     Validator.validateHttpMethod(this.httpMethod);
-    Validator.validateRequestType(this.name, this.inputDataType);
-    Validator.validateResponseType(this.name, this.outputDataType);
+    Validator.validateRequestType(this.identifier, this.inputDataType);
+    Validator.validateResponseType(this.identifier, this.outputDataType);
   }
 
   public String getPath() {

@@ -20,6 +20,7 @@ class ConnectDatatype extends ConnectType {
   private final Optional<String> exampleType;
   private final Optional<JsonElement> sdkSamples;
   private final boolean ignoreOneofs;
+  private ProtoIndexer index;
 
   ConnectDatatype(
       Group defaultGroup,
@@ -42,7 +43,23 @@ class ConnectDatatype extends ConnectType {
   }
 
   void validate() {
-    Validator.validateDescription(this.name, this.description, this.group);
+    if (!this.group.isCustomerFacing()){
+      return;
+    }
+
+    Validator.validateDescription(this.identifier, this.description);
+
+    this.fields.
+      stream().
+      filter(field -> group.shouldInclude(field.getGroup())).
+      forEach(field -> {
+        List<String> enumValues = field.getEnumValues(group);
+
+        if (enumValues.isEmpty()) {
+          String typeName = field.isMap() ? field.mapValueType() : field.getType();
+          Validator.validateDefinitionExists(this.identifier, typeName, this.index);
+        }
+    });
   }
 
   List<ConnectField> getFields() {
@@ -55,7 +72,7 @@ class ConnectDatatype extends ConnectType {
 
   void populateFields(ProtoIndexer index) throws IllegalUseOfOneOfException {
     MessageElement rootMessage = (MessageElement) this.rootType;
-
+    this.index = index;
     this.fields = rootMessage.fields()
         .stream()
         .map(field -> new ConnectField(
