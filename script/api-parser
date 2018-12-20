@@ -43,7 +43,7 @@ if [ ! -d "$OUTPUT_DIR" ]; then
     mkdir -p "$OUTPUT_DIR"
 fi
 
-rm $BASE_DIR/api.json.d/*.json
+rm -f $BASE_DIR/api.json.d/*.json
 mv $BASE_DIR/tools/api-parser/*.json $BASE_DIR/api.json.d
 
 ls $BASE_DIR/api.json.d/*.json
