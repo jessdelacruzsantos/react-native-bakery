@@ -12,7 +12,7 @@ set -o nounset
 # pipeline exit successfully.
 set -o pipefail
 
-BASE_DIR=$(dirname "$0")/..
+BASE_DIR=$(git rev-parse --show-toplevel)
 
 if [ $# -eq 0 ]; then
 	echo "Need to pass in the path to the protos."
@@ -37,17 +37,13 @@ fi
 )
 
 # Output commands being run
-set -o xtrace
 
 OUTPUT_DIR="$BASE_DIR/api.json.d"
 if [ ! -d "$OUTPUT_DIR" ]; then
     mkdir -p "$OUTPUT_DIR"
 fi
 
-mv "$BASE_DIR"/tools/api-parser/*.json "$BASE_DIR/api.json.d"
+rm $BASE_DIR/api.json.d/*.json
+mv $BASE_DIR/tools/api-parser/*.json $BASE_DIR/api.json.d
 
-# Print the README unless API_PARSER_QUIET is defined.
-if [ -z "${API_PARSER_QUIET-}" ]
-then
-    cat "$BASE_DIR"/api.json.d/README.md
-fi
+ls $BASE_DIR/api.json.d/*.json

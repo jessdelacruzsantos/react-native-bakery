@@ -64,6 +64,8 @@ public class ConnectAPIParser {
       // Generate INTERNAL
       Group group = new Group();
       group.status = ReleaseStatus.INTERNAL;
+
+      // Turning validation off for INTERNAL
       JsonObject apiSpec = index.toJsonAPISpec(configuration, group);
       Path allOutputPath = outputPath.resolve("api_internal.json");
       writeJson(GSON.toJson(apiSpec), allOutputPath);
@@ -95,12 +97,6 @@ public class ConnectAPIParser {
       group.status = ReleaseStatus.BETA;
       apiSpec = index.toJsonAPISpec(configuration, group);
       allOutputPath = outputPath.resolve("api_beta.json");
-      writeJson(GSON.toJson(apiSpec), allOutputPath);
-
-      // Generate ALPHA
-      group.status = ReleaseStatus.ALPHA;
-      apiSpec = index.toJsonAPISpec(configuration, group);
-      allOutputPath = outputPath.resolve("api_alpha.json");
       writeJson(GSON.toJson(apiSpec), allOutputPath);
 
       // Generate ALPHA with namespaces

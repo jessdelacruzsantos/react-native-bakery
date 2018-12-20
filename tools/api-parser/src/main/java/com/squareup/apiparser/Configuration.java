@@ -30,7 +30,7 @@ class Configuration {
   @Parameter(names = "-sqversion", description = "Square Connect V2 API Version in YYYY-MM-DD. It is in a HTTP header and used for changes within a major version.")
   public String sqVersion = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
-  @Parameter(names = {"--validate", "-v"}, description = "If set, validator runs.")
+  @Parameter(names = {"--validate", "-v"}, description = "If set, validator runs. It is always off for INTERNAL spec.")
   public boolean validatorEnabled = false;
 
   List<String> getProtobufLocations() {

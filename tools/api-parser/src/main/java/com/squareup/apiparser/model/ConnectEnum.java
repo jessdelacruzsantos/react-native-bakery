@@ -26,7 +26,7 @@ class ConnectEnum extends ConnectType {
   }
 
   void validate() {
-    Validator.validateDescription(this.name, this.description, this.group);
+    Validator.validateDescription(this.identifier, this.description);
   }
 
   List<ConnectEnumConstant> getValues() {

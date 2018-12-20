@@ -29,7 +29,7 @@ public class ConnectField {
   private final boolean isMap;
   private final boolean isPathParam;
   private final String name;
-  private final String longName;
+  private final String identifier;
   private final String type;
   private final List<ConnectEnumConstant> enumValues;
   private final Map<String, Object> validations;
@@ -51,11 +51,14 @@ public class ConnectField {
     this.enumValues =
         enumm.map(ConnectEnum::getValues).orElse(Collections.emptyList());
     this.validations = ImmutableMap.copyOf(ProtoOptions.validations(element.options()));
-    this.longName = prefix + '.' + this.name;
+    this.identifier = prefix + '.' + this.name;
   }
 
   void validate() {
-    Validator.validateDescription(this.longName, this.description, this.group);
+    if (!this.group.isCustomerFacing()){
+      return;
+    }
+    Validator.validateDescription(this.identifier, this.description);
   }
 
   public String getName() {

@@ -1,4 +1,4 @@
-This folder contains the Open API/Swagger specification files (api\*.json) that
+'api.json.d' folder contains the Open API/Swagger specification files (api\*.json) that
 is output by the script/api-parser tool.
 
 The specification files are intentionally gitignored in this repository to
