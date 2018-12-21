@@ -45,7 +45,6 @@ public class ConnectType {
     this.parentType = checkNotNull(parentType);
     this.description = new DocString(rootType.documentation()).getDescription();
     this.name = this.generateName();
-    this.identifier = this.name;
   }
 
   TypeElement getRootType() {

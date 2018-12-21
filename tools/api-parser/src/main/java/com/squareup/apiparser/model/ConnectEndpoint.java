@@ -50,7 +50,7 @@ public class ConnectEndpoint {
     this.httpMethod = ProtoOptions.getStringValue(element.options(), "common.http_method").orElse("");
     this.path = ProtoOptions.getStringValue(element.options(), "common.path").orElse("");
     this.name = this.element.name();
-    this.identifier = this.name;
+    this.identifier = "(RPC)"+this.name;
   }
 
   public void validate() {
@@ -60,8 +60,8 @@ public class ConnectEndpoint {
 
     Validator.validateDescription(this.identifier, this.description);
     Validator.validateHttpMethod(this.httpMethod);
-    Validator.validateRequestType(this.identifier, this.inputDataType);
-    Validator.validateResponseType(this.identifier, this.outputDataType);
+    Validator.validateRequestType(this.identifier, this.name, this.inputDataType);
+    Validator.validateResponseType(this.identifier, this.name, this.outputDataType);
   }
 
   public String getPath() {
@@ -87,7 +87,6 @@ public class ConnectEndpoint {
     String outputType = element.responseType();
     Optional<ConnectDatatype> requestType = index.getDataType(inputType);
     checkState(requestType.isPresent(), "Request type %s could not be found for rpc=%s.", inputType, name);
-    //noinspection OptionalGetWithoutIsPresent
     this.inputDataType = requestType.get();
 
     Optional<ConnectDatatype> responseType = index.getDataType(outputType);

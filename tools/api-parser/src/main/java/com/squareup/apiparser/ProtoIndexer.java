@@ -149,17 +149,19 @@ class ProtoIndexer {
     this.datatypes.values().forEach(current -> current.populateFields(this));
     this.endpoints.forEach(current -> current.populateFields(this));
 
-    if(config.validatorEnabled){
-      this.datatypes.values().forEach(current -> {
-        current.validate();
-        current.getFields().forEach(field -> field.validate());
-      });
-      this.enums.values().forEach(current -> {
-        current.validate();
-        current.getValues().forEach(enumValue -> enumValue.validate());
-      });
-      this.endpoints.forEach(current -> current.validate());
-    }
+
+    // Run the validator
+    this.datatypes.values().forEach(current -> {
+      current.validate();
+      current.getFields().forEach(field -> field.validate());
+    });
+    this.enums.values().forEach(current -> {
+      current.validate();
+      current.getValues().forEach(enumValue -> enumValue.validate());
+    });
+    this.endpoints.forEach(current -> current.validate());
+
+    Validator.printErrors(config.validatorEnabled);
   }
 
   // Index enums, datatypes, and endpoints
@@ -241,17 +243,11 @@ class ProtoIndexer {
 
   Optional<ConnectEnum> getEnumType(String typeName) {
     final String type = Protos.cleanName(typeName);
-    final Optional<String> enumType =
-        enums.keySet().stream().filter(e -> e.equals(type) || e.endsWith("." + type)).findFirst();
-    return enumType.map(enums::get);
+    return Optional.ofNullable(enums.get(type));
   }
 
   Optional<ConnectDatatype> getDataType(String typeName) {
     final String type = Protos.cleanName(typeName);
-    final Optional<String> dataType = datatypes.keySet()
-        .stream()
-        .filter(d -> d.equals(type) || d.endsWith("." + type))
-        .findFirst();
-    return dataType.map(datatypes::get);
+    return Optional.ofNullable(datatypes.get(type));
   }
 }
