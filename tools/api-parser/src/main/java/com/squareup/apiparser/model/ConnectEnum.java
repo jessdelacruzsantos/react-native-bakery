@@ -23,6 +23,7 @@ class ConnectEnum extends ConnectType {
         .stream()
         .map(constantElement -> new ConnectEnumConstant(constantElement, this.group, this.name))
         .collect(toList()));
+    this.identifier = "(Enum)"+this.name;
   }
 
   void validate() {

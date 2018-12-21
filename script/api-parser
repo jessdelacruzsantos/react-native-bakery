@@ -46,4 +46,4 @@ fi
 rm -f $BASE_DIR/api.json.d/*.json
 mv $BASE_DIR/tools/api-parser/*.json $BASE_DIR/api.json.d
 
-ls $BASE_DIR/api.json.d/*.json
+ls -1 $BASE_DIR/api.json.d/*.json

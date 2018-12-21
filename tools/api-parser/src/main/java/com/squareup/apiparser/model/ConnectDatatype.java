@@ -40,6 +40,7 @@ class ConnectDatatype extends ConnectType {
     this.sdkSamples = ProtoOptions.sdkSampleDirectory(rootType.options())
         .map(SdkSampleDirectoryResolver.resolveSamplePath(rootType.name()));
     this.ignoreOneofs = ignoreOneofs;
+    this.identifier = "(message)"+this.name;
   }
 
   void validate() {
