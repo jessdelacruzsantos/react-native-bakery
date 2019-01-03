@@ -100,6 +100,7 @@ public class ConnectAPIParser {
       writeJson(GSON.toJson(apiSpec), allOutputPath);
 
       // Generate ALPHA with namespaces
+      group.status = ReleaseStatus.ALPHA;
       for (String currentNamespace : Configuration.NAMESPACES) {
         group.namespace = currentNamespace;
         apiSpec = index.toJsonAPISpec(configuration, group);
