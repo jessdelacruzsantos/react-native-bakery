@@ -23,7 +23,7 @@ public class ConnectEndpoint {
   private static final String AUTHENTICATION_METHOD_OAUTH2_ACCESS_TOKEN = "OAUTH2_ACCESS_TOKEN";
   private static final String AUTHENTICATION_METHOD_OAUTH2_CLIENT_SECRET = "OAUTH2_CLIENT_SECRET";
   private static final String AUTHENTICATION_METHOD_MULTIPASS = "MULTIPASS";
-  private static final Set<String> VALID_AUTHENTICATION_METHODS = ImmutableSet.of(
+  public static final Set<String> VALID_AUTHENTICATION_METHODS = ImmutableSet.of(
       AUTHENTICATION_METHOD_OAUTH2_ACCESS_TOKEN,
       AUTHENTICATION_METHOD_OAUTH2_CLIENT_SECRET,
       AUTHENTICATION_METHOD_MULTIPASS
@@ -62,6 +62,7 @@ public class ConnectEndpoint {
     Validator.validateHttpMethod(this.httpMethod);
     Validator.validateRequestType(this.identifier, this.name, this.inputDataType);
     Validator.validateResponseType(this.identifier, this.name, this.outputDataType);
+    Validator.validateAuthenticationMethods(this.identifier, this.element.options());
   }
 
   public String getPath() {
@@ -94,27 +95,6 @@ public class ConnectEndpoint {
     this.outputDataType = responseType.get();
   }
 
-  Set<String> getAuthenticationMethods() throws InvalidSpecException {
-    Set<String> methods =
-        ProtoOptions.getStringListValue(element.options(), "common.authentication_methods")
-            .map(ImmutableSet::copyOf)
-            .orElseThrow(() -> new InvalidSpecException.Builder(
-                "No common.authentication_methods option found")
-                .setContext(this.element)
-                .build());
-
-    Set<String> invalidMethods = Sets.difference(methods, VALID_AUTHENTICATION_METHODS);
-    if (!invalidMethods.isEmpty()) {
-      throw new InvalidSpecException.Builder(
-          String.format("Unrecognized authentication methods: %s",
-              String.join(",", invalidMethods)))
-          .setContext(this.element)
-          .build();
-    }
-
-    return methods;
-  }
-
   // Builds out endpoint JSON in the format expected by the Swagger 2.0 specification.
   JsonObject toJson() throws InvalidSpecException {
     JsonObject root = new JsonObject();
@@ -132,7 +112,10 @@ public class ConnectEndpoint {
     root.addProperty("description", this.description);
     root.addProperty("x-release-status", this.group.status.name());
 
-    Set<String> authenticationMethods = getAuthenticationMethods();
+    Set<String> authenticationMethods = ProtoOptions.getStringListValue(element.options(), "common.authentication_methods").
+      map(ImmutableSet::copyOf).
+      orElse(ImmutableSet.of());
+
     Set<String> oauthPermissions = ProtoOptions.getOAuthPermissions(element);
     JsonArray permissionsArray = new JsonArray();
 
