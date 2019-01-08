@@ -149,19 +149,29 @@ class ProtoIndexer {
     this.datatypes.values().forEach(current -> current.populateFields(this));
     this.endpoints.forEach(current -> current.populateFields(this));
 
+    if(config.validatorEnabled){
+      // Run the validator
+      this.datatypes.values().forEach(current -> {
+        current.validate();
+        current.getFields().forEach(field -> field.validate());
+      });
+      this.enums.values().forEach(current -> {
+        current.validate();
+        current.getValues().forEach(enumValue -> enumValue.validate());
+      });
+      this.endpoints.forEach(current -> current.validate());
 
-    // Run the validator
-    this.datatypes.values().forEach(current -> {
-      current.validate();
-      current.getFields().forEach(field -> field.validate());
-    });
-    this.enums.values().forEach(current -> {
-      current.validate();
-      current.getValues().forEach(enumValue -> enumValue.validate());
-    });
-    this.endpoints.forEach(current -> current.validate());
+      // Print errors
+      List<String> errors = Validator.getErrors();
 
-    Validator.printErrors(config.validatorEnabled);
+      for (String error : errors){
+          System.out.println(error);
+      }
+      if (errors.size() > 0){
+          throw new InvalidSpecException.Builder("There are " + errors.size() +" errors. Please resolve them.")
+          .build();
+      }
+    }
   }
 
   // Index enums, datatypes, and endpoints

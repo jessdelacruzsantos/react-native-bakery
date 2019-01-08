@@ -26,16 +26,6 @@ class Validator {
         }
     }
 
-    public static void printErrors(boolean canThrowException){
-        for (String error : errors){
-            System.out.println(error);
-        }
-        if (canThrowException && errors.size() > 0){
-            throw new InvalidSpecException.Builder("There are " + errors.size() +" errors. Please resolve them.")
-            .build();
-        }
-    }
-
     public static List<String> getErrors(){
         return ImmutableList.copyOf(errors);
     }

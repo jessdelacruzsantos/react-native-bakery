@@ -1,5 +1,7 @@
 #!/bin/sh
 # See tools/api-parser/README.md for full usage notes.
+# Abort script at first error, when a command exits with non-zero status
+set -o errexit
 
 # Attempt to use undefined variable outputs error message, and forces an exit
 set -o nounset
