@@ -1,9 +1,6 @@
 #!/bin/sh
 # See tools/api-parser/README.md for full usage notes.
 
-# Abort script at first error, when a command exits with non-zero status
-set -o errexit
-
 # Attempt to use undefined variable outputs error message, and forces an exit
 set -o nounset
 
@@ -26,8 +23,8 @@ fi
     cd "$BASE_DIR/tools/api-parser"
 
     echo "Compiling apiparser"
-    if ! mvn install > /dev/null
-    then
+    mvn install
+    if [ $? -ne 0 ];then
         echo "Failed to compile apiparser."
         echo "To debug, manually run \`(cd tools/api-parser && mvn install)\`"
         exit 1
