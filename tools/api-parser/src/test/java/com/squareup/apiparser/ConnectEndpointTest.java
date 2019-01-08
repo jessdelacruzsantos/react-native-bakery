@@ -130,24 +130,6 @@ public class ConnectEndpointTest {
   }
 
   @Test
-  public void testMissingAuthenticationMethod() throws Exception {
-    ConnectEndpoint endpoint = createEndpoint(missingAuthenticationMethod());
-    assertThatThrownBy(endpoint::toJson)
-        .isInstanceOf(InvalidSpecException.class)
-        .hasMessage(
-            "No common.authentication_methods option found");
-  }
-
-  @Test
-  public void testInvalidAuthenticationMethods() throws Exception {
-    ConnectEndpoint endpoint = createEndpoint(authenticationMethods(
-        Optional.of(ImmutableList.of("MULTIPASS", "INVALID"))));
-    assertThatThrownBy(endpoint::toJson)
-        .isInstanceOf(InvalidSpecException.class)
-        .hasMessage("Unrecognized authentication methods: INVALID");
-  }
-
-  @Test
   public void testOAuth2ClientSecret() throws Exception {
     ConnectEndpoint endpoint = createEndpoint(publicEndpointOAuth2ClientSecret());
     JsonObject json = endpoint.toJson();
@@ -303,25 +285,6 @@ public class ConnectEndpointTest {
     opts.add(OptionElement.create("common.http_method", OptionElement.Kind.STRING, "INVALID"));
     opts.add(OptionElement.create("common.method_status", OptionElement.Kind.STRING, "PUBLIC"));
     return ImmutableList.copyOf(opts);
-  }
-
-  private ImmutableList<OptionElement> missingAuthenticationMethod() {
-    List<OptionElement> opts = baseOptions();
-    opts.add(OptionElement.create("common.method_status", OptionElement.Kind.STRING, "PUBLIC"));
-    return ImmutableList.copyOf(opts);
-  }
-
-  private ImmutableList<OptionElement> authenticationMethods(
-      Optional<List<String>> maybeAuthMethods) {
-    ImmutableList.Builder<OptionElement> opts = ImmutableList.<OptionElement>builder()
-        .addAll(baseOptions());
-    opts.add(OptionElement.create("common.method_status", OptionElement.Kind.STRING, "PUBLIC"));
-
-    maybeAuthMethods.ifPresent(authMethods ->
-        opts.add(OptionElement.create("common.authentication_methods",
-            OptionElement.Kind.MAP, ImmutableMap.of("value", ImmutableList.copyOf(authMethods)))));
-
-    return opts.build();
   }
 
   private ImmutableList<OptionElement> publicEndpointOAuth2ClientSecret() {
