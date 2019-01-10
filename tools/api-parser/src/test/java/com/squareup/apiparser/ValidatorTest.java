@@ -16,7 +16,6 @@ public class ValidatorTest {
 
   @Test
   public void validateAuthenticationMethods() {
-
     // test missing authentication_methods option
     List<OptionElement> missingAuthenticationMethods = new ArrayList<>();
     missingAuthenticationMethods.add(OptionElement.create("common.method_status", OptionElement.Kind.STRING, "PUBLIC"));
@@ -27,11 +26,32 @@ public class ValidatorTest {
     invalidAuthenticationMethods.add(OptionElement.create("common.authentication_methods", OptionElement.Kind.MAP, ImmutableMap.of("value", ImmutableList.of("MULTIPASS", "INVALID"))));
     Validator.validateAuthenticationMethods("ListLocations", invalidAuthenticationMethods);
 
+    // test missing oAuth missing authentication methods
+    List<OptionElement> issingOAuthPermissions = new ArrayList<>();
+    issingOAuthPermissions.add(OptionElement.create(
+        "common.authentication_methods", OptionElement.Kind.MAP, ImmutableMap.of(
+            "value", ImmutableList.of("OAUTH2_ACCESS_TOKEN"))));
+    issingOAuthPermissions.add(OptionElement.create("common.oauth_permissions", OptionElement.Kind.MAP,
+        ImmutableMap.of("value", ImmutableList.of())));
+    issingOAuthPermissions.add(OptionElement.create("common.method_status", OptionElement.Kind.STRING, "PUBLIC"));
+    Validator.validateAuthenticationMethods("ListLocations", issingOAuthPermissions);
+
+    // test valid Authentication options
+    List<OptionElement> goodOpts = new ArrayList<>();
+    goodOpts.add(OptionElement.create("common.entity", OptionElement.Kind.STRING, "Transaction"));
+    goodOpts.add(OptionElement.create("common.path", OptionElement.Kind.STRING,
+        "/v2/locations/{location_id}/transactions/{transaction_id}/capture"));
+    goodOpts.add(OptionElement.create("common.http_method", OptionElement.Kind.STRING, "POST"));
+    goodOpts.add(OptionElement.create(
+        "common.authentication_methods", OptionElement.Kind.MAP, ImmutableMap.of(
+            "value", ImmutableList.of())));
+    Validator.validateAuthenticationMethods("ListLocations", goodOpts);
+
     List<String> errors = ImmutableList.of(
         "ERROR: No common.authentication_methods option found for ListLocations",
-        "ERROR: Unrecognized authentication methods [INVALID] for ListLocations"
+        "ERROR: Unrecognized authentication methods [INVALID] for ListLocations",
+        "ERROR: Empty OAuth permissions on OAuth enabled endpoint for ListLocations"
     );
-
     assertThat(Validator.getErrors(), equalTo(errors));
   }
 }

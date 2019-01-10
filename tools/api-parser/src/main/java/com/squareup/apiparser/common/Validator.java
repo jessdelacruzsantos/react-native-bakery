@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Set;
 import com.squareup.wire.schema.internal.parser.OptionElement;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 class Validator {
     // See http://swagger.io/specification/#pathItemObject
@@ -63,7 +64,6 @@ class Validator {
     }
 
     public static void validateAuthenticationMethods(String identifier, Collection<OptionElement> options){
-
         Optional<List<String>> methods_list =
             ProtoOptions.getStringListValue(options, "common.authentication_methods");
 
@@ -71,12 +71,41 @@ class Validator {
             errors.add("ERROR: No common.authentication_methods option found for " + identifier);
         }
 
-        Set<String> invalidMethods = Sets.difference(
-            methods_list.map(ImmutableSet::copyOf).orElse(ImmutableSet.of()),
-            ConnectEndpoint.VALID_AUTHENTICATION_METHODS);
+        Set<String> methods = methods_list.map(ImmutableSet::copyOf).orElse(ImmutableSet.of());
+        Set<String> invalidMethods = Sets.difference(methods,ConnectEndpoint.VALID_AUTHENTICATION_METHODS);
 
         if (!invalidMethods.isEmpty()) {
             errors.add("ERROR: Unrecognized authentication methods " + invalidMethods + " for " + identifier);
+        }
+
+        Set<String> oauthPermissions = ProtoOptions.getOAuthPermissions(options);
+
+        // OAuth permission rules
+        // If the endpoint has OAuth as the authentication method, then the OAuth permissions must be a non-empty set.
+        // Otherwise the OAuth permissions must be empty.
+
+        Boolean oauthEnabled = methods.contains(ConnectEndpoint.AUTHENTICATION_METHOD_OAUTH2_ACCESS_TOKEN);
+        Boolean oauthScopeRequired = ProtoOptions.getBooleanValueOrDefault(options, "common.oauth_scope_required", true);
+        if (oauthEnabled && oauthPermissions.isEmpty() && oauthScopeRequired) {
+            errors.add("ERROR: Empty OAuth permissions on OAuth enabled endpoint for " + identifier);
+        }
+
+        if (!oauthEnabled && !oauthPermissions.isEmpty()) {
+            errors.add("ERROR: Cannot specify OAuth permissions with common.oauth_credential_required = false for " + identifier);
+        }
+    }
+
+    public static void validateInvisibleFields(String identifier, List<ConnectField> fields, Group group){
+        List<ConnectField> requiredInvisibleFields = fields.stream()
+            .filter(field -> !field.isPathParam() && field.isRequired() && !group.shouldInclude(field.getGroup()))
+            .collect(Collectors.toList());
+
+        if (!requiredInvisibleFields.isEmpty()) {
+            String fieldsText =String.join(", ", requiredInvisibleFields.stream()
+                    .map(f -> String.format("%s (%s)", f.getName(), f.getGroup().status))
+                    .collect(Collectors.toList()));
+
+            errors.add("ERROR: Required fields `" + fieldsText + "` cannot be hidden for " + identifier);
         }
     }
 }

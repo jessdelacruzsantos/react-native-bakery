@@ -20,9 +20,9 @@ import static com.squareup.apiparser.ConnectType.TYPE_MAP;
  * Represents the details of an HTTP endpoint as defined by an rpc in a proto file.
  */
 public class ConnectEndpoint {
-  private static final String AUTHENTICATION_METHOD_OAUTH2_ACCESS_TOKEN = "OAUTH2_ACCESS_TOKEN";
-  private static final String AUTHENTICATION_METHOD_OAUTH2_CLIENT_SECRET = "OAUTH2_CLIENT_SECRET";
-  private static final String AUTHENTICATION_METHOD_MULTIPASS = "MULTIPASS";
+  public static final String AUTHENTICATION_METHOD_OAUTH2_ACCESS_TOKEN = "OAUTH2_ACCESS_TOKEN";
+  public static final String AUTHENTICATION_METHOD_OAUTH2_CLIENT_SECRET = "OAUTH2_CLIENT_SECRET";
+  public static final String AUTHENTICATION_METHOD_MULTIPASS = "MULTIPASS";
   public static final Set<String> VALID_AUTHENTICATION_METHODS = ImmutableSet.of(
       AUTHENTICATION_METHOD_OAUTH2_ACCESS_TOKEN,
       AUTHENTICATION_METHOD_OAUTH2_CLIENT_SECRET,
@@ -112,46 +112,19 @@ public class ConnectEndpoint {
     root.addProperty("description", this.description);
     root.addProperty("x-release-status", this.group.status.name());
 
-    Set<String> authenticationMethods = ProtoOptions.getStringListValue(element.options(), "common.authentication_methods").
-      map(ImmutableSet::copyOf).
-      orElse(ImmutableSet.of());
+    Set<String> authenticationMethods = ProtoOptions.getStringListValue(element.options(), "common.authentication_methods")
+      .map(ImmutableSet::copyOf)
+      .orElse(ImmutableSet.of());
 
-    Set<String> oauthPermissions = ProtoOptions.getOAuthPermissions(element);
+    Set<String> oauthPermissions = ProtoOptions.getOAuthPermissions(element.options());
+
     JsonArray permissionsArray = new JsonArray();
-
-    // OAuth permission rules
-    // If the endpoint has OAuth as the authentication method, then the OAuth permissions must be a non-empty set.
-    // Otherwise the OAuth permissions must be empty.
-    Boolean oauthEnabled =
-        authenticationMethods.contains(AUTHENTICATION_METHOD_OAUTH2_ACCESS_TOKEN);
-    Boolean oauthScopeRequired =
-        ProtoOptions.getBooleanValueOrDefault(element.options(), "common.oauth_scope_required",
-            true);
-    if (oauthEnabled) {
-      if (oauthPermissions.isEmpty() && oauthScopeRequired) {
-        throw new InvalidSpecException.Builder(
-            String.format("Empty OAuth permissions on OAuth enabled endpoint '%s'", this.path))
-            .build();
-      }
-
-      for (String permission : oauthPermissions) {
-        permissionsArray.add(permission);
-      }
-    } else {
-      if (!oauthPermissions.isEmpty()) {
-        throw new InvalidSpecException.Builder(String.format(
-            "Cannot specify OAuth permissions with common.oauth_credential_required = false, endpoint '%s'",
-            this.path))
-            .build();
-      }
-
-      // Use empty permissions array further down to disable oauth security on the endpoint
+    for (String permission : oauthPermissions) {
+      permissionsArray.add(permission);
     }
 
-    // OAuth client secret.
-    // This is the auth method for some endpoints in OAuth flow.
-    Boolean oauthClientSecretEnabled = authenticationMethods.contains(
-        AUTHENTICATION_METHOD_OAUTH2_CLIENT_SECRET);
+    Boolean oauthEnabled = authenticationMethods.contains(AUTHENTICATION_METHOD_OAUTH2_ACCESS_TOKEN);
+    Boolean oauthClientSecretEnabled = authenticationMethods.contains(AUTHENTICATION_METHOD_OAUTH2_CLIENT_SECRET);
 
     // Add security sections.
     JsonArray secList = new JsonArray();

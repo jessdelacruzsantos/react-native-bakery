@@ -104,14 +104,6 @@ public class ConnectEndpointTest {
   }
 
   @Test
-  public void testDisallowEmptyOAuthPermissions() throws Exception {
-    ConnectEndpoint endpoint = createEndpoint(publicEndpointMissingOAuthPermissions());
-    assertThatThrownBy(endpoint::toJson)
-        .isInstanceOf(InvalidSpecException.class)
-        .hasMessageStartingWith("Empty OAuth permissions on OAuth enabled endpoint");
-  }
-
-  @Test
   public void testUnauthenticatedEndpoint() throws Exception {
     ConnectEndpoint endpoint = createEndpoint(internalEndpointDisabledOauth());
     JsonObject json = endpoint.toJson();
@@ -239,17 +231,6 @@ public class ConnectEndpointTest {
         .add(OptionElement.create("common.authentication_method", OptionElement.Kind.STRING,
             "OAUTH2_ACCESS_TOKEN"))
         .build();
-  }
-
-  private ImmutableList<OptionElement> publicEndpointMissingOAuthPermissions() {
-    List<OptionElement> opts = baseOptions();
-    opts.add(OptionElement.create(
-        "common.authentication_methods", OptionElement.Kind.MAP, ImmutableMap.of(
-            "value", ImmutableList.of("OAUTH2_ACCESS_TOKEN"))));
-    opts.add(OptionElement.create("common.oauth_permissions", OptionElement.Kind.MAP,
-        ImmutableMap.of("value", ImmutableList.of())));
-    opts.add(OptionElement.create("common.method_status", OptionElement.Kind.STRING, "PUBLIC"));
-    return ImmutableList.copyOf(opts);
   }
 
   private ImmutableList<OptionElement> publicEndpointDisabledOauth() {
