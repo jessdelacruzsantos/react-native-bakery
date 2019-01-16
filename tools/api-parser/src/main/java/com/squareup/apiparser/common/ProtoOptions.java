@@ -113,8 +113,8 @@ class ProtoOptions {
     return getStringValue(options, optionName).map(ReleaseStatus::valueOf).orElse(defaultValue);
   }
 
-  static Set<String> getOAuthPermissions(RpcElement rpcElement) {
-    return rpcElement.options().stream()
+  static Set<String> getOAuthPermissions(Collection<OptionElement> options) {
+    return options.stream()
         .filter(option -> option.name().endsWith("common.oauth_permissions"))
         .findFirst()
         .map(option -> {

@@ -61,6 +61,8 @@ class ConnectDatatype extends ConnectType {
           Validator.validateDefinitionExists(this.identifier, typeName, this.index);
         }
     });
+
+    Validator.validateInvisibleFields(this.identifier, this.fields, this.group);
   }
 
   List<ConnectField> getFields() {
@@ -112,21 +114,6 @@ class ConnectDatatype extends ConnectType {
     List<ConnectField> requiredFields = fields.stream()
         .filter(f -> !f.isPathParam() && f.isRequired())
         .collect(Collectors.toList());
-
-    // Check that only visible fields can be required
-    List<ConnectField> requiredInvisibleFields = requiredFields.stream()
-        .filter(f -> !this.group.shouldInclude(f.getGroup()))
-        .collect(Collectors.toList());
-
-    if (!requiredInvisibleFields.isEmpty()) {
-      String message =
-          String.format("%s types cannot have required fields with less visibility: %s",
-              this.group.status,
-              String.join(", ", requiredInvisibleFields.stream()
-                  .map(f -> String.format("%s (%s)", f.getName(), f.getGroup().status))
-                  .collect(Collectors.toList())));
-      throw new InvalidSpecException.Builder(message).build();
-    }
 
     JsonArray requiredNames = new JsonArray();
     requiredFields.stream()
