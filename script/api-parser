@@ -11,7 +11,7 @@ set -o nounset
 # pipeline exit successfully.
 set -o pipefail
 
-BASE_DIR=$(git rev-parse --show-toplevel)
+BASE_DIR=$(dirname "$0")/..
 
 if [ $# -eq 0 ]; then
 	echo "Need to pass in the path to the protos."
