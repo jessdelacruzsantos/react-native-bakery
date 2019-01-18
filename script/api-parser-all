@@ -74,4 +74,5 @@ $DIR/api-parser -v -sqversion $api_version --ignoreoneofs \
   $LOCAL_JAVA_REPO/roster/frontend/api/src/main/proto/squareup/roster/frontend/external \
   $LOCAL_JAVA_REPO/pago/pago-proto/src/main/proto/squareup/pago/external \
   $LOCAL_JAVA_REPO/fees/fees-proto/src/main/proto/squareup/fees/external \
+  $LOCAL_JAVA_REPO/riskml-common/risk-evaluation-external/src/main/proto/squareup/riskevaluation/external/external.proto \
   $LOCAL_SECURE_PROFILE_REPO/protos/squareup/secure_profile/external.proto
