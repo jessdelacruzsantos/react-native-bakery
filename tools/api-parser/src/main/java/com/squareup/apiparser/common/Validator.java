@@ -54,12 +54,16 @@ class Validator {
         }
     }
 
-    public static void validateDefinitionExists(String identifier, String typeName, ProtoIndexer index){
+    public static void validateDefinitionExists(String identifier, String typeName, ProtoIndexer index, Group group){
         Optional<ConnectDatatype> dataType = index.getDataType(typeName);
         Optional<ConnectEnum> enumType = index.getEnumType(typeName);
 
-        if (!ConnectType.TYPE_MAP.containsKey(typeName) && !dataType.isPresent() && !enumType.isPresent()){
-            errors.add("ERROR: " + typeName + " is not defined for " + identifier);
+        boolean dataTypeExists = dataType.isPresent()&& group.shouldInclude(dataType.get().getGroup());
+        boolean enumTypeExists = enumType.isPresent()&& group.shouldInclude(enumType.get().getGroup());
+        boolean typeExists = ConnectType.TYPE_MAP.containsKey(typeName) || dataTypeExists || enumTypeExists;
+
+        if (!typeExists){
+            errors.add("ERROR: " + typeName + " is missing for " + "(" + group.status + ")" + identifier);
         }
     }
 
