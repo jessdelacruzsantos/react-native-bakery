@@ -58,7 +58,7 @@ class ConnectDatatype extends ConnectType {
 
         if (enumValues.isEmpty()) {
           String typeName = field.isMap() ? field.mapValueType() : field.getType();
-          Validator.validateDefinitionExists(this.identifier, typeName, this.index);
+          Validator.validateDefinitionExists(this.identifier, typeName, this.index, this.group);
         }
     });
 
