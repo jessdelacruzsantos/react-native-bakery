@@ -43,9 +43,14 @@ public class ConnectField {
     this.group.namespace = ProtoOptions.getStringValue(element.options(), "common.field_namespace").orElse(defaultGroup.namespace);
     this.description = new DocString(element.documentation()).getDescription();
     this.name = element.name();
-    this.type = type;
     this.isArray = element.label() == Field.Label.REPEATED;
     this.isMap = type.startsWith("map<");
+    if(this.isMap){
+      this.type = type;
+    }
+    else{
+      this.type = Protos.cleanName(type);
+    }
     this.required = element.label() == Field.Label.REQUIRED || ProtoOptions.isRequired(element);
     this.isPathParam = ProtoOptions.isPathParam(element);
     this.enumValues =
