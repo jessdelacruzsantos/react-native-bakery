@@ -96,7 +96,7 @@ class ConnectDatatype extends ConnectType {
         .filter(connectDatatype -> connectDatatype.getType().equals(f.type()))
         .findFirst()
         .map(ConnectType::getName)
-        .orElse(Protos.cleanName(f.type()));
+        .orElse(f.type());
   }
 
   // Converts the Datatype to a format that conforms to the Swagger 2.0 specification

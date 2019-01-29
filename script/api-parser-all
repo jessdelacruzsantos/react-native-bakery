@@ -64,7 +64,7 @@ api_version_file_path="$LOCAL_GO_REPO/oauth/config/api-versions.yaml"
 api_version=`grep "\- version: [0-9][0-9][0-9][0-9]\-[0-9][0-9]\-[0-9][0-9]" $api_version_file_path|tr -d ' '|tail -1|cut -d ":" -f 2`
 echo "Pulling api version: $api_version from $api_version_file_path"
 
-$DIR/api-parser -v -sqversion $api_version --ignoreoneofs \
+$DIR/api-parser  -v -sqversion $api_version --ignoreoneofs \
   $LOCAL_GO_REPO/xp/connect-public-protos/protos/squareup/connect/v2/ \
   $LOCAL_GO_REPO/oauth/protos/squareup/oauth/v1 \
   $LOCAL_GO_REPO/xp/payapi/protos/api/squareup/payapi \
@@ -75,4 +75,5 @@ $DIR/api-parser -v -sqversion $api_version --ignoreoneofs \
   $LOCAL_JAVA_REPO/pago/pago-proto/src/main/proto/squareup/pago/external \
   $LOCAL_JAVA_REPO/fees/fees-proto/src/main/proto/squareup/fees/external \
   $LOCAL_JAVA_REPO/riskml-common/risk-evaluation-external/src/main/proto/squareup/riskevaluation/external/external.proto \
+  $LOCAL_JAVA_REPO/connectcustomers/connectcustomers-proto/src/main/proto/squareup/connectcustomers \
   $LOCAL_SECURE_PROFILE_REPO/protos/squareup/secure_profile/external.proto
