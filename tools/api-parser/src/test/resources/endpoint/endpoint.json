@@ -1,0 +1,53 @@
+{
+  "tags": [
+    "Transaction"
+  ],
+  "summary": null,
+  "operationId": null,
+  "description": "For executing delayed capture.",
+  "x-release-status": "PUBLIC",
+  "x-oauthpermissions": [
+    "PAYMENTS_WRITE"
+  ],
+  "x-sq-version": "2018-05-01",
+  "security": [
+    {
+      "oauth2": [
+        "PAYMENTS_WRITE"
+      ]
+    }
+  ],
+  "parameters": [
+    {
+      "name": "location_id",
+      "description": "",
+      "type": "string",
+      "in": "path",
+      "required": true
+    },
+    {
+      "name": "transaction_id",
+      "description": "",
+      "type": "string",
+      "in": "path",
+      "required": true
+    },
+    {
+      "name": "body",
+      "in": "body",
+      "required": true,
+      "description": "An object containing the fields to POST for the request.\n\nSee the corresponding object definition for field details.",
+      "schema": {
+        "$ref": "#/definitions/CaptureTransactionRequest"
+      }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "Success",
+      "schema": {
+        "$ref": "#/definitions/CaptureTransactionResponse"
+      }
+    }
+  }
+}

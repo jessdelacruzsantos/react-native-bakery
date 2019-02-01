@@ -68,6 +68,12 @@ class ConnectDatatype extends ConnectType {
     return this.fields;
   }
 
+  List<ConnectField> getNonPathFields() {
+    return this.fields.stream()
+      .filter(field -> !field.isPathParam())
+      .collect(Collectors.toList());
+  }
+
   boolean hasBodyParameters() {
     return fields.stream().anyMatch(f -> !f.isPathParam());
   }

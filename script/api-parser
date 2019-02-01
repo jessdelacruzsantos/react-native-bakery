@@ -32,7 +32,7 @@ fi
         exit 1
     fi
 
-    java -jar target/apiparser-1.0-SNAPSHOT.jar "$@" -mergev1 "../../api_v1.json"
+    java -jar target/apiparser-1.0-SNAPSHOT.jar "$@"
 )
 
 # Output commands being run

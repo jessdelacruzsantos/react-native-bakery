@@ -1,10 +1,12 @@
 package com.squareup.apiparser;
 
+import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.io.Resources;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.squareup.wire.schema.internal.parser.OptionElement;
 import com.squareup.wire.schema.internal.parser.RpcElement;
 import java.net.URL;
@@ -58,25 +60,11 @@ public class ConnectEndpointTest {
     ConnectEndpoint endpoint = createEndpoint(defaultOptions());
     JsonObject json = endpoint.toJson();
 
-    JsonObject responses = json.get("responses").getAsJsonObject();
-    assertThat(responses.get("200"), notNullValue());
+    String expectedJson =
+        Resources.toString(Resources.getResource("endpoint/endpoint.json"), Charsets.US_ASCII);
+    JsonObject expected = new JsonParser().parse(expectedJson).getAsJsonObject();
 
-    assertThat(json.get("description").getAsString(), equalTo("For executing delayed capture."));
-
-    JsonObject successSchema = responses.getAsJsonObject("200").getAsJsonObject("schema");
-    Assertions.assertThat(successSchema.get("$ref").getAsString())
-        .isEqualTo("#/definitions/CaptureTransactionResponse");
-
-    JsonArray params = json.get("parameters").getAsJsonArray();
-    List<String> names = StreamSupport.stream(params.getAsJsonArray().spliterator(), false)
-        .map(o -> o.getAsJsonObject().get("name").getAsString())
-        .collect(Collectors.toList());
-    assertThat(names, equalTo(Arrays.asList("location_id", "transaction_id", "body")));
-
-    JsonArray perms = json.get("x-oauthpermissions").getAsJsonArray();
-    assertThat(perms.size(), equalTo(1));
-    assertThat(perms.getAsString(), equalTo("PAYMENTS_WRITE"));
-    assertThat(json.get("x-sq-version").getAsString(), equalTo(sqVersion));
+    assertThat(json, equalTo(expected));
   }
 
   @Test

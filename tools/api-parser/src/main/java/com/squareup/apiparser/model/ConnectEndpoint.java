@@ -183,33 +183,68 @@ public class ConnectEndpoint {
       if (this.inputDataType.hasBodyParameters()) {
         JsonObject paramJson = new JsonObject();
 
-        paramJson.addProperty("name", "body");
-        paramJson.addProperty("in", "body");
-        paramJson.addProperty("required", true);
-        paramJson.addProperty("description",
-            "An object containing the fields to POST for the request.\n\n"
-                + "See the corresponding object definition for field details.");
+        List<ConnectField> inputFields = inputDataType.getNonPathFields();
+        // V1 has a different API spec convention
+        if(inputDataType.getName().startsWith(Configuration.V1_TYPE_PREFIX) && inputFields.size() == 1){
+          ConnectField requestType = inputFields.get(0);
 
-        JsonObject schemaRef = new JsonObject();
-        schemaRef.addProperty("$ref", "#/definitions/" + Protos.cleanName(this.inputDataType.getName()));
-        paramJson.add("schema", schemaRef);
+          paramJson.addProperty("name", requestType.getName());
+          paramJson.addProperty("in", "body");
+          paramJson.addProperty("required", true);
+          paramJson.addProperty("description", requestType.getDescription());
+
+          JsonObject schemaRef = new JsonObject();
+          schemaRef.addProperty("$ref", "#/definitions/" + Protos.cleanName(requestType.getType()));
+          paramJson.add("schema", schemaRef);
+        }
+        else{
+          paramJson.addProperty("name", "body");
+          paramJson.addProperty("in", "body");
+          paramJson.addProperty("required", true);
+          paramJson.addProperty("description",
+              "An object containing the fields to POST for the request.\n\n"
+                  + "See the corresponding object definition for field details.");
+
+          JsonObject schemaRef = new JsonObject();
+          schemaRef.addProperty("$ref", "#/definitions/" + Protos.cleanName(this.inputDataType.getName()));
+          paramJson.add("schema", schemaRef);
+        }
+
         swaggerParameters.add(paramJson);
       }
     }
-
     root.add("parameters", swaggerParameters);
 
     JsonObject swaggerSuccessResponse = new JsonObject();
     swaggerSuccessResponse.addProperty("description", "Success");
 
-    String typeName = this.outputDataType.getName();
-
-    // When specifying the name of the resource, get rid of pointless proto prefixes
-    typeName = typeName.replaceFirst("resources\\.", "");
-    typeName = typeName.replaceFirst("actions\\.", "");
-
     JsonObject swaggerSuccessResponseSchema = new JsonObject();
-    swaggerSuccessResponseSchema.addProperty("$ref", "#/definitions/" + typeName);
+    List<ConnectField> outputFields = outputDataType.getFields();
+
+    // V1 has a different API spec convention
+    if(outputDataType.getName().startsWith(Configuration.V1_TYPE_PREFIX) && outputFields.size() == 0){
+      // If V1response type has no fields, return `object`.
+      swaggerSuccessResponseSchema.addProperty("type", "object");
+    }
+    else if(outputDataType.getName().startsWith(Configuration.V1_TYPE_PREFIX) &&
+            outputFields.size() == 1 &&
+            outputFields.get(0).isArray()
+            ){
+      // If V1response is an array, return an array.
+      String typeName = outputFields.get(0).getType();
+      JsonObject swaggerItemsJson = new JsonObject();
+      swaggerItemsJson.addProperty("$ref", "#/definitions/" + typeName);
+      swaggerSuccessResponseSchema.addProperty("type", "array");
+      swaggerSuccessResponseSchema.add("items", swaggerItemsJson);
+    }
+    else{
+      String typeName = this.outputDataType.getName();
+      // When specifying the name of the resource, get rid of pointless proto prefixes
+      typeName = typeName.replaceFirst("resources\\.", "");
+      typeName = typeName.replaceFirst("actions\\.", "");
+
+      swaggerSuccessResponseSchema.addProperty("$ref", "#/definitions/" + typeName);
+    }
 
     swaggerSuccessResponse.add("schema", swaggerSuccessResponseSchema);
 
