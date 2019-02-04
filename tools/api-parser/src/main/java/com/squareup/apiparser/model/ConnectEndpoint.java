@@ -54,10 +54,6 @@ public class ConnectEndpoint {
   }
 
   public void validate() {
-    if (!this.group.isCustomerFacing()){
-      return;
-    }
-
     Validator.validateDescription(this.identifier, this.description);
     Validator.validateHttpMethod(this.httpMethod);
     Validator.validateRequestType(this.identifier, this.name, this.inputDataType);
