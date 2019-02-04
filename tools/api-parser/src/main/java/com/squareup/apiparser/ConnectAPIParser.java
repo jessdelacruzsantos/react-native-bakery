@@ -64,19 +64,13 @@ public class ConnectAPIParser {
       // Generate INTERNAL
       Group group = new Group();
       group.status = ReleaseStatus.INTERNAL;
-
-      // Turning validation off for INTERNAL
-      JsonObject apiSpec = index.toJsonAPISpec(configuration, group);
-      Path allOutputPath = outputPath.resolve("api_internal.json");
-      writeJson(GSON.toJson(apiSpec), allOutputPath);
-
       JsonObject enumMap = index.toJsonEnumMap(configuration, group);
       Path enumOutputPath = outputPath.resolve("enum_mapping.json");
       writeJson(GSON.toJson(enumMap), enumOutputPath);
 
       // Generate PUBLIC
       group.status = ReleaseStatus.PUBLIC;
-      apiSpec = index.toJsonAPISpec(configuration, group);
+      JsonObject apiSpec = index.toJsonAPISpec(configuration, group);
       if (!configuration.getV1APISchemaFile().isEmpty()) {
         // Because the incoming api.json lacks visibility information we only merge it into the
         // public definitions. This is not the best way to handle v1 endpoints.
@@ -90,7 +84,7 @@ public class ConnectAPIParser {
         // Merge v1 definitions into v2 definitions
         mergeJsonObjectsUnderKey(v1API, apiSpec, "definitions");
       }
-      allOutputPath = outputPath.resolve("api.json");
+      Path allOutputPath = outputPath.resolve("api.json");
       writeJson(GSON.toJson(apiSpec), allOutputPath);
 
       // Generate BETA

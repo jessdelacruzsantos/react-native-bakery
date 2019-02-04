@@ -192,12 +192,14 @@ class ProtoIndexer {
       // Index endpoints
       for (ServiceElement service : proto.services()) {
         for (RpcElement endpoint : service.rpcs()){
-            ConnectEndpoint current = new ConnectEndpoint(
-                  endpoint,
-                  defaultGroup,
-                  sqVersion
-              );
-          this.endpoints.add(current);
+          ConnectEndpoint current = new ConnectEndpoint(
+                endpoint,
+                defaultGroup,
+                sqVersion
+            );
+          if(current.getGroup().isCustomerFacing()){
+            this.endpoints.add(current);
+          }
         }
       }
     }
