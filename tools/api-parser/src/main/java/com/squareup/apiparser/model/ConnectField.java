@@ -45,12 +45,14 @@ public class ConnectField {
     this.name = element.name();
     this.isArray = element.label() == Field.Label.REPEATED;
     this.isMap = type.startsWith("map<");
+
     if(this.isMap){
-      this.type = type;
+      this.type = findMapKeyAndValueTypes(type).getRight();
     }
     else{
       this.type = Protos.cleanName(type);
     }
+
     this.required = element.label() == Field.Label.REQUIRED || ProtoOptions.isRequired(element);
     this.isPathParam = ProtoOptions.isPathParam(element);
     this.enumValues =
@@ -98,10 +100,6 @@ public class ConnectField {
     return this.isMap;
   }
 
-  String mapValueType() {
-    return findMapKeyAndValueTypes(type).getRight();
-  }
-
   List<String> getEnumValues(Group group) {
     return this.enumValues.stream().filter(v -> group.shouldInclude(v.getGroup()))
         .map(ConnectEnumConstant::getName)
@@ -116,9 +114,6 @@ public class ConnectField {
     Matcher matcher = Pattern.compile("map<(.*),(.*)>").matcher(type);
     Preconditions.checkState(matcher.find(), "Type %s did not match map<> pattern.", type);
     String mapKeyType = StringUtils.strip(matcher.group(1));
-    Preconditions.checkState(mapKeyType.equals("string"),
-        "Only string keys supported in swagger maps, but got %s. full type %s, fieldName=%s",
-        mapKeyType, type, name);
     return Pair.of(StringUtils.strip(matcher.group(1)), StringUtils.strip(Protos.cleanName(matcher.group(2))));
   }
 }

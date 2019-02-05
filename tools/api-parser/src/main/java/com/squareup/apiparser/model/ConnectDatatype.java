@@ -57,8 +57,7 @@ class ConnectDatatype extends ConnectType {
         List<String> enumValues = field.getEnumValues(group);
 
         if (enumValues.isEmpty()) {
-          String typeName = field.isMap() ? field.mapValueType() : field.getType();
-          Validator.validateDefinitionExists(this.identifier, typeName, this.index, this.group);
+          Validator.validateDefinitionExists(this.identifier, field.getType(), this.index, this.group);
         }
     });
 
@@ -152,10 +151,9 @@ class ConnectDatatype extends ConnectType {
 
       JsonObject nested = new JsonObject();
 
-      String mapValueType = field.mapValueType();
-
-      String propertyKey = (TYPE_MAP.containsKey(mapValueType)) ? "type" : "$ref";
-      String propertyValue = TYPE_MAP.getOrDefault(mapValueType, "#/definitions/" + mapValueType);
+      String type = field.getType();
+      String propertyKey = (TYPE_MAP.containsKey(type)) ? "type" : "$ref";
+      String propertyValue = TYPE_MAP.getOrDefault(type, "#/definitions/" + type);
       nested.addProperty(propertyKey, propertyValue);
       json.add("additionalProperties", nested);
     }

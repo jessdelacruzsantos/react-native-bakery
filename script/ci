@@ -1,19 +1,45 @@
-#!/usr/bin/env bash
+#!/bin/bash
+# Abort script at first error, when a command exits with non-zero status
+set -o errexit
 
-export KOCHIKU_BUILD="true"
+# Attempt to use undefined variable outputs error message, and forces an exit
+set -o nounset
 
-echo Command: $0 $*
-echo
+# If set, the return value of a pipeline is the value of the last (rightmost)
+# command to exit with a non-zero status, or zero if all commands in the
+# pipeline exit successfully.
+set -o pipefail
 
-export LANG=en_US.UTF-8
-export ENVIRONMENT=test
+# Print a trace of simple commands
+set -o xtrace
 
+compile(){
+	BASE_DIR=$(dirname "$0")/..
+    cd "$BASE_DIR/tools/api-parser"
+    echo "Compiling apiparser"
+    mvn install
+    if [ $? -ne 0 ];then
+        echo "Failed to compile apiparser."
+        echo "To debug, manually run \`(cd tools/api-parser && mvn install)\`"
+        exit 1
+    fi	
+}
 
-echo "Environment:"
-env
-echo
+function run_build() {
+    RUN_LIST=$(echo "$RUN_LIST" | tr "," " ")
 
+    case "$TEST_RUNNER" in
+        compile)
+            compile
+            ;;
+        "")
+            ;;
+    esac
+}
 
-set -ex
+echo "TEST_RUNNER=$TEST_RUNNER"
+echo "RUN_LIST=$RUN_LIST"
 
-mvn -e -V clean package
+# export RAILS_ENV='test'
+
+time run_build
