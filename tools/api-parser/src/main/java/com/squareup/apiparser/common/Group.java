@@ -2,10 +2,10 @@ package com.squareup.apiparser;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 enum ReleaseStatus {
-    DEPRECATED,
     EXCLUDED,
     INTERNAL,
     ALPHA,
+    DEPRECATED,
     BETA,
     PUBLIC;
 }
@@ -29,9 +29,9 @@ class Group {
     }
 
     public boolean shouldIncludeStatus(ReleaseStatus statusDest) {
-        // After introducing versioning, BETA and PUBLIC will both be shown on the
-        // API reference site while BETA fields will have a `beta` tag on them.
-        return statusDest.ordinal() >= status.ordinal() || statusDest == ReleaseStatus.BETA;
+        // After introducing versioning, BETA, PUBLIC, and DEPRECATED will both be shown on the
+        // API reference site while BETA/DEPRECATED fields will have a `beta`/`deprecated` on them.
+        return statusDest.ordinal() >= status.ordinal() || statusDest == ReleaseStatus.BETA || statusDest == ReleaseStatus.DEPRECATED;
     }
 
     // Takes namespace and status into account

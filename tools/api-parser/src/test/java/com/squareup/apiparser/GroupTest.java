@@ -12,6 +12,7 @@ public class GroupTest {
     group.status = ReleaseStatus.PUBLIC;
     assertThat(group.shouldIncludeStatus(ReleaseStatus.PUBLIC)).isTrue();
     assertThat(group.shouldIncludeStatus(ReleaseStatus.BETA)).isTrue();
+    assertThat(group.shouldIncludeStatus(ReleaseStatus.DEPRECATED)).isTrue();
     assertThat(group.shouldIncludeStatus(ReleaseStatus.ALPHA)).isFalse();
     assertThat(group.shouldIncludeStatus(ReleaseStatus.INTERNAL)).isFalse();
     assertThat(group.shouldIncludeStatus(ReleaseStatus.EXCLUDED)).isFalse();
@@ -19,6 +20,7 @@ public class GroupTest {
     group.status = ReleaseStatus.BETA;
     assertThat(group.shouldIncludeStatus(ReleaseStatus.PUBLIC)).isTrue();
     assertThat(group.shouldIncludeStatus(ReleaseStatus.BETA)).isTrue();
+    assertThat(group.shouldIncludeStatus(ReleaseStatus.DEPRECATED)).isTrue();
     assertThat(group.shouldIncludeStatus(ReleaseStatus.ALPHA)).isFalse();
     assertThat(group.shouldIncludeStatus(ReleaseStatus.INTERNAL)).isFalse();
     assertThat(group.shouldIncludeStatus(ReleaseStatus.EXCLUDED)).isFalse();
@@ -26,6 +28,7 @@ public class GroupTest {
     group.status = ReleaseStatus.ALPHA;
     assertThat(group.shouldIncludeStatus(ReleaseStatus.PUBLIC)).isTrue();
     assertThat(group.shouldIncludeStatus(ReleaseStatus.BETA)).isTrue();
+    assertThat(group.shouldIncludeStatus(ReleaseStatus.DEPRECATED)).isTrue();
     assertThat(group.shouldIncludeStatus(ReleaseStatus.ALPHA)).isTrue();
     assertThat(group.shouldIncludeStatus(ReleaseStatus.INTERNAL)).isFalse();
     assertThat(group.shouldIncludeStatus(ReleaseStatus.EXCLUDED)).isFalse();
@@ -33,6 +36,7 @@ public class GroupTest {
     group.status = ReleaseStatus.INTERNAL;
     assertThat(group.shouldIncludeStatus(ReleaseStatus.PUBLIC)).isTrue();
     assertThat(group.shouldIncludeStatus(ReleaseStatus.BETA)).isTrue();
+    assertThat(group.shouldIncludeStatus(ReleaseStatus.DEPRECATED)).isTrue();
     assertThat(group.shouldIncludeStatus(ReleaseStatus.ALPHA)).isTrue();
     assertThat(group.shouldIncludeStatus(ReleaseStatus.INTERNAL)).isTrue();
     assertThat(group.shouldIncludeStatus(ReleaseStatus.EXCLUDED)).isFalse();
