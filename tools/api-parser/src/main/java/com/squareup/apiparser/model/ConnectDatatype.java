@@ -176,6 +176,12 @@ class ConnectDatatype extends ConnectType {
     }
 
     json.addProperty("description", field.getDescription());
+
+    // Label field status
+    if (field.getGroup().status != this.group.status ){
+      json.addProperty("x-release-status", field.getGroup().status.name());
+    }
+
     return json;
   }
 }
