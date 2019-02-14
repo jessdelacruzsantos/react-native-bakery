@@ -36,7 +36,7 @@ public class ConnectEnumConstant {
   }
 
   void validate() {
-    if (!this.group.isCustomerFacing()){
+    if (!this.group.isVisible()){
       return;
     }
     Validator.validateDescription(this.identifier, this.description);

@@ -197,7 +197,7 @@ class ProtoIndexer {
                 defaultGroup,
                 sqVersion
             );
-          if(current.getGroup().isCustomerFacing()){
+          if(current.getGroup().isVisible()){
             this.endpoints.add(current);
           }
         }
@@ -215,9 +215,10 @@ class ProtoIndexer {
           (EnumElement) type,
           packageName,
           parent);
-
-      checkArgument(!enums.containsKey(current.getName()), "Already seen %s", current.getName());
-      this.enums.put(current.getName(), current);
+      if(current.getGroup().isVisible()){
+        checkArgument(!enums.containsKey(current.getName()), "Already seen %s", current.getName());
+        this.enums.put(current.getName(), current);
+      }
       nextParent = (ConnectType) current;
     } else if (type instanceof MessageElement) {
       ConnectDatatype current = new ConnectDatatype(
@@ -227,9 +228,10 @@ class ProtoIndexer {
           parent,
           exampleResolver,
           ignoreOneofs);
-
-      checkArgument(!datatypes.containsKey(current.getName()), "Already seen %s", current.getName());
-      this.datatypes.put(current.getName(), current);
+      if(current.getGroup().isVisible()){
+        checkArgument(!datatypes.containsKey(current.getName()), "Already seen %s", current.getName());
+        this.datatypes.put(current.getName(), current);
+      }
       nextParent = (ConnectType) current;
     }
     else {

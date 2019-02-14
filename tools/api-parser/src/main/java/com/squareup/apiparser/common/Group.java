@@ -24,7 +24,10 @@ class Group {
         this.status = status;
     }
 
-    public boolean isCustomerFacing() {
+    /**
+    * return true if it is visible to customers - PUBLIC, ALPHA, BETA, DEPRECATED
+    */
+    public boolean isVisible() {
         return ReleaseStatus.ALPHA.ordinal() <= status.ordinal();
     }
 

@@ -44,7 +44,7 @@ class ConnectDatatype extends ConnectType {
   }
 
   void validate() {
-    if (!this.group.isCustomerFacing()){
+    if (!this.group.isVisible()){
       return;
     }
 
