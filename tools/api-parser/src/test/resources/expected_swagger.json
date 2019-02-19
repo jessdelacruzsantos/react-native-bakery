@@ -4,37 +4,37 @@
     "version": "2.0",
     "title": "Square Connect API",
     "description": "Client library for accessing the Square Connect APIs",
-    "termsOfService": "https:\/\/connect.squareup.com\/tos",
+    "termsOfService": "https://connect.squareup.com/tos",
     "contact": {
       "name": "Square Developer Platform",
       "email": "developers@squareup.com",
-      "url": "https:\/\/squareup.com\/developers"
+      "url": "https://squareup.com/developers"
     },
     "license": {
       "name": "Apache 2.0",
-      "url": "http:\/\/www.apache.org\/licenses\/LICENSE-2.0.html"
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
   "externalDocs": {
     "description": "Read the official documentation here:",
-    "url": "https:\/\/docs.connect.squareup.com\/"
+    "url": "https://docs.connect.squareup.com/"
   },
   "host": "connect.squareup.com",
   "schemes": [
     "https"
   ],
   "consumes": [
-    "application\/json"
+    "application/json"
   ],
   "produces": [
-    "application\/json"
+    "application/json"
   ],
   "securityDefinitions": {
     "oauth2": {
       "type": "oauth2",
-      "authorizationUrl": "https:\/\/connect.squareup.com\/oauth2\/authorize",
+      "authorizationUrl": "https://connect.squareup.com/oauth2/authorize",
       "flow": "accessCode",
-      "tokenUrl": "https:\/\/connect.squareup.com\/oauth2\/token",
+      "tokenUrl": "https://connect.squareup.com/oauth2/token",
       "scopes": {
         "MERCHANT_PROFILE_READ": "GET endpoints related to a merchant's business and location entities. Almost all Connect API applications need this permission in order to obtain a merchant's location IDs",
         "PAYMENTS_READ": "GET endpoints related to transactions and refunds",
@@ -64,7 +64,7 @@
     }
   },
   "paths": {
-    "\/v2\/locations\/{location_id}\/transactions\/{transaction_id}": {
+    "/v2/locations/{location_id}/transactions/{transaction_id}": {
       "get": {
         "tags": [
           "Transaction"
@@ -111,7 +111,7 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#\/definitions\/RetrieveTransactionResponse"
+              "$ref": "#/definitions/RetrieveTransactionResponse"
             }
           }
         }
@@ -156,7 +156,7 @@
             "required": true,
             "description": "An object containing the fields to POST for the request.\n\nSee the corresponding object definition for field details.",
             "schema": {
-              "$ref": "#\/definitions\/CaptureTransactionRequest"
+              "$ref": "#/definitions/CaptureTransactionRequest"
             }
           }
         ],
@@ -164,7 +164,7 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#\/definitions\/CaptureTransactionResponse"
+              "$ref": "#/definitions/CaptureTransactionResponse"
             }
           }
         }
@@ -249,7 +249,7 @@
         "errors": {
           "type": "array",
           "items": {
-            "$ref": "#\/definitions\/Error"
+            "$ref": "#/definitions/Error"
           },
           "description": ""
         }
@@ -370,17 +370,13 @@
     },
     "ListTransactionsRequest": {
       "type": "object",
-      "properties": {
-
-      },
+      "properties": {},
       "description": "",
       "x-release-status": "PUBLIC"
     },
     "ListTransactionsResponse": {
       "type": "object",
-      "properties": {
-
-      },
+      "properties": {},
       "description": "",
       "x-release-status": "PUBLIC"
     },
@@ -404,7 +400,7 @@
         "map": {
           "type": "object",
           "additionalProperties": {
-            "$ref": "#\/definitions\/NestedMapValue"
+            "$ref": "#/definitions/NestedMapValue"
           },
           "description": ""
         }
@@ -427,7 +423,7 @@
       "type": "object",
       "properties": {
         "metadata": {
-          "$ref": "#\/definitions\/Metadata",
+          "$ref": "#/definitions/Metadata",
           "description": ""
         }
       },
@@ -440,12 +436,12 @@
         "errors": {
           "type": "array",
           "items": {
-            "$ref": "#\/definitions\/Error"
+            "$ref": "#/definitions/Error"
           },
           "description": ""
         },
         "transaction": {
-          "$ref": "#\/definitions\/Transaction",
+          "$ref": "#/definitions/Transaction",
           "description": ""
         }
       },
@@ -487,7 +483,7 @@
           "description": ""
         },
         "nested_map": {
-          "$ref": "#\/definitions\/NestedMap",
+          "$ref": "#/definitions/NestedMap",
           "description": ""
         },
         "type": {
@@ -498,7 +494,7 @@
           "description": ""
         },
         "card_details": {
-          "$ref": "#\/definitions\/TenderCardDetails",
+          "$ref": "#/definitions/TenderCardDetails",
           "description": ""
         }
       },
@@ -509,11 +505,11 @@
       "type": "object",
       "properties": {
         "status": {
-          "$ref": "#\/definitions\/CardDetailsStatus",
+          "$ref": "#/definitions/CardDetailsStatus",
           "description": ""
         },
         "card": {
-          "$ref": "#\/definitions\/Card",
+          "$ref": "#/definitions/Card",
           "description": ""
         }
       },
@@ -542,7 +538,7 @@
         "tenders": {
           "type": "array",
           "items": {
-            "$ref": "#\/definitions\/Tender"
+            "$ref": "#/definitions/Tender"
           },
           "description": ""
         }

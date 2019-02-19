@@ -21,6 +21,7 @@ public class ConnectType {
       .put("uint64", "integer")
       .put("bool", "boolean")
       .put("string", "string")
+      .put("double", "number")
       .build();
 
   static final Map<String, String> FORMAT_MAP = ImmutableMap.<String, String>builder()
@@ -57,6 +58,10 @@ public class ConnectType {
 
   Optional<ConnectType> getParentType() {
     return parentType;
+  }
+
+  boolean hasParent() {
+    return parentType.isPresent();
   }
 
   public String getName() {

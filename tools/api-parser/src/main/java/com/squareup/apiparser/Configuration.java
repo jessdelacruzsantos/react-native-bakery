@@ -19,9 +19,6 @@ class Configuration {
   @Parameter(names = {"--output", "-o"}, description = "Output path, defaults to current directory", converter = PathConverter.class)
   public Path outputPath;
 
-  @Parameter(names = "-mergev1", description = "Location of v1 api.json to merge in")
-  public String v1APISchemaFile = "";
-
   // This option is only to support development of unreleased features.
   // No protos for released APIs should contain oneofs.
   @Parameter(names = "--ignoreoneofs", description = "If set, ignore oneofs instead of failing to create a specification")
@@ -45,15 +42,12 @@ class Configuration {
     return Optional.ofNullable(outputPath);
   }
 
-  String getV1APISchemaFile() {
-    return v1APISchemaFile;
-  }
-
   boolean isIgnoreOneofs() {
     return ignoreOneofs;
   }
 
   public static final ImmutableList<String> NAMESPACES = ImmutableList.of("marketplaces");
+  public static final String V1_TYPE_PREFIX = "V1";
 
   // Hardcoded swaggerBase for all API spec
   Map<String, Object> swaggerBase() {

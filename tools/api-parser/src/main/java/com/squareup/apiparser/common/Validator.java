@@ -41,7 +41,8 @@ class Validator {
     public static void validateRequestType(String identifier, String endPointName, ConnectDatatype type){
         String typeName = type.getName();
         String properName = endPointName + "Request";
-        if(!properName.equals(typeName)){
+        String properNameV1 = "V1" + properName;
+        if(!properName.equals(typeName)&&!properNameV1.startsWith(Configuration.V1_TYPE_PREFIX)){
             errors.add("ERROR: Request type '" + typeName + "' is not " + properName + " for " + identifier);
         }
     }
@@ -49,7 +50,8 @@ class Validator {
     public static void validateResponseType(String identifier, String endPointName, ConnectDatatype type){
         String typeName = type.getName();
         String properName = endPointName + "Response";
-        if(!properName.equals(typeName)){
+        String properNameV1 = "V1" + properName;
+        if(!properName.equals(typeName)&&!properNameV1.startsWith(Configuration.V1_TYPE_PREFIX)){
             errors.add("ERROR: Response type '" + typeName + "' is not " + properName + " for " + identifier);
         }
     }

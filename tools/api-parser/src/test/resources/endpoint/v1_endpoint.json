@@ -1,0 +1,56 @@
+{
+  "tags": [
+    "Transaction"
+  ],
+  "summary": null,
+  "operationId": null,
+  "description": "For executing delayed capture.",
+  "x-release-status": "PUBLIC",
+  "x-oauthpermissions": [
+    "PAYMENTS_WRITE"
+  ],
+  "x-sq-version": "2018-05-01",
+  "security": [
+    {
+      "oauth2": [
+        "PAYMENTS_WRITE"
+      ]
+    }
+  ],
+  "parameters": [
+    {
+      "name": "location_id",
+      "description": "",
+      "type": "string",
+      "in": "path",
+      "required": true
+    },
+    {
+      "name": "transaction_id",
+      "description": "",
+      "type": "string",
+      "in": "path",
+      "required": true
+    },
+    {
+      "name": "v1_type",
+      "in": "body",
+      "required": true,
+      "description": "",
+      "schema": {
+        "$ref": "#/definitions/V1Type"
+      }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "Success",
+      "schema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/Error"
+        }
+      }
+    }
+  }
+}

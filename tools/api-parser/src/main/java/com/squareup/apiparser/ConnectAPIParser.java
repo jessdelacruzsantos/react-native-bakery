@@ -71,19 +71,6 @@ public class ConnectAPIParser {
       // Generate PUBLIC
       group.status = ReleaseStatus.PUBLIC;
       JsonObject apiSpec = index.toJsonAPISpec(configuration, group);
-      if (!configuration.getV1APISchemaFile().isEmpty()) {
-        // Because the incoming api.json lacks visibility information we only merge it into the
-        // public definitions. This is not the best way to handle v1 endpoints.
-        JsonParser parser = new JsonParser();
-        JsonObject v1API =
-            parser.parse(new FileReader(configuration.getV1APISchemaFile())).getAsJsonObject();
-
-        // Merge v1 endpoints into v2 schema
-        mergeJsonObjectsUnderKey(v1API, apiSpec, "paths");
-
-        // Merge v1 definitions into v2 definitions
-        mergeJsonObjectsUnderKey(v1API, apiSpec, "definitions");
-      }
       Path allOutputPath = outputPath.resolve("api.json");
       writeJson(GSON.toJson(apiSpec), allOutputPath);
 
@@ -121,26 +108,6 @@ public class ConnectAPIParser {
       e.printStackTrace();
       System.out.println("Failed to generate JSON APIs!");
       System.exit(2);
-    }
-  }
-
-  // Merges all elements in a into b
-  private static void mergeJsonObjectsUnderKey(JsonObject objA, JsonObject objB, String key) {
-    JsonObject a = objA.getAsJsonObject(key);
-    JsonObject b = objB.getAsJsonObject(key);
-    if (a == null || b == null) {
-      return;
-    }
-
-    for (Map.Entry<String, JsonElement> v1Endpoint : a.entrySet()) {
-      String path = v1Endpoint.getKey();
-      // If the same key exists in the v2 schema with a different value then halt with error
-      if (b.has(path) && !b.equals(v1Endpoint.getValue())) {
-        throw new InvalidSpecException.Builder(
-            String.format("Key '%s' exists in both schemas with a different value", path)).build();
-      }
-
-      b.add(path, v1Endpoint.getValue());
     }
   }
 
