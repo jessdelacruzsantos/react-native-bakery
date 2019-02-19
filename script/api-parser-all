@@ -17,8 +17,6 @@ if [ -z ${LOCAL_PROTO_REPO+x} ]; then
     LOCAL_PROTO_REPO=~/Development/square-public-apis
 fi
 
-api_version_file_path=$LOCAL_PROTO_REPO/api-versions.yaml
-
 usage()
 {
     echo "usage: script/api-parser-all [-s square_public_apis]"
@@ -36,6 +34,8 @@ while [ $# -gt 0 ]; do
     esac
     shift
 done
+
+api_version_file_path=$LOCAL_PROTO_REPO/api-versions.yaml
 
 api_version=`grep "\- version: [0-9][0-9][0-9][0-9]\-[0-9][0-9]\-[0-9][0-9]" $api_version_file_path|tr -d ' '|tail -1|cut -d ":" -f 2`
 echo "Pulling api version: $api_version from $api_version_file_path"
