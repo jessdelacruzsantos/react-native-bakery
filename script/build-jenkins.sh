@@ -35,7 +35,7 @@ git config --global user.email "devs-experience-fyi@squareup.com"
 working_dir=$PWD
 tmp_dir=$working_dir/tmp
 rm -rf $tmp_dir
-sudo mkdir -p $tmp_dir
+mkdir -p $tmp_dir
 version=`git rev-parse --short HEAD`
 branch_name="api-specification-update"
 
