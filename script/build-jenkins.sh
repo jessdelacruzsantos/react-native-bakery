@@ -61,7 +61,7 @@ else
     git checkout -b $branch_name
 fi
 rm -f $specification_dir/api.json.d/*.json
-cp $generator_dir/api.json.d/*.json $specification_dir/api.json.d/
+cp $working_dir/api.json.d/*.json $specification_dir/api.json.d/
 
 if [[ -z $(git status -s) ]]
 then
@@ -85,7 +85,7 @@ else
     git checkout -b $branch_name
 fi
 rm -f $documentation_dir/api.json.d/*.json
-cp $generator_dir/api.json.d/*.json $documentation_dir/sources/api.json.d/
+cp $working_dir/api.json.d/*.json $documentation_dir/sources/api.json.d/
 
 if [[ -z $(git status -s) ]]
 then
@@ -97,4 +97,4 @@ else
 fi
 cd $working_dir
 
-rm -rf $generator_dir $specification_dir $documentation_dir
+rm -rf $proto_dir $specification_dir $documentation_dir
