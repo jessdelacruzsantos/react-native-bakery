@@ -1,0 +1,1 @@
+prodJenkinsPipeline(scriptPath: 'script/build-jenkins.sh', emailAddress: 'devs-experience+cconnect-api-spec-generation@squareup.com')
