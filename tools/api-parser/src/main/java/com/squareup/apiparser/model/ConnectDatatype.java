@@ -148,9 +148,15 @@ class ConnectDatatype extends ConnectType {
     //Generate json for current field
     // We need to declare enums locally to work around swagger-codegen
     List<String> enumValues = field.getEnumValues(group);
+    String fieldDescription = field.getDescription();
     if (!enumValues.isEmpty()) {
       json.addProperty("type", "string");
       json.add("enum", GSON.toJsonTree(enumValues));
+
+      //Adding reference links to all referenced V1 Enum types
+      if(name.startsWith(Configuration.V1_TYPE_PREFIX)){
+        fieldDescription += String.format("\nSee [%s](#type-%s) for possible values", field.getType(), field.getType().toLowerCase());
+      }
     }
     else if (field.isMap()) {
       json.addProperty("type", "object");
@@ -181,7 +187,7 @@ class ConnectDatatype extends ConnectType {
       json = arrayJson;
     }
 
-    json.addProperty("description", field.getDescription());
+    json.addProperty("description", fieldDescription);
 
     // Label field status
     if (field.getGroup().status != this.group.status ){
