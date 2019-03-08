@@ -7,6 +7,7 @@ import com.squareup.wire.schema.internal.parser.EnumConstantElement;
 import com.squareup.wire.schema.internal.parser.EnumElement;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -35,15 +36,28 @@ class ConnectEnum extends ConnectType {
   }
 
   JsonObject toJson(Group group) {
-    JsonArray enumValues = new JsonArray();
-    this.values.stream()
+    List<ConnectEnumConstant> enumValues = this.values.stream()
         .filter(enumValue -> group.shouldInclude(enumValue.getGroup()))
-        .map(ConnectEnumConstant::getName)
-        .forEach(enumValues::add);
+        .collect(Collectors.toList());
+
+
+    JsonArray enumValueArray = new JsonArray();
+    // Constructing APIMatic compatible enum extension/description
+    JsonArray enumElementsArray = new JsonArray();
+
+    enumValues.stream()
+        .forEach(enumValue ->{
+          enumValueArray.add(enumValue.getName());
+          JsonObject enumElement = new JsonObject();
+          enumElement.addProperty("name", enumValue.getName());
+          enumElement.addProperty("description", enumValue.getDescription());
+          enumElementsArray.add(enumElement);
+        });
 
     JsonObject json = new JsonObject();
     json.addProperty("type", "string");
-    json.add("enum", enumValues);
+    json.add("enum", enumValueArray);
+    json.add("x-enum-elements", enumElementsArray);
     json.addProperty("description", this.getDescription());
     json.addProperty("x-release-status", this.getGroup().status.name());
 
