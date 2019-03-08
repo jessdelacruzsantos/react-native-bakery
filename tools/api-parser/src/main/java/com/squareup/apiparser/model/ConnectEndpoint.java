@@ -39,6 +39,7 @@ public class ConnectEndpoint {
   private String path;
   private String description;
   private String identifier;
+  private Visibility visibility;
 
   ConnectEndpoint(RpcElement element, Group defaultGroup, String sqVersion) {
     checkNotNull(defaultGroup);
@@ -49,6 +50,7 @@ public class ConnectEndpoint {
     this.group.namespace = ProtoOptions.getStringValue(element.options(), "common.method_namespace").orElse(defaultGroup.namespace);
     this.httpMethod = ProtoOptions.getStringValue(element.options(), "common.http_method").orElse("");
     this.path = ProtoOptions.getStringValue(element.options(), "common.path").orElse("");
+    this.visibility = ProtoOptions.getVisibility(element.options());
     this.name = this.element.name();
     this.identifier = "(RPC)"+this.name;
   }
@@ -107,6 +109,10 @@ public class ConnectEndpoint {
     root.addProperty("operationId", this.name);
     root.addProperty("description", this.description);
     root.addProperty("x-release-status", this.group.status.name());
+
+    if(visibility != Visibility.NORMAL){
+      root.addProperty("x-visibility", visibility.name());
+    }
 
     Set<String> authenticationMethods = ProtoOptions.getStringListValue(element.options(), "common.authentication_methods")
       .map(ImmutableSet::copyOf)

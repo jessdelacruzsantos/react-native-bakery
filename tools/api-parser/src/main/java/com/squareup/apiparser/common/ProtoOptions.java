@@ -109,6 +109,14 @@ class ProtoOptions {
     return getStringValue(options, optionName).map(ReleaseStatus::valueOf).orElse(ReleaseStatus.INTERNAL);
   }
 
+  static Visibility getVisibility(Collection<OptionElement> options, Visibility visibility) {
+    return getStringValue(options, "common.visibility").map(Visibility::valueOf).orElse(visibility);
+  }
+
+  static Visibility getVisibility(Collection<OptionElement> options) {
+    return getStringValue(options, "common.visibility").map(Visibility::valueOf).orElse(Visibility.NORMAL);
+  }
+
   static ReleaseStatus getReleaseStatus(Collection<OptionElement> options, String optionName, ReleaseStatus defaultValue) {
     return getStringValue(options, optionName).map(ReleaseStatus::valueOf).orElse(defaultValue);
   }

@@ -36,6 +36,7 @@ public class ConnectType {
   protected Group group = new Group();
   protected String description;
   protected String identifier;
+  protected Visibility visibility;
 
   ConnectType(
       TypeElement rootType,
@@ -45,7 +46,17 @@ public class ConnectType {
     this.packageName = checkNotNull(packageName);
     this.parentType = checkNotNull(parentType);
     this.description = new DocString(rootType.documentation()).getDescription();
+    if(parentType.isPresent()){
+      this.visibility = ProtoOptions.getVisibility(rootType.options(), parentType.get().getVisibility());
+    }
+    else{
+      this.visibility = ProtoOptions.getVisibility(rootType.options());
+    }
     this.name = this.generateName();
+  }
+
+  Visibility getVisibility() {
+    return visibility;
   }
 
   TypeElement getRootType() {

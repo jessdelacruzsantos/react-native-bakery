@@ -133,6 +133,10 @@ class ConnectDatatype extends ConnectType {
     root.addProperty("description", this.description);
     root.addProperty("x-release-status", this.group.status.name());
 
+    if(visibility != Visibility.NORMAL){
+      root.addProperty("x-visibility", visibility.name());
+    }
+
     // (TODO) we may want to add Square-Version header to examples too.
     this.example.ifPresent(e -> root.add("example", e));
 
