@@ -61,6 +61,10 @@ class ConnectEnum extends ConnectType {
     json.addProperty("description", this.getDescription());
     json.addProperty("x-release-status", this.getGroup().status.name());
 
+    if(visibility != Visibility.NORMAL){
+      json.addProperty("x-visibility", visibility.name());
+    }
+
     return json;
   }
 }
