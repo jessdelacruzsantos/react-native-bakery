@@ -22,6 +22,7 @@ public class ConnectType {
       .put("bool", "boolean")
       .put("string", "string")
       .put("double", "number")
+      .put("byte", "byte")
       .build();
 
   static final Map<String, String> FORMAT_MAP = ImmutableMap.<String, String>builder()

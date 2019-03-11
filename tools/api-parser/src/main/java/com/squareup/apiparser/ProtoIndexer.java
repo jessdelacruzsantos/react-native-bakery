@@ -74,7 +74,7 @@ class ProtoIndexer {
     return GSON.toJsonTree(enumMapBuilder.build()).getAsJsonObject();
   }
 
-  public JsonObject toJsonAPISpec(Configuration configuration, Group group)
+  public JsonObject toJsonAPISpec(Configuration configuration, Group group, Visibility visibility)
       throws InvalidSpecException {
     // Transform all the symbols to JSON and write out to file
     JsonObject root = GSON.toJsonTree(configuration.swaggerBase()).getAsJsonObject();
@@ -82,7 +82,8 @@ class ProtoIndexer {
     // Endpoint
     JsonObject jsonEndpoints = new JsonObject();
     endpoints.stream()
-        .filter(connectEndpoint -> group.shouldInclude(connectEndpoint.getGroup()))
+        .filter(endpoint -> group.shouldInclude(endpoint.getGroup()))
+        .filter(endpoint -> (endpoint.getVisibility() == Visibility.NORMAL) || (endpoint.getVisibility() == visibility))
         .sorted(ENDPOINT_ORDERING)
         .forEach(endpoint -> {
           // If endpoint path doesn't exist, create one.
@@ -97,14 +98,14 @@ class ProtoIndexer {
     // Enum
     JsonObject jsonTypes = new JsonObject();
     for (ConnectEnum enumType : enums.values()) {
-      if (group.shouldInclude(enumType.getGroup())) {
+      if (group.shouldInclude(enumType.getGroup()) && (enumType.getVisibility() == Visibility.NORMAL) || (enumType.getVisibility() == visibility)) {
         jsonTypes.add(enumType.getName(), enumType.toJson(group));
       }
     }
 
     //Datatype
     for (ConnectDatatype datatype : datatypes.values()) {
-      if (group.shouldInclude(datatype.getGroup())) {
+      if (group.shouldInclude(datatype.getGroup()) && (datatype.getVisibility() == Visibility.NORMAL) || (datatype.getVisibility() == visibility)) {
         jsonTypes.add(datatype.getName(), datatype.toJson(group));
       }
     }

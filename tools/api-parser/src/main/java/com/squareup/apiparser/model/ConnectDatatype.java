@@ -158,7 +158,7 @@ class ConnectDatatype extends ConnectType {
       json.add("enum", GSON.toJsonTree(enumValues));
 
       //Adding reference links to all referenced V1 Enum types
-      if(name.startsWith(Configuration.V1_TYPE_PREFIX)){
+      if(Configuration.isV1Compatible(name)){
         fieldDescription += String.format("\nSee [%s](#type-%s) for possible values", field.getType(), field.getType().toLowerCase());
       }
     }
