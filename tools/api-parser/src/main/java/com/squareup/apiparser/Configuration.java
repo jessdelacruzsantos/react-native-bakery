@@ -10,6 +10,7 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import java.util.Map;
 
 class Configuration {
@@ -48,6 +49,11 @@ class Configuration {
 
   public static final ImmutableList<String> NAMESPACES = ImmutableList.of("marketplaces");
   public static final String V1_TYPE_PREFIX = "V1";
+  public static final ImmutableList<String> V1_TYPE_EXCEPTION_LIST = ImmutableList.of("V1UploadItemImageRequest");
+
+  static boolean isV1Compatible(String name){
+      return name.startsWith(V1_TYPE_PREFIX) && !V1_TYPE_EXCEPTION_LIST.contains(name);
+  }
 
   // Hardcoded swaggerBase for all API spec
   Map<String, Object> swaggerBase() {

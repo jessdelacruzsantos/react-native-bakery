@@ -67,6 +67,10 @@ public class ConnectEndpoint {
     return this.path;
   }
 
+  public Visibility getVisibility() {
+    return visibility;
+  }
+
   public String getHttpMethod(){
     return this.httpMethod;
   }
@@ -191,7 +195,7 @@ public class ConnectEndpoint {
 
         List<ConnectField> inputFields = inputDataType.getNonPathFields();
         // V1 has a different API spec convention
-        if(inputDataType.getName().startsWith(Configuration.V1_TYPE_PREFIX) && inputFields.size() == 1){
+        if(Configuration.isV1Compatible(inputDataType.getName()) && inputFields.size() == 1){
           ConnectField requestType = inputFields.get(0);
 
           paramJson.addProperty("name", requestType.getName());
@@ -228,11 +232,11 @@ public class ConnectEndpoint {
     List<ConnectField> outputFields = outputDataType.getFields();
 
     // V1 has a different API spec convention
-    if(outputDataType.getName().startsWith(Configuration.V1_TYPE_PREFIX) && outputFields.size() == 0){
+    if(Configuration.isV1Compatible(outputDataType.getName()) && outputFields.size() == 0){
       // If V1response type has no fields, return `object`.
       swaggerSuccessResponseSchema.addProperty("type", "object");
     }
-    else if(outputDataType.getName().startsWith(Configuration.V1_TYPE_PREFIX) &&
+    else if(Configuration.isV1Compatible(outputDataType.getName()) &&
             outputFields.size() == 1 &&
             outputFields.get(0).isArray()
             ){
@@ -261,4 +265,6 @@ public class ConnectEndpoint {
 
     return root;
   }
+
+
 }

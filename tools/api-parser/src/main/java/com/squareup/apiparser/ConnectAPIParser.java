@@ -70,26 +70,42 @@ public class ConnectAPIParser {
 
       // Generate PUBLIC
       group.status = ReleaseStatus.PUBLIC;
-      JsonObject apiSpec = index.toJsonAPISpec(configuration, group);
+      JsonObject apiSpec = index.toJsonAPISpec(configuration, group, Visibility.SDK_ONLY);
       Path allOutputPath = outputPath.resolve("api.json");
+      writeJson(GSON.toJson(apiSpec), allOutputPath);
+
+      apiSpec = index.toJsonAPISpec(configuration, group, Visibility.DOC_ONLY);
+      allOutputPath = outputPath.resolve("api_docs.json");
       writeJson(GSON.toJson(apiSpec), allOutputPath);
 
       // Generate BETA
       group.status = ReleaseStatus.BETA;
-      apiSpec = index.toJsonAPISpec(configuration, group);
+      apiSpec = index.toJsonAPISpec(configuration, group, Visibility.SDK_ONLY);
       allOutputPath = outputPath.resolve("api_beta.json");
+      writeJson(GSON.toJson(apiSpec), allOutputPath);
+
+      apiSpec = index.toJsonAPISpec(configuration, group, Visibility.DOC_ONLY);
+      allOutputPath = outputPath.resolve("api_beta_docs.json");
       writeJson(GSON.toJson(apiSpec), allOutputPath);
 
       // Generate ALPHA with namespaces
       group.status = ReleaseStatus.ALPHA;
-      apiSpec = index.toJsonAPISpec(configuration, group);
+      apiSpec = index.toJsonAPISpec(configuration, group, Visibility.SDK_ONLY);
       allOutputPath = outputPath.resolve("api_alpha.json");
+      writeJson(GSON.toJson(apiSpec), allOutputPath);
+
+      apiSpec = index.toJsonAPISpec(configuration, group, Visibility.DOC_ONLY);
+      allOutputPath = outputPath.resolve("api_alpha_docs.json");
       writeJson(GSON.toJson(apiSpec), allOutputPath);
 
       for (String currentNamespace : Configuration.NAMESPACES) {
         group.namespace = currentNamespace;
-        apiSpec = index.toJsonAPISpec(configuration, group);
+        apiSpec = index.toJsonAPISpec(configuration, group, Visibility.SDK_ONLY);
         allOutputPath = outputPath.resolve("api_alpha_" + currentNamespace + ".json");
+        writeJson(GSON.toJson(apiSpec), allOutputPath);
+
+        apiSpec = index.toJsonAPISpec(configuration, group, Visibility.DOC_ONLY);
+        allOutputPath = outputPath.resolve("api_alpha_" + currentNamespace + "_docs.json");
         writeJson(GSON.toJson(apiSpec), allOutputPath);
       }
     } catch (InvalidSpecException e) {

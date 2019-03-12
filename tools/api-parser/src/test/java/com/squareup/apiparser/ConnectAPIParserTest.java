@@ -34,7 +34,7 @@ public class ConnectAPIParserTest {
 
     Group group = new Group(ReleaseStatus.INTERNAL, "");
 
-    JsonObject json = indexer.toJsonAPISpec(new Configuration(), group);
+    JsonObject json = indexer.toJsonAPISpec(new Configuration(), group, Visibility.SDK_ONLY);
     JsonObject paths = json.getAsJsonObject("paths");
     JsonObject definitions = json.getAsJsonObject("definitions");
 
