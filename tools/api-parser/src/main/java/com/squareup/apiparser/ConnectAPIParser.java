@@ -61,14 +61,8 @@ public class ConnectAPIParser {
     try {
       ProtoIndexer index = new ProtoIndexer(configuration);
 
-      // Generate INTERNAL
-      Group group = new Group();
-      group.status = ReleaseStatus.INTERNAL;
-      JsonObject enumMap = index.toJsonEnumMap(configuration, group);
-      Path enumOutputPath = outputPath.resolve("enum_mapping.json");
-      writeJson(GSON.toJson(enumMap), enumOutputPath);
-
       // Generate PUBLIC
+      Group group = new Group();
       group.status = ReleaseStatus.PUBLIC;
       JsonObject apiSpec = index.toJsonAPISpec(configuration, group, Visibility.SDK_ONLY);
       Path allOutputPath = outputPath.resolve("api.json");

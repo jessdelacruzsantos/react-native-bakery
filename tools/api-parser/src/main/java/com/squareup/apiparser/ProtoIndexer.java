@@ -58,22 +58,6 @@ class ProtoIndexer {
       .compound(Ordering.natural()
           .onResultOf(ConnectEndpoint::getHttpMethod));
 
-  public JsonObject toJsonEnumMap(Configuration configuration, Group group){
-    final ImmutableMap.Builder<String, String> enumMapBuilder = ImmutableMap.builder();
-    final Joiner join = Joiner.on(".");
-    for (ConnectEnum enumType : enums.values()) {
-      if (group.shouldInclude(enumType.getGroup())) {
-        enumType.getValues()
-            .stream()
-            .filter(enumConstant -> group.shouldInclude(enumConstant.getGroup()))
-            .forEach(enumConstant ->
-                enumMapBuilder.put(join.join(enumType.getName(), enumConstant.getName()), enumConstant.getDescription()));
-      }
-    }
-
-    return GSON.toJsonTree(enumMapBuilder.build()).getAsJsonObject();
-  }
-
   public JsonObject toJsonAPISpec(Configuration configuration, Group group, Visibility visibility)
       throws InvalidSpecException {
     // Transform all the symbols to JSON and write out to file
