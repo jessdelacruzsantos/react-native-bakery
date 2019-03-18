@@ -28,6 +28,19 @@ curl --connect-timeout 60 --retry 3 -sfL \
     https://hoistrepo-api.vip/download/user-submitted-artifacts/apache-maven/apache-maven-${mvn_version}-bin.tar.gz \
     | sudo tar -C /opt -xzf -
 
+# Configure Ruby Environment
+RUBY_VERSION=2.4
+RUBY_SHA=724e25cbd18fbb1036eaac84e37fc2cf908f44bb # ruby 2.4.4
+
+# Pre requisites: Needs gcc-c++ package.
+sudo yum -y install gcc-c++
+
+# Install Ruby Runtime
+RUBY_PARTIAL=ruby-${RUBY_VERSION}_el7_${RUBY_SHA}.tar.gz
+curl --retry 4 -sfL https://hoistrepo-api.vip.sjc2b.square/download/partial-artifact/ruby/${RUBY_PARTIAL} | sudo tar zx
+export PATH=$PWD/ruby/bin:$PATH
+sudo chown -R prod-jenkins:prod-jenkins ruby/
+
 # setup git
 git config --global user.name "Connect Technical Reference Preview Generator"
 git config --global user.email "devs-experience-fyi@squareup.com"
@@ -78,7 +91,8 @@ do
     rm -f $documentation_dir/api.json.d/*.json
     cp $working_dir/api.json.d/*_docs.json $documentation_dir/sources/api.json.d/
 
-    gem install bundler --conservative --clear-sources --source 'https://gems.vip.global.square/'
+    gem install bundler -v 1.17.3
+    bundle check || bundle
     bundle exec rake documentation:compile_preview
 
     if [[ -z $(git status -s) ]]
