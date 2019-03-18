@@ -1,0 +1,1 @@
+prodJenkinsPipeline(scriptPath: 'script/preview_docs_jenkins.sh')
