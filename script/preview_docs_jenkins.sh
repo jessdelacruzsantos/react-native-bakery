@@ -60,8 +60,8 @@ git clone "https://git.sqcorp.co/scm/cad/connectv2-docs.git" $documentation_dir
 
 
 cd $documentation_dir
-gem install bundler --conservative --clear-sources --source 'https://gems.vip.global.square/'
-
+gem install bundler --conservative --version '>= 1.12.5'
+./script/bin/yarn
 
 # retrieve all unmerged branches on square-public-apis to generate previewable tech ref
 cd $proto_dir
