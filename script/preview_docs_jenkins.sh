@@ -58,6 +58,11 @@ git clone "https://git.sqcorp.co/scm/xp/square-public-apis.git" $proto_dir
 documentation_dir=$tmp_dir/connect-api-docs
 git clone "https://git.sqcorp.co/scm/cad/connectv2-docs.git" $documentation_dir
 
+
+cd $documentation_dir
+gem install bundler --conservative --clear-sources --source 'https://gems.vip.global.square/'
+
+
 # retrieve all unmerged branches on square-public-apis to generate previewable tech ref
 cd $proto_dir
 branches=$(git branch -r --no-merged |cut -d "/" -f 2-)
@@ -78,21 +83,11 @@ do
     git checkout master
 
     preview_branch="preview_${branch}"
-
-    if [ `git branch -r | grep -i "^\s*origin/${preview_branch}$"` ];
-    then
-        git checkout $preview_branch
-    else
-        git checkout -f master
-        git branch -D $preview_branch || true
-        git checkout -b $preview_branch
-    fi
+    git checkout -b $preview_branch
 
     rm -f $documentation_dir/api.json.d/*.json
     cp $working_dir/api.json.d/*_docs.json $documentation_dir/sources/api.json.d/
 
-    gem install bundler --conservative --clear-sources --source 'https://gems.vip.global.square/'
-    bundle check || bundle install
     bundle exec rake documentation:compile_preview
 
     if [[ -z $(git status -s) ]]
