@@ -75,11 +75,11 @@ do
         git checkout -b $preview_branch
     fi
 
-    bin/rake
     rm -f $documentation_dir/api.json.d/*.json
     cp $working_dir/api.json.d/*_docs.json $documentation_dir/sources/api.json.d/
 
-    bin/rake documentation:compile_preview
+    gem install bundler --conservative --clear-sources --source 'https://gems.vip.global.square/'
+    bundle exec rake documentation:compile_preview
 
     if [[ -z $(git status -s) ]]
     then
