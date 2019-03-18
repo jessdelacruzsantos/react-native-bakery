@@ -75,6 +75,7 @@ do
         git checkout -b $preview_branch
     fi
 
+    bin/rake
     rm -f $documentation_dir/api.json.d/*.json
     cp $working_dir/api.json.d/*_docs.json $documentation_dir/sources/api.json.d/
 
