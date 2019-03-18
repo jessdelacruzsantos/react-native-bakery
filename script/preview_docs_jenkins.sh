@@ -88,6 +88,7 @@ do
     rm -f $documentation_dir/api.json.d/*.json
     cp $working_dir/api.json.d/*_docs.json $documentation_dir/sources/api.json.d/
 
+    bundle install
     bin/rake documentation:compile_preview
 
     if [[ -z $(git status -s) ]]
