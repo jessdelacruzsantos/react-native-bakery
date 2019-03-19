@@ -49,8 +49,6 @@ working_dir=$PWD
 tmp_dir=$working_dir/tmp
 rm -rf $tmp_dir
 mkdir -p $tmp_dir
-version=`git rev-parse --short HEAD`
-branch_name="api-specification-update"
 
 proto_dir=$tmp_dir/square-public-apis
 git clone "https://git.sqcorp.co/scm/xp/square-public-apis.git" $proto_dir
@@ -61,7 +59,7 @@ git clone "https://git.sqcorp.co/scm/cad/connectv2-docs.git" $documentation_dir
 
 cd $documentation_dir
 gem install bundler --conservative --version '>= 1.12.5'
-./script/bin/yarn
+sudo ./script/bin/yarn
 
 # retrieve all unmerged branches on square-public-apis to generate previewable tech ref
 cd $proto_dir
