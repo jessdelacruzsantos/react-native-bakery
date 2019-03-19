@@ -56,11 +56,11 @@ git clone "https://git.sqcorp.co/scm/xp/square-public-apis.git" $proto_dir
 
 documentation_dir=$tmp_dir/connectv2-docs
 git clone "https://git.sqcorp.co/scm/cad/connectv2-docs.git" $documentation_dir
-export SQUARE_HOME=$tmp_dir
-export GOPATH=$tmp_dir
-
 cd $documentation_dir
 gem install bundler --conservative --version '>= 1.12.5'
+sudo yarn install
+export SQUARE_HOME=$tmp_dir
+export GOPATH=$tmp_dir
 
 # retrieve all unmerged branches on square-public-apis to generate previewable tech ref
 cd $proto_dir
