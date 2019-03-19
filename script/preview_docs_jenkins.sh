@@ -54,9 +54,9 @@ mkdir -p $tmp_dir
 proto_dir=$tmp_dir/square-public-apis
 git clone "https://git.sqcorp.co/scm/xp/square-public-apis.git" $proto_dir
 
-documentation_dir=$tmp_dir/connect-api-docs
+documentation_dir=$tmp_dir/connectv2-docs
 git clone "https://git.sqcorp.co/scm/cad/connectv2-docs.git" $documentation_dir
-
+export SQUARE_HOME=$tmp_dir
 
 cd $documentation_dir
 gem install bundler --conservative --version '>= 1.12.5'
