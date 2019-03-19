@@ -58,7 +58,7 @@ documentation_dir=$tmp_dir/connectv2-docs
 git clone "https://git.sqcorp.co/scm/cad/connectv2-docs.git" $documentation_dir
 cd $documentation_dir
 gem install bundler --conservative --version '>= 1.12.5'
-sudo yarn install
+yarn install
 export SQUARE_HOME=$tmp_dir
 export GOPATH=$tmp_dir
 
