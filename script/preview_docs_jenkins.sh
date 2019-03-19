@@ -34,6 +34,7 @@ RUBY_SHA=724e25cbd18fbb1036eaac84e37fc2cf908f44bb # ruby 2.4.4
 
 # Pre requisites: Needs gcc-c++ package.
 sudo yum -y install gcc-c++
+yum install mysql-devel
 
 # Install Ruby Runtime
 RUBY_PARTIAL=ruby-${RUBY_VERSION}_el7_${RUBY_SHA}.tar.gz
@@ -59,7 +60,6 @@ git clone "https://git.sqcorp.co/scm/cad/connectv2-docs.git" $documentation_dir
 
 cd $documentation_dir
 gem install bundler --conservative --version '>= 1.12.5'
-sudo ./script/bin/yarn
 
 # retrieve all unmerged branches on square-public-apis to generate previewable tech ref
 cd $proto_dir
