@@ -93,7 +93,7 @@ do
     git checkout master
 
     #replace '/' with '_' in branch name so url doesn't get confused
-    branch=$(echo $branch | tr / _)
+    branch=$(echo $branch | tr /. _)
     #create previewable branch in connectv2-docs
     preview_branch="preview_${branch}"
 
