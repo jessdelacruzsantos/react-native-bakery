@@ -72,13 +72,9 @@ sudo chown -R prod-jenkins:prod-jenkins ./
 gem install bundler --conservative --clear-sources --source 'https://gems.vip.global.square/'
 export SQUARE_HOME=$tmp_dir
 
-# retrieve all unmerged branches on square-public-apis to generate previewable tech ref
-cd $proto_dir
-branches=$(git branch -r --no-merged |cut -d "/" -f 2-)
-branches+=("master")
-
-for branch in $branches
-do
+generate_docs(){
+    set +e
+    branch=$1
     echo "Generating tech ref for branch $branch"
     cd $proto_dir
     git checkout $branch
@@ -114,4 +110,15 @@ do
         git commit -m "Tech Ref Preview Update $latest_sha"
         git push -uf origin $preview_branch
     fi
+    set -e
+}
+
+# retrieve all unmerged branches on square-public-apis to generate previewable tech ref
+cd $proto_dir
+branches=$(git branch -r --no-merged |cut -d "/" -f 2-)
+branches+=("master")
+
+for branch in $branches
+do
+    generate_docs $branch
 done
