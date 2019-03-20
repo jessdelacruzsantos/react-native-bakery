@@ -116,10 +116,10 @@ generate_docs(){
 
 # retrieve all unmerged branches on square-public-apis to generate previewable tech ref
 cd $proto_dir
-branches=$(git branch -r --no-merged |cut -d "/" -f 2-)
+branches=( $(git branch -r --no-merged |cut -d "/" -f 2-) )
 branches+=("master")
 
-for branch in $branches
+for branch in "${branches[@]}"
 do
     generate_docs $branch
 done
