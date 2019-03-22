@@ -72,6 +72,8 @@ sudo chown -R prod-jenkins:prod-jenkins ./
 gem install bundler  -v 2.0.1
 gem update --system
 export SQUARE_HOME=$tmp_dir
+bundle install
+yarn install
 
 generate_docs(){
     set +e
@@ -99,8 +101,6 @@ generate_docs(){
     rm -f $documentation_dir/api.json.d/*.json
     cp $working_dir/api.json.d/*_docs.json $documentation_dir/sources/api.json.d/
 
-    bundle install
-    yarn install
     bin/rake documentation:compile_preview
 
     if [[ -z $(git status -s) ]]
