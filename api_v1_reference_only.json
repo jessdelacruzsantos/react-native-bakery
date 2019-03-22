@@ -271,7 +271,7 @@
                 "operationId": "CreateEmployeeRole",
                 "description": "Creates an employee role you can then assign to employees.",
                 "parameters": [{
-                    "name": "EmployeeRole",
+                    "name": "employee_role",
                     "in": "body",
                     "required": true,
                     "description": "An EmployeeRole object with a name and permissions, and an optional owner flag.",
@@ -3979,7 +3979,7 @@
                     "items": {
                         "$ref": "#/definitions/v1Tender"
                     },
-                    "description": "All of the additive taxes associated with the payment."
+                    "description": "All of the tenders associated with the payment."
                 },
                 "refunds": {
                     "type": "array",
