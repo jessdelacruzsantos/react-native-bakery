@@ -69,7 +69,7 @@ git clone "https://git.sqcorp.co/scm/cad/connectv2-docs.git" $documentation_dir
 
 cd $documentation_dir
 sudo chown -R prod-jenkins:prod-jenkins ./
-gem install bundler --conservative --clear-sources --source 'https://gems.vip.global.square/'
+gem install bundler  -v 2.0.1
 gem update --system
 export SQUARE_HOME=$tmp_dir
 
