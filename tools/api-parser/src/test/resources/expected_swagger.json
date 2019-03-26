@@ -1,180 +1,396 @@
 {
-   "swagger":"2.0",
-   "info":{
-      "version":"2.0",
-      "title":"Square Connect API",
-      "description":"Client library for accessing the Square Connect APIs",
-      "termsOfService":"https://connect.squareup.com/tos",
-      "contact":{
-         "name":"Square Developer Platform",
-         "email":"developers@squareup.com",
-         "url":"https://squareup.com/developers"
-      },
-      "license":{
-         "name":"Apache 2.0",
-         "url":"http://www.apache.org/licenses/LICENSE-2.0.html"
+  "swagger": "2.0",
+  "info": {
+    "version": "2.0",
+    "title": "Square Connect API",
+    "description": "Client library for accessing the Square Connect APIs",
+    "termsOfService": "https://connect.squareup.com/tos",
+    "contact": {
+      "name": "Square Developer Platform",
+      "email": "developers@squareup.com",
+      "url": "https://squareup.com/developers"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "externalDocs": {
+    "description": "Read the official documentation here:",
+    "url": "https://docs.connect.squareup.com/"
+  },
+  "host": "connect.squareup.com",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "securityDefinitions": {
+    "oauth2": {
+      "type": "oauth2",
+      "authorizationUrl": "https://connect.squareup.com/oauth2/authorize",
+      "flow": "accessCode",
+      "tokenUrl": "https://connect.squareup.com/oauth2/token",
+      "scopes": {
+        "MERCHANT_PROFILE_READ": "GET endpoints related to a merchant's business and location entities. Almost all Connect API applications need this permission in order to obtain a merchant's location IDs",
+        "PAYMENTS_READ": "GET endpoints related to transactions and refunds",
+        "PAYMENTS_WRITE": "POST, PUT, and DELETE endpoints related to transactions and refunds. E-commerce applications must request this permission",
+        "CUSTOMERS_READ": " GET endpoints related to customer management",
+        "CUSTOMERS_WRITE": "POST, PUT, and DELETE endpoints related to customer management",
+        "SETTLEMENTS_READ": "GET endpoints related to settlements (deposits)",
+        "BANK_ACCOUNTS_READ": "GET endpoints related to a merchant's bank accounts",
+        "ITEMS_READ": "GET endpoints related to a merchant's item library",
+        "ITEMS_WRITE": "POST, PUT, and DELETE endpoints related to a merchant's item library",
+        "ORDERS_READ": "GET endpoints related to a merchant's orders",
+        "ORDERS_WRITE": "POST, PUT, and DELETE endpoints related to a merchant's orders",
+        "EMPLOYEES_READ": "GET endpoints related to employee management",
+        "EMPLOYEES_WRITE": "POST, PUT, and DELETE endpoints related to employee management",
+        "TIMECARDS_READ": "GET endpoints related to employee timecards",
+        "TIMECARDS_WRITE": "POST, PUT, and DELETE endpoints related to employee timecards",
+        "PAYMENTS_WRITE_ADDITIONAL_RECIPIENTS": "Allow third party applications to deduct a portion of each transaction amount.",
+        "PAYMENTS_WRITE_IN_PERSON": "POST, PUT, and DELETE endpoints. Grants write access to transaction and refunds information.",
+        "INVENTORY_READ": "GET endpoints related to a merchant's inventory",
+        "INVENTORY_WRITE": "POST, PUT, and DELETE endpoints related to a merchant's inventory"
       }
-   },
-   "externalDocs":{
-      "description":"Read the official documentation here:",
-      "url":"https://docs.connect.squareup.com/"
-   },
-   "host":"connect.squareup.com",
-   "schemes":[
-      "https"
-   ],
-   "consumes":[
-      "application/json"
-   ],
-   "produces":[
-      "application/json"
-   ],
-   "securityDefinitions":{
-      "oauth2":{
-         "type":"oauth2",
-         "authorizationUrl":"https://connect.squareup.com/oauth2/authorize",
-         "flow":"accessCode",
-         "tokenUrl":"https://connect.squareup.com/oauth2/token",
-         "scopes":{
-            "MERCHANT_PROFILE_READ":"GET endpoints related to a merchant's business and location entities. Almost all Connect API applications need this permission in order to obtain a merchant's location IDs",
-            "PAYMENTS_READ":"GET endpoints related to transactions and refunds",
-            "PAYMENTS_WRITE":"POST, PUT, and DELETE endpoints related to transactions and refunds. E-commerce applications must request this permission",
-            "CUSTOMERS_READ":" GET endpoints related to customer management",
-            "CUSTOMERS_WRITE":"POST, PUT, and DELETE endpoints related to customer management",
-            "SETTLEMENTS_READ":"GET endpoints related to settlements (deposits)",
-            "BANK_ACCOUNTS_READ":"GET endpoints related to a merchant's bank accounts",
-            "ITEMS_READ":"GET endpoints related to a merchant's item library",
-            "ITEMS_WRITE":"POST, PUT, and DELETE endpoints related to a merchant's item library",
-            "ORDERS_READ":"GET endpoints related to a merchant's orders",
-            "ORDERS_WRITE":"POST, PUT, and DELETE endpoints related to a merchant's orders",
-            "EMPLOYEES_READ":"GET endpoints related to employee management",
-            "EMPLOYEES_WRITE":"POST, PUT, and DELETE endpoints related to employee management",
-            "TIMECARDS_READ":"GET endpoints related to employee timecards",
-            "TIMECARDS_WRITE":"POST, PUT, and DELETE endpoints related to employee timecards",
-            "PAYMENTS_WRITE_ADDITIONAL_RECIPIENTS":"Allow third party applications to deduct a portion of each transaction amount.",
-            "PAYMENTS_WRITE_IN_PERSON":"POST, PUT, and DELETE endpoints. Grants write access to transaction and refunds information.",
-            "INVENTORY_READ":"GET endpoints related to a merchant's inventory",
-            "INVENTORY_WRITE":"POST, PUT, and DELETE endpoints related to a merchant's inventory"
-         }
-      },
-      "oauth2ClientSecret":{
-         "type":"apiKey",
-         "in":"header",
-         "name":"Authorization"
-      }
-   },
-   "paths":{
-      "/v2/locations/{location_id}/transactions/{transaction_id}":{
-         "get":{
-            "tags":[
-               "Transaction"
-            ],
-            "summary":"RetrieveTransaction",
-            "operationId":"RetrieveTransaction",
-            "description":"Retrieves details for a single transaction.",
-            "x-release-status":"PUBLIC",
-            "x-oauthpermissions":[
-               "PAYMENTS_READ"
-            ],
-            "x-sq-version":"2018-05-01",
-            "security":[
-               {
-                  "oauth2":[
-                     "PAYMENTS_READ"
-                  ]
-               }
-            ],
-            "parameters":[
-               {
-                  "name":"location_id",
-                  "description":"",
-                  "type":"string",
-                  "in":"path",
-                  "required":true
-               },
-               {
-                  "name":"transaction_id",
-                  "description":"",
-                  "type":"string",
-                  "in":"path",
-                  "required":true
-               },
-               {
-                  "name":"metadata",
-                  "description":"",
-                  "type":"Metadata",
-                  "in":"query",
-                  "required":false
-               }
-            ],
-            "responses":{
-               "200":{
-                  "description":"Success",
-                  "schema":{
-                     "$ref":"#/definitions/RetrieveTransactionResponse"
-                  }
-               }
+    },
+    "oauth2ClientSecret": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization"
+    }
+  },
+  "paths": {
+    "/v2/locations/{location_id}/transactions/{transaction_id}": {
+      "get": {
+        "tags": [
+          "Transaction"
+        ],
+        "summary": "RetrieveTransaction",
+        "operationId": "RetrieveTransaction",
+        "description": "Retrieves details for a single transaction.",
+        "x-release-status": "PUBLIC",
+        "x-oauthpermissions": [
+          "PAYMENTS_READ"
+        ],
+        "x-sq-version": "2018-05-01",
+        "security": [
+          {
+            "oauth2": [
+              "PAYMENTS_READ"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "location_id",
+            "description": "",
+            "type": "string",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "transaction_id",
+            "description": "",
+            "type": "string",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "metadata",
+            "description": "",
+            "type": "Metadata",
+            "in": "query",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/RetrieveTransactionResponse"
             }
-         },
-         "post":{
-            "tags":[
-               "Transaction"
-            ],
-            "summary":"CaptureTransaction",
-            "operationId":"CaptureTransaction",
-            "description":"For executing delayed capture.",
-            "x-release-status":"PUBLIC",
-            "x-oauthpermissions":[
-               "PAYMENTS_WRITE"
-            ],
-            "x-sq-version":"2018-05-01",
-            "security":[
-               {
-                  "oauth2":[
-                     "PAYMENTS_WRITE"
-                  ]
-               }
-            ],
-            "parameters":[
-               {
-                  "name":"location_id",
-                  "description":"",
-                  "type":"string",
-                  "in":"path",
-                  "required":true
-               },
-               {
-                  "name":"transaction_id",
-                  "description":"",
-                  "type":"string",
-                  "in":"path",
-                  "required":true
-               },
-               {
-                  "name":"body",
-                  "in":"body",
-                  "required":true,
-                  "description":"An object containing the fields to POST for the request.\n\nSee the corresponding object definition for field details.",
-                  "schema":{
-                     "$ref":"#/definitions/CaptureTransactionRequest"
-                  }
-               }
-            ],
-            "responses":{
-               "200":{
-                  "description":"Success",
-                  "schema":{
-                     "$ref":"#/definitions/CaptureTransactionResponse"
-                  }
-               }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Transaction"
+        ],
+        "summary": "CaptureTransaction",
+        "operationId": "CaptureTransaction",
+        "description": "For executing delayed capture.",
+        "x-release-status": "PUBLIC",
+        "x-oauthpermissions": [
+          "PAYMENTS_WRITE"
+        ],
+        "x-sq-version": "2018-05-01",
+        "security": [
+          {
+            "oauth2": [
+              "PAYMENTS_WRITE"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "location_id",
+            "description": "",
+            "type": "string",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "transaction_id",
+            "description": "",
+            "type": "string",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "An object containing the fields to POST for the request.\n\nSee the corresponding object definition for field details.",
+            "schema": {
+              "$ref": "#/definitions/CaptureTransactionRequest"
             }
-         }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/CaptureTransactionResponse"
+            }
+          }
+        }
       }
-   },
-   "definitions":{
-      "CardBrand":{
-         "type":"string",
-         "enum":[
+    }
+  },
+  "definitions": {
+    "CardBrand": {
+      "type": "string",
+      "enum": [
+        "OTHER_BRAND",
+        "VISA",
+        "MASTERCARD",
+        "AMERICAN_EXPRESS",
+        "DISCOVER",
+        "DISCOVER_DINERS",
+        "JCB",
+        "CHINA_UNIONPAY",
+        "SQUARE_GIFT_CARD"
+      ],
+      "x-enum-elements": [
+        {
+          "name": "OTHER_BRAND",
+          "description": ""
+        },
+        {
+          "name": "VISA",
+          "description": ""
+        },
+        {
+          "name": "MASTERCARD",
+          "description": ""
+        },
+        {
+          "name": "AMERICAN_EXPRESS",
+          "description": ""
+        },
+        {
+          "name": "DISCOVER",
+          "description": ""
+        },
+        {
+          "name": "DISCOVER_DINERS",
+          "description": ""
+        },
+        {
+          "name": "JCB",
+          "description": ""
+        },
+        {
+          "name": "CHINA_UNIONPAY",
+          "description": ""
+        },
+        {
+          "name": "SQUARE_GIFT_CARD",
+          "description": ""
+        }
+      ],
+      "description": "",
+      "x-release-status": "PUBLIC"
+    },
+    "ErrorType": {
+      "type": "string",
+      "enum": [
+        "INTERNAL_SERVER_ERROR",
+        "UNAUTHORIZED",
+        "ACCESS_TOKEN_EXPIRED",
+        "ACCESS_TOKEN_REVOKED",
+        "FORBIDDEN",
+        "INSUFFICIENT_SCOPES",
+        "BAD_REQUEST",
+        "NOT_FOUND",
+        "REQUEST_TIMEOUT",
+        "REQUEST_ENTITY_TOO_LARGE",
+        "UNSUPPORTED_MEDIA_TYPE",
+        "RATE_LIMITED",
+        "NOT_IMPLEMENTED",
+        "SERVICE_UNAVAILABLE"
+      ],
+      "x-enum-elements": [
+        {
+          "name": "INTERNAL_SERVER_ERROR",
+          "description": ""
+        },
+        {
+          "name": "UNAUTHORIZED",
+          "description": ""
+        },
+        {
+          "name": "ACCESS_TOKEN_EXPIRED",
+          "description": ""
+        },
+        {
+          "name": "ACCESS_TOKEN_REVOKED",
+          "description": ""
+        },
+        {
+          "name": "FORBIDDEN",
+          "description": ""
+        },
+        {
+          "name": "INSUFFICIENT_SCOPES",
+          "description": ""
+        },
+        {
+          "name": "BAD_REQUEST",
+          "description": ""
+        },
+        {
+          "name": "NOT_FOUND",
+          "description": ""
+        },
+        {
+          "name": "REQUEST_TIMEOUT",
+          "description": ""
+        },
+        {
+          "name": "REQUEST_ENTITY_TOO_LARGE",
+          "description": ""
+        },
+        {
+          "name": "UNSUPPORTED_MEDIA_TYPE",
+          "description": ""
+        },
+        {
+          "name": "RATE_LIMITED",
+          "description": ""
+        },
+        {
+          "name": "NOT_IMPLEMENTED",
+          "description": ""
+        },
+        {
+          "name": "SERVICE_UNAVAILABLE",
+          "description": ""
+        }
+      ],
+      "description": "",
+      "x-release-status": "PUBLIC"
+    },
+    "TenderCardDetailsStatus": {
+      "type": "string",
+      "enum": [
+        "UNKNOWN",
+        "AUTHORIZED",
+        "CAPTURED",
+        "VOIDED",
+        "FAILED"
+      ],
+      "x-enum-elements": [
+        {
+          "name": "UNKNOWN",
+          "description": ""
+        },
+        {
+          "name": "AUTHORIZED",
+          "description": ""
+        },
+        {
+          "name": "CAPTURED",
+          "description": ""
+        },
+        {
+          "name": "VOIDED",
+          "description": ""
+        },
+        {
+          "name": "FAILED",
+          "description": ""
+        }
+      ],
+      "description": "",
+      "x-release-status": "PUBLIC"
+    },
+    "TenderType": {
+      "type": "string",
+      "enum": [
+        "CARD"
+      ],
+      "x-enum-elements": [
+        {
+          "name": "CARD",
+          "description": "card_details must be populated for CARD type."
+        }
+      ],
+      "description": "",
+      "x-release-status": "PUBLIC"
+    },
+    "CaptureTransactionRequest": {
+      "type": "object",
+      "required": [
+        "body_param"
+      ],
+      "properties": {
+        "body_param": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "description": "",
+      "x-release-status": "PUBLIC"
+    },
+    "CaptureTransactionResponse": {
+      "type": "object",
+      "properties": {
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Error"
+          },
+          "description": ""
+        }
+      },
+      "description": "",
+      "x-release-status": "PUBLIC"
+    },
+    "Card": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The card's unique ID."
+        },
+        "card_brand": {
+          "type": "string",
+          "enum": [
             "OTHER_BRAND",
             "VISA",
             "MASTERCARD",
@@ -184,51 +400,69 @@
             "JCB",
             "CHINA_UNIONPAY",
             "SQUARE_GIFT_CARD"
-         ],
-         "x-enum-elements":[
-            {
-               "name":"OTHER_BRAND",
-               "description":""
-            },
-            {
-               "name":"VISA",
-               "description":""
-            },
-            {
-               "name":"MASTERCARD",
-               "description":""
-            },
-            {
-               "name":"AMERICAN_EXPRESS",
-               "description":""
-            },
-            {
-               "name":"DISCOVER",
-               "description":""
-            },
-            {
-               "name":"DISCOVER_DINERS",
-               "description":""
-            },
-            {
-               "name":"JCB",
-               "description":""
-            },
-            {
-               "name":"CHINA_UNIONPAY",
-               "description":""
-            },
-            {
-               "name":"SQUARE_GIFT_CARD",
-               "description":""
-            }
-         ],
-         "description":"",
-         "x-release-status":"PUBLIC"
+          ],
+          "description": "\nSee [CardBrand](#type-cardbrand) for possible values"
+        },
+        "last_4": {
+          "type": "string",
+          "description": "last 4 digits of card number"
+        },
+        "exp_month": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The month of the card's expiration date, which must be between 1-12."
+        },
+        "exp_year": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The year of the card's expiration date, which must be a 4 digit year."
+        },
+        "cardholder_name": {
+          "type": "string",
+          "description": "The cardholder name for the card on file."
+        }
       },
-      "ErrorType":{
-         "type":"string",
-         "enum":[
+      "description": "",
+      "x-release-status": "PUBLIC"
+    },
+    "CardData": {
+      "type": "object",
+      "required": [
+        "billing_postal_code"
+      ],
+      "properties": {
+        "number": {
+          "type": "string",
+          "description": "The number on the card."
+        },
+        "exp_month": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The month of the card's expiration date, which must be between 1-12."
+        },
+        "exp_year": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The year of the card's expiration date, which must be a 4 digit year."
+        },
+        "cvv": {
+          "type": "string",
+          "description": "The card verification value (i.e. security code) printed on the card."
+        },
+        "billing_postal_code": {
+          "type": "string",
+          "description": "The billing postal code for the card on file.\nPostal code in the billing address for US and Canada payments may reduce decline rate."
+        }
+      },
+      "description": "",
+      "x-release-status": "PUBLIC"
+    },
+    "Error": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
             "INTERNAL_SERVER_ERROR",
             "UNAUTHORIZED",
             "ACCESS_TOKEN_EXPIRED",
@@ -243,436 +477,198 @@
             "RATE_LIMITED",
             "NOT_IMPLEMENTED",
             "SERVICE_UNAVAILABLE"
-         ],
-         "x-enum-elements":[
-            {
-               "name":"INTERNAL_SERVER_ERROR",
-               "description":""
-            },
-            {
-               "name":"UNAUTHORIZED",
-               "description":""
-            },
-            {
-               "name":"ACCESS_TOKEN_EXPIRED",
-               "description":""
-            },
-            {
-               "name":"ACCESS_TOKEN_REVOKED",
-               "description":""
-            },
-            {
-               "name":"FORBIDDEN",
-               "description":""
-            },
-            {
-               "name":"INSUFFICIENT_SCOPES",
-               "description":""
-            },
-            {
-               "name":"BAD_REQUEST",
-               "description":""
-            },
-            {
-               "name":"NOT_FOUND",
-               "description":""
-            },
-            {
-               "name":"REQUEST_TIMEOUT",
-               "description":""
-            },
-            {
-               "name":"REQUEST_ENTITY_TOO_LARGE",
-               "description":""
-            },
-            {
-               "name":"UNSUPPORTED_MEDIA_TYPE",
-               "description":""
-            },
-            {
-               "name":"RATE_LIMITED",
-               "description":""
-            },
-            {
-               "name":"NOT_IMPLEMENTED",
-               "description":""
-            },
-            {
-               "name":"SERVICE_UNAVAILABLE",
-               "description":""
-            }
-         ],
-         "description":"",
-         "x-release-status":"PUBLIC"
+          ],
+          "description": "\nSee [ErrorType](#type-errortype) for possible values"
+        },
+        "detail": {
+          "type": "string",
+          "description": ""
+        },
+        "field": {
+          "type": "string",
+          "description": ""
+        }
       },
-      "TenderCardDetailsStatus":{
-         "type":"string",
-         "enum":[
-            "UNKNOWN",
-            "AUTHORIZED",
-            "CAPTURED",
-            "VOIDED",
-            "FAILED"
-         ],
-         "x-enum-elements":[
-            {
-               "name":"UNKNOWN",
-               "description":""
-            },
-            {
-               "name":"AUTHORIZED",
-               "description":""
-            },
-            {
-               "name":"CAPTURED",
-               "description":""
-            },
-            {
-               "name":"VOIDED",
-               "description":""
-            },
-            {
-               "name":"FAILED",
-               "description":""
-            }
-         ],
-         "description":"",
-         "x-release-status":"PUBLIC"
+      "description": "",
+      "x-release-status": "PUBLIC"
+    },
+    "ListTransactionsRequest": {
+      "type": "object",
+      "properties": {},
+      "description": "",
+      "x-release-status": "PUBLIC"
+    },
+    "ListTransactionsResponse": {
+      "type": "object",
+      "properties": {},
+      "description": "",
+      "x-release-status": "PUBLIC"
+    },
+    "Metadata": {
+      "type": "object",
+      "properties": {
+        "map": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": ""
+        }
       },
-      "TenderType":{
-         "type":"string",
-         "enum":[
+      "description": "",
+      "x-release-status": "PUBLIC"
+    },
+    "NestedMap": {
+      "type": "object",
+      "properties": {
+        "map": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/NestedMapValue"
+          },
+          "description": ""
+        }
+      },
+      "description": "",
+      "x-release-status": "PUBLIC"
+    },
+    "NestedMapNestedMapValue": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "description": "",
+      "x-release-status": "PUBLIC"
+    },
+    "RetrieveTransactionRequest": {
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/Metadata",
+          "description": ""
+        }
+      },
+      "description": "",
+      "x-release-status": "PUBLIC"
+    },
+    "RetrieveTransactionResponse": {
+      "type": "object",
+      "properties": {
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Error"
+          },
+          "description": ""
+        },
+        "transaction": {
+          "$ref": "#/definitions/Transaction",
+          "description": ""
+        }
+      },
+      "description": "",
+      "x-release-status": "PUBLIC"
+    },
+    "Tender": {
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The tender's unique ID."
+        },
+        "business_id": {
+          "type": "string",
+          "description": "The ID of the tender's associated business."
+        },
+        "location_id": {
+          "type": "string",
+          "description": "The ID of the tender's associated location."
+        },
+        "transaction_id": {
+          "type": "string",
+          "description": "The ID of the tender's associated transaction."
+        },
+        "created_at": {
+          "type": "string",
+          "description": "The time when the tender was created, in RFC 3339 format."
+        },
+        "note": {
+          "type": "string",
+          "description": ""
+        },
+        "customer_id": {
+          "type": "string",
+          "description": ""
+        },
+        "nested_map": {
+          "$ref": "#/definitions/NestedMap",
+          "description": ""
+        },
+        "type": {
+          "type": "string",
+          "enum": [
             "CARD"
-         ],
-         "x-enum-elements":[
-            {
-               "name":"CARD",
-               "description":"card_details must be populated for CARD type."
-            }
-         ],
-         "description":"",
-         "x-release-status":"PUBLIC"
+          ],
+          "description": "\nSee [TenderType](#type-tendertype) for possible values"
+        },
+        "card_details": {
+          "$ref": "#/definitions/TenderCardDetails",
+          "description": ""
+        }
       },
-      "CaptureTransactionRequest":{
-         "type":"object",
-         "required":[
-            "body_param"
-         ],
-         "properties":{
-            "body_param":{
-               "type":"string",
-               "description":""
-            }
-         },
-         "description":"",
-         "x-release-status":"PUBLIC"
+      "description": "Represents a charge against a card taken by a Square merchant.",
+      "x-release-status": "PUBLIC"
+    },
+    "TenderCardDetails": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "$ref": "#/definitions/CardDetailsStatus",
+          "description": ""
+        },
+        "card": {
+          "$ref": "#/definitions/Card",
+          "description": ""
+        }
       },
-      "CaptureTransactionResponse":{
-         "type":"object",
-         "properties":{
-            "errors":{
-               "type":"array",
-               "items":{
-                  "$ref":"#/definitions/Error"
-               },
-               "description":""
-            }
-         },
-         "description":"",
-         "x-release-status":"PUBLIC"
+      "description": "",
+      "x-release-status": "PUBLIC"
+    },
+    "Transaction": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The transaction's unique ID."
+        },
+        "business_id": {
+          "type": "string",
+          "description": "The ID of the transaction's associated business."
+        },
+        "location_id": {
+          "type": "string",
+          "description": "The ID of the transaction's associated location."
+        },
+        "created_at": {
+          "type": "string",
+          "description": "The time when the transaction was created, in RFC 3339 format."
+        },
+        "tenders": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Tender"
+          },
+          "description": ""
+        }
       },
-      "Card":{
-         "type":"object",
-         "properties":{
-            "id":{
-               "type":"string",
-               "description":"The card's unique ID."
-            },
-            "card_brand":{
-               "type":"string",
-               "enum":[
-                  "OTHER_BRAND",
-                  "VISA",
-                  "MASTERCARD",
-                  "AMERICAN_EXPRESS",
-                  "DISCOVER",
-                  "DISCOVER_DINERS",
-                  "JCB",
-                  "CHINA_UNIONPAY",
-                  "SQUARE_GIFT_CARD"
-               ],
-               "description":""
-            },
-            "last_4":{
-               "type":"string",
-               "description":"last 4 digits of card number"
-            },
-            "exp_month":{
-               "type":"integer",
-               "format":"int64",
-               "description":"The month of the card's expiration date, which must be between 1-12."
-            },
-            "exp_year":{
-               "type":"integer",
-               "format":"int64",
-               "description":"The year of the card's expiration date, which must be a 4 digit year."
-            },
-            "cardholder_name":{
-               "type":"string",
-               "description":"The cardholder name for the card on file."
-            }
-         },
-         "description":"",
-         "x-release-status":"PUBLIC"
-      },
-      "CardData":{
-         "type":"object",
-         "required":[
-            "billing_postal_code"
-         ],
-         "properties":{
-            "number":{
-               "type":"string",
-               "description":"The number on the card."
-            },
-            "exp_month":{
-               "type":"integer",
-               "format":"int64",
-               "description":"The month of the card's expiration date, which must be between 1-12."
-            },
-            "exp_year":{
-               "type":"integer",
-               "format":"int64",
-               "description":"The year of the card's expiration date, which must be a 4 digit year."
-            },
-            "cvv":{
-               "type":"string",
-               "description":"The card verification value (i.e. security code) printed on the card."
-            },
-            "billing_postal_code":{
-               "type":"string",
-               "description":"The billing postal code for the card on file.\nPostal code in the billing address for US and Canada payments may reduce decline rate."
-            }
-         },
-         "description":"",
-         "x-release-status":"PUBLIC"
-      },
-      "Error":{
-         "type":"object",
-         "properties":{
-            "type":{
-               "type":"string",
-               "enum":[
-                  "INTERNAL_SERVER_ERROR",
-                  "UNAUTHORIZED",
-                  "ACCESS_TOKEN_EXPIRED",
-                  "ACCESS_TOKEN_REVOKED",
-                  "FORBIDDEN",
-                  "INSUFFICIENT_SCOPES",
-                  "BAD_REQUEST",
-                  "NOT_FOUND",
-                  "REQUEST_TIMEOUT",
-                  "REQUEST_ENTITY_TOO_LARGE",
-                  "UNSUPPORTED_MEDIA_TYPE",
-                  "RATE_LIMITED",
-                  "NOT_IMPLEMENTED",
-                  "SERVICE_UNAVAILABLE"
-               ],
-               "description":""
-            },
-            "detail":{
-               "type":"string",
-               "description":""
-            },
-            "field":{
-               "type":"string",
-               "description":""
-            }
-         },
-         "description":"",
-         "x-release-status":"PUBLIC"
-      },
-      "ListTransactionsRequest":{
-         "type":"object",
-         "properties":{
-
-         },
-         "description":"",
-         "x-release-status":"PUBLIC"
-      },
-      "ListTransactionsResponse":{
-         "type":"object",
-         "properties":{
-
-         },
-         "description":"",
-         "x-release-status":"PUBLIC"
-      },
-      "Metadata":{
-         "type":"object",
-         "properties":{
-            "map":{
-               "type":"object",
-               "additionalProperties":{
-                  "type":"string"
-               },
-               "description":""
-            }
-         },
-         "description":"",
-         "x-release-status":"PUBLIC"
-      },
-      "NestedMap":{
-         "type":"object",
-         "properties":{
-            "map":{
-               "type":"object",
-               "additionalProperties":{
-                  "$ref":"#/definitions/NestedMapValue"
-               },
-               "description":""
-            }
-         },
-         "description":"",
-         "x-release-status":"PUBLIC"
-      },
-      "NestedMapNestedMapValue":{
-         "type":"object",
-         "properties":{
-            "value":{
-               "type":"string",
-               "description":""
-            }
-         },
-         "description":"",
-         "x-release-status":"PUBLIC"
-      },
-      "RetrieveTransactionRequest":{
-         "type":"object",
-         "properties":{
-            "metadata":{
-               "$ref":"#/definitions/Metadata",
-               "description":""
-            }
-         },
-         "description":"",
-         "x-release-status":"PUBLIC"
-      },
-      "RetrieveTransactionResponse":{
-         "type":"object",
-         "properties":{
-            "errors":{
-               "type":"array",
-               "items":{
-                  "$ref":"#/definitions/Error"
-               },
-               "description":""
-            },
-            "transaction":{
-               "$ref":"#/definitions/Transaction",
-               "description":""
-            }
-         },
-         "description":"",
-         "x-release-status":"PUBLIC"
-      },
-      "Tender":{
-         "type":"object",
-         "required":[
-            "type"
-         ],
-         "properties":{
-            "id":{
-               "type":"string",
-               "description":"The tender's unique ID."
-            },
-            "business_id":{
-               "type":"string",
-               "description":"The ID of the tender's associated business."
-            },
-            "location_id":{
-               "type":"string",
-               "description":"The ID of the tender's associated location."
-            },
-            "transaction_id":{
-               "type":"string",
-               "description":"The ID of the tender's associated transaction."
-            },
-            "created_at":{
-               "type":"string",
-               "description":"The time when the tender was created, in RFC 3339 format."
-            },
-            "note":{
-               "type":"string",
-               "description":""
-            },
-            "customer_id":{
-               "type":"string",
-               "description":""
-            },
-            "nested_map":{
-               "$ref":"#/definitions/NestedMap",
-               "description":""
-            },
-            "type":{
-               "type":"string",
-               "enum":[
-                  "CARD"
-               ],
-               "description":""
-            },
-            "card_details":{
-               "$ref":"#/definitions/TenderCardDetails",
-               "description":""
-            }
-         },
-         "description":"Represents a charge against a card taken by a Square merchant.",
-         "x-release-status":"PUBLIC"
-      },
-      "TenderCardDetails":{
-         "type":"object",
-         "properties":{
-            "status":{
-               "$ref":"#/definitions/CardDetailsStatus",
-               "description":""
-            },
-            "card":{
-               "$ref":"#/definitions/Card",
-               "description":""
-            }
-         },
-         "description":"",
-         "x-release-status":"PUBLIC"
-      },
-      "Transaction":{
-         "type":"object",
-         "properties":{
-            "id":{
-               "type":"string",
-               "description":"The transaction's unique ID."
-            },
-            "business_id":{
-               "type":"string",
-               "description":"The ID of the transaction's associated business."
-            },
-            "location_id":{
-               "type":"string",
-               "description":"The ID of the transaction's associated location."
-            },
-            "created_at":{
-               "type":"string",
-               "description":"The time when the transaction was created, in RFC 3339 format."
-            },
-            "tenders":{
-               "type":"array",
-               "items":{
-                  "$ref":"#/definitions/Tender"
-               },
-               "description":""
-            }
-         },
-         "description":"",
-         "x-release-status":"PUBLIC"
-      }
-   }
+      "description": "",
+      "x-release-status": "PUBLIC"
+    }
+  }
 }
