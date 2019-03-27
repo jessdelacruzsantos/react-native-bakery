@@ -58,10 +58,28 @@ class ProtoIndexer {
       .compound(Ordering.natural()
           .onResultOf(ConnectEndpoint::getHttpMethod));
 
+  // Retrieves OAuth scopes from proto and convert them to jsonObject
+  // Not the prettiest implementation, but it makes the proto single source of truth.
+  private JsonObject retreiveOAuthScopes(){
+    Optional<ConnectEnum> oauthPermission = getEnumType(Configuration.OAUTH_PERMISSION_TYPE);
+
+    JsonObject json = new JsonObject();
+    if(oauthPermission.isPresent()){
+      for(ConnectEnumConstant enumConstant: oauthPermission.get().getValues()){
+        json.addProperty(enumConstant.getName(),enumConstant.getDescription());
+      }
+    }
+    return json;
+  }
+
   public JsonObject toJsonAPISpec(Configuration configuration, Group group, Visibility visibility)
       throws InvalidSpecException {
     // Transform all the symbols to JSON and write out to file
     JsonObject root = GSON.toJsonTree(configuration.swaggerBase()).getAsJsonObject();
+
+    // Inserting OAuth scope from proto.
+    JsonObject oauth = root.getAsJsonObject("securityDefinitions").getAsJsonObject("oauth2");
+    oauth.add("scopes", retreiveOAuthScopes());
 
     // Endpoint
     JsonObject jsonEndpoints = new JsonObject();

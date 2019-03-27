@@ -40,6 +40,7 @@ public class ConnectEndpoint {
   private String description;
   private String identifier;
   private Visibility visibility;
+  private ProtoIndexer index;
 
   ConnectEndpoint(RpcElement element, Group defaultGroup, String sqVersion) {
     checkNotNull(defaultGroup);
@@ -61,6 +62,7 @@ public class ConnectEndpoint {
     Validator.validateRequestType(this.identifier, this.name, this.inputDataType);
     Validator.validateResponseType(this.identifier, this.name, this.outputDataType);
     Validator.validateAuthenticationMethods(this.identifier, this.element.options());
+    Validator.validateDefinitionExists(this.identifier, Configuration.OAUTH_PERMISSION_TYPE, this.index, this.group);
   }
 
   public String getPath() {
@@ -86,6 +88,7 @@ public class ConnectEndpoint {
   //populateFields() has to be called once before toJson() is called
   //It retreives the request & response types.
   void populateFields(ProtoIndexer index) {
+    this.index = index;
     String inputType = element.requestType();
     String outputType = element.responseType();
     Optional<ConnectDatatype> requestType = index.getDataType(inputType);

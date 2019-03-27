@@ -49,6 +49,7 @@ class Configuration {
 
   public static final ImmutableList<String> NAMESPACES = ImmutableList.of("marketplaces");
   public static final String V1_TYPE_PREFIX = "V1";
+  public static final String OAUTH_PERMISSION_TYPE = "OAuthPermission";
   public static final ImmutableList<String> V1_TYPE_EXCEPTION_LIST = ImmutableList.of("V1UploadItemImageRequest");
 
   static boolean isV1Compatible(String name){
@@ -78,38 +79,11 @@ class Configuration {
         .put("description", "Read the official documentation here:")
         .put("url", "https://docs.connect.squareup.com/");
 
-    // TODO - These should be extracted from protos directly
-    ImmutableMap.Builder<String, String> scopes = ImmutableMap.<String, String>builder()
-        .put("MERCHANT_PROFILE_READ",
-            "GET endpoints related to a merchant's business and location entities. Almost all Connect API applications need this permission in order to obtain a merchant's location IDs")
-        .put("PAYMENTS_READ", "GET endpoints related to transactions and refunds")
-        .put("PAYMENTS_WRITE",
-            "POST, PUT, and DELETE endpoints related to transactions and refunds. E-commerce applications must request this permission")
-        .put("CUSTOMERS_READ", " GET endpoints related to customer management")
-        .put("CUSTOMERS_WRITE", "POST, PUT, and DELETE endpoints related to customer management")
-        .put("SETTLEMENTS_READ", "GET endpoints related to settlements (deposits)")
-        .put("BANK_ACCOUNTS_READ", "GET endpoints related to a merchant's bank accounts")
-        .put("ITEMS_READ", "GET endpoints related to a merchant's item library")
-        .put("ITEMS_WRITE", "POST, PUT, and DELETE endpoints related to a merchant's item library")
-        .put("ORDERS_READ", "GET endpoints related to a merchant\u0027s orders")
-        .put("ORDERS_WRITE", "POST, PUT, and DELETE endpoints related to a merchant\u0027s orders")
-        .put("EMPLOYEES_READ", "GET endpoints related to employee management")
-        .put("EMPLOYEES_WRITE", "POST, PUT, and DELETE endpoints related to employee management")
-        .put("TIMECARDS_READ", "GET endpoints related to employee timecards")
-        .put("TIMECARDS_WRITE", "POST, PUT, and DELETE endpoints related to employee timecards")
-        .put("PAYMENTS_WRITE_ADDITIONAL_RECIPIENTS",
-            "Allow third party applications to deduct a portion of each transaction amount.")
-        .put("PAYMENTS_WRITE_IN_PERSON",
-            "POST, PUT, and DELETE endpoints. Grants write access to transaction and refunds information.")
-        .put("INVENTORY_READ", "GET endpoints related to a merchant's inventory")
-        .put("INVENTORY_WRITE", "POST, PUT, and DELETE endpoints related to a merchant's inventory");
-
     ImmutableMap.Builder<String, Object> oauth = ImmutableMap.<String, Object>builder()
         .put("type", "oauth2")
         .put("authorizationUrl", "https://connect.squareup.com/oauth2/authorize")
         .put("flow", "accessCode")
-        .put("tokenUrl", "https://connect.squareup.com/oauth2/token")
-        .put("scopes", scopes.build());
+        .put("tokenUrl", "https://connect.squareup.com/oauth2/token");
 
     ImmutableMap.Builder<String, Object> clientAuth = ImmutableMap.<String, Object>builder()
         .put("type", "apiKey")
