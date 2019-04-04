@@ -23,7 +23,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import static com.google.common.base.Preconditions.checkState;
 
 /**
- * See https://stash.corp.squareup.com/projects/SQ/repos/java/browse/common-protos/src/main/proto/squareup/common/validation.proto
+ * See https://stash.corp.squareup.com/projects/SQ/repos/java/browse/shared-protos/common/src/main/proto/squareup/common/validation.proto
  * for supported validations.
  */
 class ProtoOptions {
