@@ -35,9 +35,10 @@ while [ $# -gt 0 ]; do
     shift
 done
 
-api_version_file_path=$LOCAL_PROTO_REPO/api-versions.yaml
+# pulling latest API version from OAuth from GO repo 
+api_version_file_link=https://git.sqcorp.co/projects/GO/repos/square/raw/oauth/config/api-versions.yaml?at=refs%2Fheads%2Fmaster
 
-api_version=`grep "\- version: [0-9][0-9][0-9][0-9]\-[0-9][0-9]\-[0-9][0-9]" $api_version_file_path|tr -d ' '|tail -1|cut -d ":" -f 2`
-echo "Pulling api version: $api_version from $api_version_file_path"
+api_version=`curl $api_version_file_link | grep "\- version: [0-9][0-9][0-9][0-9]\-[0-9][0-9]\-[0-9][0-9]" |tr -d ' '|tail -1|cut -d ":" -f 2`
+echo "Pulling api version: $api_version from $api_version_file_link"
 
 $DIR/api-parser  -v -sqversion $api_version --ignoreoneofs ${LOCAL_PROTO_REPO}

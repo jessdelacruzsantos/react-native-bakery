@@ -1,6 +1,6 @@
 # API specification generator
 
-This repo contains a Java tool to parse the public protocol buffers that define
+A Java tool to parse the public protocol buffers that define
 our public APIs. The tool generates a Swagger/Open API specification that is used
 to generate our public
 [Connect Technical Reference](https://docs.connect.squareup.com/api/connect/v2)
@@ -33,10 +33,15 @@ Square public protos are stored in the
 repo. Specification files are written to the `api.json.d/` directory then copied
 to the following local repos:
 
+Square version is pulled from OAuth from Go repo in the script.
+[see here](https://git.sqcorp.co/projects/GO/repos/square/browse/oauth/config/api-versions.yaml)
+Please make sure Square version is updated with OAuth deployment.
+
 * `connect-api-specification` - used for
   [SDK generation](https://git.sqcorp.co/projects/XP/repos/connect-api-specification/browse)
 * `connectv2-docs` - used for
   [Technical Reference generation](https://git.sqcorp.co/projects/CAD/repos/connectv2-docs/browse)
+
 
 ### Return codes
 
