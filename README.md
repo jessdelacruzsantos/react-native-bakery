@@ -49,13 +49,17 @@ Zero for success, non-zero for failure.
 
 
 ## Using status and namespace
+Two specs are created for each status/namespace. For example, `api.json` is for public SDKs and `api_docs.json`
+is for public technical reference. The reason why we produce two specs is because our current SDK generator 
+doesn't support every endpoint and some endpoints don't make sense to exist in SDKs. This is a short-term 
+solution we implemented. 
 
-| Value      | Namespace    | Exported to                 | Use                                           |
-| ---------- | ------------ | --------------------------- | --------------------------------------------- |
-| PUBLIC     | none         | api.json                    | Publicly available in the API                 |
-| BETA       | none         | api.json                    | Publicly available but denoted as `BETA`      |
-| DEPRECATED | none         | api.json                    | Publicly available but denoted as `DEPRECATED`|
-| ALPHA      | marketplaces | api_alpha_marketplaces.json | Shared with partners through feature flag     |
-| ALPHA      | none         | api_alpha.json              | Not valid for public proto files              |
-| INTERNAL   | none         | api_internal.json           | Not valid for public proto files              |
-| EXCLUDED   | none         | none                        | Maintenance; removes entry from spec          |
+Value | Namespace | Exported to | Use
+ --- | --- | --- | --- |
+PUBLIC | none | api.json/api_docs.json | Publicly available in the API
+BETA | none | api.json/api_docs.json | Publicly available but denoted as `BETA`
+DEPRECATED | none | api.json/api_docs.json | Publicly available but denoted as `DEPRECATED`
+ALPHA | marketplaces | api_alpha_marketplaces.json/api_alpha_marketplaces_docs.json | Shared with partners through feature flag
+ALPHA | none | api_alpha.json/api_alpha_docs.json | Not valid for public proto files
+INTERNAL | none | none | Not valid for public proto files
+EXCLUDED | none | none | Maintenance; removes entry from spec
